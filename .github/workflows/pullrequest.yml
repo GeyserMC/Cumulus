@@ -32,4 +32,4 @@ jobs:
         if: success()
         with:
           name: Cumulus Implementation
-          path: impl/target/cumulus-impl.jar
+          path: org.geysermc.cumulus.impl/target/cumulus-org.geysermc.cumulus.impl.jar

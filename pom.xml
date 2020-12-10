@@ -2,9 +2,61 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <artifactId>parent</artifactId>
+  <modelVersion>4.0.0</modelVersion>
 
+  <groupId>org.geysermc.cumulus</groupId>
+  <artifactId>cumulus</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>${projectName}</name>
   <description>Bedrock Forms API and implementation</description>
+  <url>https://github.com/GeyserMC/Cumulus</url>
+  <inceptionYear>2020</inceptionYear>
+  <organization>
+    <name>GeyserMC</name>
+    <url>https://geysermc.org/</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://opensource.org/licenses/MIT</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <issueManagement>
+    <system>GitHub Issues</system>
+    <url>https://github.com/GeyserMC/Cumulus/issues</url>
+  </issueManagement>
+  <scm>
+    <connection>scm:git:https://github.com/GeyserMC/Cumulus.git</connection>
+    <developerConnection>scm:git:git@github.com:GeyserMC/Cumulus.git</developerConnection>
+    <url>https://github.com/GeyserMC/Cumulus/</url>
+  </scm>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-shade-plugin</artifactId>
+        <configuration>
+          <finalName>${outputName}</finalName>
+          <shadedArtifactAttached>true</shadedArtifactAttached>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <phase>package</phase>
+          </execution>
+        </executions>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>3.2.1</version>
+      </plugin>
+    </plugins>
+  </build>
+
   <distributionManagement>
     <repository>
       <id>releases</id>
@@ -17,25 +69,24 @@
       <url>https://repo.opencollab.dev/maven-snapshots</url>
     </snapshotRepository>
   </distributionManagement>
-  <groupId>org.geysermc.cumulus</groupId>
-  <issueManagement>
-    <system>GitHub Issues</system>
-    <url>https://github.com/GeyserMC/Cumulus/issues</url>
-  </issueManagement>
 
-  <modelVersion>4.0.0</modelVersion>
+  <repositories>
 
-  <modules>
-    <module>api</module>
-    <module>impl</module>
-  </modules>
-  <name>${projectName}</name>
-  <organization>
-    <name>GeyserMC</name>
-    <url>https://geysermc.org/</url>
-  </organization>
+  </repositories>
 
-  <packaging>pom</packaging>
+  <dependencies>
+    <dependency>
+      <artifactId>gson</artifactId>
+      <groupId>com.google.code.gson</groupId>
+      <version>2.8.6</version>
+    </dependency>
+    <dependency>
+      <artifactId>lombok</artifactId>
+      <groupId>org.projectlombok</groupId>
+      <scope>provided</scope>
+      <version>1.18.16</version>
+    </dependency>
+  </dependencies>
 
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -44,14 +95,4 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <projectName>cumulus</projectName>
   </properties>
-
-  <scm>
-    <connection>scm:git:https://github.com/GeyserMC/Cumulus.git</connection>
-    <developerConnection>scm:git:git@github.com:GeyserMC/Cumulus.git</developerConnection>
-    <url>https://github.com/GeyserMC/Cumulus/</url>
-  </scm>
-
-  <url>https://github.com/GeyserMC/Cumulus</url>
-
-  <version>1.0-SNAPSHOT</version>
 </project>
