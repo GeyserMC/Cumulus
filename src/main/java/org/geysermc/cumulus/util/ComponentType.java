@@ -20,13 +20,29 @@
  * THE SOFTWARE.
  *
  * @author GeyserMC
- * @link https://github.com/GeyserMC/Geyser
+ * @link https://github.com/GeyserMC/Cumulus
  */
 
 package org.geysermc.cumulus.util;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * An enum containing the valid component types. Valid component types are:
+ * <ul>
+ *     <li>{@link org.geysermc.cumulus.component.DropdownComponent Dropdown Component}</li>
+ *     <li>{@link org.geysermc.cumulus.component.InputComponent Input Component}</li>
+ *     <li>{@link org.geysermc.cumulus.component.LabelComponent Label Component}</li>
+ *     <li>{@link org.geysermc.cumulus.component.SliderComponent Slider Component}</li>
+ *     <li>{@link org.geysermc.cumulus.component.StepSliderComponent Step Slider Component}</li>
+ *     <li>{@link org.geysermc.cumulus.component.ToggleComponent Toggle Component}</li>
+ * </ul>
+ * <p>
+ * For more information and for code examples look at
+ * <a href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
+ *
+ * @since 1.0
+ */
 public enum ComponentType {
     @SerializedName("dropdown")
     DROPDOWN,

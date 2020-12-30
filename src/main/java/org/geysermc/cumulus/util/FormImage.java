@@ -20,34 +20,67 @@
  * THE SOFTWARE.
  *
  * @author GeyserMC
- * @link https://github.com/GeyserMC/Geyser
+ * @link https://github.com/GeyserMC/Cumulus
  */
 
 package org.geysermc.cumulus.util;
 
 import com.google.gson.annotations.SerializedName;
+import java.util.Objects;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.util.impl.FormImageImpl;
 
+/**
+ * Represents a form image which is used in buttons and as image for client settings. This class
+ * holds a image type and data for the image type. For more information and for code examples look
+ * at <a href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
+ *
+ * @since 1.0
+ */
 public interface FormImage {
-    static FormImage of(Type type, String data) {
+    /**
+     * Create a FormImage with the following information.
+     *
+     * @param type the form image type
+     * @param data the data form the form image type
+     * @return a FormImage holding the given data
+     */
+    static @NonNull FormImage of(@NonNull Type type, @NonNull String data) {
         return new FormImageImpl(type, data);
     }
 
-    static FormImage of(String type, String data) {
-        return of(Type.getByName(type), data);
+    /**
+     * Create a FormImage with the following information.
+     *
+     * @param type the form image type
+     * @param data the data form the form image type
+     * @return a FormImage holding the given data
+     */
+    static @NonNull FormImage of(@NonNull String type, @NonNull String data) {
+        return of(Objects.requireNonNull(Type.getByName(type)), data);
     }
 
+    /**
+     * Returns the type of FormImage
+     */
     Type getType();
 
+    /**
+     * Returns the data needed for the FormImage
+     */
     String getData();
 
+    /**
+     * An enum which has the available FormImage Types. For more information and for code examples
+     * look at <a href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
+     */
     enum Type {
         @SerializedName("path") PATH,
         @SerializedName("url") URL;
 
         private static final Type[] VALUES = values();
 
-        public static Type getByName(String name) {
+        public static Type getByName(@NonNull String name) {
             String upper = name.toUpperCase();
             for (Type value : VALUES) {
                 if (value.name().equals(upper)) {

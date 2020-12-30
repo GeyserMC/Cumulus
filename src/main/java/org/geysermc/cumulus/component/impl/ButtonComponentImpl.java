@@ -20,16 +20,16 @@
  * THE SOFTWARE.
  *
  * @author GeyserMC
- * @link https://github.com/GeyserMC/Geyser
+ * @link https://github.com/GeyserMC/Cumulus
  */
 
 package org.geysermc.cumulus.component.impl;
 
+import static java.util.Objects.requireNonNull;
+
 import lombok.Getter;
 import org.geysermc.cumulus.component.ButtonComponent;
 import org.geysermc.cumulus.util.FormImage;
-
-import static java.util.Objects.requireNonNull;
 
 @Getter
 public final class ButtonComponentImpl implements ButtonComponent {

@@ -20,47 +20,112 @@
  * THE SOFTWARE.
  *
  * @author GeyserMC
- * @link https://github.com/GeyserMC/Geyser
+ * @link https://github.com/GeyserMC/Cumulus
  */
 
 package org.geysermc.cumulus;
 
+import java.util.List;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.ButtonComponent;
 import org.geysermc.cumulus.impl.SimpleFormImpl;
 import org.geysermc.cumulus.response.SimpleFormResponse;
 import org.geysermc.cumulus.util.FormBuilder;
 import org.geysermc.cumulus.util.FormImage;
 
-import java.util.List;
-
 /**
+ * Represents a SimpleForm which can be shown to the client. A SimpleForm is a simple but handy Form
+ * type. It is a list of buttons which can have images. For more information and for code examples
+ * look at <a href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
  *
+ * @since 1.0
  */
 public interface SimpleForm extends Form {
-    static Builder builder() {
+    /**
+     * Returns a new SimpleForm builder. A more friendly way of creating a Form.
+     */
+    static @NonNull Builder builder() {
         return new SimpleFormImpl.Builder();
     }
 
-    static SimpleForm of(String title, String content, List<ButtonComponent> buttons) {
+    /**
+     * Create a SimpleForm with predefined information.
+     *
+     * @param title   the title of the form
+     * @param content the description of the form (under title, above the buttons)
+     * @param buttons the list of buttons to place in the form
+     * @return the created SimpleForm instance
+     */
+    static @NonNull SimpleForm of(
+            @NonNull String title,
+            @NonNull String content,
+            @NonNull List<ButtonComponent> buttons
+    ) {
         return new SimpleFormImpl(title, content, buttons);
     }
 
-    String getTitle();
+    /**
+     * Returns the title of the Form.
+     */
+    @NonNull String getTitle();
 
-    String getContent();
+    /**
+     * Returns the description of the Form.
+     */
+    @NonNull String getContent();
 
-    List<ButtonComponent> getButtons();
+    /**
+     * Returns the list of button components.
+     */
+    @NonNull List<ButtonComponent> getButtons();
 
     @Override
-    SimpleFormResponse parseResponse(String response);
+    @NonNull
+    SimpleFormResponse parseResponse(@Nullable String response);
 
+    /**
+     * An easy way to create a CustomForm. For more information and code examples look at <a
+     * href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
+     */
     interface Builder extends FormBuilder<Builder, SimpleForm> {
-        Builder content(String content);
+        /**
+         * Set the description of the Form.
+         *
+         * @param content the description of the Form
+         * @return the form builder
+         */
+        @NonNull Builder content(@NonNull String content);
 
-        Builder button(String text, FormImage.Type type, String data);
+        /**
+         * Adds a button with image to the Form.
+         *
+         * @param text text of the button
+         * @param type type of image
+         * @param data the data for the image type
+         * @return the form builder
+         */
+        @NonNull Builder button(
+                @NonNull String text,
+                FormImage.@NonNull Type type,
+                @NonNull String data
+        );
 
-        Builder button(String text, FormImage image);
+        /**
+         * Adds a button with image to the Form.
+         *
+         * @param text  the text of the button
+         * @param image the image
+         * @return the form builder
+         */
+        @NonNull Builder button(@NonNull String text, @NonNull FormImage image);
 
-        Builder button(String text);
+        /**
+         * Adds a button to the Form.
+         *
+         * @param text the text of the button
+         * @return the form builder
+         */
+        @NonNull Builder button(@NonNull String text);
     }
 }

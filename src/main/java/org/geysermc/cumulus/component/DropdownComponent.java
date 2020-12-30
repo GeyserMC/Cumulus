@@ -20,15 +20,14 @@
  * THE SOFTWARE.
  *
  * @author GeyserMC
- * @link https://github.com/GeyserMC/Geyser
+ * @link https://github.com/GeyserMC/Cumulus
  */
 
 package org.geysermc.cumulus.component;
 
-import org.geysermc.cumulus.component.impl.DropdownComponentImpl;
-
 import java.util.List;
 import java.util.function.Function;
+import org.geysermc.cumulus.component.impl.DropdownComponentImpl;
 
 public interface DropdownComponent extends Component {
     static DropdownComponent of(String text, List<String> options, int defaultOption) {

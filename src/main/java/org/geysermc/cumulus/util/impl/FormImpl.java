@@ -20,22 +20,23 @@
  * THE SOFTWARE.
  *
  * @author GeyserMC
- * @link https://github.com/GeyserMC/Geyser
+ * @link https://github.com/GeyserMC/Cumulus
  */
 
 package org.geysermc.cumulus.util.impl;
 
 import com.google.gson.Gson;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import lombok.Getter;
 import lombok.Setter;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.Form;
 import org.geysermc.cumulus.Forms;
 import org.geysermc.cumulus.util.FormBuilder;
 import org.geysermc.cumulus.util.FormType;
-
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
 
 @Getter
 public abstract class FormImpl implements Form {
@@ -50,7 +51,7 @@ public abstract class FormImpl implements Form {
     }
 
     @Override
-    public String getJsonData() {
+    public @NonNull String getJsonData() {
         if (hardcodedJsonData != null) {
             return hardcodedJsonData;
         }
@@ -58,7 +59,7 @@ public abstract class FormImpl implements Form {
     }
 
     @Override
-    public boolean isClosed(String response) {
+    public boolean isClosed(@Nullable String response) {
         return response == null || response.isEmpty() || response.equalsIgnoreCase("null");
     }
 
@@ -73,37 +74,40 @@ public abstract class FormImpl implements Form {
         protected String locale;
 
         @Override
-        public T title(String title) {
+        public @NonNull T title(@NonNull String title) {
             this.title = translate(title);
             return self();
         }
 
         @Override
-        public T translator(BiFunction<String, String, String> translator, String locale) {
+        public @NonNull T translator(
+                @NonNull BiFunction<String, String, String> translator,
+                @NonNull String locale
+        ) {
             this.translationHandler = translator;
             this.locale = locale;
             return title(title);
         }
 
         @Override
-        public T translator(BiFunction<String, String, String> translator) {
+        public @NonNull T translator(@NonNull BiFunction<String, String, String> translator) {
             return translator(translator, locale);
         }
 
         @Override
-        public T responseHandler(BiConsumer<F, String> responseHandler) {
+        public @NonNull T responseHandler(@NonNull BiConsumer<F, String> responseHandler) {
             biResponseHandler = responseHandler;
             return self();
         }
 
         @Override
-        public T responseHandler(Consumer<String> responseHandler) {
+        public @NonNull T responseHandler(@NonNull Consumer<String> responseHandler) {
             this.responseHandler = responseHandler;
             return self();
         }
 
         @Override
-        public abstract F build();
+        public abstract @NonNull F build();
 
         protected String translate(String text) {
             if (translationHandler != null && text != null && !text.isEmpty()) {

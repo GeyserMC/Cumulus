@@ -20,25 +20,26 @@
  * THE SOFTWARE.
  *
  * @author GeyserMC
- * @link https://github.com/GeyserMC/Geyser
+ * @link https://github.com/GeyserMC/Cumulus
  */
 
 package org.geysermc.cumulus.impl;
 
 import com.google.gson.annotations.JsonAdapter;
-import lombok.Getter;
-import org.geysermc.cumulus.SimpleForm;
-import org.geysermc.cumulus.component.ButtonComponent;
-import org.geysermc.cumulus.response.impl.SimpleFormResponseImpl;
-import org.geysermc.cumulus.util.impl.FormAdaptor;
-import org.geysermc.cumulus.util.impl.FormImpl;
-import org.geysermc.cumulus.response.SimpleFormResponse;
-import org.geysermc.cumulus.util.FormImage;
-import org.geysermc.cumulus.util.FormType;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import lombok.Getter;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.geysermc.cumulus.SimpleForm;
+import org.geysermc.cumulus.component.ButtonComponent;
+import org.geysermc.cumulus.response.SimpleFormResponse;
+import org.geysermc.cumulus.response.impl.SimpleFormResponseImpl;
+import org.geysermc.cumulus.util.FormImage;
+import org.geysermc.cumulus.util.FormType;
+import org.geysermc.cumulus.util.impl.FormAdaptor;
+import org.geysermc.cumulus.util.impl.FormImpl;
 
 @Getter
 @JsonAdapter(FormAdaptor.class)
@@ -47,7 +48,11 @@ public final class SimpleFormImpl extends FormImpl implements SimpleForm {
     private final String content;
     private final List<ButtonComponent> buttons;
 
-    public SimpleFormImpl(String title, String content, List<ButtonComponent> buttons) {
+    public SimpleFormImpl(
+            @NonNull String title,
+            @NonNull String content,
+            @NonNull List<ButtonComponent> buttons
+    ) {
         super(FormType.SIMPLE_FORM);
 
         this.title = title;
@@ -55,10 +60,11 @@ public final class SimpleFormImpl extends FormImpl implements SimpleForm {
         this.buttons = Collections.unmodifiableList(buttons);
     }
 
-    public SimpleFormResponse parseResponse(String data) {
+    public @NonNull SimpleFormResponse parseResponse(@Nullable String data) {
         if (isClosed(data)) {
             return SimpleFormResponseImpl.closed();
         }
+        //noinspection ConstantConditions
         data = data.trim();
 
         int buttonId;
@@ -81,28 +87,32 @@ public final class SimpleFormImpl extends FormImpl implements SimpleForm {
         private final List<ButtonComponent> buttons = new ArrayList<>();
         private String content = "";
 
-        public Builder content(String content) {
+        public @NonNull Builder content(@NonNull String content) {
             this.content = translate(content);
             return this;
         }
 
-        public Builder button(String text, FormImage.Type type, String data) {
+        public @NonNull Builder button(
+                @NonNull String text,
+                FormImage.@NonNull Type type,
+                @NonNull String data
+        ) {
             buttons.add(ButtonComponent.of(translate(text), type, data));
             return this;
         }
 
-        public Builder button(String text, FormImage image) {
+        public @NonNull Builder button(@NonNull String text, @NonNull FormImage image) {
             buttons.add(ButtonComponent.of(translate(text), image));
             return this;
         }
 
-        public Builder button(String text) {
+        public @NonNull Builder button(@NonNull String text) {
             buttons.add(ButtonComponent.of(translate(text)));
             return this;
         }
 
         @Override
-        public SimpleForm build() {
+        public @NonNull SimpleForm build() {
             SimpleFormImpl form = new SimpleFormImpl(title, content, buttons);
             if (biResponseHandler != null) {
                 form.setResponseHandler(response -> biResponseHandler.accept(form, response));

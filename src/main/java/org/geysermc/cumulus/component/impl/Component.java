@@ -20,15 +20,14 @@
  * THE SOFTWARE.
  *
  * @author GeyserMC
- * @link https://github.com/GeyserMC/Geyser
+ * @link https://github.com/GeyserMC/Cumulus
  */
 
 package org.geysermc.cumulus.component.impl;
 
+import java.util.Objects;
 import lombok.Getter;
 import org.geysermc.cumulus.util.ComponentType;
-
-import java.util.Objects;
 
 @Getter
 public abstract class Component {

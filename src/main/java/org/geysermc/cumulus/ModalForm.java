@@ -20,32 +20,81 @@
  * THE SOFTWARE.
  *
  * @author GeyserMC
- * @link https://github.com/GeyserMC/Geyser
+ * @link https://github.com/GeyserMC/Cumulus
  */
 
 package org.geysermc.cumulus;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.impl.ModalFormImpl;
 import org.geysermc.cumulus.response.ModalFormResponse;
 import org.geysermc.cumulus.util.FormBuilder;
 
+/**
+ * Represents a ModalForm which can be shown to the client. A ModalForm is the most basic form type.
+ * It has a title, description and two buttons. For more information and for code examples look at
+ * <a href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
+ *
+ * @since 1.0
+ */
 public interface ModalForm extends Form {
-    static Builder builder() {
+    /**
+     * Returns a new ModalForm builder. A more friendly way of creating a form.
+     */
+    static @NonNull Builder builder() {
         return new ModalFormImpl.Builder();
     }
 
-    static ModalForm of(String title, String content, String button1, String button2) {
+    /**
+     * Create a SimpleForm with predefined information.
+     *
+     * @param title   the title of the form
+     * @param content the description of the form
+     * @param button1 the first button of the form
+     * @param button2 the second button of the form
+     * @return the created ModalForm instance
+     */
+    static @NonNull ModalForm of(
+            @NonNull String title,
+            @NonNull String content,
+            @NonNull String button1,
+            @NonNull String button2
+    ) {
         return new ModalFormImpl(title, content, button1, button2);
     }
 
     @Override
-    ModalFormResponse parseResponse(String response);
+    @NonNull
+    ModalFormResponse parseResponse(@Nullable String response);
 
+    /**
+     * An easy way to create a ModalForm. For more information and code examples look at <a
+     * href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
+     */
     interface Builder extends FormBuilder<Builder, ModalForm> {
-        Builder content(String content);
+        /**
+         * Set the description of the form.
+         *
+         * @param content the description of the form
+         * @return the form builder
+         */
+        @NonNull Builder content(@NonNull String content);
 
-        Builder button1(String button1);
+        /**
+         * Set the text of the first button.
+         *
+         * @param button1 the text of the first button
+         * @return the form builder
+         */
+        @NonNull Builder button1(@NonNull String button1);
 
-        Builder button2(String button2);
+        /**
+         * Set the text of the second button.
+         *
+         * @param button2 the text of the second button
+         * @return the form builder
+         */
+        @NonNull Builder button2(@NonNull String button2);
     }
 }

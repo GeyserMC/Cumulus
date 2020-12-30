@@ -20,13 +20,23 @@
  * THE SOFTWARE.
  *
  * @author GeyserMC
- * @link https://github.com/GeyserMC/Geyser
+ * @link https://github.com/GeyserMC/Cumulus
  */
 
 package org.geysermc.cumulus.util.impl;
 
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.geysermc.cumulus.Forms;
 import org.geysermc.cumulus.component.ButtonComponent;
@@ -37,10 +47,6 @@ import org.geysermc.cumulus.impl.ModalFormImpl;
 import org.geysermc.cumulus.impl.SimpleFormImpl;
 import org.geysermc.cumulus.util.ComponentType;
 import org.geysermc.cumulus.util.FormImage;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 @RequiredArgsConstructor
 public final class FormAdaptor implements JsonDeserializer<FormImpl>, JsonSerializer<FormImpl> {

@@ -20,13 +20,26 @@
  * THE SOFTWARE.
  *
  * @author GeyserMC
- * @link https://github.com/GeyserMC/Geyser
+ * @link https://github.com/GeyserMC/Cumulus
  */
 
 package org.geysermc.cumulus.util;
 
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * An enum containing the valid form types. Valid form types are:
+ * <ul>
+ *     <li>{@link org.geysermc.cumulus.SimpleForm Simple Form}</li>
+ *     <li>{@link org.geysermc.cumulus.ModalForm Modal Form}</li>
+ *     <li>{@link org.geysermc.cumulus.CustomForm Custom Form}</li>
+ * </ul>
+ * <p>
+ * For more information and for code examples look at
+ * <a href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
+ *
+ * @since 1.0
+ */
 public enum FormType {
     @SerializedName("form")
     SIMPLE_FORM,

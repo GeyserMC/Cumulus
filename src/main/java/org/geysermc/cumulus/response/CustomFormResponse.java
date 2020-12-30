@@ -20,16 +20,15 @@
  * THE SOFTWARE.
  *
  * @author GeyserMC
- * @link https://github.com/GeyserMC/Geyser
+ * @link https://github.com/GeyserMC/Cumulus
  */
 
 package org.geysermc.cumulus.response;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonPrimitive;
-import org.geysermc.cumulus.util.ComponentType;
-
 import java.util.List;
+import org.geysermc.cumulus.util.ComponentType;
 
 public interface CustomFormResponse extends FormResponse {
     JsonArray getResponses();

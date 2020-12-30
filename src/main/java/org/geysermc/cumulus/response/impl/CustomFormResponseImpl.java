@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  *
  * @author GeyserMC
- * @link https://github.com/GeyserMC/Geyser
+ * @link https://github.com/GeyserMC/Cumulus
  */
 
 package org.geysermc.cumulus.response.impl;
@@ -28,6 +28,9 @@ package org.geysermc.cumulus.response.impl;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonPrimitive;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -36,10 +39,6 @@ import org.geysermc.cumulus.component.Component;
 import org.geysermc.cumulus.impl.CustomFormImpl;
 import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.util.ComponentType;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)

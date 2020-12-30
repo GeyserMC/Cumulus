@@ -20,16 +20,15 @@
  * THE SOFTWARE.
  *
  * @author GeyserMC
- * @link https://github.com/GeyserMC/Geyser
+ * @link https://github.com/GeyserMC/Cumulus
  */
 
 package org.geysermc.cumulus.component;
 
-import org.geysermc.cumulus.component.impl.StepSliderComponentImpl;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
+import org.geysermc.cumulus.component.impl.StepSliderComponentImpl;
 
 public interface StepSliderComponent extends Component {
     static StepSliderComponent of(String text, List<String> steps, int defaultStep) {

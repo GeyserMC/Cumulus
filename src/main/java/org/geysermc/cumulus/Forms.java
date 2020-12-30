@@ -20,22 +20,28 @@
  * THE SOFTWARE.
  *
  * @author GeyserMC
- * @link https://github.com/GeyserMC/Geyser
+ * @link https://github.com/GeyserMC/Cumulus
  */
 
 package org.geysermc.cumulus;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.Component;
-import org.geysermc.cumulus.component.impl.*;
+import org.geysermc.cumulus.component.impl.DropdownComponentImpl;
+import org.geysermc.cumulus.component.impl.InputComponentImpl;
+import org.geysermc.cumulus.component.impl.LabelComponentImpl;
+import org.geysermc.cumulus.component.impl.SliderComponentImpl;
+import org.geysermc.cumulus.component.impl.StepSliderComponentImpl;
+import org.geysermc.cumulus.component.impl.ToggleComponentImpl;
 import org.geysermc.cumulus.impl.CustomFormImpl;
 import org.geysermc.cumulus.impl.ModalFormImpl;
 import org.geysermc.cumulus.impl.SimpleFormImpl;
-import org.geysermc.cumulus.util.impl.FormAdaptor;
-import org.geysermc.cumulus.util.impl.FormImpl;
 import org.geysermc.cumulus.util.ComponentType;
 import org.geysermc.cumulus.util.FormType;
+import org.geysermc.cumulus.util.impl.FormAdaptor;
+import org.geysermc.cumulus.util.impl.FormImpl;
 
 public final class Forms {
     public static final Gson GSON =
@@ -43,13 +49,27 @@ public final class Forms {
                     .registerTypeAdapter(FormImpl.class, new FormAdaptor())
                     .create();
 
+    /**
+     * Translate the data that is readable by the the Bedrock client into a form instance.
+     *
+     * @param json the json data that is readable by the client
+     * @param type the form data type
+     * @param <T>  the result will be cast to <T>
+     * @return the form instance holding the translated data
+     */
     @SuppressWarnings("unchecked")
-    public static <T extends Form> T fromJson(String json, FormType formType) {
-        return (T) GSON.fromJson(json, getFormTypeImpl(formType));
+    public static @NonNull <T extends Form> T fromJson(String json, FormType type) {
+        return (T) GSON.fromJson(json, getFormTypeImpl(type));
     }
 
-    public static Class<? extends Form> getFormTypeImpl(FormType formType) {
-        switch (formType) {
+    /**
+     * Get the class implementing the form by the form type.
+     *
+     * @param type the form type
+     * @return the class implementing the form
+     */
+    public static @NonNull Class<? extends Form> getFormTypeImpl(FormType type) {
+        switch (type) {
             case CUSTOM_FORM:
                 return CustomFormImpl.class;
             case MODAL_FORM:
@@ -57,11 +77,19 @@ public final class Forms {
             case SIMPLE_FORM:
                 return SimpleFormImpl.class;
             default:
-                throw new RuntimeException("Cannot find implementation form FormType" + formType);
+                throw new RuntimeException("Cannot find implementation form FormType" + type);
         }
     }
 
-    public static Class<? extends Component> getComponentTypeImpl(ComponentType type) {
+    /**
+     * Get the class implementing the component by the component type.
+     *
+     * @param type the component type
+     * @return the class implementing the component
+     */
+    public static @NonNull Class<? extends Component> getComponentTypeImpl(
+            @NonNull ComponentType type
+    ) {
         switch (type) {
             case DROPDOWN:
                 return DropdownComponentImpl.class;

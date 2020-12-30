@@ -20,11 +20,15 @@
  * THE SOFTWARE.
  *
  * @author GeyserMC
- * @link https://github.com/GeyserMC/Geyser
+ * @link https://github.com/GeyserMC/Cumulus
  */
 
 package org.geysermc.cumulus;
 
+import java.util.List;
+import org.checkerframework.checker.index.qual.Positive;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.Component;
 import org.geysermc.cumulus.component.DropdownComponent;
 import org.geysermc.cumulus.component.StepSliderComponent;
@@ -33,59 +37,112 @@ import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.util.FormBuilder;
 import org.geysermc.cumulus.util.FormImage;
 
-import java.util.List;
-
+/**
+ * Represents a CustomForm which can be shown to the client. A CustomForm is the most customisable
+ * form type, you can add all component types except for buttons. For more information and for code
+ * examples look at <a href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
+ *
+ * @since 1.0
+ */
 public interface CustomForm extends Form {
-    static Builder builder() {
+    /**
+     * Returns a new CustomForm builder. A more friendly way of creating a Form.
+     */
+    static @NonNull Builder builder() {
         return new CustomFormImpl.Builder();
     }
 
-    static CustomForm of(String title, FormImage icon, List<Component> content) {
+    /**
+     * Create a CustomForm with predefined information.
+     *
+     * @param title   the title of the form
+     * @param icon    the icon of the form (optional)
+     * @param content the list of components in this form
+     * @return the created CustomForm instance
+     */
+    static @NonNull CustomForm of(
+            @NonNull String title,
+            @Nullable FormImage icon,
+            @NonNull List<Component> content
+    ) {
         return new CustomFormImpl(title, icon, content);
     }
 
+    /**
+     * Returns the title of the Form.
+     */
+    @NonNull
+    String getTitle();
+
+    /**
+     * Returns the optional icon of the form. The icon can only be seen in the servers settings.
+     */
+    @Nullable
+    FormImage getIcon();
+
+    /**
+     * Returns the list of components of the form.
+     */
+    @NonNull
+    List<Component> getContent();
+
     @Override
-    CustomFormResponse parseResponse(String response);
+    @NonNull
+    CustomFormResponse parseResponse(@Nullable String response);
 
+    /**
+     * An easy way to create a CustomForm. For more information and code examples look at <a
+     * href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
+     */
     interface Builder extends FormBuilder<Builder, CustomForm> {
-        Builder icon(FormImage.Type type, String data);
+        @NonNull Builder icon(FormImage.@NonNull Type type, @NonNull String data);
 
-        Builder iconPath(String path);
+        @NonNull Builder iconPath(@NonNull String path);
 
-        Builder iconUrl(String url);
+        @NonNull Builder iconUrl(@NonNull String url);
 
-        Builder component(Component component);
+        @NonNull Builder component(@NonNull Component component);
 
-        Builder dropdown(DropdownComponent.Builder dropdownBuilder);
+        @NonNull Builder dropdown(DropdownComponent.@NonNull Builder dropdownBuilder);
 
-        Builder dropdown(String text, int defaultOption, String... options);
+        @NonNull Builder dropdown(@NonNull String text, int defaultOption, String... options);
 
-        Builder dropdown(String text, String... options);
+        @NonNull Builder dropdown(@NonNull String text, String... options);
 
-        Builder input(String text, String placeholder, String defaultText);
+        @NonNull Builder input(
+                @NonNull String text,
+                @NonNull String placeholder,
+                @NonNull String defaultText
+        );
 
-        Builder input(String text, String placeholder);
+        @NonNull Builder input(@NonNull String text, @NonNull String placeholder);
 
-        Builder input(String text);
+        @NonNull Builder input(@NonNull String text);
 
-        Builder label(String text);
+        @NonNull Builder label(@NonNull String text);
 
-        Builder slider(String text, float min, float max, int step, float defaultValue);
+        @NonNull Builder slider(
+                @NonNull String text,
+                float min,
+                float max,
+                @Positive int step,
+                float defaultValue
+        );
 
-        Builder slider(String text, float min, float max, int step);
+        @NonNull Builder slider(@NonNull String text, float min, float max, @Positive int step);
 
-        Builder slider(String text, float min, float max, float defaultValue);
+        @NonNull Builder slider(@NonNull String text, float min, float max, float defaultValue);
 
-        Builder slider(String text, float min, float max);
+        @NonNull Builder slider(@NonNull String text, float min, float max);
 
-        Builder stepSlider(StepSliderComponent.Builder stepSliderBuilder);
+        @NonNull Builder stepSlider(StepSliderComponent.@NonNull Builder stepSliderBuilder);
 
-        Builder stepSlider(String text, int defaultStep, String... steps);
+        @NonNull Builder stepSlider(@NonNull String text, int defaultStep, String... steps);
 
-        Builder stepSlider(String text, String... steps);
+        @NonNull Builder stepSlider(@NonNull String text, String... steps);
 
-        Builder toggle(String text, boolean defaultValue);
+        @NonNull Builder toggle(@NonNull String text, boolean defaultValue);
 
-        Builder toggle(String text);
+        @NonNull Builder toggle(@NonNull String text);
     }
 }

@@ -20,19 +20,21 @@
  * THE SOFTWARE.
  *
  * @author GeyserMC
- * @link https://github.com/GeyserMC/Geyser
+ * @link https://github.com/GeyserMC/Cumulus
  */
 
 package org.geysermc.cumulus.impl;
 
 import com.google.gson.annotations.JsonAdapter;
 import lombok.Getter;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.ModalForm;
+import org.geysermc.cumulus.response.ModalFormResponse;
 import org.geysermc.cumulus.response.impl.ModalFormResponseImpl;
+import org.geysermc.cumulus.util.FormType;
 import org.geysermc.cumulus.util.impl.FormAdaptor;
 import org.geysermc.cumulus.util.impl.FormImpl;
-import org.geysermc.cumulus.response.ModalFormResponse;
-import org.geysermc.cumulus.util.FormType;
 
 @Getter
 @JsonAdapter(FormAdaptor.class)
@@ -42,7 +44,12 @@ public final class ModalFormImpl extends FormImpl implements ModalForm {
     private final String button1;
     private final String button2;
 
-    public ModalFormImpl(String title, String content, String button1, String button2) {
+    public ModalFormImpl(
+            @NonNull String title,
+            @NonNull String content,
+            @NonNull String button1,
+            @NonNull String button2
+    ) {
         super(FormType.MODAL_FORM);
 
         this.title = title;
@@ -51,10 +58,11 @@ public final class ModalFormImpl extends FormImpl implements ModalForm {
         this.button2 = button2;
     }
 
-    public ModalFormResponse parseResponse(String data) {
+    public @NonNull ModalFormResponse parseResponse(@Nullable String data) {
         if (isClosed(data)) {
             return ModalFormResponseImpl.closed();
         }
+        //noinspection ConstantConditions
         data = data.trim();
 
         if ("true".equals(data)) {
@@ -72,23 +80,23 @@ public final class ModalFormImpl extends FormImpl implements ModalForm {
         private String button1 = "";
         private String button2 = "";
 
-        public Builder content(String content) {
+        public @NonNull Builder content(@NonNull String content) {
             this.content = translate(content);
             return this;
         }
 
-        public Builder button1(String button1) {
+        public @NonNull Builder button1(@NonNull String button1) {
             this.button1 = translate(button1);
             return this;
         }
 
-        public Builder button2(String button2) {
+        public @NonNull Builder button2(@NonNull String button2) {
             this.button2 = translate(button2);
             return this;
         }
 
         @Override
-        public ModalForm build() {
+        public @NonNull ModalForm build() {
             ModalFormImpl form = new ModalFormImpl(title, content, button1, button2);
             if (biResponseHandler != null) {
                 form.setResponseHandler(response -> biResponseHandler.accept(form, response));

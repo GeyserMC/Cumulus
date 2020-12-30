@@ -20,20 +20,19 @@
  * THE SOFTWARE.
  *
  * @author GeyserMC
- * @link https://github.com/GeyserMC/Geyser
+ * @link https://github.com/GeyserMC/Cumulus
  */
 
 package org.geysermc.cumulus.component.impl;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Getter;
-import org.geysermc.cumulus.component.StepSliderComponent;
-import org.geysermc.cumulus.util.ComponentType;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
+import lombok.Getter;
+import org.geysermc.cumulus.component.StepSliderComponent;
+import org.geysermc.cumulus.util.ComponentType;
 
 @Getter
 public final class StepSliderComponentImpl extends Component implements StepSliderComponent {
