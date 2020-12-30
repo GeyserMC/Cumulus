@@ -38,48 +38,51 @@ import org.geysermc.cumulus.util.FormType;
  * @since 1.0
  */
 public interface Form {
-    /**
-     * Returns the form type of this specific instance.
-     *
-     * @see FormType
-     */
-    @NonNull FormType getType();
+  /**
+   * Returns the form type of this specific instance.
+   *
+   * @see FormType
+   */
+  @NonNull
+  FormType getType();
 
-    /**
-     * Returns the data that will be sent to the Bedrock client
-     */
-    @NonNull String getJsonData();
+  /**
+   * Returns the data that will be sent to the Bedrock client.
+   */
+  @NonNull
+  String getJsonData();
 
-    /**
-     * Returns the handler that will be invoked once the form got a response from the Bedrock
-     * client
-     */
-    @Nullable Consumer<String> getResponseHandler();
+  /**
+   * Returns the handler that will be invoked once the form got a response from the Bedrock client.
+   */
+  @Nullable
+  Consumer<String> getResponseHandler();
 
-    /**
-     * Sets the handler that will be invoked once the form got a response from the Bedrock client.
-     * This handler will get the raw data sent by the Bedrock client. Use {@link
-     * #parseResponse(String)} after receiving a response for getting a more friendly class to
-     * handle the response.
-     *
-     * @param responseHandler the response handler
-     */
-    void setResponseHandler(@NonNull Consumer<String> responseHandler);
+  /**
+   * Sets the handler that will be invoked once the form got a response from the Bedrock client.
+   * This handler will get the raw data sent by the Bedrock client. Use {@link
+   * #parseResponse(String)} after receiving a response for getting a more friendly class to handle
+   * the response.
+   *
+   * @param responseHandler the response handler
+   */
+  void setResponseHandler(@NonNull Consumer<String> responseHandler);
 
-    /**
-     * Parses the method into something provided by the form implementation, which will make the
-     * data given by the Bedrock client easier to handle.
-     *
-     * @param response the raw data given by the Bedrock client
-     * @return the data in an easy-to-handle class
-     */
-    @NonNull FormResponse parseResponse(@Nullable String response);
+  /**
+   * Parses the method into something provided by the form implementation, which will make the data
+   * given by the Bedrock client easier to handle.
+   *
+   * @param response the raw data given by the Bedrock client
+   * @return the data in an easy-to-handle class
+   */
+  @NonNull
+  FormResponse parseResponse(@Nullable String response);
 
-    /**
-     * Checks if the given data by the Bedrock client is saying that the client closed the form.
-     *
-     * @param response the raw data given by the Bedrock client
-     * @return true if the raw data implies that the Bedrock client closed the form
-     */
-    boolean isClosed(@Nullable String response);
+  /**
+   * Checks if the given data by the Bedrock client is saying that the client closed the form.
+   *
+   * @param response the raw data given by the Bedrock client
+   * @return true if the raw data implies that the Bedrock client closed the form
+   */
+  boolean isClosed(@Nullable String response);
 }

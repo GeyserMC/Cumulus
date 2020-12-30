@@ -31,41 +31,41 @@ import java.util.function.Function;
 import org.geysermc.cumulus.component.impl.StepSliderComponentImpl;
 
 public interface StepSliderComponent extends Component {
-    static StepSliderComponent of(String text, List<String> steps, int defaultStep) {
-        return new StepSliderComponentImpl(text, steps, defaultStep);
-    }
+  static StepSliderComponent of(String text, List<String> steps, int defaultStep) {
+    return new StepSliderComponentImpl(text, steps, defaultStep);
+  }
 
-    static StepSliderComponent of(String text, int defaultStep, String... steps) {
-        return of(text, Arrays.asList(steps), defaultStep);
-    }
+  static StepSliderComponent of(String text, int defaultStep, String... steps) {
+    return of(text, Arrays.asList(steps), defaultStep);
+  }
 
-    static StepSliderComponent of(String text, String... steps) {
-        return of(text, -1, steps);
-    }
+  static StepSliderComponent of(String text, String... steps) {
+    return of(text, -1, steps);
+  }
 
-    static Builder builder() {
-        return new StepSliderComponentImpl.Builder();
-    }
+  static Builder builder() {
+    return new StepSliderComponentImpl.Builder();
+  }
 
-    static Builder builder(String text) {
-        return builder().text(text);
-    }
+  static Builder builder(String text) {
+    return builder().text(text);
+  }
 
-    List<String> getSteps();
+  List<String> getSteps();
 
-    int getDefaultStep();
+  int getDefaultStep();
 
-    interface Builder {
-        Builder text(String text);
+  interface Builder {
+    Builder text(String text);
 
-        Builder step(String step, boolean defaultStep);
+    Builder step(String step, boolean defaultStep);
 
-        Builder step(String step);
+    Builder step(String step);
 
-        Builder defaultStep(int defaultStep);
+    Builder defaultStep(int defaultStep);
 
-        StepSliderComponent build();
+    StepSliderComponent build();
 
-        StepSliderComponent translateAndBuild(Function<String, String> translator);
-    }
+    StepSliderComponent translateAndBuild(Function<String, String> translator);
+  }
 }

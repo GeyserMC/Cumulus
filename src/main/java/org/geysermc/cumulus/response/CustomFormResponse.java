@@ -31,31 +31,31 @@ import java.util.List;
 import org.geysermc.cumulus.util.ComponentType;
 
 public interface CustomFormResponse extends FormResponse {
-    JsonArray getResponses();
+  JsonArray getResponses();
 
-    List<ComponentType> getComponentTypes();
+  List<ComponentType> getComponentTypes();
 
-    <T> T next(boolean includeLabels);
+  <T> T next(boolean includeLabels);
 
-    <T> T next();
+  <T> T next();
 
-    void skip(int amount);
+  void skip(int amount);
 
-    void skip();
+  void skip();
 
-    void index(int index);
+  void index(int index);
 
-    boolean hasNext();
+  boolean hasNext();
 
-    JsonPrimitive get(int index);
+  JsonPrimitive get(int index);
 
-    int getDropdown(int index);
+  int getDropdown(int index);
 
-    String getInput(int index);
+  String getInput(int index);
 
-    float getSlider(int index);
+  float getSlider(int index);
 
-    int getStepSlide(int index);
+  int getStepSlide(int index);
 
-    boolean getToggle(int index);
+  boolean getToggle(int index);
 }

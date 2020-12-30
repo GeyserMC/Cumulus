@@ -30,33 +30,33 @@ import java.util.function.Function;
 import org.geysermc.cumulus.component.impl.DropdownComponentImpl;
 
 public interface DropdownComponent extends Component {
-    static DropdownComponent of(String text, List<String> options, int defaultOption) {
-        return new DropdownComponentImpl(text, options, defaultOption);
-    }
+  static DropdownComponent of(String text, List<String> options, int defaultOption) {
+    return new DropdownComponentImpl(text, options, defaultOption);
+  }
 
-    static Builder builder() {
-        return new DropdownComponentImpl.Builder();
-    }
+  static Builder builder() {
+    return new DropdownComponentImpl.Builder();
+  }
 
-    static Builder builder(String text) {
-        return builder().text(text);
-    }
+  static Builder builder(String text) {
+    return builder().text(text);
+  }
 
-    List<String> getOptions();
+  List<String> getOptions();
 
-    int getDefaultOption();
+  int getDefaultOption();
 
-    interface Builder {
-        Builder text(String text);
+  interface Builder {
+    Builder text(String text);
 
-        Builder option(String option, boolean isDefault);
+    Builder option(String option, boolean isDefault);
 
-        Builder option(String option);
+    Builder option(String option);
 
-        Builder defaultOption(int defaultOption);
+    Builder defaultOption(int defaultOption);
 
-        DropdownComponent build();
+    DropdownComponent build();
 
-        DropdownComponent translateAndBuild(Function<String, String> translator);
-    }
+    DropdownComponent translateAndBuild(Function<String, String> translator);
+  }
 }

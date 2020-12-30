@@ -26,9 +26,9 @@
 package org.geysermc.cumulus.response;
 
 public interface ModalFormResponse extends FormResponse {
-    int getClickedButtonId();
+  int getClickedButtonId();
 
-    String getClickedButtonText();
+  String getClickedButtonText();
 
-    boolean getResult();
+  boolean getResult();
 }

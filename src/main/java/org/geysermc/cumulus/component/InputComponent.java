@@ -28,19 +28,19 @@ package org.geysermc.cumulus.component;
 import org.geysermc.cumulus.component.impl.InputComponentImpl;
 
 public interface InputComponent extends Component {
-    static InputComponent of(String text, String placeholder, String defaultText) {
-        return new InputComponentImpl(text, placeholder, defaultText);
-    }
+  static InputComponent of(String text, String placeholder, String defaultText) {
+    return new InputComponentImpl(text, placeholder, defaultText);
+  }
 
-    static InputComponent of(String text, String placeholder) {
-        return of(text, placeholder, "");
-    }
+  static InputComponent of(String text, String placeholder) {
+    return of(text, placeholder, "");
+  }
 
-    static InputComponent of(String text) {
-        return of(text, "", "");
-    }
+  static InputComponent of(String text) {
+    return of(text, "", "");
+  }
 
-    String getPlaceholder();
+  String getPlaceholder();
 
-    String getDefaultText();
+  String getDefaultText();
 }

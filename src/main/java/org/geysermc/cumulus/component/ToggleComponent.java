@@ -28,13 +28,13 @@ package org.geysermc.cumulus.component;
 import org.geysermc.cumulus.component.impl.ToggleComponentImpl;
 
 public interface ToggleComponent extends Component {
-    static ToggleComponent of(String text, boolean defaultValue) {
-        return new ToggleComponentImpl(text, defaultValue);
-    }
+  static ToggleComponent of(String text, boolean defaultValue) {
+    return new ToggleComponentImpl(text, defaultValue);
+  }
 
-    static ToggleComponent of(String text) {
-        return of(text, false);
-    }
+  static ToggleComponent of(String text) {
+    return of(text, false);
+  }
 
-    boolean getDefaultValue();
+  boolean getDefaultValue();
 }

@@ -36,66 +36,66 @@ import org.geysermc.cumulus.util.ComponentType;
 
 @Getter
 public final class StepSliderComponentImpl extends Component implements StepSliderComponent {
-    private final List<String> steps;
-    @SerializedName("default")
-    private final int defaultStep;
+  private final List<String> steps;
+  @SerializedName("default")
+  private final int defaultStep;
 
-    public StepSliderComponentImpl(String text, List<String> steps, int defaultStep) {
-        super(ComponentType.STEP_SLIDER, text != null ? text : "");
-        this.steps = Collections.unmodifiableList(steps);
+  public StepSliderComponentImpl(String text, List<String> steps, int defaultStep) {
+    super(ComponentType.STEP_SLIDER, text != null ? text : "");
+    this.steps = Collections.unmodifiableList(steps);
 
-        if (defaultStep >= steps.size() || defaultStep == -1) {
-            defaultStep = 0;
-        }
-
-        this.defaultStep = defaultStep;
+    if (defaultStep >= steps.size() || defaultStep == -1) {
+      defaultStep = 0;
     }
 
-    public static Builder builder() {
-        return new Builder();
+    this.defaultStep = defaultStep;
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static Builder builder(String text) {
+    return builder().text(text);
+  }
+
+  public static final class Builder implements StepSliderComponent.Builder {
+    private final List<String> steps = new ArrayList<>();
+    private String text;
+    private int defaultStep;
+
+    public Builder text(String text) {
+      this.text = text;
+      return this;
     }
 
-    public static Builder builder(String text) {
-        return builder().text(text);
+    public Builder step(String step, boolean defaultStep) {
+      steps.add(step);
+      if (defaultStep) {
+        this.defaultStep = steps.size() - 1;
+      }
+      return this;
     }
 
-    public static final class Builder implements StepSliderComponent.Builder {
-        private final List<String> steps = new ArrayList<>();
-        private String text;
-        private int defaultStep;
-
-        public Builder text(String text) {
-            this.text = text;
-            return this;
-        }
-
-        public Builder step(String step, boolean defaultStep) {
-            steps.add(step);
-            if (defaultStep) {
-                this.defaultStep = steps.size() - 1;
-            }
-            return this;
-        }
-
-        public Builder step(String step) {
-            return step(step, false);
-        }
-
-        public Builder defaultStep(int defaultStep) {
-            this.defaultStep = defaultStep;
-            return this;
-        }
-
-        public StepSliderComponentImpl build() {
-            return new StepSliderComponentImpl(text, steps, defaultStep);
-        }
-
-        public StepSliderComponentImpl translateAndBuild(Function<String, String> translator) {
-            for (int i = 0; i < steps.size(); i++) {
-                steps.set(i, translator.apply(steps.get(i)));
-            }
-
-            return new StepSliderComponentImpl(translator.apply(text), steps, defaultStep);
-        }
+    public Builder step(String step) {
+      return step(step, false);
     }
+
+    public Builder defaultStep(int defaultStep) {
+      this.defaultStep = defaultStep;
+      return this;
+    }
+
+    public StepSliderComponentImpl build() {
+      return new StepSliderComponentImpl(text, steps, defaultStep);
+    }
+
+    public StepSliderComponentImpl translateAndBuild(Function<String, String> translator) {
+      for (int i = 0; i < steps.size(); i++) {
+        steps.set(i, translator.apply(steps.get(i)));
+      }
+
+      return new StepSliderComponentImpl(translator.apply(text), steps, defaultStep);
+    }
+  }
 }

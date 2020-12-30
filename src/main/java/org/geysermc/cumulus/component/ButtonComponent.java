@@ -29,19 +29,19 @@ import org.geysermc.cumulus.component.impl.ButtonComponentImpl;
 import org.geysermc.cumulus.util.FormImage;
 
 public interface ButtonComponent {
-    static ButtonComponent of(String text, FormImage image) {
-        return new ButtonComponentImpl(text, image);
-    }
+  static ButtonComponent of(String text, FormImage image) {
+    return new ButtonComponentImpl(text, image);
+  }
 
-    static ButtonComponent of(String text, FormImage.Type type, String data) {
-        return new ButtonComponentImpl(text, FormImage.of(type, data));
-    }
+  static ButtonComponent of(String text, FormImage.Type type, String data) {
+    return new ButtonComponentImpl(text, FormImage.of(type, data));
+  }
 
-    static ButtonComponent of(String text) {
-        return of(text, null);
-    }
+  static ButtonComponent of(String text) {
+    return of(text, null);
+  }
 
-    String getText();
+  String getText();
 
-    FormImage getImage();
+  FormImage getImage();
 }

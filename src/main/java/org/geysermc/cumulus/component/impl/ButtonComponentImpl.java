@@ -33,11 +33,11 @@ import org.geysermc.cumulus.util.FormImage;
 
 @Getter
 public final class ButtonComponentImpl implements ButtonComponent {
-    private final String text;
-    private final FormImage image;
+  private final String text;
+  private final FormImage image;
 
-    public ButtonComponentImpl(String text, FormImage image) {
-        this.text = requireNonNull(text, "text");
-        this.image = image;
-    }
+  public ButtonComponentImpl(String text, FormImage image) {
+    this.text = requireNonNull(text, "text");
+    this.image = image;
+  }
 }

@@ -52,158 +52,174 @@ import org.geysermc.cumulus.util.impl.FormImpl;
 @Getter
 @JsonAdapter(FormAdaptor.class)
 public final class CustomFormImpl extends FormImpl implements CustomForm {
-    private final String title;
-    private final FormImage icon;
-    private final List<Component> content;
+  private final String title;
+  private final FormImage icon;
+  private final List<Component> content;
 
-    public CustomFormImpl(
-            @NonNull String title,
-            @Nullable FormImage icon,
-            @NonNull List<Component> content
-    ) {
-        super(FormType.CUSTOM_FORM);
+  public CustomFormImpl(
+      @NonNull String title,
+      @Nullable FormImage icon,
+      @NonNull List<Component> content
+  ) {
+    super(FormType.CUSTOM_FORM);
 
-        this.title = title;
-        this.icon = icon;
-        this.content = Collections.unmodifiableList(content);
+    this.title = title;
+    this.icon = icon;
+    this.content = Collections.unmodifiableList(content);
+  }
+
+  @NonNull
+  public CustomFormResponse parseResponse(@Nullable String data) {
+    if (isClosed(data)) {
+      return CustomFormResponseImpl.closed();
+    }
+    return CustomFormResponseImpl.of(this, data);
+  }
+
+  public static final class Builder extends FormImpl.Builder<CustomForm.Builder, CustomForm>
+      implements CustomForm.Builder {
+
+    private final List<Component> components = new ArrayList<>();
+    private FormImage icon;
+
+    @NonNull
+    public Builder icon(FormImage.@NonNull Type type, @NonNull String data) {
+      icon = new FormImageImpl(type, data);
+      return this;
     }
 
     @NonNull
-    public CustomFormResponse parseResponse(@Nullable String data) {
-        if (isClosed(data)) {
-            return CustomFormResponseImpl.closed();
-        }
-        return CustomFormResponseImpl.of(this, data);
+    public Builder iconPath(@NonNull String path) {
+      return icon(FormImage.Type.PATH, path);
     }
 
-    public static final class Builder extends FormImpl.Builder<CustomForm.Builder, CustomForm>
-            implements CustomForm.Builder {
-
-        private final List<Component> components = new ArrayList<>();
-        private FormImage icon;
-
-        public @NonNull Builder icon(FormImage.@NonNull Type type, @NonNull String data) {
-            icon = new FormImageImpl(type, data);
-            return this;
-        }
-
-        public @NonNull Builder iconPath(@NonNull String path) {
-            return icon(FormImage.Type.PATH, path);
-        }
-
-        public @NonNull Builder iconUrl(@NonNull String url) {
-            return icon(FormImage.Type.URL, url);
-        }
-
-        public @NonNull Builder component(@NonNull Component component) {
-            components.add(component);
-            return this;
-        }
-
-        public @NonNull Builder dropdown(DropdownComponent.@NonNull Builder dropdownBuilder) {
-            return component(dropdownBuilder.translateAndBuild(this::translate));
-        }
-
-        public @NonNull Builder dropdown(
-                @NonNull String text,
-                int defaultOption,
-                String... options
-        ) {
-            List<String> optionsList = new ArrayList<>();
-            for (String option : options) {
-                optionsList.add(translate(option));
-            }
-            return component(DropdownComponent.of(translate(text), optionsList, defaultOption));
-        }
-
-        public @NonNull Builder dropdown(@NonNull String text, String... options) {
-            return dropdown(text, -1, options);
-        }
-
-        public @NonNull Builder input(
-                @NonNull String text,
-                @NonNull String placeholder,
-                @NonNull String defaultText
-        ) {
-            return component(InputComponent.of(
-                    translate(text), translate(placeholder), translate(defaultText)
-            ));
-        }
-
-        public @NonNull Builder input(@NonNull String text, @NonNull String placeholder) {
-            return component(InputComponent.of(translate(text), translate(placeholder)));
-        }
-
-        public @NonNull Builder input(@NonNull String text) {
-            return component(InputComponent.of(translate(text)));
-        }
-
-        public @NonNull Builder label(@NonNull String text) {
-            return component(LabelComponent.of(translate(text)));
-        }
-
-        public @NonNull Builder slider(
-                @NonNull String text,
-                float min,
-                float max,
-                @Positive int step,
-                float defaultValue
-        ) {
-            return component(SliderComponent.of(text, min, max, step, defaultValue));
-        }
-
-        public @NonNull Builder slider(@NonNull String text, float min, float max,
-                                       @Positive int step) {
-            return slider(text, min, max, step, -1);
-        }
-
-        public @NonNull Builder slider(
-                @NonNull String text,
-                float min,
-                float max,
-                @Positive float defaultValue
-        ) {
-            return slider(text, min, max, -1, defaultValue);
-        }
-
-        public @NonNull Builder slider(@NonNull String text, float min, float max) {
-            return slider(text, min, max, -1, -1);
-        }
-
-        public @NonNull Builder stepSlider(StepSliderComponent.@NonNull Builder stepSliderBuilder) {
-            return component(stepSliderBuilder.translateAndBuild(this::translate));
-        }
-
-        public @NonNull Builder stepSlider(@NonNull String text, int defaultStep, String... steps) {
-            List<String> stepsList = new ArrayList<>();
-            for (String option : steps) {
-                stepsList.add(translate(option));
-            }
-            return component(StepSliderComponent.of(translate(text), stepsList, defaultStep));
-        }
-
-        public @NonNull Builder stepSlider(@NonNull String text, String... steps) {
-            return stepSlider(text, -1, steps);
-        }
-
-        public @NonNull Builder toggle(@NonNull String text, boolean defaultValue) {
-            return component(ToggleComponent.of(translate(text), defaultValue));
-        }
-
-        public @NonNull Builder toggle(@NonNull String text) {
-            return component(ToggleComponent.of(translate(text)));
-        }
-
-        @Override
-        public @NonNull CustomFormImpl build() {
-            CustomFormImpl form = new CustomFormImpl(title, icon, components);
-            if (biResponseHandler != null) {
-                form.setResponseHandler(response -> biResponseHandler.accept(form, response));
-                return form;
-            }
-
-            form.setResponseHandler(responseHandler);
-            return form;
-        }
+    @NonNull
+    public Builder iconUrl(@NonNull String url) {
+      return icon(FormImage.Type.URL, url);
     }
+
+    @NonNull
+    public Builder component(@NonNull Component component) {
+      components.add(component);
+      return this;
+    }
+
+    @NonNull
+    public Builder dropdown(DropdownComponent.@NonNull Builder dropdownBuilder) {
+      return component(dropdownBuilder.translateAndBuild(this::translate));
+    }
+
+    @NonNull
+    public Builder dropdown(@NonNull String text, int defaultOption, String... options) {
+      List<String> optionsList = new ArrayList<>();
+      for (String option : options) {
+        optionsList.add(translate(option));
+      }
+      return component(DropdownComponent.of(translate(text), optionsList, defaultOption));
+    }
+
+    @NonNull
+    public Builder dropdown(@NonNull String text, String... options) {
+      return dropdown(text, -1, options);
+    }
+
+    @NonNull
+    public Builder input(
+        @NonNull String text,
+        @NonNull String placeholder,
+        @NonNull String defaultText
+    ) {
+      return component(InputComponent.of(
+          translate(text), translate(placeholder), translate(defaultText)
+      ));
+    }
+
+    @NonNull
+    public Builder input(@NonNull String text, @NonNull String placeholder) {
+      return component(InputComponent.of(translate(text), translate(placeholder)));
+    }
+
+    @NonNull
+    public Builder input(@NonNull String text) {
+      return component(InputComponent.of(translate(text)));
+    }
+
+    @NonNull
+    public Builder label(@NonNull String text) {
+      return component(LabelComponent.of(translate(text)));
+    }
+
+    @NonNull
+    public Builder slider(
+        @NonNull String text,
+        float min,
+        float max,
+        @Positive int step,
+        float defaultValue
+    ) {
+      return component(SliderComponent.of(text, min, max, step, defaultValue));
+    }
+
+    @NonNull
+    public Builder slider(@NonNull String text, float min, float max, @Positive int step) {
+      return slider(text, min, max, step, -1);
+    }
+
+    @NonNull
+    public Builder slider(
+        @NonNull String text,
+        float min,
+        float max,
+        @Positive float defaultValue
+    ) {
+      return slider(text, min, max, -1, defaultValue);
+    }
+
+    @NonNull
+    public Builder slider(@NonNull String text, float min, float max) {
+      return slider(text, min, max, -1, -1);
+    }
+
+    @NonNull
+    public Builder stepSlider(StepSliderComponent.@NonNull Builder stepSliderBuilder) {
+      return component(stepSliderBuilder.translateAndBuild(this::translate));
+    }
+
+    @NonNull
+    public Builder stepSlider(@NonNull String text, int defaultStep, String... steps) {
+      List<String> stepsList = new ArrayList<>();
+      for (String option : steps) {
+        stepsList.add(translate(option));
+      }
+      return component(StepSliderComponent.of(translate(text), stepsList, defaultStep));
+    }
+
+    @NonNull
+    public Builder stepSlider(@NonNull String text, String... steps) {
+      return stepSlider(text, -1, steps);
+    }
+
+    @NonNull
+    public Builder toggle(@NonNull String text, boolean defaultValue) {
+      return component(ToggleComponent.of(translate(text), defaultValue));
+    }
+
+    @NonNull
+    public Builder toggle(@NonNull String text) {
+      return component(ToggleComponent.of(translate(text)));
+    }
+
+    @Override
+    @NonNull
+    public CustomFormImpl build() {
+      CustomFormImpl form = new CustomFormImpl(title, icon, components);
+      if (biResponseHandler != null) {
+        form.setResponseHandler(response -> biResponseHandler.accept(form, response));
+        return form;
+      }
+
+      form.setResponseHandler(responseHandler);
+      return form;
+    }
+  }
 }

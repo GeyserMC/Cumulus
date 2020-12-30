@@ -44,67 +44,68 @@ import org.geysermc.cumulus.util.impl.FormAdaptor;
 import org.geysermc.cumulus.util.impl.FormImpl;
 
 public final class Forms {
-    public static final Gson GSON =
-            new GsonBuilder()
-                    .registerTypeAdapter(FormImpl.class, new FormAdaptor())
-                    .create();
+  public static final Gson GSON =
+      new GsonBuilder()
+          .registerTypeAdapter(FormImpl.class, new FormAdaptor())
+          .create();
 
-    /**
-     * Translate the data that is readable by the the Bedrock client into a form instance.
-     *
-     * @param json the json data that is readable by the client
-     * @param type the form data type
-     * @param <T>  the result will be cast to <T>
-     * @return the form instance holding the translated data
-     */
-    @SuppressWarnings("unchecked")
-    public static @NonNull <T extends Form> T fromJson(String json, FormType type) {
-        return (T) GSON.fromJson(json, getFormTypeImpl(type));
-    }
+  /**
+   * Translate the data that is readable by the the Bedrock client into a form instance.
+   *
+   * @param json the json data that is readable by the client
+   * @param type the form data type
+   * @param <T>  the result will be cast to T
+   * @return the form instance holding the translated data
+   */
+  @NonNull
+  @SuppressWarnings("unchecked")
+  public static <T extends Form> T fromJson(String json, FormType type) {
+    return (T) GSON.fromJson(json, getFormTypeImpl(type));
+  }
 
-    /**
-     * Get the class implementing the form by the form type.
-     *
-     * @param type the form type
-     * @return the class implementing the form
-     */
-    public static @NonNull Class<? extends Form> getFormTypeImpl(FormType type) {
-        switch (type) {
-            case CUSTOM_FORM:
-                return CustomFormImpl.class;
-            case MODAL_FORM:
-                return ModalFormImpl.class;
-            case SIMPLE_FORM:
-                return SimpleFormImpl.class;
-            default:
-                throw new RuntimeException("Cannot find implementation form FormType" + type);
-        }
+  /**
+   * Get the class implementing the form by the form type.
+   *
+   * @param type the form type
+   * @return the class implementing the form
+   */
+  @NonNull
+  public static Class<? extends Form> getFormTypeImpl(FormType type) {
+    switch (type) {
+      case CUSTOM_FORM:
+        return CustomFormImpl.class;
+      case MODAL_FORM:
+        return ModalFormImpl.class;
+      case SIMPLE_FORM:
+        return SimpleFormImpl.class;
+      default:
+        throw new RuntimeException("Cannot find implementation form FormType" + type);
     }
+  }
 
-    /**
-     * Get the class implementing the component by the component type.
-     *
-     * @param type the component type
-     * @return the class implementing the component
-     */
-    public static @NonNull Class<? extends Component> getComponentTypeImpl(
-            @NonNull ComponentType type
-    ) {
-        switch (type) {
-            case DROPDOWN:
-                return DropdownComponentImpl.class;
-            case INPUT:
-                return InputComponentImpl.class;
-            case LABEL:
-                return LabelComponentImpl.class;
-            case SLIDER:
-                return SliderComponentImpl.class;
-            case STEP_SLIDER:
-                return StepSliderComponentImpl.class;
-            case TOGGLE:
-                return ToggleComponentImpl.class;
-            default:
-                throw new RuntimeException("Cannot find implementation for ComponentType " + type);
-        }
+  /**
+   * Get the class implementing the component by the component type.
+   *
+   * @param type the component type
+   * @return the class implementing the component
+   */
+  @NonNull
+  public static Class<? extends Component> getComponentTypeImpl(@NonNull ComponentType type) {
+    switch (type) {
+      case DROPDOWN:
+        return DropdownComponentImpl.class;
+      case INPUT:
+        return InputComponentImpl.class;
+      case LABEL:
+        return LabelComponentImpl.class;
+      case SLIDER:
+        return SliderComponentImpl.class;
+      case STEP_SLIDER:
+        return StepSliderComponentImpl.class;
+      case TOGGLE:
+        return ToggleComponentImpl.class;
+      default:
+        throw new RuntimeException("Cannot find implementation for ComponentType " + type);
     }
+  }
 }

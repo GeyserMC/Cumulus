@@ -32,29 +32,29 @@ import org.geysermc.cumulus.util.ComponentType;
 
 @Getter
 public final class SliderComponentImpl extends Component implements SliderComponent {
-    private final float min;
-    private final float max;
-    private final int step;
-    @SerializedName("default")
-    private final float defaultValue;
+  private final float min;
+  private final float max;
+  private final int step;
+  @SerializedName("default")
+  private final float defaultValue;
 
-    public SliderComponentImpl(String text, float min, float max, int step, float defaultValue) {
-        super(ComponentType.SLIDER, text);
+  public SliderComponentImpl(String text, float min, float max, int step, float defaultValue) {
+    super(ComponentType.SLIDER, text);
 
-        min = Math.max(min, 0f);
-        max = Math.max(max, min);
+    min = Math.max(min, 0f);
+    max = Math.max(max, min);
 
-        if (step < 1) {
-            step = 1;
-        }
-
-        if (defaultValue == -1f) {
-            defaultValue = (int) Math.floor(min + max / 2D);
-        }
-
-        this.min = min;
-        this.max = max;
-        this.step = step;
-        this.defaultValue = defaultValue;
+    if (step < 1) {
+      step = 1;
     }
+
+    if (defaultValue == -1f) {
+      defaultValue = (int) Math.floor(min + max / 2D);
+    }
+
+    this.min = min;
+    this.max = max;
+    this.step = step;
+    this.defaultValue = defaultValue;
+  }
 }

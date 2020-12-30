@@ -42,90 +42,95 @@ import org.geysermc.cumulus.util.FormImage;
  * @since 1.0
  */
 public interface SimpleForm extends Form {
-    /**
-     * Returns a new SimpleForm builder. A more friendly way of creating a Form.
-     */
-    static @NonNull Builder builder() {
-        return new SimpleFormImpl.Builder();
-    }
+  /**
+   * Returns a new SimpleForm builder. A more friendly way of creating a Form.
+   */
+  @NonNull
+  static Builder builder() {
+    return new SimpleFormImpl.Builder();
+  }
 
+  /**
+   * Create a SimpleForm with predefined information.
+   *
+   * @param title   the title of the form
+   * @param content the description of the form (under title, above the buttons)
+   * @param buttons the list of buttons to place in the form
+   * @return the created SimpleForm instance
+   */
+  @NonNull
+  static SimpleForm of(
+      @NonNull String title,
+      @NonNull String content,
+      @NonNull List<ButtonComponent> buttons
+  ) {
+    return new SimpleFormImpl(title, content, buttons);
+  }
+
+  /**
+   * Returns the title of the Form.
+   */
+  @NonNull
+  String getTitle();
+
+  /**
+   * Returns the description of the Form.
+   */
+  @NonNull
+  String getContent();
+
+  /**
+   * Returns the list of button components.
+   */
+  @NonNull
+  List<ButtonComponent> getButtons();
+
+  @Override
+  @NonNull
+  SimpleFormResponse parseResponse(@Nullable String response);
+
+  /**
+   * An easy way to create a CustomForm. For more information and code examples look at <a
+   * href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
+   */
+  interface Builder extends FormBuilder<Builder, SimpleForm> {
     /**
-     * Create a SimpleForm with predefined information.
+     * Set the description of the Form.
      *
-     * @param title   the title of the form
-     * @param content the description of the form (under title, above the buttons)
-     * @param buttons the list of buttons to place in the form
-     * @return the created SimpleForm instance
+     * @param content the description of the Form
+     * @return the form builder
      */
-    static @NonNull SimpleForm of(
-            @NonNull String title,
-            @NonNull String content,
-            @NonNull List<ButtonComponent> buttons
-    ) {
-        return new SimpleFormImpl(title, content, buttons);
-    }
-
-    /**
-     * Returns the title of the Form.
-     */
-    @NonNull String getTitle();
-
-    /**
-     * Returns the description of the Form.
-     */
-    @NonNull String getContent();
-
-    /**
-     * Returns the list of button components.
-     */
-    @NonNull List<ButtonComponent> getButtons();
-
-    @Override
     @NonNull
-    SimpleFormResponse parseResponse(@Nullable String response);
+    Builder content(@NonNull String content);
 
     /**
-     * An easy way to create a CustomForm. For more information and code examples look at <a
-     * href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
+     * Adds a button with image to the Form.
+     *
+     * @param text text of the button
+     * @param type type of image
+     * @param data the data for the image type
+     * @return the form builder
      */
-    interface Builder extends FormBuilder<Builder, SimpleForm> {
-        /**
-         * Set the description of the Form.
-         *
-         * @param content the description of the Form
-         * @return the form builder
-         */
-        @NonNull Builder content(@NonNull String content);
+    @NonNull
+    Builder button(@NonNull String text, FormImage.@NonNull Type type, @NonNull String data);
 
-        /**
-         * Adds a button with image to the Form.
-         *
-         * @param text text of the button
-         * @param type type of image
-         * @param data the data for the image type
-         * @return the form builder
-         */
-        @NonNull Builder button(
-                @NonNull String text,
-                FormImage.@NonNull Type type,
-                @NonNull String data
-        );
+    /**
+     * Adds a button with image to the Form.
+     *
+     * @param text  the text of the button
+     * @param image the image
+     * @return the form builder
+     */
+    @NonNull
+    Builder button(@NonNull String text, @NonNull FormImage image);
 
-        /**
-         * Adds a button with image to the Form.
-         *
-         * @param text  the text of the button
-         * @param image the image
-         * @return the form builder
-         */
-        @NonNull Builder button(@NonNull String text, @NonNull FormImage image);
-
-        /**
-         * Adds a button to the Form.
-         *
-         * @param text the text of the button
-         * @return the form builder
-         */
-        @NonNull Builder button(@NonNull String text);
-    }
+    /**
+     * Adds a button to the Form.
+     *
+     * @param text the text of the button
+     * @return the form builder
+     */
+    @NonNull
+    Builder button(@NonNull String text);
+  }
 }

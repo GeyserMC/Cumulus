@@ -28,7 +28,7 @@ package org.geysermc.cumulus.response;
 import org.geysermc.cumulus.component.ButtonComponent;
 
 public interface SimpleFormResponse extends FormResponse {
-    int getClickedButtonId();
+  int getClickedButtonId();
 
-    ButtonComponent getClickedButton();
+  ButtonComponent getClickedButton();
 }

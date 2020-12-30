@@ -34,30 +34,30 @@ import org.geysermc.cumulus.response.SimpleFormResponse;
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class SimpleFormResponseImpl implements SimpleFormResponse {
-    private static final SimpleFormResponseImpl CLOSED =
-            new SimpleFormResponseImpl(true, false, -1, null);
-    private static final SimpleFormResponseImpl INVALID =
-            new SimpleFormResponseImpl(false, true, -1, null);
+  private static final SimpleFormResponseImpl CLOSED =
+      new SimpleFormResponseImpl(true, false, -1, null);
+  private static final SimpleFormResponseImpl INVALID =
+      new SimpleFormResponseImpl(false, true, -1, null);
 
-    private final boolean closed;
-    private final boolean invalid;
+  private final boolean closed;
+  private final boolean invalid;
 
-    private final int clickedButtonId;
-    private final ButtonComponent clickedButton;
+  private final int clickedButtonId;
+  private final ButtonComponent clickedButton;
 
-    public static SimpleFormResponseImpl closed() {
-        return CLOSED;
-    }
+  public static SimpleFormResponseImpl closed() {
+    return CLOSED;
+  }
 
-    public static SimpleFormResponseImpl invalid() {
-        return INVALID;
-    }
+  public static SimpleFormResponseImpl invalid() {
+    return INVALID;
+  }
 
-    public static SimpleFormResponseImpl of(int clickedButtonId, ButtonComponent clickedButton) {
-        return new SimpleFormResponseImpl(false, false, clickedButtonId, clickedButton);
-    }
+  public static SimpleFormResponseImpl of(int clickedButtonId, ButtonComponent clickedButton) {
+    return new SimpleFormResponseImpl(false, false, clickedButtonId, clickedButton);
+  }
 
-    public String getClickedButtonText() {
-        return clickedButton.getText();
-    }
+  public String getClickedButtonText() {
+    return clickedButton.getText();
+  }
 }

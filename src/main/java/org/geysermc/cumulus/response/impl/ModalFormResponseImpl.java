@@ -33,30 +33,30 @@ import org.geysermc.cumulus.response.ModalFormResponse;
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ModalFormResponseImpl implements ModalFormResponse {
-    private static final ModalFormResponseImpl CLOSED =
-            new ModalFormResponseImpl(true, false, -1, null);
-    private static final ModalFormResponseImpl INVALID =
-            new ModalFormResponseImpl(false, true, -1, null);
+  private static final ModalFormResponseImpl CLOSED =
+      new ModalFormResponseImpl(true, false, -1, null);
+  private static final ModalFormResponseImpl INVALID =
+      new ModalFormResponseImpl(false, true, -1, null);
 
-    private final boolean closed;
-    private final boolean invalid;
+  private final boolean closed;
+  private final boolean invalid;
 
-    private final int clickedButtonId;
-    private final String clickedButtonText;
+  private final int clickedButtonId;
+  private final String clickedButtonText;
 
-    public static ModalFormResponseImpl closed() {
-        return CLOSED;
-    }
+  public static ModalFormResponseImpl closed() {
+    return CLOSED;
+  }
 
-    public static ModalFormResponseImpl invalid() {
-        return INVALID;
-    }
+  public static ModalFormResponseImpl invalid() {
+    return INVALID;
+  }
 
-    public static ModalFormResponseImpl of(int clickedButtonId, String clickedButtonText) {
-        return new ModalFormResponseImpl(false, false, clickedButtonId, clickedButtonText);
-    }
+  public static ModalFormResponseImpl of(int clickedButtonId, String clickedButtonText) {
+    return new ModalFormResponseImpl(false, false, clickedButtonId, clickedButtonText);
+  }
 
-    public boolean getResult() {
-        return clickedButtonId == 0;
-    }
+  public boolean getResult() {
+    return clickedButtonId == 0;
+  }
 }

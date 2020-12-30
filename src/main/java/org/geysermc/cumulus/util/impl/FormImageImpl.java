@@ -32,6 +32,6 @@ import org.geysermc.cumulus.util.FormImage;
 @Getter
 @RequiredArgsConstructor
 public final class FormImageImpl implements FormImage {
-    private final Type type;
-    private final String data;
+  private final Type type;
+  private final String data;
 }

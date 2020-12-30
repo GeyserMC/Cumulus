@@ -28,27 +28,27 @@ package org.geysermc.cumulus.component;
 import org.geysermc.cumulus.component.impl.SliderComponentImpl;
 
 public interface SliderComponent extends Component {
-    static SliderComponent of(String text, float min, float max, int step, float defaultValue) {
-        return new SliderComponentImpl(text, min, max, step, defaultValue);
-    }
+  static SliderComponent of(String text, float min, float max, int step, float defaultValue) {
+    return new SliderComponentImpl(text, min, max, step, defaultValue);
+  }
 
-    static SliderComponent of(String text, float min, float max, int step) {
-        return of(text, min, max, step, -1);
-    }
+  static SliderComponent of(String text, float min, float max, int step) {
+    return of(text, min, max, step, -1);
+  }
 
-    static SliderComponent of(String text, float min, float max, float defaultValue) {
-        return of(text, min, max, -1, defaultValue);
-    }
+  static SliderComponent of(String text, float min, float max, float defaultValue) {
+    return of(text, min, max, -1, defaultValue);
+  }
 
-    static SliderComponent of(String text, float min, float max) {
-        return of(text, min, max, -1, -1);
-    }
+  static SliderComponent of(String text, float min, float max) {
+    return of(text, min, max, -1, -1);
+  }
 
-    float getMin();
+  float getMin();
 
-    float getMax();
+  float getMax();
 
-    int getStep();
+  int getStep();
 
-    float getDefaultValue();
+  float getDefaultValue();
 }

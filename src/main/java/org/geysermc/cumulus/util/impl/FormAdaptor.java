@@ -50,88 +50,88 @@ import org.geysermc.cumulus.util.FormImage;
 
 @RequiredArgsConstructor
 public final class FormAdaptor implements JsonDeserializer<FormImpl>, JsonSerializer<FormImpl> {
-    private static final Type LIST_BUTTON_TYPE =
-            new TypeToken<List<ButtonComponentImpl>>() {}.getType();
+  private static final Type LIST_BUTTON_TYPE =
+      new TypeToken<List<ButtonComponentImpl>>() {}.getType();
 
-    @Override
-    public FormImpl deserialize(JsonElement jsonElement, Type typeOfT,
-                                JsonDeserializationContext context)
-            throws JsonParseException {
+  @Override
+  public FormImpl deserialize(JsonElement jsonElement, Type typeOfT,
+                              JsonDeserializationContext context)
+      throws JsonParseException {
 
-        if (!jsonElement.isJsonObject()) {
-            throw new JsonParseException("Form has to be a JsonObject");
-        }
-        JsonObject json = jsonElement.getAsJsonObject();
+    if (!jsonElement.isJsonObject()) {
+      throw new JsonParseException("Form has to be a JsonObject");
+    }
+    JsonObject json = jsonElement.getAsJsonObject();
 
-        if (typeOfT == SimpleFormImpl.class) {
-            String title = json.get("title").getAsString();
-            String content = json.get("content").getAsString();
-            List<ButtonComponent> buttons = context
-                    .deserialize(json.get("buttons"), LIST_BUTTON_TYPE);
-            return new SimpleFormImpl(title, content, buttons);
-        }
-
-        if (typeOfT == ModalFormImpl.class) {
-            String title = json.get("title").getAsString();
-            String content = json.get("content").getAsString();
-            String button1 = json.get("button1").getAsString();
-            String button2 = json.get("button2").getAsString();
-            return new ModalFormImpl(title, content, button1, button2);
-        }
-
-        if (typeOfT == CustomFormImpl.class) {
-            String title = json.get("title").getAsString();
-            FormImage icon = context.deserialize(json.get("icon"), FormImageImpl.class);
-            List<Component> content = new ArrayList<>();
-
-            JsonArray contentArray = json.getAsJsonArray("content");
-            for (JsonElement contentElement : contentArray) {
-                String typeName = contentElement.getAsJsonObject().get("type").getAsString();
-
-                ComponentType type = ComponentType.getByName(typeName);
-                if (type == null) {
-                    throw new JsonParseException("Failed to find Component type " + typeName);
-                }
-
-                content.add(context.deserialize(contentElement, Forms.getComponentTypeImpl(type)));
-            }
-            return new CustomFormImpl(title, icon, content);
-        }
-        return null;
+    if (typeOfT == SimpleFormImpl.class) {
+      String title = json.get("title").getAsString();
+      String content = json.get("content").getAsString();
+      List<ButtonComponent> buttons = context
+          .deserialize(json.get("buttons"), LIST_BUTTON_TYPE);
+      return new SimpleFormImpl(title, content, buttons);
     }
 
-    @Override
-    public JsonElement serialize(FormImpl src, Type typeOfSrc, JsonSerializationContext context) {
-        JsonObject result = new JsonObject();
-        result.add("type", context.serialize(src.getType()));
-
-        if (typeOfSrc == SimpleFormImpl.class) {
-            SimpleFormImpl form = (SimpleFormImpl) src;
-
-            result.addProperty("title", form.getTitle());
-            result.addProperty("content", form.getContent());
-            result.add("buttons", context.serialize(form.getButtons(), LIST_BUTTON_TYPE));
-            return result;
-        }
-
-        if (typeOfSrc == ModalFormImpl.class) {
-            ModalFormImpl form = (ModalFormImpl) src;
-
-            result.addProperty("title", form.getTitle());
-            result.addProperty("content", form.getContent());
-            result.addProperty("button1", form.getButton1());
-            result.addProperty("button2", form.getButton2());
-            return result;
-        }
-
-        if (typeOfSrc == CustomFormImpl.class) {
-            CustomFormImpl form = (CustomFormImpl) src;
-
-            result.addProperty("title", form.getTitle());
-            result.add("icon", context.serialize(form.getIcon()));
-            result.add("content", context.serialize(form.getContent()));
-            return result;
-        }
-        return null;
+    if (typeOfT == ModalFormImpl.class) {
+      String title = json.get("title").getAsString();
+      String content = json.get("content").getAsString();
+      String button1 = json.get("button1").getAsString();
+      String button2 = json.get("button2").getAsString();
+      return new ModalFormImpl(title, content, button1, button2);
     }
+
+    if (typeOfT == CustomFormImpl.class) {
+      String title = json.get("title").getAsString();
+      FormImage icon = context.deserialize(json.get("icon"), FormImageImpl.class);
+      List<Component> content = new ArrayList<>();
+
+      JsonArray contentArray = json.getAsJsonArray("content");
+      for (JsonElement contentElement : contentArray) {
+        String typeName = contentElement.getAsJsonObject().get("type").getAsString();
+
+        ComponentType type = ComponentType.getByName(typeName);
+        if (type == null) {
+          throw new JsonParseException("Failed to find Component type " + typeName);
+        }
+
+        content.add(context.deserialize(contentElement, Forms.getComponentTypeImpl(type)));
+      }
+      return new CustomFormImpl(title, icon, content);
+    }
+    return null;
+  }
+
+  @Override
+  public JsonElement serialize(FormImpl src, Type typeOfSrc, JsonSerializationContext context) {
+    JsonObject result = new JsonObject();
+    result.add("type", context.serialize(src.getType()));
+
+    if (typeOfSrc == SimpleFormImpl.class) {
+      SimpleFormImpl form = (SimpleFormImpl) src;
+
+      result.addProperty("title", form.getTitle());
+      result.addProperty("content", form.getContent());
+      result.add("buttons", context.serialize(form.getButtons(), LIST_BUTTON_TYPE));
+      return result;
+    }
+
+    if (typeOfSrc == ModalFormImpl.class) {
+      ModalFormImpl form = (ModalFormImpl) src;
+
+      result.addProperty("title", form.getTitle());
+      result.addProperty("content", form.getContent());
+      result.addProperty("button1", form.getButton1());
+      result.addProperty("button2", form.getButton2());
+      return result;
+    }
+
+    if (typeOfSrc == CustomFormImpl.class) {
+      CustomFormImpl form = (CustomFormImpl) src;
+
+      result.addProperty("title", form.getTitle());
+      result.add("icon", context.serialize(form.getIcon()));
+      result.add("content", context.serialize(form.getContent()));
+      return result;
+    }
+    return null;
+  }
 }

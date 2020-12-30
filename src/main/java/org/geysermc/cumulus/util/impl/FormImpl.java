@@ -40,85 +40,92 @@ import org.geysermc.cumulus.util.FormType;
 
 @Getter
 public abstract class FormImpl implements Form {
-    protected static final Gson GSON = Forms.GSON;
+  protected static final Gson GSON = Forms.GSON;
 
-    private final FormType type;
-    protected String hardcodedJsonData = null;
-    @Setter protected Consumer<String> responseHandler;
+  private final FormType type;
+  protected String hardcodedJsonData = null;
+  @Setter protected Consumer<String> responseHandler;
 
-    public FormImpl(FormType type) {
-        this.type = type;
+  public FormImpl(FormType type) {
+    this.type = type;
+  }
+
+  @Override
+  @NonNull
+  public String getJsonData() {
+    if (hardcodedJsonData != null) {
+      return hardcodedJsonData;
+    }
+    return GSON.toJson(this);
+  }
+
+  @Override
+  public boolean isClosed(@Nullable String response) {
+    return response == null || response.isEmpty() || response.equalsIgnoreCase("null");
+  }
+
+  public abstract static class Builder<T extends FormBuilder<T, F>, F extends Form>
+      implements FormBuilder<T, F> {
+
+    protected String title = "";
+
+    protected BiFunction<String, String, String> translationHandler = null;
+    protected BiConsumer<F, String> biResponseHandler;
+    protected Consumer<String> responseHandler;
+    protected String locale;
+
+    @Override
+    @NonNull
+    public T title(@NonNull String title) {
+      this.title = translate(title);
+      return self();
     }
 
     @Override
-    public @NonNull String getJsonData() {
-        if (hardcodedJsonData != null) {
-            return hardcodedJsonData;
-        }
-        return GSON.toJson(this);
+    @NonNull
+    public T translator(
+        @NonNull BiFunction<String, String, String> translator,
+        @NonNull String locale
+    ) {
+      this.translationHandler = translator;
+      this.locale = locale;
+      return title(title);
     }
 
     @Override
-    public boolean isClosed(@Nullable String response) {
-        return response == null || response.isEmpty() || response.equalsIgnoreCase("null");
+    @NonNull
+    public T translator(@NonNull BiFunction<String, String, String> translator) {
+      return translator(translator, locale);
     }
 
-    public static abstract class Builder<T extends FormBuilder<T, F>, F extends Form>
-            implements FormBuilder<T, F> {
-
-        protected String title = "";
-
-        protected BiFunction<String, String, String> translationHandler = null;
-        protected BiConsumer<F, String> biResponseHandler;
-        protected Consumer<String> responseHandler;
-        protected String locale;
-
-        @Override
-        public @NonNull T title(@NonNull String title) {
-            this.title = translate(title);
-            return self();
-        }
-
-        @Override
-        public @NonNull T translator(
-                @NonNull BiFunction<String, String, String> translator,
-                @NonNull String locale
-        ) {
-            this.translationHandler = translator;
-            this.locale = locale;
-            return title(title);
-        }
-
-        @Override
-        public @NonNull T translator(@NonNull BiFunction<String, String, String> translator) {
-            return translator(translator, locale);
-        }
-
-        @Override
-        public @NonNull T responseHandler(@NonNull BiConsumer<F, String> responseHandler) {
-            biResponseHandler = responseHandler;
-            return self();
-        }
-
-        @Override
-        public @NonNull T responseHandler(@NonNull Consumer<String> responseHandler) {
-            this.responseHandler = responseHandler;
-            return self();
-        }
-
-        @Override
-        public abstract @NonNull F build();
-
-        protected String translate(String text) {
-            if (translationHandler != null && text != null && !text.isEmpty()) {
-                return translationHandler.apply(text, locale);
-            }
-            return text;
-        }
-
-        @SuppressWarnings("unchecked")
-        protected T self() {
-            return (T) this;
-        }
+    @Override
+    @NonNull
+    public T responseHandler(@NonNull BiConsumer<F, String> responseHandler) {
+      biResponseHandler = responseHandler;
+      return self();
     }
+
+    @Override
+    @NonNull
+    public T responseHandler(@NonNull Consumer<String> responseHandler) {
+      this.responseHandler = responseHandler;
+      return self();
+    }
+
+    @Override
+    @NonNull
+    public abstract F build();
+
+    protected String translate(String text) {
+      if (translationHandler != null && text != null && !text.isEmpty()) {
+        return translationHandler.apply(text, locale);
+      }
+      return text;
+    }
+
+    @SuppressWarnings("unchecked")
+    protected T self() {
+      return (T) this;
+    }
+  }
 }

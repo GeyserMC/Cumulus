@@ -37,40 +37,39 @@ import com.google.gson.annotations.SerializedName;
  *     <li>{@link org.geysermc.cumulus.component.StepSliderComponent Step Slider Component}</li>
  *     <li>{@link org.geysermc.cumulus.component.ToggleComponent Toggle Component}</li>
  * </ul>
- * <p>
  * For more information and for code examples look at
  * <a href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
  *
  * @since 1.0
  */
 public enum ComponentType {
-    @SerializedName("dropdown")
-    DROPDOWN,
-    @SerializedName("input")
-    INPUT,
-    @SerializedName("label")
-    LABEL,
-    @SerializedName("slider")
-    SLIDER,
-    @SerializedName("step_slider")
-    STEP_SLIDER,
-    @SerializedName("toggle")
-    TOGGLE;
+  @SerializedName("dropdown")
+  DROPDOWN,
+  @SerializedName("input")
+  INPUT,
+  @SerializedName("label")
+  LABEL,
+  @SerializedName("slider")
+  SLIDER,
+  @SerializedName("step_slider")
+  STEP_SLIDER,
+  @SerializedName("toggle")
+  TOGGLE;
 
-    private static final ComponentType[] VALUES = values();
+  private static final ComponentType[] VALUES = values();
 
-    private final String name = name().toLowerCase();
+  private final String name = name().toLowerCase();
 
-    public static ComponentType getByName(String name) {
-        for (ComponentType type : VALUES) {
-            if (type.name.equals(name)) {
-                return type;
-            }
-        }
-        return null;
+  public static ComponentType getByName(String name) {
+    for (ComponentType type : VALUES) {
+      if (type.name.equals(name)) {
+        return type;
+      }
     }
+    return null;
+  }
 
-    public String getName() {
-        return this.name;
-    }
+  public String getName() {
+    return this.name;
+  }
 }

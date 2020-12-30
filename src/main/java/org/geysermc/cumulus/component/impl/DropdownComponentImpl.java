@@ -36,63 +36,63 @@ import org.geysermc.cumulus.util.ComponentType;
 
 @Getter
 public final class DropdownComponentImpl extends Component implements DropdownComponent {
-    private final List<String> options;
-    @SerializedName("default")
-    private final int defaultOption;
+  private final List<String> options;
+  @SerializedName("default")
+  private final int defaultOption;
 
-    public DropdownComponentImpl(String text, List<String> options, int defaultOption) {
-        super(ComponentType.DROPDOWN, text);
-        this.options = Collections.unmodifiableList(options);
+  public DropdownComponentImpl(String text, List<String> options, int defaultOption) {
+    super(ComponentType.DROPDOWN, text);
+    this.options = Collections.unmodifiableList(options);
 
-        if (defaultOption == -1 || defaultOption >= options.size()) {
-            defaultOption = 0;
-        }
-        this.defaultOption = defaultOption;
+    if (defaultOption == -1 || defaultOption >= options.size()) {
+      defaultOption = 0;
+    }
+    this.defaultOption = defaultOption;
+  }
+
+  public static class Builder implements DropdownComponent.Builder {
+    private final List<String> options = new ArrayList<>();
+    private String text;
+    private int defaultOption = 0;
+
+    @Override
+    public Builder text(String text) {
+      this.text = text;
+      return this;
     }
 
-    public static class Builder implements DropdownComponent.Builder {
-        private final List<String> options = new ArrayList<>();
-        private String text;
-        private int defaultOption = 0;
-
-        @Override
-        public Builder text(String text) {
-            this.text = text;
-            return this;
-        }
-
-        @Override
-        public Builder option(String option, boolean isDefault) {
-            options.add(option);
-            if (isDefault) {
-                defaultOption = options.size() - 1;
-            }
-            return this;
-        }
-
-        @Override
-        public Builder option(String option) {
-            return option(option, false);
-        }
-
-        @Override
-        public Builder defaultOption(int defaultOption) {
-            this.defaultOption = defaultOption;
-            return this;
-        }
-
-        @Override
-        public DropdownComponentImpl build() {
-            return new DropdownComponentImpl(text, options, defaultOption);
-        }
-
-        @Override
-        public DropdownComponentImpl translateAndBuild(Function<String, String> translator) {
-            for (int i = 0; i < options.size(); i++) {
-                options.set(i, translator.apply(options.get(i)));
-            }
-
-            return new DropdownComponentImpl(translator.apply(text), options, defaultOption);
-        }
+    @Override
+    public Builder option(String option, boolean isDefault) {
+      options.add(option);
+      if (isDefault) {
+        defaultOption = options.size() - 1;
+      }
+      return this;
     }
+
+    @Override
+    public Builder option(String option) {
+      return option(option, false);
+    }
+
+    @Override
+    public Builder defaultOption(int defaultOption) {
+      this.defaultOption = defaultOption;
+      return this;
+    }
+
+    @Override
+    public DropdownComponentImpl build() {
+      return new DropdownComponentImpl(text, options, defaultOption);
+    }
+
+    @Override
+    public DropdownComponentImpl translateAndBuild(Function<String, String> translator) {
+      for (int i = 0; i < options.size(); i++) {
+        options.set(i, translator.apply(options.get(i)));
+      }
+
+      return new DropdownComponentImpl(translator.apply(text), options, defaultOption);
+    }
+  }
 }

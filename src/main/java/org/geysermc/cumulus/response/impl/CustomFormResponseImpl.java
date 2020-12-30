@@ -44,164 +44,164 @@ import org.geysermc.cumulus.util.ComponentType;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
 public final class CustomFormResponseImpl implements CustomFormResponse {
-    private static final Gson GSON = new Gson();
-    private static final CustomFormResponseImpl CLOSED =
-            new CustomFormResponseImpl(true, false, null, null);
-    private static final CustomFormResponseImpl INVALID =
-            new CustomFormResponseImpl(false, true, null, null);
+  private static final Gson GSON = new Gson();
+  private static final CustomFormResponseImpl CLOSED =
+      new CustomFormResponseImpl(true, false, null, null);
+  private static final CustomFormResponseImpl INVALID =
+      new CustomFormResponseImpl(false, true, null, null);
 
-    private final boolean closed;
-    private final boolean invalid;
+  private final boolean closed;
+  private final boolean invalid;
 
-    private final JsonArray responses;
-    private final List<ComponentType> componentTypes;
+  private final JsonArray responses;
+  private final List<ComponentType> componentTypes;
 
-    private int index = -1;
+  private int index = -1;
 
-    public static CustomFormResponseImpl closed() {
-        return CLOSED;
+  public static CustomFormResponseImpl closed() {
+    return CLOSED;
+  }
+
+  public static CustomFormResponseImpl invalid() {
+    return INVALID;
+  }
+
+  public static CustomFormResponseImpl of(CustomFormImpl form, String responseData) {
+    JsonArray responses = GSON.fromJson(responseData, JsonArray.class);
+    List<ComponentType> types = new ArrayList<>();
+    for (Component component : form.getContent()) {
+      types.add(component.getType());
+    }
+    return of(types, responses);
+  }
+
+  public static CustomFormResponseImpl of(List<ComponentType> componentTypes,
+                                          JsonArray responses) {
+    if (componentTypes.size() != responses.size()) {
+      return invalid();
     }
 
-    public static CustomFormResponseImpl invalid() {
-        return INVALID;
+    return new CustomFormResponseImpl(false, false, responses,
+        Collections.unmodifiableList(componentTypes));
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public <T> T next(boolean includeLabels) {
+    if (!hasNext()) {
+      return null;
     }
 
-    public static CustomFormResponseImpl of(CustomFormImpl form, String responseData) {
-        JsonArray responses = GSON.fromJson(responseData, JsonArray.class);
-        List<ComponentType> types = new ArrayList<>();
-        for (Component component : form.getContent()) {
-            types.add(component.getType());
-        }
-        return of(types, responses);
+    while (++index < responses.size()) {
+      ComponentType type = componentTypes.get(index);
+      if (type == ComponentType.LABEL && !includeLabels) {
+        continue;
+      }
+      return (T) getDataFromType(type, index);
     }
+    return null; // we don't have anything to check anymore
+  }
 
-    public static CustomFormResponseImpl of(List<ComponentType> componentTypes,
-                                            JsonArray responses) {
-        if (componentTypes.size() != responses.size()) {
-            return invalid();
-        }
+  @Override
+  public <T> T next() {
+    return next(false);
+  }
 
-        return new CustomFormResponseImpl(false, false, responses,
-                Collections.unmodifiableList(componentTypes));
+  @Override
+  public void skip(int amount) {
+    index += amount;
+  }
+
+  @Override
+  public void skip() {
+    skip(1);
+  }
+
+  @Override
+  public void index(int index) {
+    this.index = index;
+  }
+
+  @Override
+  public boolean hasNext() {
+    return responses.size() > index + 1;
+  }
+
+  @Override
+  public JsonPrimitive get(int index) {
+    try {
+      return responses.get(index).getAsJsonPrimitive();
+    } catch (IllegalStateException exception) {
+      wrongType(index, "a primitive");
+      return null;
     }
+  }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> T next(boolean includeLabels) {
-        if (!hasNext()) {
-            return null;
-        }
-
-        while (++index < responses.size()) {
-            ComponentType type = componentTypes.get(index);
-            if (type == ComponentType.LABEL && !includeLabels) {
-                continue;
-            }
-            return (T) getDataFromType(type, index);
-        }
-        return null; // we don't have anything to check anymore
+  @Override
+  public int getDropdown(int index) {
+    JsonPrimitive primitive = get(index);
+    if (!primitive.isNumber()) {
+      wrongType(index, "dropdown");
     }
+    return primitive.getAsInt();
+  }
 
-    @Override
-    public <T> T next() {
-        return next(false);
+  @Override
+  public String getInput(int index) {
+    JsonPrimitive primitive = get(index);
+    if (!primitive.isString()) {
+      wrongType(index, "input");
     }
+    return primitive.getAsString();
+  }
 
-    @Override
-    public void skip(int amount) {
-        index += amount;
+  @Override
+  public float getSlider(int index) {
+    JsonPrimitive primitive = get(index);
+    if (!primitive.isNumber()) {
+      wrongType(index, "slider");
     }
+    return primitive.getAsFloat();
+  }
 
-    @Override
-    public void skip() {
-        skip(1);
+  @Override
+  public int getStepSlide(int index) {
+    JsonPrimitive primitive = get(index);
+    if (!primitive.isNumber()) {
+      wrongType(index, "step slider");
     }
+    return primitive.getAsInt();
+  }
 
-    @Override
-    public void index(int index) {
-        this.index = index;
+  @Override
+  public boolean getToggle(int index) {
+    JsonPrimitive primitive = get(index);
+    if (!primitive.isBoolean()) {
+      wrongType(index, "toggle");
     }
+    return primitive.getAsBoolean();
+  }
 
-    @Override
-    public boolean hasNext() {
-        return responses.size() > index + 1;
+  private Object getDataFromType(ComponentType type, int index) {
+    switch (type) {
+      case DROPDOWN:
+        return getDropdown(index);
+      case INPUT:
+        return getInput(index);
+      case SLIDER:
+        return getSlider(index);
+      case STEP_SLIDER:
+        return getStepSlide(index);
+      case TOGGLE:
+        return getToggle(index);
+      default:
+        return null; // label e.g. is always null
     }
+  }
 
-    @Override
-    public JsonPrimitive get(int index) {
-        try {
-            return responses.get(index).getAsJsonPrimitive();
-        } catch (IllegalStateException exception) {
-            wrongType(index, "a primitive");
-            return null;
-        }
-    }
-
-    @Override
-    public int getDropdown(int index) {
-        JsonPrimitive primitive = get(index);
-        if (!primitive.isNumber()) {
-            wrongType(index, "dropdown");
-        }
-        return primitive.getAsInt();
-    }
-
-    @Override
-    public String getInput(int index) {
-        JsonPrimitive primitive = get(index);
-        if (!primitive.isString()) {
-            wrongType(index, "input");
-        }
-        return primitive.getAsString();
-    }
-
-    @Override
-    public float getSlider(int index) {
-        JsonPrimitive primitive = get(index);
-        if (!primitive.isNumber()) {
-            wrongType(index, "slider");
-        }
-        return primitive.getAsFloat();
-    }
-
-    @Override
-    public int getStepSlide(int index) {
-        JsonPrimitive primitive = get(index);
-        if (!primitive.isNumber()) {
-            wrongType(index, "step slider");
-        }
-        return primitive.getAsInt();
-    }
-
-    @Override
-    public boolean getToggle(int index) {
-        JsonPrimitive primitive = get(index);
-        if (!primitive.isBoolean()) {
-            wrongType(index, "toggle");
-        }
-        return primitive.getAsBoolean();
-    }
-
-    private Object getDataFromType(ComponentType type, int index) {
-        switch (type) {
-            case DROPDOWN:
-                return getDropdown(index);
-            case INPUT:
-                return getInput(index);
-            case SLIDER:
-                return getSlider(index);
-            case STEP_SLIDER:
-                return getStepSlide(index);
-            case TOGGLE:
-                return getToggle(index);
-            default:
-                return null; // label e.g. is always null
-        }
-    }
-
-    private void wrongType(int index, String expected) {
-        throw new IllegalStateException(String.format(
-                "Expected %s on %s, got %s",
-                expected, index, responses.get(index).toString()));
-    }
+  private void wrongType(int index, String expected) {
+    throw new IllegalStateException(String.format(
+        "Expected %s on %s, got %s",
+        expected, index, responses.get(index).toString()));
+  }
 }

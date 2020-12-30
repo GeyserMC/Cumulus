@@ -31,14 +31,14 @@ import org.geysermc.cumulus.util.ComponentType;
 
 @Getter
 public abstract class Component {
-    private final ComponentType type;
-    private final String text;
+  private final ComponentType type;
+  private final String text;
 
-    Component(ComponentType type, String text) {
-        Objects.requireNonNull(type, "Type cannot be null");
-        Objects.requireNonNull(text, "Text cannot be null");
+  Component(ComponentType type, String text) {
+    Objects.requireNonNull(type, "Type cannot be null");
+    Objects.requireNonNull(text, "Text cannot be null");
 
-        this.type = type;
-        this.text = text;
-    }
+    this.type = type;
+    this.text = text;
+  }
 }

@@ -44,83 +44,89 @@ import org.geysermc.cumulus.util.impl.FormImpl;
 @Getter
 @JsonAdapter(FormAdaptor.class)
 public final class SimpleFormImpl extends FormImpl implements SimpleForm {
-    private final String title;
-    private final String content;
-    private final List<ButtonComponent> buttons;
+  private final String title;
+  private final String content;
+  private final List<ButtonComponent> buttons;
 
-    public SimpleFormImpl(
-            @NonNull String title,
-            @NonNull String content,
-            @NonNull List<ButtonComponent> buttons
+  public SimpleFormImpl(
+      @NonNull String title,
+      @NonNull String content,
+      @NonNull List<ButtonComponent> buttons
+  ) {
+    super(FormType.SIMPLE_FORM);
+
+    this.title = title;
+    this.content = content;
+    this.buttons = Collections.unmodifiableList(buttons);
+  }
+
+  @NonNull
+  public SimpleFormResponse parseResponse(@Nullable String data) {
+    if (isClosed(data)) {
+      return SimpleFormResponseImpl.closed();
+    }
+    //noinspection ConstantConditions
+    data = data.trim();
+
+    int buttonId;
+    try {
+      buttonId = Integer.parseInt(data);
+    } catch (Exception exception) {
+      return SimpleFormResponseImpl.invalid();
+    }
+
+    if (buttonId >= buttons.size()) {
+      return SimpleFormResponseImpl.invalid();
+    }
+
+    return SimpleFormResponseImpl.of(buttonId, buttons.get(buttonId));
+  }
+
+  public static final class Builder extends FormImpl.Builder<SimpleForm.Builder, SimpleForm>
+      implements SimpleForm.Builder {
+
+    private final List<ButtonComponent> buttons = new ArrayList<>();
+    private String content = "";
+
+    @NonNull
+    public Builder content(@NonNull String content) {
+      this.content = translate(content);
+      return this;
+    }
+
+    @NonNull
+    public Builder button(
+        @NonNull String text,
+        FormImage.@NonNull Type type,
+        @NonNull String data
     ) {
-        super(FormType.SIMPLE_FORM);
-
-        this.title = title;
-        this.content = content;
-        this.buttons = Collections.unmodifiableList(buttons);
+      buttons.add(ButtonComponent.of(translate(text), type, data));
+      return this;
     }
 
-    public @NonNull SimpleFormResponse parseResponse(@Nullable String data) {
-        if (isClosed(data)) {
-            return SimpleFormResponseImpl.closed();
-        }
-        //noinspection ConstantConditions
-        data = data.trim();
-
-        int buttonId;
-        try {
-            buttonId = Integer.parseInt(data);
-        } catch (Exception exception) {
-            return SimpleFormResponseImpl.invalid();
-        }
-
-        if (buttonId >= buttons.size()) {
-            return SimpleFormResponseImpl.invalid();
-        }
-
-        return SimpleFormResponseImpl.of(buttonId, buttons.get(buttonId));
+    @NonNull
+    public Builder button(@NonNull String text, @NonNull FormImage image) {
+      buttons.add(ButtonComponent.of(translate(text), image));
+      return this;
     }
 
-    public static final class Builder extends FormImpl.Builder<SimpleForm.Builder, SimpleForm>
-            implements SimpleForm.Builder {
-
-        private final List<ButtonComponent> buttons = new ArrayList<>();
-        private String content = "";
-
-        public @NonNull Builder content(@NonNull String content) {
-            this.content = translate(content);
-            return this;
-        }
-
-        public @NonNull Builder button(
-                @NonNull String text,
-                FormImage.@NonNull Type type,
-                @NonNull String data
-        ) {
-            buttons.add(ButtonComponent.of(translate(text), type, data));
-            return this;
-        }
-
-        public @NonNull Builder button(@NonNull String text, @NonNull FormImage image) {
-            buttons.add(ButtonComponent.of(translate(text), image));
-            return this;
-        }
-
-        public @NonNull Builder button(@NonNull String text) {
-            buttons.add(ButtonComponent.of(translate(text)));
-            return this;
-        }
-
-        @Override
-        public @NonNull SimpleForm build() {
-            SimpleFormImpl form = new SimpleFormImpl(title, content, buttons);
-            if (biResponseHandler != null) {
-                form.setResponseHandler(response -> biResponseHandler.accept(form, response));
-                return form;
-            }
-
-            form.setResponseHandler(responseHandler);
-            return form;
-        }
+    @NonNull
+    public Builder button(@NonNull String text) {
+      buttons.add(ButtonComponent.of(translate(text)));
+      return this;
     }
+
+    @Override
+    @NonNull
+    public SimpleForm build() {
+      SimpleFormImpl form = new SimpleFormImpl(title, content, buttons);
+      if (biResponseHandler != null) {
+        form.setResponseHandler(response -> biResponseHandler.accept(form, response));
+        return form;
+      }
+
+      form.setResponseHandler(responseHandler);
+      return form;
+    }
+  }
 }

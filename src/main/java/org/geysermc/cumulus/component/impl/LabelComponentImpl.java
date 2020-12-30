@@ -31,7 +31,7 @@ import org.geysermc.cumulus.util.ComponentType;
 
 @Getter
 public final class LabelComponentImpl extends Component implements LabelComponent {
-    public LabelComponentImpl(String text) {
-        super(ComponentType.LABEL, text);
-    }
+  public LabelComponentImpl(String text) {
+    super(ComponentType.LABEL, text);
+  }
 }

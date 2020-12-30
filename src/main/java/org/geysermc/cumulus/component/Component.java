@@ -28,7 +28,7 @@ package org.geysermc.cumulus.component;
 import org.geysermc.cumulus.util.ComponentType;
 
 public interface Component {
-    ComponentType getType();
+  ComponentType getType();
 
-    String getText();
+  String getText();
 }

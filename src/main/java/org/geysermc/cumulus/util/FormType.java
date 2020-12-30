@@ -34,23 +34,22 @@ import com.google.gson.annotations.SerializedName;
  *     <li>{@link org.geysermc.cumulus.ModalForm Modal Form}</li>
  *     <li>{@link org.geysermc.cumulus.CustomForm Custom Form}</li>
  * </ul>
- * <p>
  * For more information and for code examples look at
  * <a href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
  *
  * @since 1.0
  */
 public enum FormType {
-    @SerializedName("form")
-    SIMPLE_FORM,
-    @SerializedName("modal")
-    MODAL_FORM,
-    @SerializedName("custom_form")
-    CUSTOM_FORM;
+  @SerializedName("form")
+  SIMPLE_FORM,
+  @SerializedName("modal")
+  MODAL_FORM,
+  @SerializedName("custom_form")
+  CUSTOM_FORM;
 
-    private static final FormType[] VALUES = values();
+  private static final FormType[] VALUES = values();
 
-    public static FormType getByOrdinal(int ordinal) {
-        return ordinal < VALUES.length ? VALUES[ordinal] : null;
-    }
+  public static FormType getByOrdinal(int ordinal) {
+    return ordinal < VALUES.length ? VALUES[ordinal] : null;
+  }
 }

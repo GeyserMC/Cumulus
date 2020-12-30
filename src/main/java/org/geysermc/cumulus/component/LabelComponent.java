@@ -28,7 +28,7 @@ package org.geysermc.cumulus.component;
 import org.geysermc.cumulus.component.impl.LabelComponentImpl;
 
 public interface LabelComponent extends Component {
-    static LabelComponent of(String text) {
-        return new LabelComponentImpl(text);
-    }
+  static LabelComponent of(String text) {
+    return new LabelComponentImpl(text);
+  }
 }

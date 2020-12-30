@@ -26,11 +26,11 @@
 package org.geysermc.cumulus.response;
 
 public interface FormResponse {
-    boolean isClosed();
+  boolean isClosed();
 
-    boolean isInvalid();
+  boolean isInvalid();
 
-    default boolean isCorrect() {
-        return !isClosed() && !isInvalid();
-    }
+  default boolean isCorrect() {
+    return !isClosed() && !isInvalid();
+  }
 }

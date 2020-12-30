@@ -32,13 +32,13 @@ import org.geysermc.cumulus.util.ComponentType;
 
 @Getter
 public final class InputComponentImpl extends Component implements InputComponent {
-    private final String placeholder;
-    @SerializedName("default")
-    private final String defaultText;
+  private final String placeholder;
+  @SerializedName("default")
+  private final String defaultText;
 
-    public InputComponentImpl(String text, String placeholder, String defaultText) {
-        super(ComponentType.INPUT, text);
-        this.placeholder = placeholder;
-        this.defaultText = defaultText;
-    }
+  public InputComponentImpl(String text, String placeholder, String defaultText) {
+    super(ComponentType.INPUT, text);
+    this.placeholder = placeholder;
+    this.defaultText = defaultText;
+  }
 }

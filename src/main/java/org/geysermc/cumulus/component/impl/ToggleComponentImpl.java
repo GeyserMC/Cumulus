@@ -30,15 +30,15 @@ import org.geysermc.cumulus.component.ToggleComponent;
 import org.geysermc.cumulus.util.ComponentType;
 
 public final class ToggleComponentImpl extends Component implements ToggleComponent {
-    @SerializedName("default")
-    private final boolean defaultValue;
+  @SerializedName("default")
+  private final boolean defaultValue;
 
-    public ToggleComponentImpl(String text, boolean defaultValue) {
-        super(ComponentType.TOGGLE, text);
-        this.defaultValue = defaultValue;
-    }
+  public ToggleComponentImpl(String text, boolean defaultValue) {
+    super(ComponentType.TOGGLE, text);
+    this.defaultValue = defaultValue;
+  }
 
-    public boolean getDefaultValue() {
-        return defaultValue;
-    }
+  public boolean getDefaultValue() {
+    return defaultValue;
+  }
 }

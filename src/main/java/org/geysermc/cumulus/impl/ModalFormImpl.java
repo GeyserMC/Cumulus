@@ -39,72 +39,77 @@ import org.geysermc.cumulus.util.impl.FormImpl;
 @Getter
 @JsonAdapter(FormAdaptor.class)
 public final class ModalFormImpl extends FormImpl implements ModalForm {
-    private final String title;
-    private final String content;
-    private final String button1;
-    private final String button2;
+  private final String title;
+  private final String content;
+  private final String button1;
+  private final String button2;
 
-    public ModalFormImpl(
-            @NonNull String title,
-            @NonNull String content,
-            @NonNull String button1,
-            @NonNull String button2
-    ) {
-        super(FormType.MODAL_FORM);
+  public ModalFormImpl(
+      @NonNull String title,
+      @NonNull String content,
+      @NonNull String button1,
+      @NonNull String button2
+  ) {
+    super(FormType.MODAL_FORM);
 
-        this.title = title;
-        this.content = content;
-        this.button1 = button1;
-        this.button2 = button2;
+    this.title = title;
+    this.content = content;
+    this.button1 = button1;
+    this.button2 = button2;
+  }
+
+  @NonNull
+  public ModalFormResponse parseResponse(@Nullable String data) {
+    if (isClosed(data)) {
+      return ModalFormResponseImpl.closed();
+    }
+    //noinspection ConstantConditions
+    data = data.trim();
+
+    if ("true".equals(data)) {
+      return ModalFormResponseImpl.of(0, button1);
+    } else if ("false".equals(data)) {
+      return ModalFormResponseImpl.of(1, button2);
+    }
+    return ModalFormResponseImpl.invalid();
+  }
+
+  public static final class Builder extends FormImpl.Builder<ModalForm.Builder, ModalForm>
+      implements ModalForm.Builder {
+
+    private String content = "";
+    private String button1 = "";
+    private String button2 = "";
+
+    @NonNull
+    public Builder content(@NonNull String content) {
+      this.content = translate(content);
+      return this;
     }
 
-    public @NonNull ModalFormResponse parseResponse(@Nullable String data) {
-        if (isClosed(data)) {
-            return ModalFormResponseImpl.closed();
-        }
-        //noinspection ConstantConditions
-        data = data.trim();
-
-        if ("true".equals(data)) {
-            return ModalFormResponseImpl.of(0, button1);
-        } else if ("false".equals(data)) {
-            return ModalFormResponseImpl.of(1, button2);
-        }
-        return ModalFormResponseImpl.invalid();
+    @NonNull
+    public Builder button1(@NonNull String button1) {
+      this.button1 = translate(button1);
+      return this;
     }
 
-    public static final class Builder extends FormImpl.Builder<ModalForm.Builder, ModalForm>
-            implements ModalForm.Builder {
-
-        private String content = "";
-        private String button1 = "";
-        private String button2 = "";
-
-        public @NonNull Builder content(@NonNull String content) {
-            this.content = translate(content);
-            return this;
-        }
-
-        public @NonNull Builder button1(@NonNull String button1) {
-            this.button1 = translate(button1);
-            return this;
-        }
-
-        public @NonNull Builder button2(@NonNull String button2) {
-            this.button2 = translate(button2);
-            return this;
-        }
-
-        @Override
-        public @NonNull ModalForm build() {
-            ModalFormImpl form = new ModalFormImpl(title, content, button1, button2);
-            if (biResponseHandler != null) {
-                form.setResponseHandler(response -> biResponseHandler.accept(form, response));
-                return form;
-            }
-
-            form.setResponseHandler(responseHandler);
-            return form;
-        }
+    @NonNull
+    public Builder button2(@NonNull String button2) {
+      this.button2 = translate(button2);
+      return this;
     }
+
+    @Override
+    @NonNull
+    public ModalForm build() {
+      ModalFormImpl form = new ModalFormImpl(title, content, button1, button2);
+      if (biResponseHandler != null) {
+        form.setResponseHandler(response -> biResponseHandler.accept(form, response));
+        return form;
+      }
+
+      form.setResponseHandler(responseHandler);
+      return form;
+    }
+  }
 }
