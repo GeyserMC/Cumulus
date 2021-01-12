@@ -54,39 +54,42 @@ public final class FormAdaptor implements JsonDeserializer<FormImpl>, JsonSerial
       new TypeToken<List<ButtonComponentImpl>>() {}.getType();
 
   @Override
-  public FormImpl deserialize(JsonElement jsonElement, Type typeOfT,
-                              JsonDeserializationContext context)
+  public FormImpl deserialize(JsonElement element, Type typeOfT, JsonDeserializationContext context)
       throws JsonParseException {
 
-    if (!jsonElement.isJsonObject()) {
+    if (!element.isJsonObject()) {
       throw new JsonParseException("Form has to be a JsonObject");
     }
-    JsonObject json = jsonElement.getAsJsonObject();
+
+    JsonObject json = element.getAsJsonObject();
 
     if (typeOfT == SimpleFormImpl.class) {
-      String title = json.get("title").getAsString();
-      String content = json.get("content").getAsString();
-      List<ButtonComponent> buttons = context
-          .deserialize(json.get("buttons"), LIST_BUTTON_TYPE);
+      String title = Forms.getOrThrow(json, "title").getAsString();
+      String content = Forms.getOrThrow(json, "content").getAsString();
+
+      JsonElement buttonsElement = Forms.getOrThrow(json, "buttons");
+      List<ButtonComponent> buttons = context.deserialize(buttonsElement, LIST_BUTTON_TYPE);
+
       return new SimpleFormImpl(title, content, buttons);
     }
 
     if (typeOfT == ModalFormImpl.class) {
-      String title = json.get("title").getAsString();
-      String content = json.get("content").getAsString();
-      String button1 = json.get("button1").getAsString();
-      String button2 = json.get("button2").getAsString();
+      String title = Forms.getOrThrow(json, "title").getAsString();
+      String content = Forms.getOrThrow(json, "content").getAsString();
+      String button1 = Forms.getOrThrow(json, "button1").getAsString();
+      String button2 = Forms.getOrThrow(json, "button2").getAsString();
       return new ModalFormImpl(title, content, button1, button2);
     }
 
     if (typeOfT == CustomFormImpl.class) {
-      String title = json.get("title").getAsString();
-      FormImage icon = context.deserialize(json.get("icon"), FormImageImpl.class);
+      String title = Forms.getOrThrow(json, "title").getAsString();
+      FormImage icon = context.deserialize(Forms.getOrThrow(json, "icon"), FormImageImpl.class);
+
       List<Component> content = new ArrayList<>();
 
-      JsonArray contentArray = json.getAsJsonArray("content");
+      JsonArray contentArray = Forms.getOrThrow(json, "content").getAsJsonArray();
       for (JsonElement contentElement : contentArray) {
-        String typeName = contentElement.getAsJsonObject().get("type").getAsString();
+        String typeName = Forms.getOrThrow(contentElement.getAsJsonObject(), "type").getAsString();
 
         ComponentType type = ComponentType.getByName(typeName);
         if (type == null) {

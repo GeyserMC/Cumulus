@@ -82,6 +82,8 @@ public interface FormImage {
 
     private static final Type[] VALUES = values();
 
+    private final String name = name().toLowerCase();
+
     public static Type getByName(@NonNull String name) {
       String upper = name.toUpperCase();
       for (Type value : VALUES) {
@@ -90,6 +92,10 @@ public interface FormImage {
         }
       }
       return null;
+    }
+
+    public String getName() {
+      return name;
     }
   }
 }

@@ -27,6 +27,8 @@ package org.geysermc.cumulus;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.Component;
 import org.geysermc.cumulus.component.impl.DropdownComponentImpl;
@@ -39,14 +41,17 @@ import org.geysermc.cumulus.impl.CustomFormImpl;
 import org.geysermc.cumulus.impl.ModalFormImpl;
 import org.geysermc.cumulus.impl.SimpleFormImpl;
 import org.geysermc.cumulus.util.ComponentType;
+import org.geysermc.cumulus.util.FormImage;
 import org.geysermc.cumulus.util.FormType;
 import org.geysermc.cumulus.util.impl.FormAdaptor;
+import org.geysermc.cumulus.util.impl.FormImageAdaptor;
 import org.geysermc.cumulus.util.impl.FormImpl;
 
 public final class Forms {
   public static final Gson GSON =
       new GsonBuilder()
           .registerTypeAdapter(FormImpl.class, new FormAdaptor())
+          .registerTypeAdapter(FormImage.class, new FormImageAdaptor())
           .create();
 
   /**
@@ -107,5 +112,15 @@ public final class Forms {
       default:
         throw new RuntimeException("Cannot find implementation for ComponentType " + type);
     }
+  }
+
+  @NonNull
+  public static JsonElement getOrThrow(@NonNull JsonObject object, @NonNull String memberName) {
+    JsonElement member = object.get(memberName);
+    if (member == null) {
+      throw new IllegalStateException(
+          "Excepted to find a member named '" + memberName + "' in the JsonObject!");
+    }
+    return member;
   }
 }
