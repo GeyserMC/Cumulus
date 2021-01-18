@@ -83,7 +83,7 @@ public final class FormAdaptor implements JsonDeserializer<FormImpl>, JsonSerial
 
     if (typeOfT == CustomFormImpl.class) {
       String title = Forms.getOrThrow(json, "title").getAsString();
-      FormImage icon = context.deserialize(Forms.getOrThrow(json, "icon"), FormImageImpl.class);
+      FormImage icon = context.deserialize(json.get("icon"), FormImageImpl.class);
 
       List<Component> content = new ArrayList<>();
 
