@@ -25,9 +25,12 @@
 
 package org.geysermc.cumulus.response;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 public interface ModalFormResponse extends FormResponse {
   int getClickedButtonId();
 
+  @Nullable
   String getClickedButtonText();
 
   boolean getResult();

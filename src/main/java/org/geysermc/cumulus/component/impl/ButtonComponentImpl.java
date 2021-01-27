@@ -25,9 +25,10 @@
 
 package org.geysermc.cumulus.component.impl;
 
-import static java.util.Objects.requireNonNull;
-
+import java.util.Objects;
 import lombok.Getter;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.ButtonComponent;
 import org.geysermc.cumulus.util.FormImage;
 
@@ -36,8 +37,8 @@ public final class ButtonComponentImpl implements ButtonComponent {
   private final String text;
   private final FormImage image;
 
-  public ButtonComponentImpl(String text, FormImage image) {
-    this.text = requireNonNull(text, "text");
+  public ButtonComponentImpl(@NonNull String text, @Nullable FormImage image) {
+    this.text = Objects.requireNonNull(text, "text");
     this.image = image;
   }
 }

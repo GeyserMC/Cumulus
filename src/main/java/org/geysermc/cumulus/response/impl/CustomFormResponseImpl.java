@@ -25,16 +25,20 @@
 
 package org.geysermc.cumulus.response.impl;
 
+import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonPrimitive;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.Component;
 import org.geysermc.cumulus.impl.CustomFormImpl;
 import org.geysermc.cumulus.response.CustomFormResponse;
@@ -66,7 +70,12 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
     return INVALID;
   }
 
-  public static CustomFormResponseImpl of(CustomFormImpl form, String responseData) {
+  @NonNull
+  public static CustomFormResponseImpl of(
+      @NonNull CustomFormImpl form,
+      @Nullable String responseData) {
+    Objects.requireNonNull(form, "form");
+
     JsonArray responses = GSON.fromJson(responseData, JsonArray.class);
     List<ComponentType> types = new ArrayList<>();
     for (Component component : form.getContent()) {
@@ -75,8 +84,13 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
     return of(types, responses);
   }
 
-  public static CustomFormResponseImpl of(List<ComponentType> componentTypes,
-                                          JsonArray responses) {
+  @NonNull
+  public static CustomFormResponseImpl of(
+      @NonNull List<ComponentType> componentTypes,
+      @NonNull JsonArray responses) {
+    Objects.requireNonNull(componentTypes, "componentTypes");
+    Objects.requireNonNull(responses, "responses");
+
     if (componentTypes.size() != responses.size()) {
       return invalid();
     }
@@ -86,6 +100,7 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
   }
 
   @Override
+  @Nullable
   @SuppressWarnings("unchecked")
   public <T> T next(boolean includeLabels) {
     if (!hasNext()) {
@@ -103,12 +118,14 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
   }
 
   @Override
+  @Nullable
   public <T> T next() {
     return next(false);
   }
 
   @Override
   public void skip(int amount) {
+    Preconditions.checkArgument(amount >= 1, "amount");
     index += amount;
   }
 
@@ -119,6 +136,7 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
 
   @Override
   public void index(int index) {
+    Preconditions.checkArgument(index >= 0, "index");
     this.index = index;
   }
 
@@ -128,7 +146,9 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
   }
 
   @Override
+  @Nullable
   public JsonPrimitive get(int index) {
+    Preconditions.checkArgument(index >= 0, "index");
     try {
       return responses.get(index).getAsJsonPrimitive();
     } catch (IllegalStateException exception) {
@@ -140,7 +160,7 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
   @Override
   public int getDropdown(int index) {
     JsonPrimitive primitive = get(index);
-    if (!primitive.isNumber()) {
+    if (primitive == null || !primitive.isNumber()) {
       wrongType(index, "dropdown");
     }
     return primitive.getAsInt();
@@ -149,7 +169,7 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
   @Override
   public String getInput(int index) {
     JsonPrimitive primitive = get(index);
-    if (!primitive.isString()) {
+    if (primitive == null || !primitive.isString()) {
       wrongType(index, "input");
     }
     return primitive.getAsString();
@@ -158,7 +178,7 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
   @Override
   public float getSlider(int index) {
     JsonPrimitive primitive = get(index);
-    if (!primitive.isNumber()) {
+    if (primitive == null || !primitive.isNumber()) {
       wrongType(index, "slider");
     }
     return primitive.getAsFloat();
@@ -167,7 +187,7 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
   @Override
   public int getStepSlide(int index) {
     JsonPrimitive primitive = get(index);
-    if (!primitive.isNumber()) {
+    if (primitive == null || !primitive.isNumber()) {
       wrongType(index, "step slider");
     }
     return primitive.getAsInt();
@@ -176,7 +196,7 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
   @Override
   public boolean getToggle(int index) {
     JsonPrimitive primitive = get(index);
-    if (!primitive.isBoolean()) {
+    if (primitive == null || !primitive.isBoolean()) {
       wrongType(index, "toggle");
     }
     return primitive.getAsBoolean();

@@ -25,13 +25,18 @@
 
 package org.geysermc.cumulus.util.impl;
 
+import java.util.Objects;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.util.FormImage;
 
 @Getter
-@RequiredArgsConstructor
 public final class FormImageImpl implements FormImage {
   private final Type type;
   private final String data;
+
+  public FormImageImpl(@NonNull Type type, @NonNull String data) {
+    this.type = Objects.requireNonNull(type, "type");
+    this.data = Objects.requireNonNull(data, "data");
+  }
 }

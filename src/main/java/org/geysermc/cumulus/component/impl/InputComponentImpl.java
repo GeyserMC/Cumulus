@@ -26,7 +26,9 @@
 package org.geysermc.cumulus.component.impl;
 
 import com.google.gson.annotations.SerializedName;
+import java.util.Objects;
 import lombok.Getter;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.InputComponent;
 import org.geysermc.cumulus.util.ComponentType;
 
@@ -36,9 +38,12 @@ public final class InputComponentImpl extends Component implements InputComponen
   @SerializedName("default")
   private final String defaultText;
 
-  public InputComponentImpl(String text, String placeholder, String defaultText) {
+  public InputComponentImpl(
+      @NonNull String text,
+      @NonNull String placeholder,
+      @NonNull String defaultText) {
     super(ComponentType.INPUT, text);
-    this.placeholder = placeholder;
-    this.defaultText = defaultText;
+    this.placeholder = Objects.requireNonNull(placeholder, "placeholder");
+    this.defaultText = Objects.requireNonNull(defaultText, "defaultText");
   }
 }

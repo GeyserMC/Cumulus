@@ -25,29 +25,41 @@
 
 package org.geysermc.cumulus.component;
 
+import org.checkerframework.checker.index.qual.Positive;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.impl.SliderComponentImpl;
 
 public interface SliderComponent extends Component {
-  static SliderComponent of(String text, float min, float max, int step, float defaultValue) {
+  @NonNull
+  static SliderComponent of(
+      @NonNull String text,
+      float min,
+      float max,
+      @Positive int step,
+      float defaultValue) {
     return new SliderComponentImpl(text, min, max, step, defaultValue);
   }
 
-  static SliderComponent of(String text, float min, float max, int step) {
-    return of(text, min, max, step, -1);
+  @NonNull
+  static SliderComponent of(@NonNull String text, float min, float max, @Positive int step) {
+    return of(text, min, max, step, 0);
   }
 
-  static SliderComponent of(String text, float min, float max, float defaultValue) {
-    return of(text, min, max, -1, defaultValue);
+  @NonNull
+  static SliderComponent of(@NonNull String text, float min, float max, float defaultValue) {
+    return of(text, min, max, 1, defaultValue);
   }
 
-  static SliderComponent of(String text, float min, float max) {
-    return of(text, min, max, -1, -1);
+  @NonNull
+  static SliderComponent of(@NonNull String text, float min, float max) {
+    return of(text, min, max, 1, 0);
   }
 
   float getMin();
 
   float getMax();
 
+  @Positive
   int getStep();
 
   float getDefaultValue();

@@ -25,12 +25,15 @@
 
 package org.geysermc.cumulus.component.impl;
 
+import com.google.common.base.Preconditions;
 import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 import lombok.Getter;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.StepSliderComponent;
 import org.geysermc.cumulus.util.ComponentType;
 
@@ -40,61 +43,73 @@ public final class StepSliderComponentImpl extends Component implements StepSlid
   @SerializedName("default")
   private final int defaultStep;
 
-  public StepSliderComponentImpl(String text, List<String> steps, int defaultStep) {
-    super(ComponentType.STEP_SLIDER, text != null ? text : "");
-    this.steps = Collections.unmodifiableList(steps);
+  public StepSliderComponentImpl(
+      @NonNull String text,
+      @NonNull List<String> steps,
+      int defaultStep) {
+    super(ComponentType.STEP_SLIDER, text);
+    Preconditions.checkArgument(defaultStep >= 0, "defaultStep");
 
-    if (defaultStep >= steps.size() || defaultStep == -1) {
+    this.steps = Collections.unmodifiableList(steps);
+    if (defaultStep >= steps.size()) {
       defaultStep = 0;
     }
-
     this.defaultStep = defaultStep;
   }
 
+  @NonNull
   public static Builder builder() {
     return new Builder();
   }
 
-  public static Builder builder(String text) {
+  @NonNull
+  public static Builder builder(@NonNull String text) {
     return builder().text(text);
   }
 
   public static final class Builder implements StepSliderComponent.Builder {
     private final List<String> steps = new ArrayList<>();
-    private String text;
+    private String text = "";
     private int defaultStep;
 
-    public Builder text(String text) {
-      this.text = text;
+    @NonNull
+    public Builder text(@NonNull String text) {
+      this.text = Objects.requireNonNull(text, "text");
       return this;
     }
 
-    public Builder step(String step, boolean defaultStep) {
-      steps.add(step);
+    @NonNull
+    public Builder step(@NonNull String step, boolean defaultStep) {
+      steps.add(Objects.requireNonNull(step, "step"));
       if (defaultStep) {
         this.defaultStep = steps.size() - 1;
       }
       return this;
     }
 
-    public Builder step(String step) {
+    @NonNull
+    public Builder step(@NonNull String step) {
       return step(step, false);
     }
 
+    @NonNull
     public Builder defaultStep(int defaultStep) {
+      Preconditions.checkArgument(defaultStep >= 0, "defaultStep");
       this.defaultStep = defaultStep;
       return this;
     }
 
+    @NonNull
     public StepSliderComponentImpl build() {
       return new StepSliderComponentImpl(text, steps, defaultStep);
     }
 
-    public StepSliderComponentImpl translateAndBuild(Function<String, String> translator) {
+    @NonNull
+    public StepSliderComponentImpl translateAndBuild(@NonNull Function<String, String> translator) {
+      Objects.requireNonNull(translator, "translator");
       for (int i = 0; i < steps.size(); i++) {
         steps.set(i, translator.apply(steps.get(i)));
       }
-
       return new StepSliderComponentImpl(translator.apply(text), steps, defaultStep);
     }
   }

@@ -62,8 +62,7 @@ public interface SimpleForm extends Form {
   static SimpleForm of(
       @NonNull String title,
       @NonNull String content,
-      @NonNull List<ButtonComponent> buttons
-  ) {
+      @NonNull List<ButtonComponent> buttons) {
     return new SimpleFormImpl(title, content, buttons);
   }
 
@@ -122,7 +121,7 @@ public interface SimpleForm extends Form {
      * @return the form builder
      */
     @NonNull
-    Builder button(@NonNull String text, @NonNull FormImage image);
+    Builder button(@NonNull String text, @Nullable FormImage image);
 
     /**
      * Adds a button to the Form.

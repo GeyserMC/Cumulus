@@ -27,18 +27,18 @@ package org.geysermc.cumulus.component.impl;
 
 import java.util.Objects;
 import lombok.Getter;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.util.ComponentType;
 
 @Getter
 public abstract class Component {
+  @NonNull
   private final ComponentType type;
+  @NonNull
   private final String text;
 
-  Component(ComponentType type, String text) {
-    Objects.requireNonNull(type, "Type cannot be null");
-    Objects.requireNonNull(text, "Text cannot be null");
-
-    this.type = type;
-    this.text = text;
+  Component(@NonNull ComponentType type, @NonNull String text) {
+    this.type = Objects.requireNonNull(type, "type");
+    this.text = Objects.requireNonNull(text, "text");
   }
 }

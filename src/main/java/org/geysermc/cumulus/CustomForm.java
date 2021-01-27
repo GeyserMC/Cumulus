@@ -26,6 +26,7 @@
 package org.geysermc.cumulus;
 
 import java.util.List;
+import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.index.qual.Positive;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -65,8 +66,7 @@ public interface CustomForm extends Form {
   static CustomForm of(
       @NonNull String title,
       @Nullable FormImage icon,
-      @NonNull List<Component> content
-  ) {
+      @NonNull List<Component> content) {
     return new CustomFormImpl(title, icon, content);
   }
 
@@ -113,17 +113,19 @@ public interface CustomForm extends Form {
     Builder dropdown(DropdownComponent.@NonNull Builder dropdownBuilder);
 
     @NonNull
-    Builder dropdown(@NonNull String text, int defaultOption, String... options);
+    Builder dropdown(
+        @NonNull String text,
+        @NonNegative int defaultOption,
+        @NonNull String... options);
 
     @NonNull
-    Builder dropdown(@NonNull String text, String... options);
+    Builder dropdown(@NonNull String text, @NonNull String... options);
 
     @NonNull
     Builder input(
         @NonNull String text,
         @NonNull String placeholder,
-        @NonNull String defaultText
-    );
+        @NonNull String defaultText);
 
     @NonNull
     Builder input(@NonNull String text, @NonNull String placeholder);
@@ -140,8 +142,7 @@ public interface CustomForm extends Form {
         float min,
         float max,
         @Positive int step,
-        float defaultValue
-    );
+        float defaultValue);
 
     @NonNull
     Builder slider(@NonNull String text, float min, float max, @Positive int step);
@@ -156,10 +157,13 @@ public interface CustomForm extends Form {
     Builder stepSlider(StepSliderComponent.@NonNull Builder stepSliderBuilder);
 
     @NonNull
-    Builder stepSlider(@NonNull String text, int defaultStep, String... steps);
+    Builder stepSlider(
+        @NonNull String text,
+        @NonNegative int defaultStep,
+        @NonNull String... steps);
 
     @NonNull
-    Builder stepSlider(@NonNull String text, String... steps);
+    Builder stepSlider(@NonNull String text, @NonNull String... steps);
 
     @NonNull
     Builder toggle(@NonNull String text, boolean defaultValue);

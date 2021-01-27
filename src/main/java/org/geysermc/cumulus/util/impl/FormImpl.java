@@ -26,6 +26,7 @@
 package org.geysermc.cumulus.util.impl;
 
 import com.google.gson.Gson;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -46,8 +47,8 @@ public abstract class FormImpl implements Form {
   protected String hardcodedJsonData = null;
   @Setter protected Consumer<String> responseHandler;
 
-  public FormImpl(FormType type) {
-    this.type = type;
+  public FormImpl(@NonNull FormType type) {
+    this.type = Objects.requireNonNull(type, "type");
   }
 
   @Override
@@ -66,7 +67,6 @@ public abstract class FormImpl implements Form {
 
   public abstract static class Builder<T extends FormBuilder<T, F>, F extends Form>
       implements FormBuilder<T, F> {
-
     protected String title = "";
 
     protected BiFunction<String, String, String> translationHandler = null;
@@ -77,7 +77,7 @@ public abstract class FormImpl implements Form {
     @Override
     @NonNull
     public T title(@NonNull String title) {
-      this.title = translate(title);
+      this.title = translate(Objects.requireNonNull(title, "title"));
       return self();
     }
 
@@ -85,10 +85,9 @@ public abstract class FormImpl implements Form {
     @NonNull
     public T translator(
         @NonNull BiFunction<String, String, String> translator,
-        @NonNull String locale
-    ) {
-      this.translationHandler = translator;
-      this.locale = locale;
+        @NonNull String locale) {
+      this.translationHandler = Objects.requireNonNull(translator, "translator");
+      this.locale = Objects.requireNonNull(locale, "locale");
       return title(title);
     }
 
@@ -101,14 +100,14 @@ public abstract class FormImpl implements Form {
     @Override
     @NonNull
     public T responseHandler(@NonNull BiConsumer<F, String> responseHandler) {
-      biResponseHandler = responseHandler;
+      biResponseHandler = Objects.requireNonNull(responseHandler, "responseHandler");
       return self();
     }
 
     @Override
     @NonNull
     public T responseHandler(@NonNull Consumer<String> responseHandler) {
-      this.responseHandler = responseHandler;
+      this.responseHandler = Objects.requireNonNull(responseHandler, "responseHandler");
       return self();
     }
 
@@ -116,7 +115,8 @@ public abstract class FormImpl implements Form {
     @NonNull
     public abstract F build();
 
-    protected String translate(String text) {
+    @Nullable
+    protected String translate(@Nullable String text) {
       if (translationHandler != null && text != null && !text.isEmpty()) {
         return translationHandler.apply(text, locale);
       }

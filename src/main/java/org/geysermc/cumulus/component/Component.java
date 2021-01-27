@@ -25,10 +25,13 @@
 
 package org.geysermc.cumulus.component;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.util.ComponentType;
 
 public interface Component {
+  @NonNull
   ComponentType getType();
 
+  @NonNull
   String getText();
 }

@@ -25,6 +25,8 @@
 
 package org.geysermc.cumulus.response.impl;
 
+import com.google.common.base.Preconditions;
+import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +55,8 @@ public final class ModalFormResponseImpl implements ModalFormResponse {
   }
 
   public static ModalFormResponseImpl of(int clickedButtonId, String clickedButtonText) {
+    Preconditions.checkArgument(clickedButtonId >= 0, "clickedButtonId");
+    Objects.requireNonNull(clickedButtonText, "clickedButtonText");
     return new ModalFormResponseImpl(false, false, clickedButtonId, clickedButtonText);
   }
 

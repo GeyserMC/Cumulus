@@ -28,44 +28,65 @@ package org.geysermc.cumulus.component;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.impl.StepSliderComponentImpl;
 
 public interface StepSliderComponent extends Component {
-  static StepSliderComponent of(String text, List<String> steps, int defaultStep) {
+  @NonNull
+  static StepSliderComponent of(
+      @NonNull String text,
+      @NonNull List<String> steps,
+      @NonNegative int defaultStep) {
     return new StepSliderComponentImpl(text, steps, defaultStep);
   }
 
-  static StepSliderComponent of(String text, int defaultStep, String... steps) {
+  @NonNull
+  static StepSliderComponent of(
+      @NonNull String text,
+      @NonNegative int defaultStep,
+      @NonNull String... steps) {
     return of(text, Arrays.asList(steps), defaultStep);
   }
 
-  static StepSliderComponent of(String text, String... steps) {
-    return of(text, -1, steps);
+  @NonNull
+  static StepSliderComponent of(@NonNull String text, @NonNull String... steps) {
+    return of(text, 1, steps);
   }
 
+  @NonNull
   static Builder builder() {
     return new StepSliderComponentImpl.Builder();
   }
 
-  static Builder builder(String text) {
+  @NonNull
+  static Builder builder(@NonNull String text) {
     return builder().text(text);
   }
 
+  @NonNull
   List<String> getSteps();
 
+  @NonNegative
   int getDefaultStep();
 
   interface Builder {
-    Builder text(String text);
+    @NonNull
+    Builder text(@NonNull String text);
 
-    Builder step(String step, boolean defaultStep);
+    @NonNull
+    Builder step(@NonNull String step, boolean defaultStep);
 
-    Builder step(String step);
+    @NonNull
+    Builder step(@NonNull String step);
 
-    Builder defaultStep(int defaultStep);
+    @NonNull
+    Builder defaultStep(@NonNegative int defaultStep);
 
+    @NonNull
     StepSliderComponent build();
 
-    StepSliderComponent translateAndBuild(Function<String, String> translator);
+    @NonNull
+    StepSliderComponent translateAndBuild(@NonNull Function<String, String> translator);
   }
 }

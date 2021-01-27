@@ -61,8 +61,7 @@ public interface ModalForm extends Form {
       @NonNull String title,
       @NonNull String content,
       @NonNull String button1,
-      @NonNull String button2
-  ) {
+      @NonNull String button2) {
     return new ModalFormImpl(title, content, button1, button2);
   }
 

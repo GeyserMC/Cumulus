@@ -25,10 +25,12 @@
 
 package org.geysermc.cumulus.impl;
 
+import com.google.common.base.Preconditions;
 import com.google.gson.annotations.JsonAdapter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import lombok.Getter;
 import org.checkerframework.checker.index.qual.Positive;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -59,11 +61,10 @@ public final class CustomFormImpl extends FormImpl implements CustomForm {
   public CustomFormImpl(
       @NonNull String title,
       @Nullable FormImage icon,
-      @NonNull List<Component> content
-  ) {
+      @NonNull List<Component> content) {
     super(FormType.CUSTOM_FORM);
 
-    this.title = title;
+    this.title = Objects.requireNonNull(title, "title");
     this.icon = icon;
     this.content = Collections.unmodifiableList(content);
   }
@@ -100,17 +101,24 @@ public final class CustomFormImpl extends FormImpl implements CustomForm {
 
     @NonNull
     public Builder component(@NonNull Component component) {
-      components.add(component);
+      components.add(Objects.requireNonNull(component, "component"));
       return this;
     }
 
     @NonNull
     public Builder dropdown(DropdownComponent.@NonNull Builder dropdownBuilder) {
+      Objects.requireNonNull(dropdownBuilder, "dropdownBuilder");
       return component(dropdownBuilder.translateAndBuild(this::translate));
     }
 
     @NonNull
-    public Builder dropdown(@NonNull String text, int defaultOption, String... options) {
+    public Builder dropdown(
+        @NonNull String text,
+        int defaultOption,
+        @NonNull String... options) {
+      Objects.requireNonNull(text, "text");
+      Preconditions.checkArgument(defaultOption >= 0, "defaultOption");
+
       List<String> optionsList = new ArrayList<>();
       for (String option : options) {
         optionsList.add(translate(option));
@@ -119,16 +127,15 @@ public final class CustomFormImpl extends FormImpl implements CustomForm {
     }
 
     @NonNull
-    public Builder dropdown(@NonNull String text, String... options) {
-      return dropdown(text, -1, options);
+    public Builder dropdown(@NonNull String text, @NonNull String... options) {
+      return dropdown(text, 0, options);
     }
 
     @NonNull
     public Builder input(
         @NonNull String text,
         @NonNull String placeholder,
-        @NonNull String defaultText
-    ) {
+        @NonNull String defaultText) {
       return component(InputComponent.of(
           translate(text), translate(placeholder), translate(defaultText)
       ));
@@ -155,14 +162,13 @@ public final class CustomFormImpl extends FormImpl implements CustomForm {
         float min,
         float max,
         @Positive int step,
-        float defaultValue
-    ) {
+        float defaultValue) {
       return component(SliderComponent.of(text, min, max, step, defaultValue));
     }
 
     @NonNull
     public Builder slider(@NonNull String text, float min, float max, @Positive int step) {
-      return slider(text, min, max, step, -1);
+      return slider(text, min, max, step, 0);
     }
 
     @NonNull
@@ -170,23 +176,26 @@ public final class CustomFormImpl extends FormImpl implements CustomForm {
         @NonNull String text,
         float min,
         float max,
-        @Positive float defaultValue
-    ) {
-      return slider(text, min, max, -1, defaultValue);
+        @Positive float defaultValue) {
+      return slider(text, min, max, 1, defaultValue);
     }
 
     @NonNull
     public Builder slider(@NonNull String text, float min, float max) {
-      return slider(text, min, max, -1, -1);
+      return slider(text, min, max, 1, 0);
     }
 
     @NonNull
     public Builder stepSlider(StepSliderComponent.@NonNull Builder stepSliderBuilder) {
+      Objects.requireNonNull(stepSliderBuilder, "stepSliderBuilder");
       return component(stepSliderBuilder.translateAndBuild(this::translate));
     }
 
     @NonNull
     public Builder stepSlider(@NonNull String text, int defaultStep, String... steps) {
+      Objects.requireNonNull(text, "text");
+      Preconditions.checkArgument(defaultStep >= 0, "defaultStep");
+
       List<String> stepsList = new ArrayList<>();
       for (String option : steps) {
         stepsList.add(translate(option));
@@ -196,7 +205,7 @@ public final class CustomFormImpl extends FormImpl implements CustomForm {
 
     @NonNull
     public Builder stepSlider(@NonNull String text, String... steps) {
-      return stepSlider(text, -1, steps);
+      return stepSlider(text, 0, steps);
     }
 
     @NonNull

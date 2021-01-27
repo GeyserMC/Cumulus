@@ -29,6 +29,7 @@ import com.google.gson.annotations.JsonAdapter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import lombok.Getter;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -51,12 +52,11 @@ public final class SimpleFormImpl extends FormImpl implements SimpleForm {
   public SimpleFormImpl(
       @NonNull String title,
       @NonNull String content,
-      @NonNull List<ButtonComponent> buttons
-  ) {
+      @NonNull List<ButtonComponent> buttons) {
     super(FormType.SIMPLE_FORM);
 
-    this.title = title;
-    this.content = content;
+    this.title = Objects.requireNonNull(title, "title");
+    this.content = Objects.requireNonNull(content, "content");
     this.buttons = Collections.unmodifiableList(buttons);
   }
 
@@ -84,13 +84,12 @@ public final class SimpleFormImpl extends FormImpl implements SimpleForm {
 
   public static final class Builder extends FormImpl.Builder<SimpleForm.Builder, SimpleForm>
       implements SimpleForm.Builder {
-
     private final List<ButtonComponent> buttons = new ArrayList<>();
     private String content = "";
 
     @NonNull
     public Builder content(@NonNull String content) {
-      this.content = translate(content);
+      this.content = translate(Objects.requireNonNull(content, "content"));
       return this;
     }
 
@@ -98,14 +97,13 @@ public final class SimpleFormImpl extends FormImpl implements SimpleForm {
     public Builder button(
         @NonNull String text,
         FormImage.@NonNull Type type,
-        @NonNull String data
-    ) {
+        @NonNull String data) {
       buttons.add(ButtonComponent.of(translate(text), type, data));
       return this;
     }
 
     @NonNull
-    public Builder button(@NonNull String text, @NonNull FormImage image) {
+    public Builder button(@NonNull String text, @Nullable FormImage image) {
       buttons.add(ButtonComponent.of(translate(text), image));
       return this;
     }

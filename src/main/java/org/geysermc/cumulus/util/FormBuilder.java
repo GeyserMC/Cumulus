@@ -58,10 +58,10 @@ public interface FormBuilder<T extends FormBuilder<T, F>, F extends Form> {
    * @param locale     the locale to translate the messages to
    * @return the form builder
    */
-  @NonNull T translator(
+  @NonNull
+  T translator(
       @NonNull BiFunction<String, String, String> translator,
-      @NonNull String locale
-  );
+      @NonNull String locale);
 
   /**
    * Set the translator of the form. The translator is called every time a component is added and it

@@ -25,23 +25,37 @@
 
 package org.geysermc.cumulus.component;
 
+import java.util.Objects;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.impl.ButtonComponentImpl;
 import org.geysermc.cumulus.util.FormImage;
 
 public interface ButtonComponent {
-  static ButtonComponent of(String text, FormImage image) {
+  @NonNull
+  static ButtonComponent of(@NonNull String text, @Nullable FormImage image) {
     return new ButtonComponentImpl(text, image);
   }
 
-  static ButtonComponent of(String text, FormImage.Type type, String data) {
+  @NonNull
+  static ButtonComponent of(
+      @NonNull String text,
+      FormImage.@NonNull Type type,
+      @NonNull String data) {
+    Objects.requireNonNull(type, "type");
+    Objects.requireNonNull(data, "data");
+
     return new ButtonComponentImpl(text, FormImage.of(type, data));
   }
 
-  static ButtonComponent of(String text) {
+  @NonNull
+  static ButtonComponent of(@NonNull String text) {
     return of(text, null);
   }
 
+  @NonNull
   String getText();
 
+  @NonNull
   FormImage getImage();
 }

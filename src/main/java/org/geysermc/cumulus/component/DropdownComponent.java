@@ -27,36 +27,52 @@ package org.geysermc.cumulus.component;
 
 import java.util.List;
 import java.util.function.Function;
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.impl.DropdownComponentImpl;
 
 public interface DropdownComponent extends Component {
-  static DropdownComponent of(String text, List<String> options, int defaultOption) {
+  @NonNull
+  static DropdownComponent of(
+      @NonNull String text,
+      @NonNull List<String> options,
+      @NonNegative int defaultOption) {
     return new DropdownComponentImpl(text, options, defaultOption);
   }
 
+  @NonNull
   static Builder builder() {
     return new DropdownComponentImpl.Builder();
   }
 
-  static Builder builder(String text) {
+  @NonNull
+  static Builder builder(@NonNull String text) {
     return builder().text(text);
   }
 
+  @NonNull
   List<String> getOptions();
 
+  @NonNegative
   int getDefaultOption();
 
   interface Builder {
-    Builder text(String text);
+    @NonNull
+    Builder text(@NonNull String text);
 
-    Builder option(String option, boolean isDefault);
+    @NonNull
+    Builder option(@NonNull String option, boolean isDefault);
 
-    Builder option(String option);
+    @NonNull
+    Builder option(@NonNull String option);
 
-    Builder defaultOption(int defaultOption);
+    @NonNull
+    Builder defaultOption(@NonNegative int defaultOption);
 
+    @NonNull
     DropdownComponent build();
 
-    DropdownComponent translateAndBuild(Function<String, String> translator);
+    @NonNull
+    DropdownComponent translateAndBuild(@NonNull Function<String, String> translator);
   }
 }

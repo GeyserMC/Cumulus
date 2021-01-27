@@ -25,6 +25,8 @@
 
 package org.geysermc.cumulus.response.impl;
 
+import com.google.common.base.Preconditions;
+import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +56,8 @@ public final class SimpleFormResponseImpl implements SimpleFormResponse {
   }
 
   public static SimpleFormResponseImpl of(int clickedButtonId, ButtonComponent clickedButton) {
+    Preconditions.checkArgument(clickedButtonId >= 0, "clickedButtonId");
+    Objects.requireNonNull(clickedButton, "clickedButton");
     return new SimpleFormResponseImpl(false, false, clickedButtonId, clickedButton);
   }
 

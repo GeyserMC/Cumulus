@@ -28,34 +28,44 @@ package org.geysermc.cumulus.response;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonPrimitive;
 import java.util.List;
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.index.qual.Positive;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.util.ComponentType;
 
 public interface CustomFormResponse extends FormResponse {
+  @NonNull
   JsonArray getResponses();
 
+  @NonNull
   List<ComponentType> getComponentTypes();
 
+  @Nullable
   <T> T next(boolean includeLabels);
 
+  @Nullable
   <T> T next();
 
-  void skip(int amount);
+  void skip(@Positive int amount);
 
   void skip();
 
-  void index(int index);
+  void index(@Positive int index);
 
   boolean hasNext();
 
-  JsonPrimitive get(int index);
+  @Nullable
+  JsonPrimitive get(@NonNegative int index);
 
-  int getDropdown(int index);
+  int getDropdown(@NonNegative int index);
 
-  String getInput(int index);
+  @Nullable
+  String getInput(@NonNegative int index);
 
-  float getSlider(int index);
+  float getSlider(@NonNegative int index);
 
-  int getStepSlide(int index);
+  int getStepSlide(@NonNegative int index);
 
-  boolean getToggle(int index);
+  boolean getToggle(@NonNegative int index);
 }

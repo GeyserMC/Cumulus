@@ -59,17 +59,19 @@ public interface FormImage {
    */
   @NonNull
   static FormImage of(@NonNull String type, @NonNull String data) {
-    return of(Objects.requireNonNull(Type.getByName(type)), data);
+    return of(Objects.requireNonNull(Type.getByName(type), "type"), data);
   }
 
   /**
    * Returns the type of FormImage.
    */
+  @NonNull
   Type getType();
 
   /**
    * Returns the data needed for the FormImage.
    */
+  @NonNull
   String getData();
 
   /**
@@ -85,6 +87,7 @@ public interface FormImage {
     private final String name = name().toLowerCase();
 
     public static Type getByName(@NonNull String name) {
+      Objects.requireNonNull(name, "name");
       String upper = name.toUpperCase();
       for (Type value : VALUES) {
         if (value.name().equals(upper)) {

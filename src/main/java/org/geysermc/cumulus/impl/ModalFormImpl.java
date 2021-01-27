@@ -26,6 +26,7 @@
 package org.geysermc.cumulus.impl;
 
 import com.google.gson.annotations.JsonAdapter;
+import java.util.Objects;
 import lombok.Getter;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -48,14 +49,13 @@ public final class ModalFormImpl extends FormImpl implements ModalForm {
       @NonNull String title,
       @NonNull String content,
       @NonNull String button1,
-      @NonNull String button2
-  ) {
+      @NonNull String button2) {
     super(FormType.MODAL_FORM);
 
-    this.title = title;
-    this.content = content;
-    this.button1 = button1;
-    this.button2 = button2;
+    this.title = Objects.requireNonNull(title, "title");
+    this.content = Objects.requireNonNull(content, "content");
+    this.button1 = Objects.requireNonNull(button1, "button1");
+    this.button2 = Objects.requireNonNull(button2, "button2");
   }
 
   @NonNull
@@ -76,26 +76,25 @@ public final class ModalFormImpl extends FormImpl implements ModalForm {
 
   public static final class Builder extends FormImpl.Builder<ModalForm.Builder, ModalForm>
       implements ModalForm.Builder {
-
     private String content = "";
     private String button1 = "";
     private String button2 = "";
 
     @NonNull
     public Builder content(@NonNull String content) {
-      this.content = translate(content);
+      this.content = translate(Objects.requireNonNull(content, "content"));
       return this;
     }
 
     @NonNull
     public Builder button1(@NonNull String button1) {
-      this.button1 = translate(button1);
+      this.button1 = translate(Objects.requireNonNull(button1, "button1"));
       return this;
     }
 
     @NonNull
     public Builder button2(@NonNull String button2) {
-      this.button2 = translate(button2);
+      this.button2 = translate(Objects.requireNonNull(button2, "button2"));
       return this;
     }
 

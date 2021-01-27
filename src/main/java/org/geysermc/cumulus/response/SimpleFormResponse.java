@@ -25,10 +25,12 @@
 
 package org.geysermc.cumulus.response;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.ButtonComponent;
 
 public interface SimpleFormResponse extends FormResponse {
   int getClickedButtonId();
 
+  @Nullable
   ButtonComponent getClickedButton();
 }

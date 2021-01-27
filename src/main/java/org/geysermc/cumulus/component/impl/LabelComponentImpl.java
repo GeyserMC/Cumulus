@@ -26,12 +26,14 @@
 package org.geysermc.cumulus.component.impl;
 
 import lombok.Getter;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.LabelComponent;
 import org.geysermc.cumulus.util.ComponentType;
 
 @Getter
 public final class LabelComponentImpl extends Component implements LabelComponent {
-  public LabelComponentImpl(String text) {
+  @NonNull
+  public LabelComponentImpl(@NonNull String text) {
     super(ComponentType.LABEL, text);
   }
 }

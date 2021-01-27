@@ -25,22 +25,31 @@
 
 package org.geysermc.cumulus.component;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.impl.InputComponentImpl;
 
 public interface InputComponent extends Component {
-  static InputComponent of(String text, String placeholder, String defaultText) {
+  @NonNull
+  static InputComponent of(
+      @NonNull String text,
+      @NonNull String placeholder,
+      @NonNull String defaultText) {
     return new InputComponentImpl(text, placeholder, defaultText);
   }
 
-  static InputComponent of(String text, String placeholder) {
+  @NonNull
+  static InputComponent of(@NonNull String text, @NonNull String placeholder) {
     return of(text, placeholder, "");
   }
 
-  static InputComponent of(String text) {
+  @NonNull
+  static InputComponent of(@NonNull String text) {
     return of(text, "", "");
   }
 
+  @NonNull
   String getPlaceholder();
 
+  @NonNull
   String getDefaultText();
 }

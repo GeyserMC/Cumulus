@@ -25,10 +25,12 @@
 
 package org.geysermc.cumulus.component;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.impl.LabelComponentImpl;
 
 public interface LabelComponent extends Component {
-  static LabelComponent of(String text) {
+  @NonNull
+  static LabelComponent of(@NonNull String text) {
     return new LabelComponentImpl(text);
   }
 }

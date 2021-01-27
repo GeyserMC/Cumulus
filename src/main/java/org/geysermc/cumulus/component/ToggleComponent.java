@@ -25,14 +25,17 @@
 
 package org.geysermc.cumulus.component;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.impl.ToggleComponentImpl;
 
 public interface ToggleComponent extends Component {
-  static ToggleComponent of(String text, boolean defaultValue) {
+  @NonNull
+  static ToggleComponent of(@NonNull String text, boolean defaultValue) {
     return new ToggleComponentImpl(text, defaultValue);
   }
 
-  static ToggleComponent of(String text) {
+  @NonNull
+  static ToggleComponent of(@NonNull String text) {
     return of(text, false);
   }
 

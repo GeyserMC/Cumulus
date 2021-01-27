@@ -25,8 +25,10 @@
 
 package org.geysermc.cumulus.component.impl;
 
+import com.google.common.base.Preconditions;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.SliderComponent;
 import org.geysermc.cumulus.util.ComponentType;
 
@@ -38,15 +40,17 @@ public final class SliderComponentImpl extends Component implements SliderCompon
   @SerializedName("default")
   private final float defaultValue;
 
-  public SliderComponentImpl(String text, float min, float max, int step, float defaultValue) {
+  public SliderComponentImpl(
+      @NonNull String text,
+      float min,
+      float max,
+      int step,
+      float defaultValue) {
     super(ComponentType.SLIDER, text);
+    Preconditions.checkArgument(step >= 1, "step");
 
     min = Math.max(min, 0f);
     max = Math.max(max, min);
-
-    if (step < 1) {
-      step = 1;
-    }
 
     if (defaultValue == -1f) {
       defaultValue = (int) Math.floor(min + max / 2D);

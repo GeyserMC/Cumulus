@@ -25,12 +25,15 @@
 
 package org.geysermc.cumulus.component.impl;
 
+import com.google.common.base.Preconditions;
 import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 import lombok.Getter;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.DropdownComponent;
 import org.geysermc.cumulus.util.ComponentType;
 
@@ -40,11 +43,15 @@ public final class DropdownComponentImpl extends Component implements DropdownCo
   @SerializedName("default")
   private final int defaultOption;
 
-  public DropdownComponentImpl(String text, List<String> options, int defaultOption) {
+  public DropdownComponentImpl(
+      @NonNull String text,
+      @NonNull List<String> options,
+      int defaultOption) {
     super(ComponentType.DROPDOWN, text);
-    this.options = Collections.unmodifiableList(options);
+    Preconditions.checkArgument(defaultOption >= 0, "defaultOption");
 
-    if (defaultOption == -1 || defaultOption >= options.size()) {
+    this.options = Collections.unmodifiableList(options);
+    if (defaultOption >= options.size()) {
       defaultOption = 0;
     }
     this.defaultOption = defaultOption;
@@ -52,18 +59,20 @@ public final class DropdownComponentImpl extends Component implements DropdownCo
 
   public static class Builder implements DropdownComponent.Builder {
     private final List<String> options = new ArrayList<>();
-    private String text;
+    private String text = "";
     private int defaultOption = 0;
 
     @Override
-    public Builder text(String text) {
-      this.text = text;
+    @NonNull
+    public Builder text(@NonNull String text) {
+      this.text = Objects.requireNonNull(text, "test");
       return this;
     }
 
     @Override
-    public Builder option(String option, boolean isDefault) {
-      options.add(option);
+    @NonNull
+    public Builder option(@NonNull String option, boolean isDefault) {
+      options.add(Objects.requireNonNull(option, "option"));
       if (isDefault) {
         defaultOption = options.size() - 1;
       }
@@ -71,27 +80,32 @@ public final class DropdownComponentImpl extends Component implements DropdownCo
     }
 
     @Override
-    public Builder option(String option) {
+    @NonNull
+    public Builder option(@NonNull String option) {
       return option(option, false);
     }
 
     @Override
+    @NonNull
     public Builder defaultOption(int defaultOption) {
+      Preconditions.checkArgument(defaultOption >= 0, "defaultOption");
       this.defaultOption = defaultOption;
       return this;
     }
 
     @Override
+    @NonNull
     public DropdownComponentImpl build() {
       return new DropdownComponentImpl(text, options, defaultOption);
     }
 
     @Override
-    public DropdownComponentImpl translateAndBuild(Function<String, String> translator) {
+    @NonNull
+    public DropdownComponentImpl translateAndBuild(@NonNull Function<String, String> translator) {
+      Objects.requireNonNull(translator, "traslator");
       for (int i = 0; i < options.size(); i++) {
         options.set(i, translator.apply(options.get(i)));
       }
-
       return new DropdownComponentImpl(translator.apply(text), options, defaultOption);
     }
   }
