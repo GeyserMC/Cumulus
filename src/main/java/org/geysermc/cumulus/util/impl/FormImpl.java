@@ -62,7 +62,7 @@ public abstract class FormImpl implements Form {
 
   @Override
   public boolean isClosed(@Nullable String response) {
-    return response == null || response.isEmpty() || response.equalsIgnoreCase("null");
+    return response == null || response.isEmpty() || response.trim().equalsIgnoreCase("null");
   }
 
   public abstract static class Builder<T extends FormBuilder<T, F>, F extends Form>
