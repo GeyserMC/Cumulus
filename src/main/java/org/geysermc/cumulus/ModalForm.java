@@ -93,6 +93,21 @@ public interface ModalForm extends Form {
     Builder button1(@NonNull String button1);
 
     /**
+     * Set the text of the first button.
+     *
+     * @param button1   the text of the first button
+     * @param shouldAdd if the button should be added
+     * @return the form builder
+     */
+    @NonNull
+    default Builder optionalButton1(@NonNull String button1, boolean shouldAdd) {
+      if (shouldAdd) {
+        return button1(button1);
+      }
+      return this;
+    }
+
+    /**
      * Set the text of the second button.
      *
      * @param button2 the text of the second button
@@ -100,5 +115,20 @@ public interface ModalForm extends Form {
      */
     @NonNull
     Builder button2(@NonNull String button2);
+
+    /**
+     * Set the text of the second button, but only when shouldAdd is true.
+     *
+     * @param button2   the text of the second button
+     * @param shouldAdd if the button should be added
+     * @return the form builder
+     */
+    @NonNull
+    default Builder optionalButton2(@NonNull String button2, boolean shouldAdd) {
+      if (shouldAdd) {
+        return button2(button2);
+      }
+      return this;
+    }
   }
 }

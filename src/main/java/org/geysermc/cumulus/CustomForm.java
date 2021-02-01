@@ -110,6 +110,14 @@ public interface CustomForm extends Form {
     Builder component(@NonNull Component component);
 
     @NonNull
+    default Builder optionalComponent(@NonNull Component component, boolean shouldAdd) {
+      if (shouldAdd) {
+        return component(component);
+      }
+      return this;
+    }
+
+    @NonNull
     Builder dropdown(DropdownComponent.@NonNull Builder dropdownBuilder);
 
     @NonNull
@@ -120,6 +128,29 @@ public interface CustomForm extends Form {
 
     @NonNull
     Builder dropdown(@NonNull String text, @NonNull String... options);
+
+    @NonNull
+    default Builder optionalDropdown(
+        boolean shouldAdd,
+        @NonNull String text,
+        @NonNegative int defaultOption,
+        @NonNull String... options) {
+      if (shouldAdd) {
+        return dropdown(text, defaultOption, options);
+      }
+      return this;
+    }
+
+    @NonNull
+    default Builder optionalDropdown(
+        boolean shouldAdd,
+        @NonNull String text,
+        @NonNull String... options) {
+      if (shouldAdd) {
+        return dropdown(text, options);
+      }
+      return this;
+    }
 
     @NonNull
     Builder input(
@@ -134,7 +165,46 @@ public interface CustomForm extends Form {
     Builder input(@NonNull String text);
 
     @NonNull
+    default Builder optionalInput(
+        @NonNull String text,
+        @NonNull String placeholder,
+        @NonNull String defaultText,
+        boolean shouldAdd) {
+      if (shouldAdd) {
+        return input(text, placeholder, defaultText);
+      }
+      return this;
+    }
+
+    @NonNull
+    default Builder optionalInput(
+        @NonNull String text,
+        @NonNull String placeholder,
+        boolean shouldAdd) {
+      if (shouldAdd) {
+        return input(text, placeholder);
+      }
+      return this;
+    }
+
+    @NonNull
+    default Builder optionalInput(@NonNull String text, boolean shouldAdd) {
+      if (shouldAdd) {
+        return input(text);
+      }
+      return this;
+    }
+
+    @NonNull
     Builder label(@NonNull String text);
+
+    @NonNull
+    default Builder optionalLabel(@NonNull String text, boolean shouldAdd) {
+      if (shouldAdd) {
+        return label(text);
+      }
+      return this;
+    }
 
     @NonNull
     Builder slider(
@@ -154,6 +224,54 @@ public interface CustomForm extends Form {
     Builder slider(@NonNull String text, float min, float max);
 
     @NonNull
+    default Builder optionalSlider(
+        @NonNull String text,
+        float min,
+        float max,
+        @Positive int step,
+        float defaultValue,
+        boolean shouldAdd) {
+      if (shouldAdd) {
+        return slider(text, min, max, step, defaultValue);
+      }
+      return this;
+    }
+
+    @NonNull
+    default Builder optionalSlider(
+        @NonNull String text,
+        float min,
+        float max,
+        @Positive int step,
+        boolean shouldAdd) {
+      if (shouldAdd) {
+        return slider(text, min, max, step);
+      }
+      return this;
+    }
+
+    @NonNull
+    default Builder optionalSlider(
+        @NonNull String text,
+        float min,
+        float max,
+        float defaultValue,
+        boolean shouldAdd) {
+      if (shouldAdd) {
+        return slider(text, min, max, defaultValue);
+      }
+      return this;
+    }
+
+    @NonNull
+    default Builder optionalSlider(@NonNull String text, float min, float max, boolean shouldAdd) {
+      if (shouldAdd) {
+        return slider(text, min, max);
+      }
+      return this;
+    }
+
+    @NonNull
     Builder stepSlider(StepSliderComponent.@NonNull Builder stepSliderBuilder);
 
     @NonNull
@@ -166,9 +284,48 @@ public interface CustomForm extends Form {
     Builder stepSlider(@NonNull String text, @NonNull String... steps);
 
     @NonNull
+    default Builder optionalStepSlider(
+        boolean shouldAdd,
+        @NonNull String text,
+        @NonNegative int defaultStep,
+        @NonNull String... steps) {
+      if (shouldAdd) {
+        return stepSlider(text, defaultStep, steps);
+      }
+      return this;
+    }
+
+    @NonNull
+    default Builder optionalStepSlider(
+        boolean shouldAdd,
+        @NonNull String text,
+        @NonNull String... steps) {
+      if (shouldAdd) {
+        return stepSlider(text, steps);
+      }
+      return this;
+    }
+
+    @NonNull
     Builder toggle(@NonNull String text, boolean defaultValue);
 
     @NonNull
     Builder toggle(@NonNull String text);
+
+    @NonNull
+    default Builder optionalToggle(@NonNull String text, boolean defaultValue, boolean shouldAdd) {
+      if (shouldAdd) {
+        return toggle(text, defaultValue);
+      }
+      return this;
+    }
+
+    @NonNull
+    default Builder optionalToggle(@NonNull String text, boolean shouldAdd) {
+      if (shouldAdd) {
+        return toggle(text);
+      }
+      return this;
+    }
   }
 }

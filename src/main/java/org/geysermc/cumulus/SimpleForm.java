@@ -131,5 +131,60 @@ public interface SimpleForm extends Form {
      */
     @NonNull
     Builder button(@NonNull String text);
+
+    /**
+     * Adds a button with image to the Form, but only when shouldAdd is true.
+     *
+     * @param text      text of the button
+     * @param type      type of image
+     * @param data      the data for the image type
+     * @param shouldAdd if the button should be added
+     * @return the form builder
+     */
+    @NonNull
+    default Builder optionalButton(
+        @NonNull String text,
+        FormImage.@NonNull Type type,
+        @NonNull String data,
+        boolean shouldAdd) {
+      if (shouldAdd) {
+        return button(text, type, data);
+      }
+      return this;
+    }
+
+    /**
+     * Adds a button with image to the Form, but only when shouldAdd is true.
+     *
+     * @param text      the text of the button
+     * @param image     the image
+     * @param shouldAdd if the button should be added
+     * @return the form builder
+     */
+    @NonNull
+    default Builder optionalButton(
+        @NonNull String text,
+        @Nullable FormImage image,
+        boolean shouldAdd) {
+      if (shouldAdd) {
+        return button(text, image);
+      }
+      return this;
+    }
+
+    /**
+     * Adds a button to the Form, but only when shouldAdd is true.
+     *
+     * @param text      the text of the button
+     * @param shouldAdd if the button should be added
+     * @return the form builder
+     */
+    @NonNull
+    default Builder optionalButton(@NonNull String text, boolean shouldAdd) {
+      if (shouldAdd) {
+        return button(text);
+      }
+      return this;
+    }
   }
 }
