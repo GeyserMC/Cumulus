@@ -26,6 +26,7 @@
 package org.geysermc.cumulus.util;
 
 import com.google.gson.annotations.SerializedName;
+import java.util.Locale;
 import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.util.impl.FormImageImpl;
@@ -84,11 +85,11 @@ public interface FormImage {
 
     private static final Type[] VALUES = values();
 
-    private final String name = name().toLowerCase();
+    private final String name = name().toLowerCase(Locale.ROOT);
 
     public static Type getByName(@NonNull String name) {
       Objects.requireNonNull(name, "name");
-      String upper = name.toUpperCase();
+      String upper = name.toUpperCase(Locale.ROOT);
       for (Type value : VALUES) {
         if (value.name().equals(upper)) {
           return value;

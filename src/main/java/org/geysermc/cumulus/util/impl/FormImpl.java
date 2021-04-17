@@ -62,7 +62,7 @@ public abstract class FormImpl implements Form {
 
   @Override
   public boolean isClosed(@Nullable String response) {
-    return response == null || response.isEmpty() || response.trim().equalsIgnoreCase("null");
+    return response == null || response.isEmpty() || "null".equalsIgnoreCase(response.trim());
   }
 
   public abstract static class Builder<T extends FormBuilder<T, F>, F extends Form>
@@ -70,7 +70,7 @@ public abstract class FormImpl implements Form {
     protected String title = "";
 
     protected BiFunction<String, String, String> translationHandler = null;
-    protected BiConsumer<F, String> biResponseHandler;
+    protected BiConsumer<F, String> biResponseHandler = null;
     protected Consumer<String> responseHandler;
     protected String locale;
 
@@ -115,11 +115,15 @@ public abstract class FormImpl implements Form {
     @NonNull
     public abstract F build();
 
-    @Nullable
-    protected String translate(@Nullable String text) {
-      if (translationHandler != null && text != null && !text.isEmpty()) {
-        return translationHandler.apply(text, locale);
+    @NonNull
+    protected String translate(@NonNull String text) {
+      Objects.requireNonNull(text, "text");
+
+      if (translationHandler != null && !text.isEmpty()) {
+        String result = translationHandler.apply(text, locale);
+        return result != null ? result : text;
       }
+
       return text;
     }
 

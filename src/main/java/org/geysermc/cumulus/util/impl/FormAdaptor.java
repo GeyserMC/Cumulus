@@ -34,6 +34,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,6 +105,7 @@ public final class FormAdaptor implements JsonDeserializer<FormImpl>, JsonSerial
   }
 
   @Override
+  @SuppressFBWarnings(value = "BC_UNCONFIRMED_CAST", justification = "I am using typeOfSrc")
   public JsonElement serialize(FormImpl src, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject result = new JsonObject();
     result.add("type", context.serialize(src.getType()));

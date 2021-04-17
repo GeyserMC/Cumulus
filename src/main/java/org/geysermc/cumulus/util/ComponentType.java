@@ -26,6 +26,7 @@
 package org.geysermc.cumulus.util;
 
 import com.google.gson.annotations.SerializedName;
+import java.util.Locale;
 
 /**
  * An enum containing the valid component types. Valid component types are:
@@ -58,7 +59,7 @@ public enum ComponentType {
 
   private static final ComponentType[] VALUES = values();
 
-  private final String name = name().toLowerCase();
+  private final String name = name().toLowerCase(Locale.ROOT);
 
   public static ComponentType getByName(String name) {
     for (ComponentType type : VALUES) {
