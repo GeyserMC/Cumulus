@@ -56,6 +56,6 @@ public interface ButtonComponent {
   @NonNull
   String getText();
 
-  @NonNull
+  @Nullable
   FormImage getImage();
 }
