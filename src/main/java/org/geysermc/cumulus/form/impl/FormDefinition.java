@@ -27,10 +27,11 @@ package org.geysermc.cumulus.form.impl;
 
 import org.geysermc.cumulus.form.Form;
 import org.geysermc.cumulus.response.FormResponse;
+import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.cumulus.util.FormCodec;
 import org.geysermc.cumulus.util.FormType;
 
-public abstract class FormDefinition<F extends Form, I extends FormImpl<F, R>, R extends FormResponse> {
+public abstract class FormDefinition<F extends Form, I extends FormImpl<R>, R extends FormResponse> {
   private final FormCodec<F, R> codec;
   private final FormType formType;
   private final Class<F> formClass;
@@ -45,19 +46,22 @@ public abstract class FormDefinition<F extends Form, I extends FormImpl<F, R>, R
     this.formImplClass = formImplClass;
   }
 
-  protected FormCodec<F, R> codec() {
+  protected final FormCodec<F, R> codec() {
     return codec;
   }
 
-  public FormType formType() {
+  protected abstract void callResponseHandler(F form, FormResponseResult<R> result)
+      throws Exception;
+
+  public final FormType formType() {
     return formType;
   }
 
-  public Class<F> formClass() {
+  public final Class<F> formClass() {
     return formClass;
   }
 
-  public Class<I> formImplClass() {
+  public final Class<I> formImplClass() {
     return formImplClass;
   }
 }

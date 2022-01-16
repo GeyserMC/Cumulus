@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,40 +27,34 @@ package org.geysermc.cumulus.response.impl;
 
 import com.google.common.base.Preconditions;
 import java.util.Objects;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.response.ModalFormResponse;
 
-@Getter
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ModalFormResponseImpl implements ModalFormResponse {
-  private static final ModalFormResponseImpl CLOSED =
-      new ModalFormResponseImpl(true, false, -1, null);
-  private static final ModalFormResponseImpl INVALID =
-      new ModalFormResponseImpl(false, true, -1, null);
-
-  private final boolean closed;
-  private final boolean invalid;
-
   private final int clickedButtonId;
   private final String clickedButtonText;
 
-  public static ModalFormResponseImpl closed() {
-    return CLOSED;
-  }
-
-  public static ModalFormResponseImpl invalid() {
-    return INVALID;
+  private ModalFormResponseImpl(int clickedButtonId, String clickedButtonText) {
+    Preconditions.checkArgument(clickedButtonId >= 0, "clickedButtonId");
+    this.clickedButtonId = clickedButtonId;
+    this.clickedButtonText = Objects.requireNonNull(clickedButtonText, "clickedButtonText");
   }
 
   public static ModalFormResponseImpl of(int clickedButtonId, String clickedButtonText) {
-    Preconditions.checkArgument(clickedButtonId >= 0, "clickedButtonId");
-    Objects.requireNonNull(clickedButtonText, "clickedButtonText");
-    return new ModalFormResponseImpl(false, false, clickedButtonId, clickedButtonText);
+    return new ModalFormResponseImpl(clickedButtonId, clickedButtonText);
   }
 
-  public boolean getResult() {
+  @Override
+  public int clickedButtonId() {
+    return clickedButtonId;
+  }
+
+  @Override
+  public @Nullable String clickedButtonText() {
+    return clickedButtonText;
+  }
+
+  public boolean clickedFirst() {
     return clickedButtonId == 0;
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,77 +26,52 @@
 package org.geysermc.cumulus.response.impl;
 
 import com.google.common.base.Preconditions;
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonPrimitive;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.geysermc.cumulus.component.Component;
-import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.response.CustomFormResponse;
+import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.cumulus.util.ComponentType;
 
-@Getter
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-@ToString
 public final class CustomFormResponseImpl implements CustomFormResponse {
-  private static final Gson GSON = new Gson();
-  private static final CustomFormResponseImpl CLOSED =
-      new CustomFormResponseImpl(true, false, null, null);
-  private static final CustomFormResponseImpl INVALID =
-      new CustomFormResponseImpl(false, true, null, null);
-
-  private final boolean closed;
-  private final boolean invalid;
-
   private final JsonArray responses;
   private final List<ComponentType> componentTypes;
 
   private int index = -1;
 
-  public static CustomFormResponseImpl closed() {
-    return CLOSED;
-  }
-
-  public static CustomFormResponseImpl invalid() {
-    return INVALID;
+  private CustomFormResponseImpl(JsonArray responses, List<ComponentType> componentTypes) {
+    this.responses = responses;
+    this.componentTypes = componentTypes;
   }
 
   @NonNull
-  public static CustomFormResponseImpl of(
-      @NonNull CustomForm form,
-      @Nullable String responseData) {
-    Objects.requireNonNull(form, "form");
-
-    JsonArray responses = GSON.fromJson(responseData, JsonArray.class);
-    List<ComponentType> types = new ArrayList<>();
-    for (Component component : form.getContent()) {
-      types.add(component.getType());
-    }
-    return of(types, responses);
-  }
-
-  @NonNull
-  public static CustomFormResponseImpl of(
+  public static FormResponseResult<CustomFormResponse> of(
       @NonNull List<ComponentType> componentTypes,
       @NonNull JsonArray responses) {
     Objects.requireNonNull(componentTypes, "componentTypes");
     Objects.requireNonNull(responses, "responses");
 
     if (componentTypes.size() != responses.size()) {
-      return invalid();
+      return FormResponseResult.invalid();
     }
 
-    return new CustomFormResponseImpl(false, false, responses,
-        Collections.unmodifiableList(componentTypes));
+    return FormResponseResult.valid(
+        new CustomFormResponseImpl(responses, Collections.unmodifiableList(componentTypes))
+    );
+  }
+
+  @Override
+  public @NonNull JsonArray responses() {
+    return responses;
+  }
+
+  @Override
+  public @NonNull List<ComponentType> componentTypes() {
+    return componentTypes;
   }
 
   @Override

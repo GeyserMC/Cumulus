@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,8 +25,6 @@
 
 package org.geysermc.cumulus;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -40,16 +38,9 @@ import org.geysermc.cumulus.component.impl.ToggleComponentImpl;
 import org.geysermc.cumulus.form.Form;
 import org.geysermc.cumulus.form.impl.FormDefinitions;
 import org.geysermc.cumulus.util.ComponentType;
-import org.geysermc.cumulus.util.FormImage;
 import org.geysermc.cumulus.util.FormType;
-import org.geysermc.cumulus.util.impl.FormImageAdaptor;
 
 public final class Forms {
-  public static final Gson GSON =
-      new GsonBuilder()
-          .registerTypeAdapter(FormImage.class, new FormImageAdaptor())
-          .create();
-
   /**
    * Translate the data that is readable by the Bedrock client into a form instance.
    *
@@ -85,6 +76,7 @@ public final class Forms {
    */
   @NonNull
   public static Class<? extends Component> getComponentTypeImpl(@NonNull ComponentType type) {
+    //todo do we want a component definition as well?
     switch (type) {
       case DROPDOWN:
         return DropdownComponentImpl.class;

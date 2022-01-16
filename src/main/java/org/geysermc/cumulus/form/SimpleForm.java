@@ -26,11 +26,14 @@
 package org.geysermc.cumulus.form;
 
 import java.util.List;
+import java.util.function.Consumer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.ButtonComponent;
 import org.geysermc.cumulus.form.impl.simple.SimpleFormImpl;
+import org.geysermc.cumulus.response.FormResponse;
 import org.geysermc.cumulus.response.SimpleFormResponse;
+import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.cumulus.util.FormBuilder;
 import org.geysermc.cumulus.util.FormImage;
 
@@ -70,18 +73,13 @@ public interface SimpleForm extends Form {
    * Returns the description of the Form.
    */
   @NonNull
-  String getContent();
+  String content();
 
   /**
    * Returns the list of button components.
    */
   @NonNull
-  List<ButtonComponent> getButtons();
-
-  @Override
-  @NonNull
-  @Deprecated
-  SimpleFormResponse parseResponse(@Nullable String response);
+  List<ButtonComponent> buttons();
 
   /**
    * An easy way to create a CustomForm. For more information and code examples look at <a

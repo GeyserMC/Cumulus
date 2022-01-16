@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,13 +26,11 @@
 package org.geysermc.cumulus.component.impl;
 
 import java.util.Objects;
-import lombok.Getter;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.ButtonComponent;
 import org.geysermc.cumulus.util.FormImage;
 
-@Getter
 public final class ButtonComponentImpl implements ButtonComponent {
   private final String text;
   private final FormImage image;
@@ -40,5 +38,15 @@ public final class ButtonComponentImpl implements ButtonComponent {
   public ButtonComponentImpl(@NonNull String text, @Nullable FormImage image) {
     this.text = Objects.requireNonNull(text, "text");
     this.image = image;
+  }
+
+  @Override
+  public @NonNull String text() {
+    return text;
+  }
+
+  @Override
+  public @Nullable FormImage image() {
+    return image;
   }
 }

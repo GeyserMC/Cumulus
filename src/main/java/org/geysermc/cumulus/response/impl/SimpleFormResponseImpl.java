@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,42 +27,31 @@ package org.geysermc.cumulus.response.impl;
 
 import com.google.common.base.Preconditions;
 import java.util.Objects;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.ButtonComponent;
 import org.geysermc.cumulus.response.SimpleFormResponse;
 
-@Getter
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class SimpleFormResponseImpl implements SimpleFormResponse {
-  private static final SimpleFormResponseImpl CLOSED =
-      new SimpleFormResponseImpl(true, false, -1, null);
-  private static final SimpleFormResponseImpl INVALID =
-      new SimpleFormResponseImpl(false, true, -1, null);
-
-  //todo remove this in 1.2
-  private final boolean closed;
-  private final boolean invalid;
-
   private final int clickedButtonId;
   private final ButtonComponent clickedButton;
 
-  public static SimpleFormResponseImpl closed() {
-    return CLOSED;
-  }
-
-  public static SimpleFormResponseImpl invalid() {
-    return INVALID;
+  private SimpleFormResponseImpl(int clickedButtonId, ButtonComponent clickedButton) {
+    Preconditions.checkArgument(clickedButtonId >= 0, "clickedButtonId");
+    this.clickedButtonId = clickedButtonId;
+    this.clickedButton = Objects.requireNonNull(clickedButton, "clickedButton");
   }
 
   public static SimpleFormResponseImpl of(int clickedButtonId, ButtonComponent clickedButton) {
-    Preconditions.checkArgument(clickedButtonId >= 0, "clickedButtonId");
-    Objects.requireNonNull(clickedButton, "clickedButton");
-    return new SimpleFormResponseImpl(false, false, clickedButtonId, clickedButton);
+    return new SimpleFormResponseImpl(clickedButtonId, clickedButton);
   }
 
-  public String getClickedButtonText() {
-    return clickedButton.getText();
+  @Override
+  public int clickedButtonId() {
+    return clickedButtonId;
+  }
+
+  @Override
+  public @NonNull ButtonComponent clickedButton() {
+    return clickedButton;
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,6 @@
 
 package org.geysermc.cumulus.component;
 
-import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.impl.ButtonComponentImpl;
@@ -42,9 +41,6 @@ public interface ButtonComponent {
       @NonNull String text,
       FormImage.@NonNull Type type,
       @NonNull String data) {
-    Objects.requireNonNull(type, "type");
-    Objects.requireNonNull(data, "data");
-
     return new ButtonComponentImpl(text, FormImage.of(type, data));
   }
 
@@ -54,8 +50,8 @@ public interface ButtonComponent {
   }
 
   @NonNull
-  String getText();
+  String text();
 
-  @NonNull
-  FormImage getImage();
+  @Nullable
+  FormImage image();
 }

@@ -26,21 +26,14 @@
 package org.geysermc.cumulus.form.impl.modal;
 
 import java.util.Objects;
-import lombok.Getter;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.form.ModalForm;
 import org.geysermc.cumulus.form.impl.FormImpl;
 import org.geysermc.cumulus.response.ModalFormResponse;
-import org.geysermc.cumulus.response.impl.ModalFormResponseImpl;
-import org.geysermc.cumulus.response.result.FormResponseResult;
-import org.geysermc.cumulus.response.result.ValidFormResponseResult;
-import org.geysermc.cumulus.util.FormType;
 
-@Getter
-public final class ModalFormImpl extends FormImpl<ModalForm, ModalFormResponse>
+public final class ModalFormImpl extends FormImpl<ModalFormResponse>
     implements ModalForm {
 
-  private final String title;
   private final String content;
   private final String button1;
   private final String button2;
@@ -50,25 +43,25 @@ public final class ModalFormImpl extends FormImpl<ModalForm, ModalFormResponse>
       @NonNull String content,
       @NonNull String button1,
       @NonNull String button2) {
-    super(FormType.MODAL_FORM);
-
-    this.title = Objects.requireNonNull(title, "title");
+    super(title);
     this.content = Objects.requireNonNull(content, "content");
     this.button1 = Objects.requireNonNull(button1, "button1");
     this.button2 = Objects.requireNonNull(button2, "button2");
   }
 
   @Override
-  protected @NonNull ModalFormResponse resultToResponse(
-      FormResponseResult<ModalFormResponse> result) {
+  public @NonNull String content() {
+    return content;
+  }
 
-    if (result.isClosed()) {
-      return ModalFormResponseImpl.closed();
-    }
-    if (result.isInvalid()) {
-      return ModalFormResponseImpl.invalid();
-    }
-    return ((ValidFormResponseResult<ModalFormResponse>) result).response();
+  @Override
+  public String button1() {
+    return button1;
+  }
+
+  @Override
+  public String button2() {
+    return button2;
   }
 
   public static final class Builder
@@ -100,7 +93,7 @@ public final class ModalFormImpl extends FormImpl<ModalForm, ModalFormResponse>
     @NonNull
     public ModalForm build() {
       ModalFormImpl form = new ModalFormImpl(title, content, button1, button2);
-      setResponseHandler(form);
+      setResponseHandler(form, form);
       return form;
     }
   }

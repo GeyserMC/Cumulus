@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,12 +27,10 @@ package org.geysermc.cumulus.component.impl;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
-import lombok.Getter;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.InputComponent;
 import org.geysermc.cumulus.util.ComponentType;
 
-@Getter
 public final class InputComponentImpl extends Component implements InputComponent {
   private final String placeholder;
   @SerializedName("default")
@@ -45,5 +43,15 @@ public final class InputComponentImpl extends Component implements InputComponen
     super(ComponentType.INPUT, text);
     this.placeholder = Objects.requireNonNull(placeholder, "placeholder");
     this.defaultText = Objects.requireNonNull(defaultText, "defaultText");
+  }
+
+  @Override
+  public @NonNull String placeholder() {
+    return placeholder;
+  }
+
+  @Override
+  public @NonNull String defaultText() {
+    return defaultText;
   }
 }

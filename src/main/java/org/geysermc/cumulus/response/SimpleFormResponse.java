@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,12 +25,13 @@
 
 package org.geysermc.cumulus.response;
 
+import org.checkerframework.checker.index.qual.Positive;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.ButtonComponent;
 
 public interface SimpleFormResponse extends FormResponse {
-  int getClickedButtonId();
+  @Positive int clickedButtonId();
 
-  @Nullable
-  ButtonComponent getClickedButton();
+  @NonNull ButtonComponent clickedButton();
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,12 +32,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
-import lombok.Getter;
+import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.StepSliderComponent;
 import org.geysermc.cumulus.util.ComponentType;
 
-@Getter
 public final class StepSliderComponentImpl extends Component implements StepSliderComponent {
   private final List<String> steps;
   @SerializedName("default")
@@ -65,6 +64,16 @@ public final class StepSliderComponentImpl extends Component implements StepSlid
   @NonNull
   public static Builder builder(@NonNull String text) {
     return builder().text(text);
+  }
+
+  @Override
+  public @NonNull List<String> steps() {
+    return steps;
+  }
+
+  @Override
+  public @NonNegative int defaultStep() {
+    return defaultStep;
   }
 
   public static final class Builder implements StepSliderComponent.Builder {

@@ -36,7 +36,7 @@ public final class ClosedFormResponseResult<T extends FormResponse>
   }
 
   @SuppressWarnings("unchecked")
-  public static <T extends FormResponse> ClosedFormResponseResult<T> get() {
+  public static <T extends FormResponse> ClosedFormResponseResult<T> instance() {
     return (ClosedFormResponseResult<T>) result;
   }
 }

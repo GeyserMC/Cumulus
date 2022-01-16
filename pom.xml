@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+  ~ Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -153,12 +153,6 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>31.0.1-jre</version>
-    </dependency>
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <scope>provided</scope>
-      <version>1.18.22</version>
     </dependency>
     <!-- Annotations from the Checker Framework: nullness, interning, locking, ... -->
     <dependency>

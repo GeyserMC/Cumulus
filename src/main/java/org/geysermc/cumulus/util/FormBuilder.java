@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -42,6 +42,7 @@ import org.geysermc.cumulus.response.result.FormResponseResult;
  * @since 1.0
  */
 public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R extends FormResponse> {
+  //todo update documentation
   /**
    * Set the title of the form.
    *
@@ -89,29 +90,6 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
    * @since 1.1
    */
   @NonNull B handleAllResponses(@NonNull Consumer<FormResponseResult<R>> responseHandler);
-
-  /**
-   * Set the response handler of the form. The response handler is responsible for handling the
-   * response of the form from the Bedrock client. This is raw data. You can get a more friendly
-   * structure by calling {@link Form#parseResponse(String)} with the raw data.
-   *
-   * @param responseHandler the handler to handle the response where the first argument is the form
-   *                        instance and the second argument the raw data
-   * @return the form builder
-   * @deprecated since 1.1, will be removed in 1.2
-   */
-  @NonNull B responseHandler(@NonNull BiConsumer<F, String> responseHandler);
-
-  /**
-   * Set the response handler of the form. The response handler is responsible for handling the
-   * response of the form from the Bedrock client. This is raw data.
-   *
-   * @param responseHandler the handler to handle the raw data of the response
-   * @return the form builder
-   * @see #responseHandler(BiConsumer)
-   * @deprecated since 1.2, will be removed in 1.2
-   */
-  @NonNull B responseHandler(@NonNull Consumer<String> responseHandler);
 
   /**
    * Build the form.

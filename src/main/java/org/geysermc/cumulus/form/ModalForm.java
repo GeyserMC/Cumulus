@@ -26,7 +26,6 @@
 package org.geysermc.cumulus.form;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.form.impl.modal.ModalFormImpl;
 import org.geysermc.cumulus.response.ModalFormResponse;
 import org.geysermc.cumulus.util.FormBuilder;
@@ -71,7 +70,7 @@ public interface ModalForm extends Form {
    * @since 1.1
    */
   @NonNull
-  String getContent();
+  String content();
 
   /**
    * Returns the content of the first button.
@@ -79,7 +78,7 @@ public interface ModalForm extends Form {
    * @return the content
    * @since 1.1
    */
-  String getButton1();
+  String button1();
 
   /**
    * Returns the content of the second (last) button.
@@ -87,18 +86,14 @@ public interface ModalForm extends Form {
    * @return the content
    * @since 1.1
    */
-  String getButton2();
-
-  @Override
-  @NonNull
-  @Deprecated
-  ModalFormResponse parseResponse(@Nullable String response);
+  String button2();
 
   /**
    * An easy way to create a ModalForm. For more information and code examples look at <a
    * href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
    */
   interface Builder extends FormBuilder<Builder, ModalForm, ModalFormResponse> {
+    //todo rethink about optional components, as they're currently weird to handle in response
     /**
      * Set the description of the form.
      *

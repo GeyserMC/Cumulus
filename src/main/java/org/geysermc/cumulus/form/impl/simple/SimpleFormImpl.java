@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,25 +29,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import lombok.Getter;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.ButtonComponent;
 import org.geysermc.cumulus.form.SimpleForm;
-import org.geysermc.cumulus.response.SimpleFormResponse;
-import org.geysermc.cumulus.response.impl.SimpleFormResponseImpl;
-import org.geysermc.cumulus.response.result.FormResponseResult;
-import org.geysermc.cumulus.response.result.ValidFormResponseResult;
-import org.geysermc.cumulus.util.FormCodec;
-import org.geysermc.cumulus.util.FormImage;
-import org.geysermc.cumulus.util.FormType;
 import org.geysermc.cumulus.form.impl.FormImpl;
+import org.geysermc.cumulus.response.SimpleFormResponse;
+import org.geysermc.cumulus.util.FormImage;
 
-@Getter
-public final class SimpleFormImpl extends FormImpl<SimpleForm, SimpleFormResponse>
+public final class SimpleFormImpl extends FormImpl<SimpleFormResponse>
     implements SimpleForm {
-
-  private final String title;
   private final String content;
   private final List<ButtonComponent> buttons;
 
@@ -55,24 +46,19 @@ public final class SimpleFormImpl extends FormImpl<SimpleForm, SimpleFormRespons
       @NonNull String title,
       @NonNull String content,
       @NonNull List<ButtonComponent> buttons) {
-    super(FormType.SIMPLE_FORM);
-
-    this.title = Objects.requireNonNull(title, "title");
+    super(title);
     this.content = Objects.requireNonNull(content, "content");
     this.buttons = Collections.unmodifiableList(buttons);
   }
 
   @Override
-  protected @NonNull SimpleFormResponse resultToResponse(
-      FormResponseResult<SimpleFormResponse> result) {
+  public @NonNull String content() {
+    return content;
+  }
 
-    if (result.isClosed()) {
-      return SimpleFormResponseImpl.closed();
-    }
-    if (result.isInvalid()) {
-      return SimpleFormResponseImpl.invalid();
-    }
-    return ((ValidFormResponseResult<SimpleFormResponse>) result).response();
+  @Override
+  public @NonNull List<ButtonComponent> buttons() {
+    return buttons;
   }
 
   public static final class Builder
@@ -113,7 +99,7 @@ public final class SimpleFormImpl extends FormImpl<SimpleForm, SimpleFormRespons
     @NonNull
     public SimpleForm build() {
       SimpleFormImpl form = new SimpleFormImpl(title, content, buttons);
-      setResponseHandler(form);
+      setResponseHandler(form, form);
       return form;
     }
   }

@@ -29,12 +29,12 @@ import org.geysermc.cumulus.response.FormResponse;
 
 public interface FormResponseResult<T extends FormResponse> {
 
-  static <T extends FormResponse> ClosedFormResponseResult<T> closed() {
-    return ClosedFormResponseResult.get();
+  static <R extends FormResponse> ClosedFormResponseResult<R> closed() {
+    return ClosedFormResponseResult.instance();
   }
 
-  static <T extends FormResponse> InvalidFormResponseResult<T> invalid() {
-    return InvalidFormResponseResult.get();
+  static <R extends FormResponse> InvalidFormResponseResult<R> invalid() {
+    return InvalidFormResponseResult.instance();
   }
 
   static <R extends FormResponse> ValidFormResponseResult<R> valid(R formResponse) {

@@ -32,6 +32,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import java.util.List;
 import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.Forms;
 import org.geysermc.cumulus.component.ButtonComponent;
 import org.geysermc.cumulus.form.SimpleForm;
@@ -40,6 +41,7 @@ import org.geysermc.cumulus.response.impl.SimpleFormResponseImpl;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.cumulus.util.FormCodec;
 import org.geysermc.cumulus.util.FormImage;
+import org.geysermc.cumulus.util.FormType;
 import org.geysermc.cumulus.util.impl.FormCodecImpl;
 import org.geysermc.cumulus.util.impl.FormImageAdaptor;
 
@@ -47,7 +49,7 @@ public final class SimpleFormCodec extends FormCodecImpl<SimpleForm, SimpleFormR
     implements FormCodec<SimpleForm, SimpleFormResponse> {
 
   SimpleFormCodec() {
-    super(SimpleForm.class);
+    super(SimpleForm.class, FormType.MODAL_FORM);
   }
 
   @Override
@@ -64,14 +66,14 @@ public final class SimpleFormCodec extends FormCodecImpl<SimpleForm, SimpleFormR
   @Override
   protected void serializeForm(SimpleForm form, JsonSerializationContext context,
                             JsonObject result) {
-    result.addProperty("title", form.getTitle());
-    result.addProperty("content", form.getContent());
-    result.add("buttons", context.serialize(form.getButtons(), LIST_BUTTON_TYPE));
+    result.addProperty("title", form.title());
+    result.addProperty("content", form.content());
+    result.add("buttons", context.serialize(form.buttons(), LIST_BUTTON_TYPE));
   }
 
   @Override
   protected FormResponseResult<SimpleFormResponse> deserializeResponse(
-      SimpleForm form,
+      @NonNull SimpleForm form,
       @Nullable String data) {
 
     //noinspection ConstantConditions
@@ -84,12 +86,12 @@ public final class SimpleFormCodec extends FormCodecImpl<SimpleForm, SimpleFormR
       return FormResponseResult.invalid();
     }
 
-    if (buttonId >= form.getButtons().size()) {
+    if (buttonId >= form.buttons().size()) {
       return FormResponseResult.invalid();
     }
 
     return FormResponseResult.valid(
-        SimpleFormResponseImpl.of(buttonId, form.getButtons().get(buttonId))
+        SimpleFormResponseImpl.of(buttonId, form.buttons().get(buttonId))
     );
   }
 

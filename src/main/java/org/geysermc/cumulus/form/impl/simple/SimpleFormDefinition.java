@@ -23,30 +23,30 @@
  * @link https://github.com/GeyserMC/Cumulus
  */
 
-package org.geysermc.cumulus.form.impl.custom;
+package org.geysermc.cumulus.form.impl.simple;
 
-import org.geysermc.cumulus.form.CustomForm;
+import org.geysermc.cumulus.form.SimpleForm;
 import org.geysermc.cumulus.form.impl.FormDefinition;
-import org.geysermc.cumulus.response.CustomFormResponse;
+import org.geysermc.cumulus.response.SimpleFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.cumulus.util.FormType;
 
-public final class CustomFormDefinition
-    extends FormDefinition<CustomForm, CustomFormImpl, CustomFormResponse> {
+public final class SimpleFormDefinition
+    extends FormDefinition<SimpleForm, SimpleFormImpl, SimpleFormResponse> {
 
-  private static final CustomFormDefinition INSTANCE = new CustomFormDefinition();
+  private static final SimpleFormDefinition INSTANCE = new SimpleFormDefinition();
 
-  private CustomFormDefinition() {
-    super(new CustomFormCodec(), FormType.CUSTOM_FORM, CustomForm.class, CustomFormImpl.class);
+  private SimpleFormDefinition() {
+    super(new SimpleFormCodec(), FormType.SIMPLE_FORM, SimpleForm.class, SimpleFormImpl.class);
   }
 
-  public static CustomFormDefinition instance() {
+  public static SimpleFormDefinition instance() {
     return INSTANCE;
   }
 
   @Override
-  protected void callResponseHandler(CustomForm form, FormResponseResult<CustomFormResponse> result)
+  protected void callResponseHandler(SimpleForm form, FormResponseResult<SimpleFormResponse> result)
       throws Exception {
-    ((CustomFormImpl) form).callResponseHandler(result);
+    ((SimpleFormImpl) form).callResponseHandler(result);
   }
 }

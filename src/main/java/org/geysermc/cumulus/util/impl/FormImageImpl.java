@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,11 +26,9 @@
 package org.geysermc.cumulus.util.impl;
 
 import java.util.Objects;
-import lombok.Getter;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.util.FormImage;
 
-@Getter
 public final class FormImageImpl implements FormImage {
   private final Type type;
   private final String data;
@@ -38,5 +36,15 @@ public final class FormImageImpl implements FormImage {
   public FormImageImpl(@NonNull Type type, @NonNull String data) {
     this.type = Objects.requireNonNull(type, "type");
     this.data = Objects.requireNonNull(data, "data");
+  }
+
+  @Override
+  public @NonNull Type type() {
+    return type;
+  }
+
+  @Override
+  public @NonNull String data() {
+    return data;
   }
 }

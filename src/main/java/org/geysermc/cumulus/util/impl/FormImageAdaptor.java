@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -59,8 +59,8 @@ public class FormImageAdaptor implements JsonDeserializer<FormImage>, JsonSerial
   @Override
   public JsonElement serialize(FormImage src, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject json = new JsonObject();
-    json.addProperty("type", src.getType().getName());
-    json.addProperty("data", src.getData());
+    json.addProperty("type", src.type().getName());
+    json.addProperty("data", src.data());
     return json;
   }
 }

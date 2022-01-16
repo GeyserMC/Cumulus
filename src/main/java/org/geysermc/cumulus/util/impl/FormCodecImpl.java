@@ -38,24 +38,28 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.impl.ButtonComponentImpl;
 import org.geysermc.cumulus.form.Form;
 import org.geysermc.cumulus.response.FormResponse;
 import org.geysermc.cumulus.response.result.ClosedFormResponseResult;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.cumulus.util.FormCodec;
+import org.geysermc.cumulus.util.FormType;
 
 public abstract class FormCodecImpl<F extends Form, R extends FormResponse>
     implements JsonDeserializer<F>, JsonSerializer<F>, FormCodec<F, R> {
 
   protected final Class<F> typeClass;
+  protected final FormType formType;
   protected final Gson gson;
 
   protected static final Type LIST_BUTTON_TYPE =
       new TypeToken<List<ButtonComponentImpl>>() {}.getType();
 
-  protected FormCodecImpl(Class<F> typeClass) {
+  protected FormCodecImpl(Class<F> typeClass, FormType formType) {
     this.typeClass = typeClass;
+    this.formType = formType;
 
     GsonBuilder builder = new GsonBuilder();
     initializeGson(builder);
@@ -81,10 +85,9 @@ public abstract class FormCodecImpl<F extends Form, R extends FormResponse>
   @Override
   public final JsonElement serialize(F src, Type typeOfSrc, JsonSerializationContext context) {
     JsonObject result = new JsonObject();
-
     serializeForm(src, context, result);
 
-    result.add("type", context.serialize(src.getType()));
+    result.add("type", context.serialize(formType));
     return result;
   }
 
@@ -97,7 +100,7 @@ public abstract class FormCodecImpl<F extends Form, R extends FormResponse>
 
     // if the form has been closed by the client
     if (response == null || response.isEmpty() || "null".equalsIgnoreCase(response.trim())) {
-      return ClosedFormResponseResult.get();
+      return ClosedFormResponseResult.instance();
     }
 
     return deserializeResponse(form, response);
@@ -111,5 +114,6 @@ public abstract class FormCodecImpl<F extends Form, R extends FormResponse>
 
   protected abstract void serializeForm(F form, JsonSerializationContext context, JsonObject result);
 
-  protected abstract FormResponseResult<R> deserializeResponse(F form, @Nullable String responseData);
+  protected abstract FormResponseResult<R> deserializeResponse(
+      @NonNull F form, @NonNull String responseData);
 }

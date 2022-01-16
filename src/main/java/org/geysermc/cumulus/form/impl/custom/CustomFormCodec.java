@@ -44,6 +44,7 @@ import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.cumulus.util.ComponentType;
 import org.geysermc.cumulus.util.FormCodec;
 import org.geysermc.cumulus.util.FormImage;
+import org.geysermc.cumulus.util.FormType;
 import org.geysermc.cumulus.util.impl.FormCodecImpl;
 import org.geysermc.cumulus.util.impl.FormImageAdaptor;
 import org.geysermc.cumulus.util.impl.FormImageImpl;
@@ -52,7 +53,7 @@ public final class CustomFormCodec extends FormCodecImpl<CustomForm, CustomFormR
     implements FormCodec<CustomForm, CustomFormResponse> {
 
   CustomFormCodec() {
-    super(CustomForm.class);
+    super(CustomForm.class, FormType.CUSTOM_FORM);
   }
 
   @Override
@@ -78,9 +79,9 @@ public final class CustomFormCodec extends FormCodecImpl<CustomForm, CustomFormR
 
   @Override
   protected void serializeForm(CustomForm form, JsonSerializationContext context, JsonObject result) {
-    result.addProperty("title", form.getTitle());
-    result.add("icon", context.serialize(form.getIcon()));
-    result.add("content", context.serialize(form.getContent()));
+    result.addProperty("title", form.title());
+    result.add("icon", context.serialize(form.icon()));
+    result.add("content", context.serialize(form.content()));
   }
 
   @Override
@@ -88,9 +89,13 @@ public final class CustomFormCodec extends FormCodecImpl<CustomForm, CustomFormR
       CustomForm form,
       @Nullable String responseData) {
 
-    return FormResponseResult.valid(
-        CustomFormResponseImpl.of(form, responseData)
-    );
+    JsonArray responses = gson.fromJson(responseData, JsonArray.class);
+    List<ComponentType> types = new ArrayList<>();
+    for (Component component : form.content()) {
+      types.add(component.type());
+    }
+
+    return CustomFormResponseImpl.of(types, responses);
   }
 
   @Override

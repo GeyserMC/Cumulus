@@ -35,13 +35,14 @@ import org.geysermc.cumulus.response.ModalFormResponse;
 import org.geysermc.cumulus.response.impl.ModalFormResponseImpl;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.cumulus.util.FormCodec;
+import org.geysermc.cumulus.util.FormType;
 import org.geysermc.cumulus.util.impl.FormCodecImpl;
 
 public class ModalFormCodec extends FormCodecImpl<ModalForm, ModalFormResponse>
     implements FormCodec<ModalForm, ModalFormResponse> {
 
-  protected ModalFormCodec() {
-    super(ModalForm.class);
+  ModalFormCodec() {
+    super(ModalForm.class, FormType.MODAL_FORM);
   }
 
   @Override
@@ -55,10 +56,10 @@ public class ModalFormCodec extends FormCodecImpl<ModalForm, ModalFormResponse>
 
   @Override
   public void serializeForm(ModalForm form, JsonSerializationContext context, JsonObject result) {
-    result.addProperty("title", form.getTitle());
-    result.addProperty("content", form.getContent());
-    result.addProperty("button1", form.getButton1());
-    result.addProperty("button2", form.getButton2());
+    result.addProperty("title", form.title());
+    result.addProperty("content", form.content());
+    result.addProperty("button1", form.button1());
+    result.addProperty("button2", form.button2());
   }
 
   @Override
@@ -70,9 +71,9 @@ public class ModalFormCodec extends FormCodecImpl<ModalForm, ModalFormResponse>
     responseData = responseData.trim();
 
     if ("true".equals(responseData)) {
-      return FormResponseResult.valid(ModalFormResponseImpl.of(0, form.getButton1()));
+      return FormResponseResult.valid(ModalFormResponseImpl.of(0, form.button1()));
     } else if ("false".equals(responseData)) {
-      return FormResponseResult.valid(ModalFormResponseImpl.of(1, form.getButton2()));
+      return FormResponseResult.valid(ModalFormResponseImpl.of(1, form.button2()));
     }
     return FormResponseResult.invalid();
   }

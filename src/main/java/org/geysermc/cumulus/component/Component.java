@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,8 +30,8 @@ import org.geysermc.cumulus.util.ComponentType;
 
 public interface Component {
   @NonNull
-  ComponentType getType();
+  ComponentType type();
 
   @NonNull
-  String getText();
+  String text();
 }

@@ -25,9 +25,13 @@
 
 package org.geysermc.cumulus.form.impl;
 
+import com.google.common.base.Preconditions;
 import java.util.HashMap;
 import java.util.Map;
 import org.geysermc.cumulus.form.Form;
+import org.geysermc.cumulus.form.impl.custom.CustomFormDefinition;
+import org.geysermc.cumulus.form.impl.modal.ModalFormDefinition;
+import org.geysermc.cumulus.form.impl.simple.SimpleFormDefinition;
 import org.geysermc.cumulus.util.FormCodec;
 import org.geysermc.cumulus.util.FormType;
 
@@ -35,12 +39,12 @@ public final class FormDefinitions {
   private static final FormDefinitions definitions = new FormDefinitions();
 
   private final Map<FormType, FormDefinition<?, ?, ?>> typeDefinitionMap = new HashMap<>();
-  private final Map<Class<? extends FormImpl<?, ?>>, FormType> implClassTypeMap = new HashMap<>();
+  private final Map<Class<? extends FormImpl<?>>, FormType> implClassTypeMap = new HashMap<>();
 
   private FormDefinitions() {
   }
 
-  public Class<? extends FormImpl<?, ?>> formImplClass(FormType formType) {
+  public Class<? extends FormImpl<?>> formImplClass(FormType formType) {
     return findDefinition(formType).formImplClass();
   }
 
@@ -59,12 +63,16 @@ public final class FormDefinitions {
       return false;
     }
 
-    Class<? extends FormImpl<?, ?>> formImplClass = definition.formImplClass();
+    Class<? extends FormImpl<?>> formImplClass = definition.formImplClass();
     if (implClassTypeMap.putIfAbsent(formImplClass, type) != null) {
       typeDefinitionMap.remove(type);
       return false;
     }
     return true;
+  }
+
+  private void ensureDefinitionAdded(FormDefinition<?, ?, ?> definition) {
+    Preconditions.checkArgument(addDefinition(definition));
   }
 
   private FormDefinition<?, ?, ?> findDefinition(FormType formType) {
@@ -77,5 +85,12 @@ public final class FormDefinitions {
 
   public static FormDefinitions instance() {
     return definitions;
+  }
+
+  static {
+    // add the default form definitions
+    definitions.ensureDefinitionAdded(SimpleFormDefinition.instance());
+    definitions.ensureDefinitionAdded(ModalFormDefinition.instance());
+    definitions.ensureDefinitionAdded(CustomFormDefinition.instance());
   }
 }

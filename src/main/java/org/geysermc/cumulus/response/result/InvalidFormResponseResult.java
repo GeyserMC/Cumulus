@@ -36,7 +36,7 @@ public final class InvalidFormResponseResult<T extends FormResponse>
   }
 
   @SuppressWarnings("unchecked")
-  public static <T extends FormResponse> InvalidFormResponseResult<T> get() {
+  public static <T extends FormResponse> InvalidFormResponseResult<T> instance() {
     return (InvalidFormResponseResult<T>) result;
   }
 

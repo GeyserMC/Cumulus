@@ -74,17 +74,13 @@ public interface CustomForm extends Form {
    * Returns the optional icon of the form. The icon can only be seen in the servers settings.
    */
   @Nullable
-  FormImage getIcon();
+  FormImage icon();
 
   /**
    * Returns the list of components of the form.
    */
   @NonNull
-  List<Component> getContent();
-
-  @Override
-  @NonNull
-  CustomFormResponse parseResponse(@Nullable String response);
+  List<Component> content();
 
   /**
    * An easy way to create a CustomForm. For more information and code examples look at <a

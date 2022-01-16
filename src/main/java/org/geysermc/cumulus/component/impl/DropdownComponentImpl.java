@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,12 +32,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
-import lombok.Getter;
+import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.DropdownComponent;
 import org.geysermc.cumulus.util.ComponentType;
 
-@Getter
 public final class DropdownComponentImpl extends Component implements DropdownComponent {
   private final List<String> options;
   @SerializedName("default")
@@ -48,6 +47,7 @@ public final class DropdownComponentImpl extends Component implements DropdownCo
       @NonNull List<String> options,
       int defaultOption) {
     super(ComponentType.DROPDOWN, text);
+    Objects.requireNonNull(options);
     Preconditions.checkArgument(defaultOption >= 0, "defaultOption");
 
     this.options = Collections.unmodifiableList(options);
@@ -55,6 +55,16 @@ public final class DropdownComponentImpl extends Component implements DropdownCo
       defaultOption = 0;
     }
     this.defaultOption = defaultOption;
+  }
+
+  @Override
+  public @NonNull List<String> options() {
+    return options;
+  }
+
+  @Override
+  public @NonNegative int defaultOption() {
+    return defaultOption;
   }
 
   public static class Builder implements DropdownComponent.Builder {

@@ -32,7 +32,6 @@ import org.geysermc.cumulus.form.Form;
 import org.geysermc.cumulus.response.FormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 
-// meant to be used as adapter
 public interface FormCodec<F extends Form, R extends FormResponse>
     extends JsonDeserializer<F>, JsonSerializer<F> {
 

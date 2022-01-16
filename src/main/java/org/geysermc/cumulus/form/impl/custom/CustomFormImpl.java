@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import lombok.Getter;
 import org.checkerframework.checker.index.qual.Positive;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -44,18 +43,12 @@ import org.geysermc.cumulus.component.ToggleComponent;
 import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.form.impl.FormImpl;
 import org.geysermc.cumulus.response.CustomFormResponse;
-import org.geysermc.cumulus.response.impl.CustomFormResponseImpl;
-import org.geysermc.cumulus.response.result.FormResponseResult;
-import org.geysermc.cumulus.response.result.ValidFormResponseResult;
 import org.geysermc.cumulus.util.FormImage;
-import org.geysermc.cumulus.util.FormType;
 import org.geysermc.cumulus.util.impl.FormImageImpl;
 
-@Getter
-public final class CustomFormImpl extends FormImpl<CustomForm, CustomFormResponse>
+public final class CustomFormImpl extends FormImpl<CustomFormResponse>
     implements CustomForm {
 
-  private final String title;
   private final FormImage icon;
   private final List<Component> content;
 
@@ -63,24 +56,19 @@ public final class CustomFormImpl extends FormImpl<CustomForm, CustomFormRespons
       @NonNull String title,
       @Nullable FormImage icon,
       @NonNull List<Component> content) {
-    super(FormType.CUSTOM_FORM);
-
-    this.title = Objects.requireNonNull(title, "title");
+    super(title);
     this.icon = icon;
     this.content = Collections.unmodifiableList(content);
   }
 
   @Override
-  protected @NonNull CustomFormResponse resultToResponse(
-      FormResponseResult<CustomFormResponse> result) {
+  public @Nullable FormImage icon() {
+    return icon;
+  }
 
-    if (result.isClosed()) {
-      return CustomFormResponseImpl.closed();
-    }
-    if (result.isInvalid()) {
-      return CustomFormResponseImpl.invalid();
-    }
-    return ((ValidFormResponseResult<CustomFormResponse>) result).response();
+  @Override
+  public @NonNull List<Component> content() {
+    return content;
   }
 
   public static final class Builder
@@ -229,7 +217,7 @@ public final class CustomFormImpl extends FormImpl<CustomForm, CustomFormRespons
     @NonNull
     public CustomForm build() {
       CustomFormImpl form = new CustomFormImpl(title, icon, components);
-      setResponseHandler(form);
+      setResponseHandler(form, form);
       return form;
     }
   }

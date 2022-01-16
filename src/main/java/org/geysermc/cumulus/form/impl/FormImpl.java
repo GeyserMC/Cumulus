@@ -25,16 +25,12 @@
 
 package org.geysermc.cumulus.form.impl;
 
-import com.google.gson.Gson;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
-import lombok.Getter;
-import lombok.Setter;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.geysermc.cumulus.Forms;
 import org.geysermc.cumulus.form.Form;
 import org.geysermc.cumulus.response.FormResponse;
 import org.geysermc.cumulus.response.result.ClosedFormResponseResult;
@@ -42,50 +38,29 @@ import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.cumulus.response.result.InvalidFormResponseResult;
 import org.geysermc.cumulus.response.result.ValidFormResponseResult;
 import org.geysermc.cumulus.util.FormBuilder;
-import org.geysermc.cumulus.util.FormCodec;
-import org.geysermc.cumulus.util.FormType;
 
-@Getter
-public abstract class FormImpl<F extends Form, R extends FormResponse> implements Form {
-  protected static final Gson GSON = Forms.GSON;
+public abstract class FormImpl<R extends FormResponse> implements Form {
+  protected Consumer<FormResponseResult<R>> responseHandler;
 
-  private final FormType type;
-  protected String hardcodedJsonData = null;
-  @Setter protected Consumer<String> responseHandler;
+  private final String title;
 
-  public FormImpl(@NonNull FormType type) {
-    this.type = Objects.requireNonNull(type, "type");
+  public FormImpl(@NonNull String title) {
+    this.title = Objects.requireNonNull(title, "title");
   }
 
-  @Override
-  @NonNull
-  public String getJsonData() {
-    if (hardcodedJsonData != null) {
-      return hardcodedJsonData;
-    }
-    return GSON.toJson(this);
-  }
-
-  @NonNull
-  protected abstract R resultToResponse(FormResponseResult<R> result);
-
-  @Override
-  @NonNull
-  public final R parseResponse(@Nullable String response) {
-    FormCodec<F, R> codec = FormDefinitions.instance().codecFor(type);
-    return resultToResponse(codec.deserializeFormResponse((F) this, response));
-  }
-
-  @Override
-  public void callResponseHandler(@Nullable String response) throws Exception {
+  public void callResponseHandler(@Nullable FormResponseResult<R> response) throws Exception {
     if (responseHandler != null) {
       responseHandler.accept(response);
     }
   }
 
+  public void responseHandler(@NonNull Consumer<FormResponseResult<R>> responseHandler) {
+    this.responseHandler = Objects.requireNonNull(responseHandler);
+  }
+
   @Override
-  public boolean isClosed(@Nullable String response) {
-    return response == null || response.isEmpty() || "null".equalsIgnoreCase(response.trim());
+  public @NonNull String title() {
+    return title;
   }
 
   public abstract static class Builder<B extends FormBuilder<B, F, R>, F extends Form, R extends FormResponse>
@@ -95,9 +70,6 @@ public abstract class FormImpl<F extends Form, R extends FormResponse> implement
 
     protected BiFunction<String, String, String> translationHandler = null;
     protected String locale;
-
-    protected BiConsumer<F, String> biResponseHandler = null;
-    protected Consumer<String> responseHandler;
 
     protected BiConsumer<F, FormResponseResult<R>> allBiResponseHandler;
     protected Consumer<FormResponseResult<R>> allResponseHandler;
@@ -129,20 +101,6 @@ public abstract class FormImpl<F extends Form, R extends FormResponse> implement
     }
 
     @Override
-    @NonNull
-    public B responseHandler(@NonNull BiConsumer<F, String> responseHandler) {
-      biResponseHandler = Objects.requireNonNull(responseHandler, "responseHandler");
-      return self();
-    }
-
-    @Override
-    @NonNull
-    public B responseHandler(@NonNull Consumer<String> responseHandler) {
-      this.responseHandler = Objects.requireNonNull(responseHandler, "responseHandler");
-      return self();
-    }
-
-    @Override
     public @NonNull B handleAllResponses(
         @NonNull BiConsumer<F, FormResponseResult<R>> responseHandler) {
       this.allBiResponseHandler = Objects.requireNonNull(responseHandler, "responseHandler");
@@ -159,56 +117,37 @@ public abstract class FormImpl<F extends Form, R extends FormResponse> implement
     @NonNull
     public abstract F build();
 
-    protected <T extends FormImpl<F, R>> void setResponseHandler(T impl) {
-      F form = (F) impl;
+    protected void setResponseHandler(FormImpl<R> impl, F form) {
+      if (closedResponseHandler != null || invalidResponseHandler != null ||
+          validResponseHandler != null) {
 
-//      if (closedResponseHandler != null || invalidResponseHandler != null ||
-//          validResponseHandler != null) {
-//
-//        form.setResponseHandler(data -> {
-//          FormResponseResult<R> result = impl.getCodec().deserializeFormResponse(form, data);
-//
-//          if (allBiResponseHandler != null) {
-//            allBiResponseHandler.accept(form, result);
-//          }
-//          if (allResponseHandler != null) {
-//            allResponseHandler.accept(result);
-//          }
-//
-//          if (result.isClosed() && closedResponseHandler != null) {
-//            closedResponseHandler.accept(form, (ClosedFormResponseResult<R>) result);
-//          }
-//          if (result.isInvalid() && invalidResponseHandler != null) {
-//            invalidResponseHandler.accept(form, (InvalidFormResponseResult<R>) result);
-//          }
-//          if (result.isValid() && validResponseHandler != null) {
-//            validResponseHandler.accept(form, (ValidFormResponseResult<R>) result);
-//          }
-//        });
-//        return;
-//      }
-//
-//      if (allBiResponseHandler != null) {
-//        form.setResponseHandler(data -> {
-//          FormResponseResult<R> result = impl.getCodec().deserializeFormResponse(form, data);
-//          allBiResponseHandler.accept(form, result);
-//        });
-//        return;
-//      }
-//
-//      // todo remove the if once biResponseHandler and responseHandler have been removed
-//      if (allResponseHandler != null) {
-//        form.setResponseHandler(
-//            data -> allResponseHandler.accept(impl.getCodec().deserializeFormResponse(form, data))
-//        );
-//        return;
-//      }
-//
-//      if (biResponseHandler != null) {
-//        form.setResponseHandler(response -> biResponseHandler.accept(form, response));
-//      }
+        impl.responseHandler(result -> {
+          if (allBiResponseHandler != null) {
+            allBiResponseHandler.accept(form, result);
+          }
+          if (allResponseHandler != null) {
+            allResponseHandler.accept(result);
+          }
 
-      form.setResponseHandler(responseHandler);
+          if (result.isClosed() && closedResponseHandler != null) {
+            closedResponseHandler.accept(form, (ClosedFormResponseResult<R>) result);
+          }
+          if (result.isInvalid() && invalidResponseHandler != null) {
+            invalidResponseHandler.accept(form, (InvalidFormResponseResult<R>) result);
+          }
+          if (result.isValid() && validResponseHandler != null) {
+            validResponseHandler.accept(form, (ValidFormResponseResult<R>) result);
+          }
+        });
+        return;
+      }
+
+      if (allBiResponseHandler != null) {
+        impl.responseHandler(result -> allBiResponseHandler.accept(form, result));
+        return;
+      }
+
+      impl.responseHandler(allResponseHandler);
     }
 
     @NonNull

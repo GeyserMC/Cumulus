@@ -23,30 +23,30 @@
  * @link https://github.com/GeyserMC/Cumulus
  */
 
-package org.geysermc.cumulus.form.impl.custom;
+package org.geysermc.cumulus.form.impl.modal;
 
-import org.geysermc.cumulus.form.CustomForm;
+import org.geysermc.cumulus.form.ModalForm;
 import org.geysermc.cumulus.form.impl.FormDefinition;
-import org.geysermc.cumulus.response.CustomFormResponse;
+import org.geysermc.cumulus.response.ModalFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.cumulus.util.FormType;
 
-public final class CustomFormDefinition
-    extends FormDefinition<CustomForm, CustomFormImpl, CustomFormResponse> {
+public final class ModalFormDefinition
+    extends FormDefinition<ModalForm, ModalFormImpl, ModalFormResponse> {
 
-  private static final CustomFormDefinition INSTANCE = new CustomFormDefinition();
+  private static final ModalFormDefinition INSTANCE = new ModalFormDefinition();
 
-  private CustomFormDefinition() {
-    super(new CustomFormCodec(), FormType.CUSTOM_FORM, CustomForm.class, CustomFormImpl.class);
+  private ModalFormDefinition() {
+    super(new ModalFormCodec(), FormType.MODAL_FORM, ModalForm.class, ModalFormImpl.class);
   }
 
-  public static CustomFormDefinition instance() {
+  public static ModalFormDefinition instance() {
     return INSTANCE;
   }
 
   @Override
-  protected void callResponseHandler(CustomForm form, FormResponseResult<CustomFormResponse> result)
+  protected void callResponseHandler(ModalForm form, FormResponseResult<ModalFormResponse> result)
       throws Exception {
-    ((CustomFormImpl) form).callResponseHandler(result);
+    ((ModalFormImpl) form).callResponseHandler(result);
   }
 }

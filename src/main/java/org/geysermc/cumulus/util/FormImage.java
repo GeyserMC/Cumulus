@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -67,13 +67,13 @@ public interface FormImage {
    * Returns the type of FormImage.
    */
   @NonNull
-  Type getType();
+  Type type();
 
   /**
    * Returns the data needed for the FormImage.
    */
   @NonNull
-  String getData();
+  String data();
 
   /**
    * An enum which has the available FormImage Types. For more information and for code examples
