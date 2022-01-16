@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,11 +23,11 @@
  * @link https://github.com/GeyserMC/Cumulus
  */
 
-package org.geysermc.cumulus;
+package org.geysermc.cumulus.form;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.geysermc.cumulus.impl.ModalFormImpl;
+import org.geysermc.cumulus.form.impl.modal.ModalFormImpl;
 import org.geysermc.cumulus.response.ModalFormResponse;
 import org.geysermc.cumulus.util.FormBuilder;
 
@@ -65,15 +65,40 @@ public interface ModalForm extends Form {
     return new ModalFormImpl(title, content, button1, button2);
   }
 
+  /**
+   * Returns the description of the Form.
+   *
+   * @since 1.1
+   */
+  @NonNull
+  String getContent();
+
+  /**
+   * Returns the content of the first button.
+   *
+   * @return the content
+   * @since 1.1
+   */
+  String getButton1();
+
+  /**
+   * Returns the content of the second (last) button.
+   *
+   * @return the content
+   * @since 1.1
+   */
+  String getButton2();
+
   @Override
   @NonNull
+  @Deprecated
   ModalFormResponse parseResponse(@Nullable String response);
 
   /**
    * An easy way to create a ModalForm. For more information and code examples look at <a
    * href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
    */
-  interface Builder extends FormBuilder<Builder, ModalForm> {
+  interface Builder extends FormBuilder<Builder, ModalForm, ModalFormResponse> {
     /**
      * Set the description of the form.
      *

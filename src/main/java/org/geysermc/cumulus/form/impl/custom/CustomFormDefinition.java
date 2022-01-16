@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,36 +23,21 @@
  * @link https://github.com/GeyserMC/Cumulus
  */
 
-package org.geysermc.cumulus.util;
+package org.geysermc.cumulus.form.impl.custom;
 
-import com.google.gson.annotations.SerializedName;
 import org.geysermc.cumulus.form.CustomForm;
-import org.geysermc.cumulus.form.ModalForm;
-import org.geysermc.cumulus.form.SimpleForm;
+import org.geysermc.cumulus.form.impl.FormDefinition;
+import org.geysermc.cumulus.response.CustomFormResponse;
+import org.geysermc.cumulus.util.FormType;
 
-/**
- * An enum containing the valid form types. Valid form types are:
- * <ul>
- *     <li>{@link SimpleForm Simple Form}</li>
- *     <li>{@link ModalForm Modal Form}</li>
- *     <li>{@link CustomForm Custom Form}</li>
- * </ul>
- * For more information and for code examples look at
- * <a href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
- *
- * @since 1.0
- */
-public enum FormType {
-  @SerializedName("form")
-  SIMPLE_FORM,
-  @SerializedName("modal")
-  MODAL_FORM,
-  @SerializedName("custom_form")
-  CUSTOM_FORM;
+public class CustomFormDefinition extends FormDefinition<CustomForm, CustomFormImpl, CustomFormResponse> {
+  private static final CustomFormDefinition definition = new CustomFormDefinition();
 
-  private static final FormType[] VALUES = values();
+  private CustomFormDefinition() {
+    super(new CustomFormCodec(), FormType.CUSTOM_FORM, CustomForm.class, CustomFormImpl.class);
+  }
 
-  public static FormType getByOrdinal(int ordinal) {
-    return ordinal < VALUES.length ? VALUES[ordinal] : null;
+  public static CustomFormDefinition instance() {
+    return definition;
   }
 }

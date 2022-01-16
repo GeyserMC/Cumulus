@@ -40,7 +40,7 @@ import lombok.ToString;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.Component;
-import org.geysermc.cumulus.impl.CustomFormImpl;
+import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.util.ComponentType;
 
@@ -72,7 +72,7 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
 
   @NonNull
   public static CustomFormResponseImpl of(
-      @NonNull CustomFormImpl form,
+      @NonNull CustomForm form,
       @Nullable String responseData) {
     Objects.requireNonNull(form, "form");
 

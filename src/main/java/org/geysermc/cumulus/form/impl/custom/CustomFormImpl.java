@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,10 +23,9 @@
  * @link https://github.com/GeyserMC/Cumulus
  */
 
-package org.geysermc.cumulus.impl;
+package org.geysermc.cumulus.form.impl.custom;
 
 import com.google.common.base.Preconditions;
-import com.google.gson.annotations.JsonAdapter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,7 +34,6 @@ import lombok.Getter;
 import org.checkerframework.checker.index.qual.Positive;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.geysermc.cumulus.CustomForm;
 import org.geysermc.cumulus.component.Component;
 import org.geysermc.cumulus.component.DropdownComponent;
 import org.geysermc.cumulus.component.InputComponent;
@@ -43,17 +41,20 @@ import org.geysermc.cumulus.component.LabelComponent;
 import org.geysermc.cumulus.component.SliderComponent;
 import org.geysermc.cumulus.component.StepSliderComponent;
 import org.geysermc.cumulus.component.ToggleComponent;
+import org.geysermc.cumulus.form.CustomForm;
+import org.geysermc.cumulus.form.impl.FormImpl;
 import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.response.impl.CustomFormResponseImpl;
+import org.geysermc.cumulus.response.result.FormResponseResult;
+import org.geysermc.cumulus.response.result.ValidFormResponseResult;
 import org.geysermc.cumulus.util.FormImage;
 import org.geysermc.cumulus.util.FormType;
-import org.geysermc.cumulus.util.impl.FormAdaptor;
 import org.geysermc.cumulus.util.impl.FormImageImpl;
-import org.geysermc.cumulus.util.impl.FormImpl;
 
 @Getter
-@JsonAdapter(FormAdaptor.class)
-public final class CustomFormImpl extends FormImpl implements CustomForm {
+public final class CustomFormImpl extends FormImpl<CustomForm, CustomFormResponse>
+    implements CustomForm {
+
   private final String title;
   private final FormImage icon;
   private final List<Component> content;
@@ -69,15 +70,21 @@ public final class CustomFormImpl extends FormImpl implements CustomForm {
     this.content = Collections.unmodifiableList(content);
   }
 
-  @NonNull
-  public CustomFormResponse parseResponse(@Nullable String data) {
-    if (isClosed(data)) {
+  @Override
+  protected @NonNull CustomFormResponse resultToResponse(
+      FormResponseResult<CustomFormResponse> result) {
+
+    if (result.isClosed()) {
       return CustomFormResponseImpl.closed();
     }
-    return CustomFormResponseImpl.of(this, data);
+    if (result.isInvalid()) {
+      return CustomFormResponseImpl.invalid();
+    }
+    return ((ValidFormResponseResult<CustomFormResponse>) result).response();
   }
 
-  public static final class Builder extends FormImpl.Builder<CustomForm.Builder, CustomForm>
+  public static final class Builder
+      extends FormImpl.Builder<CustomForm.Builder, CustomForm, CustomFormResponse>
       implements CustomForm.Builder {
 
     private final List<Component> components = new ArrayList<>();
@@ -220,14 +227,9 @@ public final class CustomFormImpl extends FormImpl implements CustomForm {
 
     @Override
     @NonNull
-    public CustomFormImpl build() {
+    public CustomForm build() {
       CustomFormImpl form = new CustomFormImpl(title, icon, components);
-      if (biResponseHandler != null) {
-        form.setResponseHandler(response -> biResponseHandler.accept(form, response));
-        return form;
-      }
-
-      form.setResponseHandler(responseHandler);
+      setResponseHandler(form);
       return form;
     }
   }

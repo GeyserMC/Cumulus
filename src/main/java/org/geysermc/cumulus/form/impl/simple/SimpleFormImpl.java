@@ -23,9 +23,8 @@
  * @link https://github.com/GeyserMC/Cumulus
  */
 
-package org.geysermc.cumulus.impl;
+package org.geysermc.cumulus.form.impl.simple;
 
-import com.google.gson.annotations.JsonAdapter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,18 +32,21 @@ import java.util.Objects;
 import lombok.Getter;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.geysermc.cumulus.SimpleForm;
 import org.geysermc.cumulus.component.ButtonComponent;
+import org.geysermc.cumulus.form.SimpleForm;
 import org.geysermc.cumulus.response.SimpleFormResponse;
 import org.geysermc.cumulus.response.impl.SimpleFormResponseImpl;
+import org.geysermc.cumulus.response.result.FormResponseResult;
+import org.geysermc.cumulus.response.result.ValidFormResponseResult;
+import org.geysermc.cumulus.util.FormCodec;
 import org.geysermc.cumulus.util.FormImage;
 import org.geysermc.cumulus.util.FormType;
-import org.geysermc.cumulus.util.impl.FormAdaptor;
-import org.geysermc.cumulus.util.impl.FormImpl;
+import org.geysermc.cumulus.form.impl.FormImpl;
 
 @Getter
-@JsonAdapter(FormAdaptor.class)
-public final class SimpleFormImpl extends FormImpl implements SimpleForm {
+public final class SimpleFormImpl extends FormImpl<SimpleForm, SimpleFormResponse>
+    implements SimpleForm {
+
   private final String title;
   private final String content;
   private final List<ButtonComponent> buttons;
@@ -60,30 +62,23 @@ public final class SimpleFormImpl extends FormImpl implements SimpleForm {
     this.buttons = Collections.unmodifiableList(buttons);
   }
 
-  @NonNull
-  public SimpleFormResponse parseResponse(@Nullable String data) {
-    if (isClosed(data)) {
+  @Override
+  protected @NonNull SimpleFormResponse resultToResponse(
+      FormResponseResult<SimpleFormResponse> result) {
+
+    if (result.isClosed()) {
       return SimpleFormResponseImpl.closed();
     }
-    //noinspection ConstantConditions
-    data = data.trim();
-
-    int buttonId;
-    try {
-      buttonId = Integer.parseInt(data);
-    } catch (Exception exception) {
+    if (result.isInvalid()) {
       return SimpleFormResponseImpl.invalid();
     }
-
-    if (buttonId >= buttons.size()) {
-      return SimpleFormResponseImpl.invalid();
-    }
-
-    return SimpleFormResponseImpl.of(buttonId, buttons.get(buttonId));
+    return ((ValidFormResponseResult<SimpleFormResponse>) result).response();
   }
 
-  public static final class Builder extends FormImpl.Builder<SimpleForm.Builder, SimpleForm>
+  public static final class Builder
+      extends FormImpl.Builder<SimpleForm.Builder, SimpleForm, SimpleFormResponse>
       implements SimpleForm.Builder {
+
     private final List<ButtonComponent> buttons = new ArrayList<>();
     private String content = "";
 
@@ -118,12 +113,7 @@ public final class SimpleFormImpl extends FormImpl implements SimpleForm {
     @NonNull
     public SimpleForm build() {
       SimpleFormImpl form = new SimpleFormImpl(title, content, buttons);
-      if (biResponseHandler != null) {
-        form.setResponseHandler(response -> biResponseHandler.accept(form, response));
-        return form;
-      }
-
-      form.setResponseHandler(responseHandler);
+      setResponseHandler(form);
       return form;
     }
   }

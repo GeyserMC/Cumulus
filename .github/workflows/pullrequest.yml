@@ -21,15 +21,9 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: mvn -B package
-      - name: Archive artifacts (Cumulus Api)
+      - name: Archive Cumulus artifact
         uses: actions/upload-artifact@v1
         if: success()
         with:
-          name: Cumulus Api
-          path: api/target/cumulus-api.jar
-      - name: Archive artifacts (Cumulus Impl)
-        uses: actions/upload-artifact@v1
-        if: success()
-        with:
-          name: Cumulus Implementation
-          path: org.geysermc.cumulus.impl/target/cumulus-org.geysermc.cumulus.impl.jar
+          name: Cumulus
+          path: target/cumulus.jar

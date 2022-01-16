@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,13 +23,13 @@
  * @link https://github.com/GeyserMC/Cumulus
  */
 
-package org.geysermc.cumulus;
+package org.geysermc.cumulus.form;
 
 import java.util.List;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.ButtonComponent;
-import org.geysermc.cumulus.impl.SimpleFormImpl;
+import org.geysermc.cumulus.form.impl.simple.SimpleFormImpl;
 import org.geysermc.cumulus.response.SimpleFormResponse;
 import org.geysermc.cumulus.util.FormBuilder;
 import org.geysermc.cumulus.util.FormImage;
@@ -67,12 +67,6 @@ public interface SimpleForm extends Form {
   }
 
   /**
-   * Returns the title of the Form.
-   */
-  @NonNull
-  String getTitle();
-
-  /**
    * Returns the description of the Form.
    */
   @NonNull
@@ -86,13 +80,14 @@ public interface SimpleForm extends Form {
 
   @Override
   @NonNull
+  @Deprecated
   SimpleFormResponse parseResponse(@Nullable String response);
 
   /**
    * An easy way to create a CustomForm. For more information and code examples look at <a
    * href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
    */
-  interface Builder extends FormBuilder<Builder, SimpleForm> {
+  interface Builder extends FormBuilder<Builder, SimpleForm, SimpleFormResponse> {
     /**
      * Set the description of the Form.
      *

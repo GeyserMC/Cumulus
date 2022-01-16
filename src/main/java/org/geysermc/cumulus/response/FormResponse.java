@@ -26,10 +26,22 @@
 package org.geysermc.cumulus.response;
 
 public interface FormResponse {
+  /**
+   * @deprecated since 1.1, will be removed in 1.2
+   */
+  @Deprecated
   boolean isClosed();
 
+  /**
+   * @deprecated since 1.1, will be removed in 1.2
+   */
+  @Deprecated
   boolean isInvalid();
 
+  /**
+   * @deprecated since 1.1, will be removed in 1.2
+   */
+  @Deprecated
   default boolean isCorrect() {
     return !isClosed() && !isInvalid();
   }

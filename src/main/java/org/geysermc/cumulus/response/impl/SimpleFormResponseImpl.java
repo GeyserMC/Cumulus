@@ -41,6 +41,7 @@ public final class SimpleFormResponseImpl implements SimpleFormResponse {
   private static final SimpleFormResponseImpl INVALID =
       new SimpleFormResponseImpl(false, true, -1, null);
 
+  //todo remove this in 1.2
   private final boolean closed;
   private final boolean invalid;
 

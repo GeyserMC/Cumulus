@@ -29,23 +29,26 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.geysermc.cumulus.Form;
+import org.geysermc.cumulus.form.Form;
+import org.geysermc.cumulus.response.FormResponse;
+import org.geysermc.cumulus.response.result.FormResponseResult;
 
 /**
  * A FormBuilder for the specified Form type in an easy to handle class.
  *
- * @param <T> the Builder extending this class
- * @param <F> the created form after building
+ * @param <B> the Builder extending this class
+ * @param <F> the Form type this builder is made for
+ * @param <R> the Form response type of the given form
  * @since 1.0
  */
-public interface FormBuilder<T extends FormBuilder<T, F>, F extends Form> {
+public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R extends FormResponse> {
   /**
    * Set the title of the form.
    *
    * @param title the title of the form
    * @return the form builder
    */
-  @NonNull T title(@NonNull String title);
+  @NonNull B title(@NonNull String title);
 
   /**
    * Set the translator of the form. The translator is called every time a component is added and it
@@ -59,7 +62,7 @@ public interface FormBuilder<T extends FormBuilder<T, F>, F extends Form> {
    * @return the form builder
    */
   @NonNull
-  T translator(
+  B translator(
       @NonNull BiFunction<String, String, String> translator,
       @NonNull String locale);
 
@@ -75,7 +78,17 @@ public interface FormBuilder<T extends FormBuilder<T, F>, F extends Form> {
    *                   to translate, the second argument is the player's locale
    * @return the form builder
    */
-  @NonNull T translator(@NonNull BiFunction<String, String, String> translator);
+  @NonNull B translator(@NonNull BiFunction<String, String, String> translator);
+
+  /**
+   * @since 1.1
+   */
+  @NonNull B handleAllResponses(@NonNull BiConsumer<F, FormResponseResult<R>> responseHandler);
+
+  /**
+   * @since 1.1
+   */
+  @NonNull B handleAllResponses(@NonNull Consumer<FormResponseResult<R>> responseHandler);
 
   /**
    * Set the response handler of the form. The response handler is responsible for handling the
@@ -85,8 +98,9 @@ public interface FormBuilder<T extends FormBuilder<T, F>, F extends Form> {
    * @param responseHandler the handler to handle the response where the first argument is the form
    *                        instance and the second argument the raw data
    * @return the form builder
+   * @deprecated since 1.1, will be removed in 1.2
    */
-  @NonNull T responseHandler(@NonNull BiConsumer<F, String> responseHandler);
+  @NonNull B responseHandler(@NonNull BiConsumer<F, String> responseHandler);
 
   /**
    * Set the response handler of the form. The response handler is responsible for handling the
@@ -95,8 +109,9 @@ public interface FormBuilder<T extends FormBuilder<T, F>, F extends Form> {
    * @param responseHandler the handler to handle the raw data of the response
    * @return the form builder
    * @see #responseHandler(BiConsumer)
+   * @deprecated since 1.2, will be removed in 1.2
    */
-  @NonNull T responseHandler(@NonNull Consumer<String> responseHandler);
+  @NonNull B responseHandler(@NonNull Consumer<String> responseHandler);
 
   /**
    * Build the form.

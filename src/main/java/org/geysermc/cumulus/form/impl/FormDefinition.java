@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,36 +23,41 @@
  * @link https://github.com/GeyserMC/Cumulus
  */
 
-package org.geysermc.cumulus.util;
+package org.geysermc.cumulus.form.impl;
 
-import com.google.gson.annotations.SerializedName;
-import org.geysermc.cumulus.form.CustomForm;
-import org.geysermc.cumulus.form.ModalForm;
-import org.geysermc.cumulus.form.SimpleForm;
+import org.geysermc.cumulus.form.Form;
+import org.geysermc.cumulus.response.FormResponse;
+import org.geysermc.cumulus.util.FormCodec;
+import org.geysermc.cumulus.util.FormType;
 
-/**
- * An enum containing the valid form types. Valid form types are:
- * <ul>
- *     <li>{@link SimpleForm Simple Form}</li>
- *     <li>{@link ModalForm Modal Form}</li>
- *     <li>{@link CustomForm Custom Form}</li>
- * </ul>
- * For more information and for code examples look at
- * <a href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
- *
- * @since 1.0
- */
-public enum FormType {
-  @SerializedName("form")
-  SIMPLE_FORM,
-  @SerializedName("modal")
-  MODAL_FORM,
-  @SerializedName("custom_form")
-  CUSTOM_FORM;
+public abstract class FormDefinition<F extends Form, I extends FormImpl<F, R>, R extends FormResponse> {
+  private final FormCodec<F, R> codec;
+  private final FormType formType;
+  private final Class<F> formClass;
+  private final Class<I> formImplClass;
 
-  private static final FormType[] VALUES = values();
+  protected FormDefinition(
+      FormCodec<F, R> codec, FormType formType, Class<F> formClass, Class<I> formImplClass) {
 
-  public static FormType getByOrdinal(int ordinal) {
-    return ordinal < VALUES.length ? VALUES[ordinal] : null;
+    this.codec = codec;
+    this.formType = formType;
+    this.formClass = formClass;
+    this.formImplClass = formImplClass;
+  }
+
+  protected FormCodec<F, R> codec() {
+    return codec;
+  }
+
+  public FormType formType() {
+    return formType;
+  }
+
+  public Class<F> formClass() {
+    return formClass;
+  }
+
+  public Class<I> formImplClass() {
+    return formImplClass;
   }
 }

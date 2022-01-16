@@ -37,25 +37,21 @@ import org.geysermc.cumulus.component.impl.LabelComponentImpl;
 import org.geysermc.cumulus.component.impl.SliderComponentImpl;
 import org.geysermc.cumulus.component.impl.StepSliderComponentImpl;
 import org.geysermc.cumulus.component.impl.ToggleComponentImpl;
-import org.geysermc.cumulus.impl.CustomFormImpl;
-import org.geysermc.cumulus.impl.ModalFormImpl;
-import org.geysermc.cumulus.impl.SimpleFormImpl;
+import org.geysermc.cumulus.form.Form;
+import org.geysermc.cumulus.form.impl.FormDefinitions;
 import org.geysermc.cumulus.util.ComponentType;
 import org.geysermc.cumulus.util.FormImage;
 import org.geysermc.cumulus.util.FormType;
-import org.geysermc.cumulus.util.impl.FormAdaptor;
 import org.geysermc.cumulus.util.impl.FormImageAdaptor;
-import org.geysermc.cumulus.util.impl.FormImpl;
 
 public final class Forms {
   public static final Gson GSON =
       new GsonBuilder()
-          .registerTypeAdapter(FormImpl.class, new FormAdaptor())
           .registerTypeAdapter(FormImage.class, new FormImageAdaptor())
           .create();
 
   /**
-   * Translate the data that is readable by the the Bedrock client into a form instance.
+   * Translate the data that is readable by the Bedrock client into a form instance.
    *
    * @param json the json data that is readable by the client
    * @param type the form data type
@@ -65,7 +61,7 @@ public final class Forms {
   @NonNull
   @SuppressWarnings("unchecked")
   public static <T extends Form> T fromJson(String json, FormType type) {
-    return (T) GSON.fromJson(json, getFormTypeImpl(type));
+    return (T) FormDefinitions.instance().codecFor(type).fromJson(json);
   }
 
   /**
@@ -73,19 +69,12 @@ public final class Forms {
    *
    * @param type the form type
    * @return the class implementing the form
+   * @deprecated since 1.1, will be removed in 1.2. Replaced with {@link FormDefinitions#formImplClass(FormType)}
    */
   @NonNull
+  @Deprecated
   public static Class<? extends Form> getFormTypeImpl(FormType type) {
-    switch (type) {
-      case CUSTOM_FORM:
-        return CustomFormImpl.class;
-      case MODAL_FORM:
-        return ModalFormImpl.class;
-      case SIMPLE_FORM:
-        return SimpleFormImpl.class;
-      default:
-        throw new RuntimeException("Cannot find implementation form FormType" + type);
-    }
+    return FormDefinitions.instance().formImplClass(type);
   }
 
   /**

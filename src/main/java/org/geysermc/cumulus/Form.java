@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,64 +25,18 @@
 
 package org.geysermc.cumulus;
 
-import java.util.function.Consumer;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.geysermc.cumulus.response.FormResponse;
 import org.geysermc.cumulus.util.FormType;
 
 /**
- * Base class of all Forms. While it can be used it doesn't contain every data you could get when
- * using the specific class of the form type.
- *
- * @since 1.0
+ * @deprecated since 1.1, will be removed in 2.0
+ * Replaced by {@link org.geysermc.cumulus.form.Form}
  */
+@Deprecated
 public interface Form {
   /**
-   * Returns the form type of this specific instance.
-   *
-   * @see FormType
+   * @deprecated since 1.1, will be removed in 2.0
    */
-  @NonNull
-  FormType getType();
-
-  /**
-   * Returns the data that will be sent to the Bedrock client.
-   */
-  @NonNull
-  String getJsonData();
-
-  /**
-   * Returns the handler that will be invoked once the form got a response from the Bedrock client.
-   */
-  @Nullable
-  Consumer<String> getResponseHandler();
-
-  /**
-   * Sets the handler that will be invoked once the form got a response from the Bedrock client.
-   * This handler will get the raw data sent by the Bedrock client. Use {@link
-   * #parseResponse(String)} after receiving a response for getting a more friendly class to handle
-   * the response.
-   *
-   * @param responseHandler the response handler
-   */
-  void setResponseHandler(@NonNull Consumer<String> responseHandler);
-
-  /**
-   * Parses the method into something provided by the form implementation, which will make the data
-   * given by the Bedrock client easier to handle.
-   *
-   * @param response the raw data given by the Bedrock client
-   * @return the data in an easy-to-handle class
-   */
-  @NonNull
-  FormResponse parseResponse(@Nullable String response);
-
-  /**
-   * Checks if the given data by the Bedrock client is saying that the client closed the form.
-   *
-   * @param response the raw data given by the Bedrock client
-   * @return true if the raw data implies that the Bedrock client closed the form
-   */
-  boolean isClosed(@Nullable String response);
+  @Deprecated
+  @NonNull FormType getType();
 }

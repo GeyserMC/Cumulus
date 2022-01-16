@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,23 +23,23 @@
  * @link https://github.com/GeyserMC/Cumulus
  */
 
-package org.geysermc.cumulus.impl;
+package org.geysermc.cumulus.form.impl.modal;
 
-import com.google.gson.annotations.JsonAdapter;
 import java.util.Objects;
 import lombok.Getter;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.geysermc.cumulus.ModalForm;
+import org.geysermc.cumulus.form.ModalForm;
+import org.geysermc.cumulus.form.impl.FormImpl;
 import org.geysermc.cumulus.response.ModalFormResponse;
 import org.geysermc.cumulus.response.impl.ModalFormResponseImpl;
+import org.geysermc.cumulus.response.result.FormResponseResult;
+import org.geysermc.cumulus.response.result.ValidFormResponseResult;
 import org.geysermc.cumulus.util.FormType;
-import org.geysermc.cumulus.util.impl.FormAdaptor;
-import org.geysermc.cumulus.util.impl.FormImpl;
 
 @Getter
-@JsonAdapter(FormAdaptor.class)
-public final class ModalFormImpl extends FormImpl implements ModalForm {
+public final class ModalFormImpl extends FormImpl<ModalForm, ModalFormResponse>
+    implements ModalForm {
+
   private final String title;
   private final String content;
   private final String button1;
@@ -58,23 +58,21 @@ public final class ModalFormImpl extends FormImpl implements ModalForm {
     this.button2 = Objects.requireNonNull(button2, "button2");
   }
 
-  @NonNull
-  public ModalFormResponse parseResponse(@Nullable String data) {
-    if (isClosed(data)) {
+  @Override
+  protected @NonNull ModalFormResponse resultToResponse(
+      FormResponseResult<ModalFormResponse> result) {
+
+    if (result.isClosed()) {
       return ModalFormResponseImpl.closed();
     }
-    //noinspection ConstantConditions
-    data = data.trim();
-
-    if ("true".equals(data)) {
-      return ModalFormResponseImpl.of(0, button1);
-    } else if ("false".equals(data)) {
-      return ModalFormResponseImpl.of(1, button2);
+    if (result.isInvalid()) {
+      return ModalFormResponseImpl.invalid();
     }
-    return ModalFormResponseImpl.invalid();
+    return ((ValidFormResponseResult<ModalFormResponse>) result).response();
   }
 
-  public static final class Builder extends FormImpl.Builder<ModalForm.Builder, ModalForm>
+  public static final class Builder
+      extends FormImpl.Builder<ModalForm.Builder, ModalForm, ModalFormResponse>
       implements ModalForm.Builder {
     private String content = "";
     private String button1 = "";
@@ -102,12 +100,7 @@ public final class ModalFormImpl extends FormImpl implements ModalForm {
     @NonNull
     public ModalForm build() {
       ModalFormImpl form = new ModalFormImpl(title, content, button1, button2);
-      if (biResponseHandler != null) {
-        form.setResponseHandler(response -> biResponseHandler.accept(form, response));
-        return form;
-      }
-
-      form.setResponseHandler(responseHandler);
+      setResponseHandler(form);
       return form;
     }
   }
