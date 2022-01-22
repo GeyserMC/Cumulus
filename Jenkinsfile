@@ -5,7 +5,7 @@ pipeline {
         jdk 'Java 8'
     }
     options {
-        buildDiscarder(logRotator(artifactNumToKeepStr: '5'))
+        buildDiscarder(logRotator(artifactNumToKeepStr: '2'))
     }
     stages {
         stage ('Build') {
@@ -36,8 +36,8 @@ pipeline {
                 rtMavenResolver(
                     id: "maven-resolver",
                     serverId: "opencollab-artifactory",
-                    releaseRepo: "release",
-                    snapshotRepo: "snapshot"
+                    releaseRepo: "maven-deploy-release",
+                    snapshotRepo: "maven-deploy-snapshot"
                 )
                 rtMavenRun(
                     pom: 'pom.xml',
