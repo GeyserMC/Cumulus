@@ -43,4 +43,9 @@ public final class ValidFormResponseResult<T extends FormResponse>
   public T response() {
     return response;
   }
+
+  @Override
+  public ResultType responseType() {
+    return ResultType.VALID;
+  }
 }

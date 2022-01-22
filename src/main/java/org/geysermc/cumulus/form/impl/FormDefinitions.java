@@ -39,7 +39,7 @@ public final class FormDefinitions {
   private static final FormDefinitions definitions = new FormDefinitions();
 
   private final Map<FormType, FormDefinition<?, ?, ?>> typeDefinitionMap = new HashMap<>();
-  private final Map<Class<? extends FormImpl<?>>, FormType> implClassTypeMap = new HashMap<>();
+  private final Map<Class<? extends FormImpl<?>>, FormDefinition<?, ?, ?>> implClassTypeDefinitionMap = new HashMap<>();
 
   private FormDefinitions() {
   }
@@ -53,8 +53,18 @@ public final class FormDefinitions {
     return (C) findDefinition(formType).codec();
   }
 
+  @SuppressWarnings("unchecked")
+  public <C extends FormCodec<F, ?>, F extends Form> C codecFor(F form) {
+    return (C) definitionFor(form).codec();
+  }
+
+  @SuppressWarnings("unchecked")
+  public <C extends FormDefinition<F, ?, ?>, F extends Form> C definitionFor(F form) {
+    return (C) implClassTypeDefinitionMap.get(form.getClass());
+  }
+
   public FormType typeFromImplClass(Class<? extends Form> formClass) {
-    return implClassTypeMap.get(formClass);
+    return implClassTypeDefinitionMap.get(formClass).formType();
   }
 
   public boolean addDefinition(FormDefinition<?, ?, ?> definition) {
@@ -64,7 +74,7 @@ public final class FormDefinitions {
     }
 
     Class<? extends FormImpl<?>> formImplClass = definition.formImplClass();
-    if (implClassTypeMap.putIfAbsent(formImplClass, type) != null) {
+    if (implClassTypeDefinitionMap.putIfAbsent(formImplClass, definition) != null) {
       typeDefinitionMap.remove(type);
       return false;
     }

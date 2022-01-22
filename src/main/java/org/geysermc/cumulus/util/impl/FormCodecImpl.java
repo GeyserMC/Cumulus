@@ -37,10 +37,12 @@ import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
-import javax.annotation.Nullable;
+import java.util.function.BiConsumer;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.impl.ButtonComponentImpl;
 import org.geysermc.cumulus.form.Form;
+import org.geysermc.cumulus.form.impl.FormImpl;
 import org.geysermc.cumulus.response.FormResponse;
 import org.geysermc.cumulus.response.result.ClosedFormResponseResult;
 import org.geysermc.cumulus.response.result.FormResponseResult;
@@ -67,8 +69,21 @@ public abstract class FormCodecImpl<F extends Form, R extends FormResponse>
   }
 
   @Override
-  public final F fromJson(String json) {
-    return gson.fromJson(json, typeClass);
+  public final F fromJson(
+      @NonNull String json, @Nullable BiConsumer<F, String> rawResponseConsumer) {
+    F form = gson.fromJson(json, typeClass);
+    setRawResponseConsumer(form, rawResponseConsumer);
+    return form;
+  }
+
+  protected void setRawResponseConsumer(F form, BiConsumer<F, String> rawResponseConsumer) {
+    ((FormImpl<R>) form)
+        .rawResponseConsumer(response -> rawResponseConsumer.accept(form, response));
+  }
+
+  @Override
+  public final String jsonData(F form) {
+    return gson.toJson(form);
   }
 
   @Override

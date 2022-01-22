@@ -28,7 +28,6 @@ package org.geysermc.cumulus.form.impl.modal;
 import org.geysermc.cumulus.form.ModalForm;
 import org.geysermc.cumulus.form.impl.FormDefinition;
 import org.geysermc.cumulus.response.ModalFormResponse;
-import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.cumulus.util.FormType;
 
 public final class ModalFormDefinition
@@ -42,11 +41,5 @@ public final class ModalFormDefinition
 
   public static ModalFormDefinition instance() {
     return INSTANCE;
-  }
-
-  @Override
-  protected void callResponseHandler(ModalForm form, FormResponseResult<ModalFormResponse> result)
-      throws Exception {
-    ((ModalFormImpl) form).callResponseHandler(result);
   }
 }

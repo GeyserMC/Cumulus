@@ -28,7 +28,6 @@ package org.geysermc.cumulus.form.impl.simple;
 import org.geysermc.cumulus.form.SimpleForm;
 import org.geysermc.cumulus.form.impl.FormDefinition;
 import org.geysermc.cumulus.response.SimpleFormResponse;
-import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.cumulus.util.FormType;
 
 public final class SimpleFormDefinition
@@ -42,11 +41,5 @@ public final class SimpleFormDefinition
 
   public static SimpleFormDefinition instance() {
     return INSTANCE;
-  }
-
-  @Override
-  protected void callResponseHandler(SimpleForm form, FormResponseResult<SimpleFormResponse> result)
-      throws Exception {
-    ((SimpleFormImpl) form).callResponseHandler(result);
   }
 }

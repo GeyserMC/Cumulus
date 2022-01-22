@@ -39,4 +39,9 @@ public final class ClosedFormResponseResult<T extends FormResponse>
   public static <T extends FormResponse> ClosedFormResponseResult<T> instance() {
     return (ClosedFormResponseResult<T>) result;
   }
+
+  @Override
+  public ResultType responseType() {
+    return ResultType.CLOSED;
+  }
 }

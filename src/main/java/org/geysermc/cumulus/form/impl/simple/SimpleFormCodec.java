@@ -31,8 +31,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import java.util.List;
-import javax.annotation.Nullable;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.Forms;
 import org.geysermc.cumulus.component.ButtonComponent;
 import org.geysermc.cumulus.form.SimpleForm;
@@ -73,8 +73,7 @@ public final class SimpleFormCodec extends FormCodecImpl<SimpleForm, SimpleFormR
 
   @Override
   protected FormResponseResult<SimpleFormResponse> deserializeResponse(
-      @NonNull SimpleForm form,
-      @Nullable String data) {
+      @NonNull SimpleForm form, @Nullable String data) {
 
     //noinspection ConstantConditions
     data = data.trim();

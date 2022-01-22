@@ -41,24 +41,17 @@ public interface FormResponseResult<T extends FormResponse> {
     return ValidFormResponseResult.of(formResponse);
   }
 
-  /**
-   * @since 1.1
-   */
   default boolean isClosed() {
     return this instanceof ClosedFormResponseResult;
   }
 
-  /**
-   * @since 1.1
-   */
   default boolean isInvalid() {
     return this instanceof InvalidFormResponseResult;
   }
 
-  /**
-   * @since 1.1
-   */
   default boolean isValid() {
     return this instanceof ValidFormResponseResult;
   }
+
+  ResultType responseType();
 }

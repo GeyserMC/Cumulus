@@ -32,6 +32,8 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.form.Form;
 import org.geysermc.cumulus.response.FormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
+import org.geysermc.cumulus.response.result.InvalidFormResponseResult;
+import org.geysermc.cumulus.response.result.ResultType;
 
 /**
  * A FormBuilder for the specified Form type in an easy to handle class.
@@ -43,6 +45,7 @@ import org.geysermc.cumulus.response.result.FormResponseResult;
  */
 public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R extends FormResponse> {
   //todo update documentation
+
   /**
    * Set the title of the form.
    *
@@ -82,14 +85,63 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
   @NonNull B translator(@NonNull BiFunction<String, String, String> translator);
 
   /**
-   * @since 1.1
+   * Registers a result handler for the 'closed' result type. Note that there can only be
+   * <b>one</b> 'closedResultHandler'. Calling this method multiple times will override the
+   * previously defined closed result handler.
+   *
+   * @param resultHandler the result handler to define
+   * @return the form builder
+   * @see org.geysermc.cumulus.response.result.ClosedFormResponseResult ClosedFormResponseResult
    */
-  @NonNull B handleAllResponses(@NonNull BiConsumer<F, FormResponseResult<R>> responseHandler);
+  @NonNull B closedResultHandler(@NonNull Consumer<F> resultHandler);
 
   /**
-   * @since 1.1
+   * Registers a result handler for the 'invalid' result type. Note that there can only be
+   * <b>one</b> 'invalidResultHandler'. Calling this method multiple times will override the
+   * previously defined invalid result handler.
+   *
+   * @param resultHandler the result handler to define
+   * @return the form builder
+   * @see InvalidFormResponseResult
    */
-  @NonNull B handleAllResponses(@NonNull Consumer<FormResponseResult<R>> responseHandler);
+  @NonNull B invalidResultHandler(
+      @NonNull BiConsumer<F, InvalidFormResponseResult<R>> resultHandler);
+
+  /**
+   * Registers a result handler for the 'valid' result type. Note that there can only be <b>one</b>
+   * 'validResultHandler'. Calling this method multiple times will override the previously defined
+   * valid result handler.
+   *
+   * @param resultHandler the result handler to define
+   * @return the form builder
+   * @see org.geysermc.cumulus.response.result.ValidFormResponseResult ValidFormResponseResult
+   */
+  @NonNull B validResultHandler(@NonNull BiConsumer<F, R> resultHandler);
+
+  /**
+   * Registers a result handler for every result type. Note that there can only be <b>one</b>
+   * 'resultHandler'. Calling this method or {@link #resultHandler(BiConsumer, ResultType...)}
+   * multiple times will override the previously defined result handler.
+   *
+   * @param resultHandler the result handler to define
+   * @return the form builder
+   * @see FormResponseResult
+   */
+  @NonNull B resultHandler(@NonNull BiConsumer<F, FormResponseResult<R>> resultHandler);
+
+  /**
+   * Registers a result handler for the selected result types. Note that there can only be
+   * <b>one</b> 'resultHandler'. Calling this method or {@link #resultHandler(BiConsumer)} multiple
+   * times will override the previously defined result handler.
+   *
+   * @param resultHandler the result handler to define
+   * @return the form builder
+   * @see ResultType
+   * @see FormResponseResult
+   */
+  @NonNull B resultHandler(
+      @NonNull BiConsumer<F, FormResponseResult<R>> resultHandler,
+      @NonNull ResultType... selectedTypes);
 
   /**
    * Build the form.

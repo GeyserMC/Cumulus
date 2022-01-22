@@ -25,6 +25,7 @@
 
 package org.geysermc.cumulus.form.impl;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.form.Form;
 import org.geysermc.cumulus.response.FormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
@@ -50,8 +51,23 @@ public abstract class FormDefinition<F extends Form, I extends FormImpl<R>, R ex
     return codec;
   }
 
-  protected abstract void callResponseHandler(F form, FormResponseResult<R> result)
-      throws Exception;
+  public void handleFormResponse(F form, @Nullable String responseData) throws Exception {
+    if (!callRawResponseConsumer(form, responseData)) {
+      FormResponseResult<R> result = codec().deserializeFormResponse(form, responseData);
+      callResponseHandler(form, result);
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  protected boolean callRawResponseConsumer(F form, @Nullable String responseData)
+      throws Exception {
+    return ((FormImpl<R>) form).callRawResponseConsumer(responseData);
+  }
+
+  @SuppressWarnings("unchecked")
+  protected void callResponseHandler(F form, FormResponseResult<R> result) throws Exception {
+    ((FormImpl<R>) form).callResultHandler(result);
+  }
 
   public final FormType formType() {
     return formType;

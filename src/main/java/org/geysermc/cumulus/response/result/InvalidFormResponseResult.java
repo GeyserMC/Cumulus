@@ -40,5 +40,10 @@ public final class InvalidFormResponseResult<T extends FormResponse>
     return (InvalidFormResponseResult<T>) result;
   }
 
+  @Override
+  public ResultType responseType() {
+    return ResultType.INVALID;
+  }
+
   //todo maybe add which index was invalid or something
 }

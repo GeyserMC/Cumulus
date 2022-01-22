@@ -23,20 +23,8 @@
  * @link https://github.com/GeyserMC/Cumulus
  */
 
-package org.geysermc.cumulus;
+package org.geysermc.cumulus.response.result;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.geysermc.cumulus.util.FormType;
-
-/**
- * @deprecated since 1.1, will be removed in 2.0
- * Replaced by {@link org.geysermc.cumulus.form.Form}
- */
-@Deprecated
-public interface Form {
-  /**
-   * @deprecated since 1.1, will be removed in 2.0
-   */
-  @Deprecated
-  @NonNull FormType getType();
+public enum ResultType {
+  CLOSED, INVALID, VALID
 }

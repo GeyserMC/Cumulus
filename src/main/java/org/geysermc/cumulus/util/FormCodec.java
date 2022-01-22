@@ -27,7 +27,9 @@ package org.geysermc.cumulus.util;
 
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonSerializer;
-import javax.annotation.Nullable;
+import java.util.function.BiConsumer;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.form.Form;
 import org.geysermc.cumulus.response.FormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
@@ -35,7 +37,9 @@ import org.geysermc.cumulus.response.result.FormResponseResult;
 public interface FormCodec<F extends Form, R extends FormResponse>
     extends JsonDeserializer<F>, JsonSerializer<F> {
 
-  F fromJson(String json);
+  F fromJson(@NonNull String json, @Nullable BiConsumer<F, String> rawResponseConsumer);
+
+  String jsonData(F form);
 
   FormResponseResult<R> deserializeFormResponse(F form, @Nullable String responseData);
 }

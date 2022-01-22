@@ -26,14 +26,11 @@
 package org.geysermc.cumulus.form;
 
 import java.util.List;
-import java.util.function.Consumer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.ButtonComponent;
 import org.geysermc.cumulus.form.impl.simple.SimpleFormImpl;
-import org.geysermc.cumulus.response.FormResponse;
 import org.geysermc.cumulus.response.SimpleFormResponse;
-import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.cumulus.util.FormBuilder;
 import org.geysermc.cumulus.util.FormImage;
 

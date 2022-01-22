@@ -25,6 +25,8 @@
 
 package org.geysermc.cumulus.form.impl;
 
+import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -33,14 +35,15 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.form.Form;
 import org.geysermc.cumulus.response.FormResponse;
-import org.geysermc.cumulus.response.result.ClosedFormResponseResult;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.cumulus.response.result.InvalidFormResponseResult;
+import org.geysermc.cumulus.response.result.ResultType;
 import org.geysermc.cumulus.response.result.ValidFormResponseResult;
 import org.geysermc.cumulus.util.FormBuilder;
 
 public abstract class FormImpl<R extends FormResponse> implements Form {
   protected Consumer<FormResponseResult<R>> responseHandler;
+  protected Consumer<String> rawResponseConsumer;
 
   private final String title;
 
@@ -48,13 +51,25 @@ public abstract class FormImpl<R extends FormResponse> implements Form {
     this.title = Objects.requireNonNull(title, "title");
   }
 
-  public void callResponseHandler(@Nullable FormResponseResult<R> response) throws Exception {
+  public boolean callRawResponseConsumer(@Nullable String responseData) throws Exception {
+    if (rawResponseConsumer != null) {
+      rawResponseConsumer.accept(responseData);
+      return true;
+    }
+    return false;
+  }
+
+  public void rawResponseConsumer(Consumer<String> rawResponseConsumer) {
+    this.rawResponseConsumer = rawResponseConsumer;
+  }
+
+  public void callResultHandler(@Nullable FormResponseResult<R> response) throws Exception {
     if (responseHandler != null) {
       responseHandler.accept(response);
     }
   }
 
-  public void responseHandler(@NonNull Consumer<FormResponseResult<R>> responseHandler) {
+  public void resultHandler(@NonNull Consumer<FormResponseResult<R>> responseHandler) {
     this.responseHandler = Objects.requireNonNull(responseHandler);
   }
 
@@ -71,11 +86,10 @@ public abstract class FormImpl<R extends FormResponse> implements Form {
     protected BiFunction<String, String, String> translationHandler = null;
     protected String locale;
 
-    protected BiConsumer<F, FormResponseResult<R>> allBiResponseHandler;
-    protected Consumer<FormResponseResult<R>> allResponseHandler;
-    protected BiConsumer<F, ClosedFormResponseResult<R>> closedResponseHandler;
+    protected BiConsumer<F, FormResponseResult<R>> selectedResultHandler;
+    protected Consumer<F> closedResponseHandler;
     protected BiConsumer<F, InvalidFormResponseResult<R>> invalidResponseHandler;
-    protected BiConsumer<F, ValidFormResponseResult<R>> validResponseHandler;
+    protected BiConsumer<F, R> validResponseHandler;
 
     @Override
     @NonNull
@@ -101,17 +115,57 @@ public abstract class FormImpl<R extends FormResponse> implements Form {
     }
 
     @Override
-    public @NonNull B handleAllResponses(
-        @NonNull BiConsumer<F, FormResponseResult<R>> responseHandler) {
-      this.allBiResponseHandler = Objects.requireNonNull(responseHandler, "responseHandler");
+    @NonNull
+    public B closedResultHandler(@NonNull Consumer<F> resultHandler) {
+      this.closedResponseHandler = Objects.requireNonNull(resultHandler, "resultHandler");
       return self();
     }
 
     @Override
-    public @NonNull B handleAllResponses(@NonNull Consumer<FormResponseResult<R>> responseHandler) {
-      this.allResponseHandler = Objects.requireNonNull(responseHandler, "responseHandler");
+    @NonNull
+    public B invalidResultHandler(
+        @NonNull BiConsumer<F, InvalidFormResponseResult<R>> resultHandler) {
+      this.invalidResponseHandler = Objects.requireNonNull(resultHandler, "resultHandler");
       return self();
     }
+
+    @Override
+    @NonNull
+    public B validResultHandler(@NonNull BiConsumer<F, R> resultHandler) {
+      this.validResponseHandler = Objects.requireNonNull(resultHandler, "resultHandler");
+      return self();
+    }
+
+    @Override
+    @NonNull
+    public B resultHandler(@NonNull BiConsumer<F, FormResponseResult<R>> resultHandler) {
+      this.selectedResultHandler = Objects.requireNonNull(resultHandler, "resultHandler");
+      return self();
+    }
+
+    @Override
+    @NonNull
+    public B resultHandler(
+        @NonNull BiConsumer<F, FormResponseResult<R>> resultHandler,
+        @NonNull ResultType[] selectedTypes) {
+      Objects.requireNonNull(resultHandler, "resultHandler");
+      Objects.requireNonNull(selectedTypes, "selectedTypes");
+
+      if (selectedTypes.length == 0) {
+        return self();
+      }
+
+      EnumSet<ResultType> selected = EnumSet.noneOf(ResultType.class);
+      selected.addAll(Arrays.asList(selectedTypes));
+
+      this.selectedResultHandler = (form, response) -> {
+        if (selected.contains(response.responseType()))  {
+          resultHandler.accept(form, response);
+        }
+      };
+      return self();
+    }
+
 
     @Override
     @NonNull
@@ -121,33 +175,27 @@ public abstract class FormImpl<R extends FormResponse> implements Form {
       if (closedResponseHandler != null || invalidResponseHandler != null ||
           validResponseHandler != null) {
 
-        impl.responseHandler(result -> {
-          if (allBiResponseHandler != null) {
-            allBiResponseHandler.accept(form, result);
-          }
-          if (allResponseHandler != null) {
-            allResponseHandler.accept(result);
+        impl.resultHandler(result -> {
+          if (selectedResultHandler != null) {
+            selectedResultHandler.accept(form, result);
           }
 
           if (result.isClosed() && closedResponseHandler != null) {
-            closedResponseHandler.accept(form, (ClosedFormResponseResult<R>) result);
+            closedResponseHandler.accept(form);
           }
           if (result.isInvalid() && invalidResponseHandler != null) {
             invalidResponseHandler.accept(form, (InvalidFormResponseResult<R>) result);
           }
           if (result.isValid() && validResponseHandler != null) {
-            validResponseHandler.accept(form, (ValidFormResponseResult<R>) result);
+            validResponseHandler.accept(form, ((ValidFormResponseResult<R>) result).response());
           }
         });
         return;
       }
 
-      if (allBiResponseHandler != null) {
-        impl.responseHandler(result -> allBiResponseHandler.accept(form, result));
-        return;
+      if (selectedResultHandler != null) {
+        impl.resultHandler(result -> selectedResultHandler.accept(form, result));
       }
-
-      impl.responseHandler(allResponseHandler);
     }
 
     @NonNull

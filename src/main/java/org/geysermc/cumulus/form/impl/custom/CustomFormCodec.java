@@ -34,7 +34,8 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.Forms;
 import org.geysermc.cumulus.component.Component;
 import org.geysermc.cumulus.form.CustomForm;
@@ -86,8 +87,7 @@ public final class CustomFormCodec extends FormCodecImpl<CustomForm, CustomFormR
 
   @Override
   protected FormResponseResult<CustomFormResponse> deserializeResponse(
-      CustomForm form,
-      @Nullable String responseData) {
+      @NonNull CustomForm form, @Nullable String responseData) {
 
     JsonArray responses = gson.fromJson(responseData, JsonArray.class);
     List<ComponentType> types = new ArrayList<>();

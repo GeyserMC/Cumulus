@@ -28,7 +28,6 @@ package org.geysermc.cumulus.form.impl.custom;
 import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.form.impl.FormDefinition;
 import org.geysermc.cumulus.response.CustomFormResponse;
-import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.cumulus.util.FormType;
 
 public final class CustomFormDefinition
@@ -42,11 +41,5 @@ public final class CustomFormDefinition
 
   public static CustomFormDefinition instance() {
     return INSTANCE;
-  }
-
-  @Override
-  protected void callResponseHandler(CustomForm form, FormResponseResult<CustomFormResponse> result)
-      throws Exception {
-    ((CustomFormImpl) form).callResponseHandler(result);
   }
 }

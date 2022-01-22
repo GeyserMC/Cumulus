@@ -27,6 +27,7 @@ package org.geysermc.cumulus;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import java.util.function.BiConsumer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.Component;
 import org.geysermc.cumulus.component.impl.DropdownComponentImpl;
@@ -37,7 +38,9 @@ import org.geysermc.cumulus.component.impl.StepSliderComponentImpl;
 import org.geysermc.cumulus.component.impl.ToggleComponentImpl;
 import org.geysermc.cumulus.form.Form;
 import org.geysermc.cumulus.form.impl.FormDefinitions;
+import org.geysermc.cumulus.response.FormResponse;
 import org.geysermc.cumulus.util.ComponentType;
+import org.geysermc.cumulus.util.FormCodec;
 import org.geysermc.cumulus.util.FormType;
 
 public final class Forms {
@@ -50,9 +53,13 @@ public final class Forms {
    * @return the form instance holding the translated data
    */
   @NonNull
-  @SuppressWarnings("unchecked")
-  public static <T extends Form> T fromJson(String json, FormType type) {
-    return (T) FormDefinitions.instance().codecFor(type).fromJson(json);
+  public static <T extends Form> T fromJson(
+      String json, FormType type,
+      BiConsumer<T, String> responseHandler) {
+
+    return FormDefinitions.instance()
+        .<FormCodec<T, FormResponse>>codecFor(type)
+        .fromJson(json, responseHandler);
   }
 
   /**

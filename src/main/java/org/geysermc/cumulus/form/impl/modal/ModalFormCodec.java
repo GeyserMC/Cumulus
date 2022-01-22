@@ -28,7 +28,8 @@ package org.geysermc.cumulus.form.impl.modal;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
-import javax.annotation.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.Forms;
 import org.geysermc.cumulus.form.ModalForm;
 import org.geysermc.cumulus.response.ModalFormResponse;
@@ -64,8 +65,7 @@ public class ModalFormCodec extends FormCodecImpl<ModalForm, ModalFormResponse>
 
   @Override
   public FormResponseResult<ModalFormResponse> deserializeResponse(
-      ModalForm form,
-      @Nullable String responseData) {
+      @NonNull ModalForm form, @Nullable String responseData) {
 
     //noinspection ConstantConditions
     responseData = responseData.trim();
