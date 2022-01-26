@@ -87,7 +87,7 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
       if (type == ComponentType.LABEL && !includeLabels) {
         continue;
       }
-      return (T) getDataFromType(type, index);
+      return (T) dataFromType(type, index);
     }
     return null; // we don't have anything to check anymore
   }
@@ -122,7 +122,7 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
 
   @Override
   @Nullable
-  public JsonPrimitive get(int index) {
+  public JsonPrimitive componentAt(int index) {
     Preconditions.checkArgument(index >= 0, "index");
     try {
       return responses.get(index).getAsJsonPrimitive();
@@ -133,8 +133,8 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
   }
 
   @Override
-  public int getDropdown(int index) {
-    JsonPrimitive primitive = get(index);
+  public int asDropdown(int index) {
+    JsonPrimitive primitive = componentAt(index);
     if (primitive == null || !primitive.isNumber()) {
       wrongType(index, "dropdown");
     }
@@ -142,8 +142,8 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
   }
 
   @Override
-  public String getInput(int index) {
-    JsonPrimitive primitive = get(index);
+  public String asInput(int index) {
+    JsonPrimitive primitive = componentAt(index);
     if (primitive == null || !primitive.isString()) {
       wrongType(index, "input");
     }
@@ -151,8 +151,8 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
   }
 
   @Override
-  public float getSlider(int index) {
-    JsonPrimitive primitive = get(index);
+  public float asSlider(int index) {
+    JsonPrimitive primitive = componentAt(index);
     if (primitive == null || !primitive.isNumber()) {
       wrongType(index, "slider");
     }
@@ -160,8 +160,8 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
   }
 
   @Override
-  public int getStepSlide(int index) {
-    JsonPrimitive primitive = get(index);
+  public int asStepSlide(int index) {
+    JsonPrimitive primitive = componentAt(index);
     if (primitive == null || !primitive.isNumber()) {
       wrongType(index, "step slider");
     }
@@ -169,26 +169,26 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
   }
 
   @Override
-  public boolean getToggle(int index) {
-    JsonPrimitive primitive = get(index);
+  public boolean asToggle(int index) {
+    JsonPrimitive primitive = componentAt(index);
     if (primitive == null || !primitive.isBoolean()) {
       wrongType(index, "toggle");
     }
     return primitive.getAsBoolean();
   }
 
-  private Object getDataFromType(ComponentType type, int index) {
+  private Object dataFromType(ComponentType type, int index) {
     switch (type) {
       case DROPDOWN:
-        return getDropdown(index);
+        return asDropdown(index);
       case INPUT:
-        return getInput(index);
+        return asInput(index);
       case SLIDER:
-        return getSlider(index);
+        return asSlider(index);
       case STEP_SLIDER:
-        return getStepSlide(index);
+        return asStepSlide(index);
       case TOGGLE:
-        return getToggle(index);
+        return asToggle(index);
       default:
         return null; // label e.g. is always null
     }
@@ -197,6 +197,7 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
   private void wrongType(int index, String expected) {
     throw new IllegalStateException(String.format(
         "Expected %s on %s, got %s",
-        expected, index, responses.get(index).toString()));
+        expected, index, responses.get(index).toString()
+    ));
   }
 }

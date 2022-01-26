@@ -33,7 +33,6 @@ import com.google.gson.JsonSerializationContext;
 import java.util.List;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.geysermc.cumulus.Forms;
 import org.geysermc.cumulus.component.ButtonComponent;
 import org.geysermc.cumulus.form.SimpleForm;
 import org.geysermc.cumulus.response.SimpleFormResponse;
@@ -42,6 +41,7 @@ import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.cumulus.util.FormCodec;
 import org.geysermc.cumulus.util.FormImage;
 import org.geysermc.cumulus.util.FormType;
+import org.geysermc.cumulus.util.Utils;
 import org.geysermc.cumulus.util.impl.FormCodecImpl;
 import org.geysermc.cumulus.util.impl.FormImageAdaptor;
 
@@ -54,10 +54,10 @@ public final class SimpleFormCodec extends FormCodecImpl<SimpleForm, SimpleFormR
 
   @Override
   protected SimpleForm deserializeForm(JsonObject source, JsonDeserializationContext context) {
-    String title = Forms.getOrThrow(source, "title").getAsString();
-    String content = Forms.getOrThrow(source, "content").getAsString();
+    String title = Utils.assumeMember(source, "title").getAsString();
+    String content = Utils.assumeMember(source, "content").getAsString();
 
-    JsonElement buttonsElement = Forms.getOrThrow(source, "buttons");
+    JsonElement buttonsElement = Utils.assumeMember(source, "buttons");
     List<ButtonComponent> buttons = context.deserialize(buttonsElement, LIST_BUTTON_TYPE);
 
     return new SimpleFormImpl(title, content, buttons);

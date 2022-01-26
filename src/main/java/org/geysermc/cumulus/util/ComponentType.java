@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -61,7 +61,7 @@ public enum ComponentType {
 
   private final String name = name().toLowerCase(Locale.ROOT);
 
-  public static ComponentType getByName(String name) {
+  public static ComponentType fromName(String name) {
     for (ComponentType type : VALUES) {
       if (type.name.equals(name)) {
         return type;
@@ -70,7 +70,7 @@ public enum ComponentType {
     return null;
   }
 
-  public String getName() {
+  public String componentName() {
     return this.name;
   }
 }

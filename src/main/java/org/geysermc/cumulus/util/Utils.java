@@ -25,34 +25,18 @@
 
 package org.geysermc.cumulus.util;
 
-import com.google.gson.annotations.SerializedName;
-import org.geysermc.cumulus.form.CustomForm;
-import org.geysermc.cumulus.form.ModalForm;
-import org.geysermc.cumulus.form.SimpleForm;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
-/**
- * An enum containing the valid form types. Valid form types are:
- * <ul>
- *     <li>{@link SimpleForm Simple Form}</li>
- *     <li>{@link ModalForm Modal Form}</li>
- *     <li>{@link CustomForm Custom Form}</li>
- * </ul>
- * For more information and for code examples look at
- * <a href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
- *
- * @since 1.0
- */
-public enum FormType {
-  @SerializedName("form")
-  SIMPLE_FORM,
-  @SerializedName("modal")
-  MODAL_FORM,
-  @SerializedName("custom_form")
-  CUSTOM_FORM;
-
-  private static final FormType[] VALUES = values();
-
-  public static FormType fromOrdinal(int ordinal) {
-    return ordinal < VALUES.length ? VALUES[ordinal] : null;
+public class Utils {
+  @NonNull
+  public static JsonElement assumeMember(@NonNull JsonObject object, @NonNull String memberName) {
+    JsonElement member = object.get(memberName);
+    if (member == null) {
+      throw new IllegalStateException(
+          "Excepted to find a member named '" + memberName + "' in the JsonObject!");
+    }
+    return member;
   }
 }

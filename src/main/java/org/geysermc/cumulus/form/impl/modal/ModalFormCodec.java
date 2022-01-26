@@ -30,13 +30,13 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.geysermc.cumulus.Forms;
 import org.geysermc.cumulus.form.ModalForm;
 import org.geysermc.cumulus.response.ModalFormResponse;
 import org.geysermc.cumulus.response.impl.ModalFormResponseImpl;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.cumulus.util.FormCodec;
 import org.geysermc.cumulus.util.FormType;
+import org.geysermc.cumulus.util.Utils;
 import org.geysermc.cumulus.util.impl.FormCodecImpl;
 
 public class ModalFormCodec extends FormCodecImpl<ModalForm, ModalFormResponse>
@@ -48,10 +48,10 @@ public class ModalFormCodec extends FormCodecImpl<ModalForm, ModalFormResponse>
 
   @Override
   public ModalForm deserializeForm(JsonObject source, JsonDeserializationContext context) {
-    String title = Forms.getOrThrow(source, "title").getAsString();
-    String content = Forms.getOrThrow(source, "content").getAsString();
-    String button1 = Forms.getOrThrow(source, "button1").getAsString();
-    String button2 = Forms.getOrThrow(source, "button2").getAsString();
+    String title = Utils.assumeMember(source, "title").getAsString();
+    String content = Utils.assumeMember(source, "content").getAsString();
+    String button1 = Utils.assumeMember(source, "button1").getAsString();
+    String button2 = Utils.assumeMember(source, "button2").getAsString();
     return new ModalFormImpl(title, content, button1, button2);
   }
 

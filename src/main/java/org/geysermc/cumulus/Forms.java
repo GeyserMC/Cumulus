@@ -25,8 +25,6 @@
 
 package org.geysermc.cumulus;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import java.util.function.BiConsumer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.Component;
@@ -100,15 +98,5 @@ public final class Forms {
       default:
         throw new RuntimeException("Cannot find implementation for ComponentType " + type);
     }
-  }
-
-  @NonNull
-  public static JsonElement getOrThrow(@NonNull JsonObject object, @NonNull String memberName) {
-    JsonElement member = object.get(memberName);
-    if (member == null) {
-      throw new IllegalStateException(
-          "Excepted to find a member named '" + memberName + "' in the JsonObject!");
-    }
-    return member;
   }
 }

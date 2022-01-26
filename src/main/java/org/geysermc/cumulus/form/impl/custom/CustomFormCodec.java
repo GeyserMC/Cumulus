@@ -46,6 +46,7 @@ import org.geysermc.cumulus.util.ComponentType;
 import org.geysermc.cumulus.util.FormCodec;
 import org.geysermc.cumulus.util.FormImage;
 import org.geysermc.cumulus.util.FormType;
+import org.geysermc.cumulus.util.Utils;
 import org.geysermc.cumulus.util.impl.FormCodecImpl;
 import org.geysermc.cumulus.util.impl.FormImageAdaptor;
 import org.geysermc.cumulus.util.impl.FormImageImpl;
@@ -59,16 +60,16 @@ public final class CustomFormCodec extends FormCodecImpl<CustomForm, CustomFormR
 
   @Override
   protected CustomForm deserializeForm(JsonObject source, JsonDeserializationContext context) {
-    String title = Forms.getOrThrow(source, "title").getAsString();
+    String title = Utils.assumeMember(source, "title").getAsString();
     FormImage icon = context.deserialize(source.get("icon"), FormImageImpl.class);
 
     List<Component> content = new ArrayList<>();
 
-    JsonArray contentArray = Forms.getOrThrow(source, "content").getAsJsonArray();
+    JsonArray contentArray = Utils.assumeMember(source, "content").getAsJsonArray();
     for (JsonElement contentElement : contentArray) {
-      String typeName = Forms.getOrThrow(contentElement.getAsJsonObject(), "type").getAsString();
+      String typeName = Utils.assumeMember(contentElement.getAsJsonObject(), "type").getAsString();
 
-      ComponentType type = ComponentType.getByName(typeName);
+      ComponentType type = ComponentType.fromName(typeName);
       if (type == null) {
         throw new JsonParseException("Failed to find Component type " + typeName);
       }

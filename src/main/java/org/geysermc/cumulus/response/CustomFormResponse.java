@@ -56,16 +56,16 @@ public interface CustomFormResponse extends FormResponse {
   boolean hasNext();
 
   @Nullable
-  JsonPrimitive get(@NonNegative int index);
+  JsonPrimitive componentAt(@NonNegative int index);
 
-  int getDropdown(@NonNegative int index);
+  int asDropdown(@NonNegative int index);
 
   @Nullable
-  String getInput(@NonNegative int index);
+  String asInput(@NonNegative int index);
 
-  float getSlider(@NonNegative int index);
+  float asSlider(@NonNegative int index);
 
-  int getStepSlide(@NonNegative int index);
+  int asStepSlide(@NonNegative int index);
 
-  boolean getToggle(@NonNegative int index);
+  boolean asToggle(@NonNegative int index);
 }
