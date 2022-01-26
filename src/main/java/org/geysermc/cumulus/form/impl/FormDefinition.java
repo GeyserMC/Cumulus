@@ -47,7 +47,7 @@ public abstract class FormDefinition<F extends Form, I extends FormImpl<R>, R ex
     this.formImplClass = formImplClass;
   }
 
-  protected final FormCodec<F, R> codec() {
+  public final FormCodec<F, R> codec() {
     return codec;
   }
 
