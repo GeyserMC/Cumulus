@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -109,6 +109,10 @@ public interface CustomForm extends Form {
     @NonNull
     Builder component(@NonNull Component component);
 
+    /**
+     * @deprecated be aware, this method will behave differently in 1.1
+     */
+    @Deprecated
     @NonNull
     default Builder optionalComponent(@NonNull Component component, boolean shouldAdd) {
       if (shouldAdd) {
@@ -129,6 +133,10 @@ public interface CustomForm extends Form {
     @NonNull
     Builder dropdown(@NonNull String text, @NonNull String... options);
 
+    /**
+     * @deprecated be aware, this method will behave differently in 1.1
+     */
+    @Deprecated
     @NonNull
     default Builder optionalDropdown(
         boolean shouldAdd,
@@ -141,6 +149,10 @@ public interface CustomForm extends Form {
       return this;
     }
 
+    /**
+     * @deprecated be aware, this method will behave differently in 1.1
+     */
+    @Deprecated
     @NonNull
     default Builder optionalDropdown(
         boolean shouldAdd,
@@ -164,6 +176,10 @@ public interface CustomForm extends Form {
     @NonNull
     Builder input(@NonNull String text);
 
+    /**
+     * @deprecated be aware, this method will behave differently in 1.1
+     */
+    @Deprecated
     @NonNull
     default Builder optionalInput(
         @NonNull String text,
@@ -176,6 +192,10 @@ public interface CustomForm extends Form {
       return this;
     }
 
+    /**
+     * @deprecated be aware, this method will behave differently in 1.1
+     */
+    @Deprecated
     @NonNull
     default Builder optionalInput(
         @NonNull String text,
@@ -187,6 +207,10 @@ public interface CustomForm extends Form {
       return this;
     }
 
+    /**
+     * @deprecated be aware, this method will behave differently in 1.1
+     */
+    @Deprecated
     @NonNull
     default Builder optionalInput(@NonNull String text, boolean shouldAdd) {
       if (shouldAdd) {
@@ -198,6 +222,10 @@ public interface CustomForm extends Form {
     @NonNull
     Builder label(@NonNull String text);
 
+    /**
+     * @deprecated be aware, this method will behave differently in 1.1
+     */
+    @Deprecated
     @NonNull
     default Builder optionalLabel(@NonNull String text, boolean shouldAdd) {
       if (shouldAdd) {
@@ -223,6 +251,10 @@ public interface CustomForm extends Form {
     @NonNull
     Builder slider(@NonNull String text, float min, float max);
 
+    /**
+     * @deprecated be aware, this method will behave differently in 1.1
+     */
+    @Deprecated
     @NonNull
     default Builder optionalSlider(
         @NonNull String text,
@@ -237,6 +269,10 @@ public interface CustomForm extends Form {
       return this;
     }
 
+    /**
+     * @deprecated be aware, this method will behave differently in 1.1
+     */
+    @Deprecated
     @NonNull
     default Builder optionalSlider(
         @NonNull String text,
@@ -250,6 +286,10 @@ public interface CustomForm extends Form {
       return this;
     }
 
+    /**
+     * @deprecated be aware, this method will behave differently in 1.1
+     */
+    @Deprecated
     @NonNull
     default Builder optionalSlider(
         @NonNull String text,
@@ -263,6 +303,10 @@ public interface CustomForm extends Form {
       return this;
     }
 
+    /**
+     * @deprecated be aware, this method will behave differently in 1.1
+     */
+    @Deprecated
     @NonNull
     default Builder optionalSlider(@NonNull String text, float min, float max, boolean shouldAdd) {
       if (shouldAdd) {
@@ -283,6 +327,10 @@ public interface CustomForm extends Form {
     @NonNull
     Builder stepSlider(@NonNull String text, @NonNull String... steps);
 
+    /**
+     * @deprecated be aware, this method will behave differently in 1.1
+     */
+    @Deprecated
     @NonNull
     default Builder optionalStepSlider(
         boolean shouldAdd,
@@ -295,6 +343,10 @@ public interface CustomForm extends Form {
       return this;
     }
 
+    /**
+     * @deprecated be aware, this method will behave differently in 1.1
+     */
+    @Deprecated
     @NonNull
     default Builder optionalStepSlider(
         boolean shouldAdd,
@@ -312,6 +364,10 @@ public interface CustomForm extends Form {
     @NonNull
     Builder toggle(@NonNull String text);
 
+    /**
+     * @deprecated be aware, this method will behave differently in 1.1
+     */
+    @Deprecated
     @NonNull
     default Builder optionalToggle(@NonNull String text, boolean defaultValue, boolean shouldAdd) {
       if (shouldAdd) {
@@ -320,6 +376,10 @@ public interface CustomForm extends Form {
       return this;
     }
 
+    /**
+     * @deprecated be aware, this method will behave differently in 1.1
+     */
+    @Deprecated
     @NonNull
     default Builder optionalToggle(@NonNull String text, boolean shouldAdd) {
       if (shouldAdd) {

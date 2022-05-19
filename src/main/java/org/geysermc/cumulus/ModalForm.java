@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2021 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -98,7 +98,9 @@ public interface ModalForm extends Form {
      * @param button1   the text of the first button
      * @param shouldAdd if the button should be added
      * @return the form builder
+     * @deprecated be aware, this method will behave differently in 1.1
      */
+    @Deprecated
     @NonNull
     default Builder optionalButton1(@NonNull String button1, boolean shouldAdd) {
       if (shouldAdd) {
@@ -122,7 +124,9 @@ public interface ModalForm extends Form {
      * @param button2   the text of the second button
      * @param shouldAdd if the button should be added
      * @return the form builder
+     * @deprecated be aware, this method will behave differently in 1.1
      */
+    @Deprecated
     @NonNull
     default Builder optionalButton2(@NonNull String button2, boolean shouldAdd) {
       if (shouldAdd) {
