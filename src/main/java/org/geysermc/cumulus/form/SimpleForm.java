@@ -37,7 +37,7 @@ import org.geysermc.cumulus.util.FormImage;
 /**
  * Represents a SimpleForm which can be shown to the client. A SimpleForm is a simple but handy Form
  * type. It is a list of buttons which can have images. For more information and for code examples
- * look at <a href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
+ * look at <a href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
  *
  * @since 1.0
  */
@@ -80,7 +80,7 @@ public interface SimpleForm extends Form {
 
   /**
    * An easy way to create a CustomForm. For more information and code examples look at <a
-   * href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
+   * href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
    */
   interface Builder extends FormBuilder<Builder, SimpleForm, SimpleFormResponse> {
     /**

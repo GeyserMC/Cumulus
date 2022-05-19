@@ -76,6 +76,7 @@ public abstract class FormCodecImpl<F extends Form, R extends FormResponse>
     return form;
   }
 
+  @SuppressWarnings("unchecked")
   protected void setRawResponseConsumer(F form, BiConsumer<F, String> rawResponseConsumer) {
     ((FormImpl<R>) form)
         .rawResponseConsumer(response -> rawResponseConsumer.accept(form, response));
@@ -115,7 +116,7 @@ public abstract class FormCodecImpl<F extends Form, R extends FormResponse>
 
     // if the form has been closed by the client
     if (response == null || response.isEmpty() || "null".equalsIgnoreCase(response.trim())) {
-      return ClosedFormResponseResult.instance();
+      return FormResponseResult.closed();
     }
 
     return deserializeResponse(form, response);

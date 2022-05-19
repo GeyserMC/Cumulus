@@ -25,6 +25,24 @@
 
 package org.geysermc.cumulus.response.result;
 
+/**
+ * Cumulus divides the responses in three different types: {@link #CLOSED closed},
+ * {@link #INVALID invalid} and {@link #VALID valid}. And every response only has one ResultType.
+ *
+ * @since 1.1
+ */
 public enum ResultType {
-  CLOSED, INVALID, VALID
+  /**
+   * The client has closed the form.
+   */
+  CLOSED,
+  /**
+   * The client did intend on sending a response, but the response contains one or more invalid
+   * values (e.g. received a bool where the type should've been an int).
+   */
+  INVALID,
+  /**
+   * The client sent a valid response.
+   */
+  VALID
 }

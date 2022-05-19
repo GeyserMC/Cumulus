@@ -41,7 +41,7 @@ import org.geysermc.cumulus.util.FormImage;
 /**
  * Represents a CustomForm which can be shown to the client. A CustomForm is the most customisable
  * form type, you can add all component types except for buttons. For more information and for code
- * examples look at <a href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
+ * examples look at <a href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
  *
  * @since 1.0
  */
@@ -84,7 +84,7 @@ public interface CustomForm extends Form {
 
   /**
    * An easy way to create a CustomForm. For more information and code examples look at <a
-   * href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
+   * href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
    */
   interface Builder extends FormBuilder<Builder, CustomForm, CustomFormResponse> {
     @NonNull

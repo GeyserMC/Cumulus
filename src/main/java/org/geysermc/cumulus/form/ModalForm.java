@@ -33,7 +33,7 @@ import org.geysermc.cumulus.util.FormBuilder;
 /**
  * Represents a ModalForm which can be shown to the client. A ModalForm is the most basic form type.
  * It has a title, description and two buttons. For more information and for code examples look at
- * <a href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
+ * <a href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
  *
  * @since 1.0
  */
@@ -90,7 +90,7 @@ public interface ModalForm extends Form {
 
   /**
    * An easy way to create a ModalForm. For more information and code examples look at <a
-   * href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
+   * href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
    */
   interface Builder extends FormBuilder<Builder, ModalForm, ModalFormResponse> {
     //todo rethink about optional components, as they're currently weird to handle in response

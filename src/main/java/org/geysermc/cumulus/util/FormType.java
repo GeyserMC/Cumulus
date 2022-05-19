@@ -38,7 +38,7 @@ import org.geysermc.cumulus.form.SimpleForm;
  *     <li>{@link CustomForm Custom Form}</li>
  * </ul>
  * For more information and for code examples look at
- * <a href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
+ * <a href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
  *
  * @since 1.0
  */

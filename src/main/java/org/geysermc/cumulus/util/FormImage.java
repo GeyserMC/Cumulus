@@ -34,7 +34,7 @@ import org.geysermc.cumulus.util.impl.FormImageImpl;
 /**
  * Represents a form image which is used in buttons and as image for client settings. This class
  * holds a image type and data for the image type. For more information and for code examples look
- * at <a href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
+ * at <a href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
  *
  * @since 1.0
  */
@@ -77,7 +77,7 @@ public interface FormImage {
 
   /**
    * An enum which has the available FormImage Types. For more information and for code examples
-   * look at <a href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
+   * look at <a href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
    */
   enum Type {
     @SerializedName("path") PATH,

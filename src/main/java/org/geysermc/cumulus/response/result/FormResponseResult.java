@@ -27,8 +27,8 @@ package org.geysermc.cumulus.response.result;
 
 import org.geysermc.cumulus.response.FormResponse;
 
+@SuppressWarnings("unused")
 public interface FormResponseResult<T extends FormResponse> {
-
   static <R extends FormResponse> ClosedFormResponseResult<R> closed() {
     return ClosedFormResponseResult.instance();
   }

@@ -25,13 +25,21 @@
 
 package org.geysermc.cumulus.response;
 
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 public interface ModalFormResponse extends FormResponse {
+  /**
+   * Returns the id of the button that has been clicked.
+   */
   int clickedButtonId();
 
-  @Nullable
-  String clickedButtonText();
+  /**
+   * Returns the text of the button that has been clicked.
+   */
+  @NonNull String clickedButtonText();
 
+  /**
+   * Returns true if the player clicked the first button, returns false otherwise.
+   */
   boolean clickedFirst();
 }

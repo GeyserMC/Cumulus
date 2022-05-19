@@ -73,9 +73,8 @@ public final class SimpleFormCodec extends FormCodecImpl<SimpleForm, SimpleFormR
 
   @Override
   protected FormResponseResult<SimpleFormResponse> deserializeResponse(
-      @NonNull SimpleForm form, @Nullable String data) {
+      @NonNull SimpleForm form, @NonNull String data) {
 
-    //noinspection ConstantConditions
     data = data.trim();
 
     int buttonId;

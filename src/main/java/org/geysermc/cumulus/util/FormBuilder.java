@@ -55,10 +55,10 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
   @NonNull B title(@NonNull String title);
 
   /**
-   * Set the translator of the form. The translator is called every time a component is added and it
-   * can be called multiple times for one component, depending on how many string fields a component
-   * has.<br><br> Note that the translation is executing when building the form. This info will not
-   * be present in the final form instance.
+   * Set the translator of the form. The translator is called every time a component is added, and
+   * it can be called more than once for one component (it depends on the amount of string fields a
+   * component has).<br><br> Note that the translation is executed when building the form. This info
+   * will not be present in the final form instance.
    *
    * @param translator the translator that will translate every string. First argument is the text
    *                   to translate, the second argument is the player's locale
@@ -71,12 +71,12 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
       @NonNull String locale);
 
   /**
-   * Set the translator of the form. The translator is called every time a component is added and it
-   * can be called multiple times for one component, depending on how many string fields a component
-   * has. This specific method assumes that {@link #translator(BiFunction, String)} has been
-   * executed before, so this method is more for overriding the previous translator since the locale
-   * isn't asked.<br><br> Note that the translation is executing when building the form. This info
-   * will not be present in the final form instance.
+   * Set the translator of the form. The translator is called every time a component is added, and
+   * it can be called more than once for one component (it depends on the amount of string fields a
+   * component has).<br><br> Note that the translation is executed when building the form. This info
+   * will not be present in the final form instance.<br><br> This specific method assumes that
+   * {@link #translator(BiFunction, String)} has been executed before, because this method will
+   * reuse the same locale.
    *
    * @param translator the translator that will translate every string. First argument is the text
    *                   to translate, the second argument is the player's locale

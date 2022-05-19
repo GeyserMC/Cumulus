@@ -27,7 +27,7 @@ package org.geysermc.cumulus.response.impl;
 
 import com.google.common.base.Preconditions;
 import java.util.Objects;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.response.ModalFormResponse;
 
 public final class ModalFormResponseImpl implements ModalFormResponse {
@@ -50,7 +50,8 @@ public final class ModalFormResponseImpl implements ModalFormResponse {
   }
 
   @Override
-  public @Nullable String clickedButtonText() {
+  @NonNull
+  public String clickedButtonText() {
     return clickedButtonText;
   }
 

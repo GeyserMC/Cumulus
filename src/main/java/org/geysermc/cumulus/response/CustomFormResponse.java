@@ -35,17 +35,22 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.util.ComponentType;
 
 public interface CustomFormResponse extends FormResponse {
-  @NonNull
-  JsonArray responses();
+  /**
+   * @deprecated since 1.1, will be removed in 2.0. Please use the more friendly methods instead.
+   */
+  @Deprecated
+  @NonNull JsonArray responses();
 
-  @NonNull
-  List<ComponentType> componentTypes();
+  /**
+   * @deprecated since 1.1, will be removed in 2.0. The component types aren't relevant since
+   * they're already defined in the form itself.
+   */
+  @Deprecated
+  @NonNull List<ComponentType> componentTypes();
 
-  @Nullable
-  <T> T next(boolean includeLabels);
+  @Nullable <T> T next(boolean includeLabels);
 
-  @Nullable
-  <T> T next();
+  @Nullable <T> T next();
 
   void skip(@Positive int amount);
 
@@ -55,13 +60,11 @@ public interface CustomFormResponse extends FormResponse {
 
   boolean hasNext();
 
-  @Nullable
-  JsonPrimitive componentAt(@NonNegative int index);
+  @Nullable JsonPrimitive componentAt(@NonNegative int index);
 
   int asDropdown(@NonNegative int index);
 
-  @Nullable
-  String asInput(@NonNegative int index);
+  @Nullable String asInput(@NonNegative int index);
 
   float asSlider(@NonNegative int index);
 

@@ -39,7 +39,7 @@ import java.util.Locale;
  *     <li>{@link org.geysermc.cumulus.component.ToggleComponent Toggle Component}</li>
  * </ul>
  * For more information and for code examples look at
- * <a href='https://github.com/GeyserMC/Cumulus/wiki'>the wiki</a>.
+ * <a href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
  *
  * @since 1.0
  */

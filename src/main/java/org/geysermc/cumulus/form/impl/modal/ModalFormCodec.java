@@ -65,9 +65,8 @@ public class ModalFormCodec extends FormCodecImpl<ModalForm, ModalFormResponse>
 
   @Override
   public FormResponseResult<ModalFormResponse> deserializeResponse(
-      @NonNull ModalForm form, @Nullable String responseData) {
+      @NonNull ModalForm form, @NonNull String responseData) {
 
-    //noinspection ConstantConditions
     responseData = responseData.trim();
 
     if ("true".equals(responseData)) {

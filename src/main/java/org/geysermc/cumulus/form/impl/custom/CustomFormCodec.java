@@ -88,9 +88,10 @@ public final class CustomFormCodec extends FormCodecImpl<CustomForm, CustomFormR
 
   @Override
   protected FormResponseResult<CustomFormResponse> deserializeResponse(
-      @NonNull CustomForm form, @Nullable String responseData) {
+      @NonNull CustomForm form, @NonNull String responseData) {
 
     JsonArray responses = gson.fromJson(responseData, JsonArray.class);
+
     List<ComponentType> types = new ArrayList<>();
     for (Component component : form.content()) {
       types.add(component.type());
