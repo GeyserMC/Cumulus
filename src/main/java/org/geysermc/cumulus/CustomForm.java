@@ -110,7 +110,11 @@ public interface CustomForm extends Form {
     Builder component(@NonNull Component component);
 
     /**
-     * @deprecated be aware, this method will behave differently in 1.1
+     * @deprecated be aware, this method will behave differently in 1.1. The current behaviour is
+     * that the method only does something when 'shouldAdd' is true, meaning that you have to keep
+     * track of the value of 'shouldAdd' when you read the response. The new behaviour is that the
+     * component will be added to the form, but only displayed to the client when 'shouldAdd' is
+     * true. This makes it easier to handle the response.
      */
     @Deprecated
     @NonNull
@@ -134,7 +138,11 @@ public interface CustomForm extends Form {
     Builder dropdown(@NonNull String text, @NonNull String... options);
 
     /**
-     * @deprecated be aware, this method will behave differently in 1.1
+     * @deprecated be aware, this method will behave differently in 1.1. The current behaviour is
+     * that the method only does something when 'shouldAdd' is true, meaning that you have to keep
+     * track of the value of 'shouldAdd' when you read the response. The new behaviour is that the
+     * component will be added to the form, but only displayed to the client when 'shouldAdd' is
+     * true. This makes it easier to handle the response.
      */
     @Deprecated
     @NonNull
@@ -150,7 +158,11 @@ public interface CustomForm extends Form {
     }
 
     /**
-     * @deprecated be aware, this method will behave differently in 1.1
+     * @deprecated be aware, this method will behave differently in 1.1. The current behaviour is
+     * that the method only does something when 'shouldAdd' is true, meaning that you have to keep
+     * track of the value of 'shouldAdd' when you read the response. The new behaviour is that the
+     * component will be added to the form, but only displayed to the client when 'shouldAdd' is
+     * true. This makes it easier to handle the response.
      */
     @Deprecated
     @NonNull
@@ -177,7 +189,11 @@ public interface CustomForm extends Form {
     Builder input(@NonNull String text);
 
     /**
-     * @deprecated be aware, this method will behave differently in 1.1
+     * @deprecated be aware, this method will behave differently in 1.1. The current behaviour is
+     * that the method only does something when 'shouldAdd' is true, meaning that you have to keep
+     * track of the value of 'shouldAdd' when you read the response. The new behaviour is that the
+     * component will be added to the form, but only displayed to the client when 'shouldAdd' is
+     * true. This makes it easier to handle the response.
      */
     @Deprecated
     @NonNull
@@ -193,7 +209,11 @@ public interface CustomForm extends Form {
     }
 
     /**
-     * @deprecated be aware, this method will behave differently in 1.1
+     * @deprecated be aware, this method will behave differently in 1.1. The current behaviour is
+     * that the method only does something when 'shouldAdd' is true, meaning that you have to keep
+     * track of the value of 'shouldAdd' when you read the response. The new behaviour is that the
+     * component will be added to the form, but only displayed to the client when 'shouldAdd' is
+     * true. This makes it easier to handle the response.
      */
     @Deprecated
     @NonNull
@@ -208,7 +228,11 @@ public interface CustomForm extends Form {
     }
 
     /**
-     * @deprecated be aware, this method will behave differently in 1.1
+     * @deprecated be aware, this method will behave differently in 1.1. The current behaviour is
+     * that the method only does something when 'shouldAdd' is true, meaning that you have to keep
+     * track of the value of 'shouldAdd' when you read the response. The new behaviour is that the
+     * component will be added to the form, but only displayed to the client when 'shouldAdd' is
+     * true. This makes it easier to handle the response.
      */
     @Deprecated
     @NonNull
@@ -223,7 +247,11 @@ public interface CustomForm extends Form {
     Builder label(@NonNull String text);
 
     /**
-     * @deprecated be aware, this method will behave differently in 1.1
+     * @deprecated be aware, this method will behave differently in 1.1. The current behaviour is
+     * that the method only does something when 'shouldAdd' is true, meaning that you have to keep
+     * track of the value of 'shouldAdd' when you read the response. The new behaviour is that the
+     * component will be added to the form, but only displayed to the client when 'shouldAdd' is
+     * true. This makes it easier to handle the response.
      */
     @Deprecated
     @NonNull
@@ -252,7 +280,11 @@ public interface CustomForm extends Form {
     Builder slider(@NonNull String text, float min, float max);
 
     /**
-     * @deprecated be aware, this method will behave differently in 1.1
+     * @deprecated be aware, this method will behave differently in 1.1. The current behaviour is
+     * that the method only does something when 'shouldAdd' is true, meaning that you have to keep
+     * track of the value of 'shouldAdd' when you read the response. The new behaviour is that the
+     * component will be added to the form, but only displayed to the client when 'shouldAdd' is
+     * true. This makes it easier to handle the response.
      */
     @Deprecated
     @NonNull
@@ -270,7 +302,11 @@ public interface CustomForm extends Form {
     }
 
     /**
-     * @deprecated be aware, this method will behave differently in 1.1
+     * @deprecated be aware, this method will behave differently in 1.1. The current behaviour is
+     * that the method only does something when 'shouldAdd' is true, meaning that you have to keep
+     * track of the value of 'shouldAdd' when you read the response. The new behaviour is that the
+     * component will be added to the form, but only displayed to the client when 'shouldAdd' is
+     * true. This makes it easier to handle the response.
      */
     @Deprecated
     @NonNull
@@ -287,7 +323,11 @@ public interface CustomForm extends Form {
     }
 
     /**
-     * @deprecated be aware, this method will behave differently in 1.1
+     * @deprecated be aware, this method will behave differently in 1.1. The current behaviour is
+     * that the method only does something when 'shouldAdd' is true, meaning that you have to keep
+     * track of the value of 'shouldAdd' when you read the response. The new behaviour is that the
+     * component will be added to the form, but only displayed to the client when 'shouldAdd' is
+     * true. This makes it easier to handle the response.
      */
     @Deprecated
     @NonNull
@@ -304,7 +344,11 @@ public interface CustomForm extends Form {
     }
 
     /**
-     * @deprecated be aware, this method will behave differently in 1.1
+     * @deprecated be aware, this method will behave differently in 1.1. The current behaviour is
+     * that the method only does something when 'shouldAdd' is true, meaning that you have to keep
+     * track of the value of 'shouldAdd' when you read the response. The new behaviour is that the
+     * component will be added to the form, but only displayed to the client when 'shouldAdd' is
+     * true. This makes it easier to handle the response.
      */
     @Deprecated
     @NonNull
@@ -328,7 +372,11 @@ public interface CustomForm extends Form {
     Builder stepSlider(@NonNull String text, @NonNull String... steps);
 
     /**
-     * @deprecated be aware, this method will behave differently in 1.1
+     * @deprecated be aware, this method will behave differently in 1.1. The current behaviour is
+     * that the method only does something when 'shouldAdd' is true, meaning that you have to keep
+     * track of the value of 'shouldAdd' when you read the response. The new behaviour is that the
+     * component will be added to the form, but only displayed to the client when 'shouldAdd' is
+     * true. This makes it easier to handle the response.
      */
     @Deprecated
     @NonNull
@@ -344,7 +392,11 @@ public interface CustomForm extends Form {
     }
 
     /**
-     * @deprecated be aware, this method will behave differently in 1.1
+     * @deprecated be aware, this method will behave differently in 1.1. The current behaviour is
+     * that the method only does something when 'shouldAdd' is true, meaning that you have to keep
+     * track of the value of 'shouldAdd' when you read the response. The new behaviour is that the
+     * component will be added to the form, but only displayed to the client when 'shouldAdd' is
+     * true. This makes it easier to handle the response.
      */
     @Deprecated
     @NonNull
@@ -365,7 +417,11 @@ public interface CustomForm extends Form {
     Builder toggle(@NonNull String text);
 
     /**
-     * @deprecated be aware, this method will behave differently in 1.1
+     * @deprecated be aware, this method will behave differently in 1.1. The current behaviour is
+     * that the method only does something when 'shouldAdd' is true, meaning that you have to keep
+     * track of the value of 'shouldAdd' when you read the response. The new behaviour is that the
+     * component will be added to the form, but only displayed to the client when 'shouldAdd' is
+     * true. This makes it easier to handle the response.
      */
     @Deprecated
     @NonNull
@@ -377,7 +433,11 @@ public interface CustomForm extends Form {
     }
 
     /**
-     * @deprecated be aware, this method will behave differently in 1.1
+     * @deprecated be aware, this method will behave differently in 1.1. The current behaviour is
+     * that the method only does something when 'shouldAdd' is true, meaning that you have to keep
+     * track of the value of 'shouldAdd' when you read the response. The new behaviour is that the
+     * component will be added to the form, but only displayed to the client when 'shouldAdd' is
+     * true. This makes it easier to handle the response.
      */
     @Deprecated
     @NonNull

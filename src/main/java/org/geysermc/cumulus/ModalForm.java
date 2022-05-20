@@ -98,7 +98,11 @@ public interface ModalForm extends Form {
      * @param button1   the text of the first button
      * @param shouldAdd if the button should be added
      * @return the form builder
-     * @deprecated be aware, this method will behave differently in 1.1
+     * @deprecated be aware, this method will behave differently in 1.1. The current behaviour is
+     * that the method only does something when 'shouldAdd' is true, meaning that you have to keep
+     * track of the value of 'shouldAdd' when you read the response. The new behaviour is that the
+     * component will be added to the form, but only displayed to the client when 'shouldAdd' is
+     * true. This makes it easier to handle the response.
      */
     @Deprecated
     @NonNull
@@ -124,7 +128,11 @@ public interface ModalForm extends Form {
      * @param button2   the text of the second button
      * @param shouldAdd if the button should be added
      * @return the form builder
-     * @deprecated be aware, this method will behave differently in 1.1
+     * @deprecated be aware, this method will behave differently in 1.1. The current behaviour is
+     * that the method only does something when 'shouldAdd' is true, meaning that you have to keep
+     * track of the value of 'shouldAdd' when you read the response. The new behaviour is that the
+     * component will be added to the form, but only displayed to the client when 'shouldAdd' is
+     * true. This makes it easier to handle the response.
      */
     @Deprecated
     @NonNull
