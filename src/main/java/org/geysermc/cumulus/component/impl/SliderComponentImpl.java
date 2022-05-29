@@ -30,7 +30,7 @@ import com.google.gson.annotations.SerializedName;
 import org.checkerframework.checker.index.qual.Positive;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.SliderComponent;
-import org.geysermc.cumulus.util.ComponentType;
+import org.geysermc.cumulus.component.util.ComponentType;
 
 public final class SliderComponentImpl extends Component implements SliderComponent {
   private final float min;

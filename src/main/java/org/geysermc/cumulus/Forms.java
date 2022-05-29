@@ -34,12 +34,12 @@ import org.geysermc.cumulus.component.impl.LabelComponentImpl;
 import org.geysermc.cumulus.component.impl.SliderComponentImpl;
 import org.geysermc.cumulus.component.impl.StepSliderComponentImpl;
 import org.geysermc.cumulus.component.impl.ToggleComponentImpl;
+import org.geysermc.cumulus.component.util.ComponentType;
 import org.geysermc.cumulus.form.Form;
 import org.geysermc.cumulus.form.impl.FormDefinitions;
 import org.geysermc.cumulus.form.util.FormCodec;
 import org.geysermc.cumulus.form.util.FormType;
 import org.geysermc.cumulus.response.FormResponse;
-import org.geysermc.cumulus.util.ComponentType;
 
 public final class Forms {
   /**

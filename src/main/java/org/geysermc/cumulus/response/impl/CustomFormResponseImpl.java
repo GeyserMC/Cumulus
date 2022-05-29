@@ -33,9 +33,9 @@ import java.util.List;
 import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.geysermc.cumulus.component.util.ComponentType;
 import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
-import org.geysermc.cumulus.util.ComponentType;
 
 public final class CustomFormResponseImpl implements CustomFormResponse {
   private final JsonArray responses;

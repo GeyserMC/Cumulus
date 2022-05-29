@@ -37,6 +37,7 @@ import java.util.List;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.Forms;
 import org.geysermc.cumulus.component.Component;
+import org.geysermc.cumulus.component.util.ComponentType;
 import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.form.util.FormCodec;
 import org.geysermc.cumulus.form.util.FormType;
@@ -44,9 +45,8 @@ import org.geysermc.cumulus.form.util.impl.FormCodecImpl;
 import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.response.impl.CustomFormResponseImpl;
 import org.geysermc.cumulus.response.result.FormResponseResult;
-import org.geysermc.cumulus.util.ComponentType;
 import org.geysermc.cumulus.util.FormImage;
-import org.geysermc.cumulus.util.Utils;
+import org.geysermc.cumulus.util.JsonUtils;
 import org.geysermc.cumulus.util.impl.FormImageAdaptor;
 import org.geysermc.cumulus.util.impl.FormImageImpl;
 
@@ -59,14 +59,14 @@ public final class CustomFormCodec extends FormCodecImpl<CustomForm, CustomFormR
 
   @Override
   protected CustomForm deserializeForm(JsonObject source, JsonDeserializationContext context) {
-    String title = Utils.assumeMember(source, "title").getAsString();
+    String title = JsonUtils.assumeMember(source, "title").getAsString();
     FormImage icon = context.deserialize(source.get("icon"), FormImageImpl.class);
 
     List<Component> content = new ArrayList<>();
 
-    JsonArray contentArray = Utils.assumeMember(source, "content").getAsJsonArray();
+    JsonArray contentArray = JsonUtils.assumeMember(source, "content").getAsJsonArray();
     for (JsonElement contentElement : contentArray) {
-      String typeName = Utils.assumeMember(contentElement.getAsJsonObject(), "type").getAsString();
+      String typeName = JsonUtils.assumeMember(contentElement.getAsJsonObject(), "type").getAsString();
 
       ComponentType type = ComponentType.fromName(typeName);
       if (type == null) {
@@ -82,7 +82,15 @@ public final class CustomFormCodec extends FormCodecImpl<CustomForm, CustomFormR
   protected void serializeForm(CustomForm form, JsonSerializationContext context, JsonObject result) {
     result.addProperty("title", form.title());
     result.add("icon", context.serialize(form.icon()));
-    result.add("content", context.serialize(form.content()));
+
+    // remove optional components from the content
+    JsonArray content = new JsonArray();
+    for (Component component : form.content()) {
+      if (component != null) {
+        content.add(context.serialize(component));
+      }
+    }
+    result.add("content", content);
   }
 
   @Override
@@ -90,6 +98,8 @@ public final class CustomFormCodec extends FormCodecImpl<CustomForm, CustomFormR
       @NonNull CustomForm form, @NonNull String responseData) {
 
     JsonArray responses = gson.fromJson(responseData, JsonArray.class);
+
+    //todo both verify the response and re-add null components
 
     List<ComponentType> types = new ArrayList<>();
     for (Component component : form.content()) {

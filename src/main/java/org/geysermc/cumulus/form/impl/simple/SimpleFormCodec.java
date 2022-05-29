@@ -26,6 +26,7 @@
 package org.geysermc.cumulus.form.impl.simple;
 
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -41,7 +42,7 @@ import org.geysermc.cumulus.response.SimpleFormResponse;
 import org.geysermc.cumulus.response.impl.SimpleFormResponseImpl;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.cumulus.util.FormImage;
-import org.geysermc.cumulus.util.Utils;
+import org.geysermc.cumulus.util.JsonUtils;
 import org.geysermc.cumulus.util.impl.FormImageAdaptor;
 
 public final class SimpleFormCodec extends FormCodecImpl<SimpleForm, SimpleFormResponse>
@@ -53,21 +54,32 @@ public final class SimpleFormCodec extends FormCodecImpl<SimpleForm, SimpleFormR
 
   @Override
   protected SimpleForm deserializeForm(JsonObject source, JsonDeserializationContext context) {
-    String title = Utils.assumeMember(source, "title").getAsString();
-    String content = Utils.assumeMember(source, "content").getAsString();
+    String title = JsonUtils.assumeMember(source, "title").getAsString();
+    String content = JsonUtils.assumeMember(source, "content").getAsString();
 
-    JsonElement buttonsElement = Utils.assumeMember(source, "buttons");
+    JsonElement buttonsElement = JsonUtils.assumeMember(source, "buttons");
+    // optionals shouldn't be serialized, meaning every item is not null
     List<ButtonComponent> buttons = context.deserialize(buttonsElement, LIST_BUTTON_TYPE);
 
     return new SimpleFormImpl(title, content, buttons);
   }
 
   @Override
-  protected void serializeForm(SimpleForm form, JsonSerializationContext context,
-                            JsonObject result) {
+  protected void serializeForm(
+      SimpleForm form,
+      JsonSerializationContext context,
+      JsonObject result) {
     result.addProperty("title", form.title());
     result.addProperty("content", form.content());
-    result.add("buttons", context.serialize(form.buttons(), LIST_BUTTON_TYPE));
+
+    // remove optional buttons from the button list
+    JsonArray buttons = new JsonArray();
+    for (ButtonComponent button : form.buttons()) {
+      if (button != null) {
+        buttons.add(context.serialize(button));
+      }
+    }
+    result.add("buttons", buttons);
   }
 
   @Override
@@ -83,12 +95,30 @@ public final class SimpleFormCodec extends FormCodecImpl<SimpleForm, SimpleFormR
       return FormResponseResult.invalid();
     }
 
-    if (buttonId < 0 || buttonId >= form.buttons().size()) {
+    if (buttonId < 0) {
+      return FormResponseResult.invalid();
+    }
+
+    // we could have optional buttons.
+    // let's make sure that the buttonId we received is mapped correctly
+    ButtonComponent button = null;
+    int correctButtonId = -1;
+
+    for (int i = 0; i < form.buttons().size(); i++) {
+      ButtonComponent current = form.buttons().get(i);
+      if (current != null && buttonId-- == 0) {
+        button = form.buttons().get(i);
+        correctButtonId = i;
+      }
+    }
+
+    // buttonId was larger than the amount of buttons in the form
+    if (button == null) {
       return FormResponseResult.invalid();
     }
 
     return FormResponseResult.valid(
-        SimpleFormResponseImpl.of(buttonId, form.buttons().get(buttonId))
+        SimpleFormResponseImpl.of(correctButtonId, button)
     );
   }
 

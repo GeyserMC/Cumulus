@@ -34,7 +34,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 import org.geysermc.cumulus.util.FormImage;
-import org.geysermc.cumulus.util.Utils;
+import org.geysermc.cumulus.util.JsonUtils;
 
 public class FormImageAdaptor implements JsonDeserializer<FormImage>, JsonSerializer<FormImage> {
   @Override
@@ -50,8 +50,8 @@ public class FormImageAdaptor implements JsonDeserializer<FormImage>, JsonSerial
 
     JsonObject json = element.getAsJsonObject();
 
-    JsonElement type = Utils.assumeMember(json, "type");
-    JsonElement data = Utils.assumeMember(json, "data");
+    JsonElement type = JsonUtils.assumeMember(json, "type");
+    JsonElement data = JsonUtils.assumeMember(json, "data");
 
     return FormImage.of(type.getAsString(), data.getAsString());
   }

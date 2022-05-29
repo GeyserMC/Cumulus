@@ -35,7 +35,7 @@ import java.util.function.Function;
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.StepSliderComponent;
-import org.geysermc.cumulus.util.ComponentType;
+import org.geysermc.cumulus.component.util.ComponentType;
 
 public final class StepSliderComponentImpl extends Component implements StepSliderComponent {
   private final List<String> steps;
@@ -116,9 +116,7 @@ public final class StepSliderComponentImpl extends Component implements StepSlid
     @NonNull
     public StepSliderComponentImpl translateAndBuild(@NonNull Function<String, String> translator) {
       Objects.requireNonNull(translator, "translator");
-      for (int i = 0; i < steps.size(); i++) {
-        steps.set(i, translator.apply(steps.get(i)));
-      }
+      steps.replaceAll(translator::apply);
       return new StepSliderComponentImpl(translator.apply(text), steps, defaultStep);
     }
   }

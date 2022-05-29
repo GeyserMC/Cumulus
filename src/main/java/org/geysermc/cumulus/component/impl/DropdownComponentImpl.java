@@ -35,7 +35,7 @@ import java.util.function.Function;
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.DropdownComponent;
-import org.geysermc.cumulus.util.ComponentType;
+import org.geysermc.cumulus.component.util.ComponentType;
 
 public final class DropdownComponentImpl extends Component implements DropdownComponent {
   private final List<String> options;
@@ -113,9 +113,7 @@ public final class DropdownComponentImpl extends Component implements DropdownCo
     @NonNull
     public DropdownComponentImpl translateAndBuild(@NonNull Function<String, String> translator) {
       Objects.requireNonNull(translator, "traslator");
-      for (int i = 0; i < options.size(); i++) {
-        options.set(i, translator.apply(options.get(i)));
-      }
+      options.replaceAll(translator::apply);
       return new DropdownComponentImpl(translator.apply(text), options, defaultOption);
     }
   }

@@ -99,7 +99,10 @@ public final class SimpleFormImpl extends FormImpl<SimpleFormResponse>
         FormImage.@NonNull Type type,
         @NonNull String data,
         boolean shouldAdd) {
-      return null;
+      if (shouldAdd) {
+        return button(text, type, data);
+      }
+      return addNullButton();
     }
 
     @Override
@@ -107,12 +110,18 @@ public final class SimpleFormImpl extends FormImpl<SimpleFormResponse>
         @NonNull String text,
         @Nullable FormImage image,
         boolean shouldAdd) {
-      return null;
+      if (shouldAdd) {
+        return button(text, image);
+      }
+      return addNullButton();
     }
 
     @Override
     public Builder optionalButton(@NonNull String text, boolean shouldAdd) {
-      return null;
+      if (shouldAdd) {
+        return button(text);
+      }
+      return addNullButton();
     }
 
     @Override
@@ -121,6 +130,11 @@ public final class SimpleFormImpl extends FormImpl<SimpleFormResponse>
       SimpleFormImpl form = new SimpleFormImpl(title, content, buttons);
       setResponseHandler(form, form);
       return form;
+    }
+
+    private Builder addNullButton() {
+      buttons.add(null);
+      return this;
     }
   }
 }

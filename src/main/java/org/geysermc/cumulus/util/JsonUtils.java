@@ -29,7 +29,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-public class Utils {
+public class JsonUtils {
   @NonNull
   public static JsonElement assumeMember(@NonNull JsonObject object, @NonNull String memberName) {
     JsonElement member = object.get(memberName);

@@ -27,7 +27,7 @@ package org.geysermc.cumulus.component.impl;
 
 import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.geysermc.cumulus.util.ComponentType;
+import org.geysermc.cumulus.component.util.ComponentType;
 
 public abstract class Component {
   private final ComponentType type;

@@ -104,7 +104,10 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
     @Override
     @NonNull
     public Builder optionalComponent(@NonNull Component component, boolean shouldAdd) {
-      return this;
+      if (shouldAdd) {
+        return component(component);
+      }
+      return addNullComponent();
     }
 
     @NonNull
@@ -140,7 +143,10 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
         @NonNull String text,
         @NonNegative int defaultOption,
         @NonNull String... options) {
-      return null;
+      if (shouldAdd) {
+        return dropdown(text, defaultOption, options);
+      }
+      return addNullComponent();
     }
 
     @Override
@@ -149,7 +155,10 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
         boolean shouldAdd,
         @NonNull String text,
         @NonNull String... options) {
-      return null;
+      if (shouldAdd) {
+        return dropdown(text, options);
+      }
+      return addNullComponent();
     }
 
     @NonNull
@@ -179,7 +188,10 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
         @NonNull String placeholder,
         @NonNull String defaultText,
         boolean shouldAdd) {
-      return null;
+      if (shouldAdd) {
+        return input(text, placeholder, defaultText);
+      }
+      return addNullComponent();
     }
 
     @Override
@@ -188,13 +200,19 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
         @NonNull String text,
         @NonNull String placeholder,
         boolean shouldAdd) {
-      return null;
+      if (shouldAdd) {
+        return input(text, placeholder);
+      }
+      return addNullComponent();
     }
 
     @Override
     @NonNull
     public Builder optionalInput(@NonNull String text, boolean shouldAdd) {
-      return null;
+      if (shouldAdd) {
+        return input(text);
+      }
+      return addNullComponent();
     }
 
     @NonNull
@@ -205,7 +223,10 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
     @Override
     @NonNull
     public Builder optionalLabel(@NonNull String text, boolean shouldAdd) {
-      return null;
+      if (shouldAdd) {
+        return label(text);
+      }
+      return addNullComponent();
     }
 
     @NonNull
@@ -246,7 +267,10 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
         @Positive int step,
         float defaultValue,
         boolean shouldAdd) {
-      return null;
+      if (shouldAdd) {
+        return slider(text, min, max, step, defaultValue);
+      }
+      return addNullComponent();
     }
 
     @Override
@@ -257,7 +281,10 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
         float max,
         @Positive int step,
         boolean shouldAdd) {
-      return null;
+      if (shouldAdd) {
+        return slider(text, min, max, step);
+      }
+      return addNullComponent();
     }
 
     @Override
@@ -268,7 +295,10 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
         float max,
         float defaultValue,
         boolean shouldAdd) {
-      return null;
+      if (shouldAdd) {
+        return slider(text, min, max, defaultValue);
+      }
+      return addNullComponent();
     }
 
     @Override
@@ -278,7 +308,10 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
         float min,
         float max,
         boolean shouldAdd) {
-      return null;
+      if (shouldAdd) {
+        return slider(text, min, max);
+      }
+      return addNullComponent();
     }
 
     @NonNull
@@ -311,7 +344,10 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
         @NonNull String text,
         @NonNegative int defaultStep,
         @NonNull String... steps) {
-      return null;
+      if (shouldAdd) {
+        return stepSlider(text, defaultStep, steps);
+      }
+      return addNullComponent();
     }
 
     @Override
@@ -320,7 +356,10 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
         boolean shouldAdd,
         @NonNull String text,
         @NonNull String... steps) {
-      return null;
+      if (shouldAdd) {
+        return stepSlider(text, steps);
+      }
+      return addNullComponent();
     }
 
     @NonNull
@@ -336,13 +375,19 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
     @Override
     @NonNull
     public Builder optionalToggle(@NonNull String text, boolean defaultValue, boolean shouldAdd) {
-      return null;
+      if (shouldAdd) {
+        return toggle(text, defaultValue);
+      }
+      return addNullComponent();
     }
 
     @Override
     @NonNull
     public Builder optionalToggle(@NonNull String text, boolean shouldAdd) {
-      return null;
+      if (shouldAdd) {
+        return toggle(text);
+      }
+      return addNullComponent();
     }
 
     @Override
@@ -351,6 +396,11 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
       CustomFormImpl form = new CustomFormImpl(title, icon, components);
       setResponseHandler(form, form);
       return form;
+    }
+
+    private Builder addNullComponent() {
+      components.add(null);
+      return this;
     }
   }
 }

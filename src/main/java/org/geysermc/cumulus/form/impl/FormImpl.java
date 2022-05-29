@@ -91,11 +91,13 @@ public abstract class FormImpl<R extends FormResponse> implements Form {
     protected Runnable closedResultHandlerRunnable;
     protected Consumer<F> closedResultHandlerConsumer;
 
+    protected Runnable invalidResultHandlerRunnable;
     protected Consumer<InvalidFormResponseResult<R>> invalidResultHandlerConsumer;
     protected BiConsumer<F, InvalidFormResponseResult<R>> invalidResultHandlerBiConsumer;
 
-    protected Consumer<FormResponseResult<R>> closedAndInvalidResultHandlerConsumer;
-    protected BiConsumer<F, FormResponseResult<R>> closedAndInvalidResultHandlerBiConsumer;
+    protected Runnable closedOrInvalidResultHandlerRunnable;
+    protected Consumer<FormResponseResult<R>> closedOrInvalidResultHandlerConsumer;
+    protected BiConsumer<F, FormResponseResult<R>> closedOrInvalidResultHandlerBiConsumer;
 
     protected Consumer<R> validResultHandlerConsumer;
     protected BiConsumer<F, R> validResultHandlerBiConsumer;
@@ -133,6 +135,12 @@ public abstract class FormImpl<R extends FormResponse> implements Form {
     }
 
     @Override
+    public B invalidResultHandler(@NonNull Runnable resultHandler) {
+      this.invalidResultHandlerRunnable = Objects.requireNonNull(resultHandler, "resultHandler");
+      return self();
+    }
+
+    @Override
     public B invalidResultHandler(@NonNull Consumer<InvalidFormResponseResult<R>> resultHandler) {
       this.invalidResultHandlerConsumer = Objects.requireNonNull(resultHandler, "resultHandler");
       return self();
@@ -147,16 +155,23 @@ public abstract class FormImpl<R extends FormResponse> implements Form {
     }
 
     @Override
-    public B closedAndInvalidResultHandler(@NonNull Consumer<FormResponseResult<R>> resultHandler) {
-      this.closedAndInvalidResultHandlerConsumer =
+    public B closedOrInvalidResultHandler(@NonNull Runnable resultHandler) {
+      this.closedOrInvalidResultHandlerRunnable =
           Objects.requireNonNull(resultHandler, "resultHandler");
       return self();
     }
 
     @Override
-    public B closedAndInvalidResultHandler(
+    public B closedOrInvalidResultHandler(@NonNull Consumer<FormResponseResult<R>> resultHandler) {
+      this.closedOrInvalidResultHandlerConsumer =
+          Objects.requireNonNull(resultHandler, "resultHandler");
+      return self();
+    }
+
+    @Override
+    public B closedOrInvalidResultHandler(
         @NonNull BiConsumer<F, FormResponseResult<R>> resultHandler) {
-      this.closedAndInvalidResultHandlerBiConsumer =
+      this.closedOrInvalidResultHandlerBiConsumer =
           Objects.requireNonNull(resultHandler, "resultHandler");
       return self();
     }
@@ -219,26 +234,35 @@ public abstract class FormImpl<R extends FormResponse> implements Form {
           if (closedResultHandlerConsumer != null) {
             closedResultHandlerConsumer.accept(form);
           }
-          if (closedAndInvalidResultHandlerConsumer != null) {
-            closedAndInvalidResultHandlerConsumer.accept(result);
+          if (closedOrInvalidResultHandlerRunnable != null) {
+            closedOrInvalidResultHandlerRunnable.run();
           }
-          if (closedAndInvalidResultHandlerBiConsumer != null) {
-            closedAndInvalidResultHandlerBiConsumer.accept(form, result);
+          if (closedOrInvalidResultHandlerConsumer != null) {
+            closedOrInvalidResultHandlerConsumer.accept(result);
+          }
+          if (closedOrInvalidResultHandlerBiConsumer != null) {
+            closedOrInvalidResultHandlerBiConsumer.accept(form, result);
           }
         }
 
         if (result.isInvalid()) {
+          if (invalidResultHandlerRunnable != null) {
+            invalidResultHandlerRunnable.run();
+          }
           if (invalidResultHandlerConsumer != null) {
             invalidResultHandlerConsumer.accept((InvalidFormResponseResult<R>) result);
           }
           if (invalidResultHandlerBiConsumer != null) {
             invalidResultHandlerBiConsumer.accept(form, (InvalidFormResponseResult<R>) result);
           }
-          if (closedAndInvalidResultHandlerConsumer != null) {
-            closedAndInvalidResultHandlerConsumer.accept(result);
+          if (closedResultHandlerRunnable != null) {
+            closedResultHandlerRunnable.run();
           }
-          if (closedAndInvalidResultHandlerBiConsumer != null) {
-            closedAndInvalidResultHandlerBiConsumer.accept(form, result);
+          if (closedOrInvalidResultHandlerConsumer != null) {
+            closedOrInvalidResultHandlerConsumer.accept(result);
+          }
+          if (closedOrInvalidResultHandlerBiConsumer != null) {
+            closedOrInvalidResultHandlerBiConsumer.accept(form, result);
           }
         }
 

@@ -26,7 +26,7 @@
 package org.geysermc.cumulus.component;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.geysermc.cumulus.util.ComponentType;
+import org.geysermc.cumulus.component.util.ComponentType;
 
 public interface Component {
   @NonNull

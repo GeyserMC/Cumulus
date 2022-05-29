@@ -28,7 +28,7 @@ package org.geysermc.cumulus.component.impl;
 import com.google.gson.annotations.SerializedName;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.ToggleComponent;
-import org.geysermc.cumulus.util.ComponentType;
+import org.geysermc.cumulus.component.util.ComponentType;
 
 public final class ToggleComponentImpl extends Component implements ToggleComponent {
   @SerializedName("default")

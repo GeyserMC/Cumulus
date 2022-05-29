@@ -23,7 +23,7 @@
  * @link https://github.com/GeyserMC/Cumulus
  */
 
-package org.geysermc.cumulus.util;
+package org.geysermc.cumulus.component.util;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.Locale;

@@ -29,7 +29,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.InputComponent;
-import org.geysermc.cumulus.util.ComponentType;
+import org.geysermc.cumulus.component.util.ComponentType;
 
 public final class InputComponentImpl extends Component implements InputComponent {
   private final String placeholder;

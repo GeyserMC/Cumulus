@@ -36,7 +36,7 @@ import org.geysermc.cumulus.form.util.impl.FormCodecImpl;
 import org.geysermc.cumulus.response.ModalFormResponse;
 import org.geysermc.cumulus.response.impl.ModalFormResponseImpl;
 import org.geysermc.cumulus.response.result.FormResponseResult;
-import org.geysermc.cumulus.util.Utils;
+import org.geysermc.cumulus.util.JsonUtils;
 
 public class ModalFormCodec extends FormCodecImpl<ModalForm, ModalFormResponse>
     implements FormCodec<ModalForm, ModalFormResponse> {
@@ -47,10 +47,10 @@ public class ModalFormCodec extends FormCodecImpl<ModalForm, ModalFormResponse>
 
   @Override
   public ModalForm deserializeForm(JsonObject source, JsonDeserializationContext context) {
-    String title = Utils.assumeMember(source, "title").getAsString();
-    String content = Utils.assumeMember(source, "content").getAsString();
-    String button1 = Utils.assumeMember(source, "button1").getAsString();
-    String button2 = Utils.assumeMember(source, "button2").getAsString();
+    String title = JsonUtils.assumeMember(source, "title").getAsString();
+    String content = JsonUtils.assumeMember(source, "content").getAsString();
+    String button1 = JsonUtils.assumeMember(source, "button1").getAsString();
+    String button2 = JsonUtils.assumeMember(source, "button2").getAsString();
     return new ModalFormImpl(title, content, button1, button2);
   }
 
