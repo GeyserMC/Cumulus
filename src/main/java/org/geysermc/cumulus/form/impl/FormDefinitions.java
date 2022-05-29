@@ -32,8 +32,8 @@ import org.geysermc.cumulus.form.Form;
 import org.geysermc.cumulus.form.impl.custom.CustomFormDefinition;
 import org.geysermc.cumulus.form.impl.modal.ModalFormDefinition;
 import org.geysermc.cumulus.form.impl.simple.SimpleFormDefinition;
-import org.geysermc.cumulus.util.FormCodec;
-import org.geysermc.cumulus.util.FormType;
+import org.geysermc.cumulus.form.util.FormCodec;
+import org.geysermc.cumulus.form.util.FormType;
 
 public final class FormDefinitions {
   private static final FormDefinitions definitions = new FormDefinitions();

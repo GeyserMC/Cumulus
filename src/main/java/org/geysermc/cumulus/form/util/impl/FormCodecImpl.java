@@ -23,7 +23,7 @@
  * @link https://github.com/GeyserMC/Cumulus
  */
 
-package org.geysermc.cumulus.util.impl;
+package org.geysermc.cumulus.form.util.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -43,21 +43,20 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.impl.ButtonComponentImpl;
 import org.geysermc.cumulus.form.Form;
 import org.geysermc.cumulus.form.impl.FormImpl;
+import org.geysermc.cumulus.form.util.FormCodec;
+import org.geysermc.cumulus.form.util.FormType;
 import org.geysermc.cumulus.response.FormResponse;
-import org.geysermc.cumulus.response.result.ClosedFormResponseResult;
 import org.geysermc.cumulus.response.result.FormResponseResult;
-import org.geysermc.cumulus.util.FormCodec;
-import org.geysermc.cumulus.util.FormType;
 
 public abstract class FormCodecImpl<F extends Form, R extends FormResponse>
     implements JsonDeserializer<F>, JsonSerializer<F>, FormCodec<F, R> {
 
+  protected static final Type LIST_BUTTON_TYPE =
+      new TypeToken<List<ButtonComponentImpl>>() {}.getType();
+
   protected final Class<F> typeClass;
   protected final FormType formType;
   protected final Gson gson;
-
-  protected static final Type LIST_BUTTON_TYPE =
-      new TypeToken<List<ButtonComponentImpl>>() {}.getType();
 
   protected FormCodecImpl(Class<F> typeClass, FormType formType) {
     this.typeClass = typeClass;
@@ -70,7 +69,8 @@ public abstract class FormCodecImpl<F extends Form, R extends FormResponse>
 
   @Override
   public final F fromJson(
-      @NonNull String json, @Nullable BiConsumer<F, String> rawResponseConsumer) {
+      @NonNull String json,
+      @Nullable BiConsumer<F, String> rawResponseConsumer) {
     F form = gson.fromJson(json, typeClass);
     setRawResponseConsumer(form, rawResponseConsumer);
     return form;
@@ -84,7 +84,7 @@ public abstract class FormCodecImpl<F extends Form, R extends FormResponse>
 
   @Override
   public final String jsonData(F form) {
-    return gson.toJson(form);
+    return gson.toJson(form, typeClass);
   }
 
   @Override
@@ -131,5 +131,7 @@ public abstract class FormCodecImpl<F extends Form, R extends FormResponse>
   protected abstract void serializeForm(F form, JsonSerializationContext context, JsonObject result);
 
   protected abstract FormResponseResult<R> deserializeResponse(
-      @NonNull F form, @NonNull String responseData);
+      @NonNull F form,
+      @NonNull String responseData
+  );
 }

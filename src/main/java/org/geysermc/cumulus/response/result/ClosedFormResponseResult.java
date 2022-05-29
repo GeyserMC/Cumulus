@@ -25,6 +25,7 @@
 
 package org.geysermc.cumulus.response.result;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.response.FormResponse;
 
 public final class ClosedFormResponseResult<T extends FormResponse>
@@ -41,6 +42,7 @@ public final class ClosedFormResponseResult<T extends FormResponse>
   }
 
   @Override
+  @NonNull
   public ResultType responseType() {
     return ResultType.CLOSED;
   }

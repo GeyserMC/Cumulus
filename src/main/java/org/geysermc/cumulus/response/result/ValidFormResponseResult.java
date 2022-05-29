@@ -25,26 +25,30 @@
 
 package org.geysermc.cumulus.response.result;
 
+import java.util.Objects;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.response.FormResponse;
 
-public final class ValidFormResponseResult<T extends FormResponse>
-    implements FormResponseResult<T> {
+public final class ValidFormResponseResult<R extends FormResponse>
+    implements FormResponseResult<R> {
 
-  private final T response;
+  private final R response;
 
-  private ValidFormResponseResult(T response) {
-    this.response = response;
+  private ValidFormResponseResult(@NonNull R response) {
+    this.response = Objects.requireNonNull(response);
   }
 
-  public static <F extends FormResponse> ValidFormResponseResult<F> of(F response) {
+  public static <F extends FormResponse> ValidFormResponseResult<F> of(@NonNull F response) {
     return new ValidFormResponseResult<>(response);
   }
 
-  public T response() {
+  @NonNull
+  public R response() {
     return response;
   }
 
   @Override
+  @NonNull
   public ResultType responseType() {
     return ResultType.VALID;
   }

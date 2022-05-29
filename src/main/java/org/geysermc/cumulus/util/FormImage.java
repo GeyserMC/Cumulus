@@ -29,6 +29,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Locale;
 import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.util.impl.FormImageImpl;
 
 /**
@@ -60,7 +61,11 @@ public interface FormImage {
    */
   @NonNull
   static FormImage of(@NonNull String type, @NonNull String data) {
-    return of(Objects.requireNonNull(Type.fromName(type), "type"), data);
+    Type imageType = Type.fromName(type);
+    if (imageType == null) {
+      throw new IllegalArgumentException("Received an unknown type '" + type + "'");
+    }
+    return of(imageType, data);
   }
 
   /**
@@ -87,6 +92,7 @@ public interface FormImage {
 
     private final String name = name().toLowerCase(Locale.ROOT);
 
+    @Nullable
     public static Type fromName(@NonNull String name) {
       Objects.requireNonNull(name, "name");
       String upper = name.toUpperCase(Locale.ROOT);
@@ -98,6 +104,7 @@ public interface FormImage {
       return null;
     }
 
+    @NonNull
     public String typeName() {
       return name;
     }

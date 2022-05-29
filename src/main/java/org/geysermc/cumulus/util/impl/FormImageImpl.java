@@ -39,12 +39,14 @@ public final class FormImageImpl implements FormImage {
   }
 
   @Override
-  public @NonNull Type type() {
+  @NonNull
+  public Type type() {
     return type;
   }
 
   @Override
-  public @NonNull String data() {
+  @NonNull
+  public String data() {
     return data;
   }
 }

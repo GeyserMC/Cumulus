@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.index.qual.Positive;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -100,6 +101,12 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
       return this;
     }
 
+    @Override
+    @NonNull
+    public Builder optionalComponent(@NonNull Component component, boolean shouldAdd) {
+      return this;
+    }
+
     @NonNull
     public Builder dropdown(DropdownComponent.@NonNull Builder dropdownBuilder) {
       Objects.requireNonNull(dropdownBuilder, "dropdownBuilder");
@@ -126,6 +133,25 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
       return dropdown(text, 0, options);
     }
 
+    @Override
+    @NonNull
+    public Builder optionalDropdown(
+        boolean shouldAdd,
+        @NonNull String text,
+        @NonNegative int defaultOption,
+        @NonNull String... options) {
+      return null;
+    }
+
+    @Override
+    @NonNull
+    public Builder optionalDropdown(
+        boolean shouldAdd,
+        @NonNull String text,
+        @NonNull String... options) {
+      return null;
+    }
+
     @NonNull
     public Builder input(
         @NonNull String text,
@@ -146,9 +172,40 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
       return component(InputComponent.of(translate(text)));
     }
 
+    @Override
+    @NonNull
+    public Builder optionalInput(
+        @NonNull String text,
+        @NonNull String placeholder,
+        @NonNull String defaultText,
+        boolean shouldAdd) {
+      return null;
+    }
+
+    @Override
+    @NonNull
+    public Builder optionalInput(
+        @NonNull String text,
+        @NonNull String placeholder,
+        boolean shouldAdd) {
+      return null;
+    }
+
+    @Override
+    @NonNull
+    public Builder optionalInput(@NonNull String text, boolean shouldAdd) {
+      return null;
+    }
+
     @NonNull
     public Builder label(@NonNull String text) {
       return component(LabelComponent.of(translate(text)));
+    }
+
+    @Override
+    @NonNull
+    public Builder optionalLabel(@NonNull String text, boolean shouldAdd) {
+      return null;
     }
 
     @NonNull
@@ -180,6 +237,50 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
       return slider(text, min, max, 1, 0);
     }
 
+    @Override
+    @NonNull
+    public Builder optionalSlider(
+        @NonNull String text,
+        float min,
+        float max,
+        @Positive int step,
+        float defaultValue,
+        boolean shouldAdd) {
+      return null;
+    }
+
+    @Override
+    @NonNull
+    public Builder optionalSlider(
+        @NonNull String text,
+        float min,
+        float max,
+        @Positive int step,
+        boolean shouldAdd) {
+      return null;
+    }
+
+    @Override
+    @NonNull
+    public Builder optionalSlider(
+        @NonNull String text,
+        float min,
+        float max,
+        float defaultValue,
+        boolean shouldAdd) {
+      return null;
+    }
+
+    @Override
+    @NonNull
+    public Builder optionalSlider(
+        @NonNull String text,
+        float min,
+        float max,
+        boolean shouldAdd) {
+      return null;
+    }
+
     @NonNull
     public Builder stepSlider(StepSliderComponent.@NonNull Builder stepSliderBuilder) {
       Objects.requireNonNull(stepSliderBuilder, "stepSliderBuilder");
@@ -203,6 +304,25 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
       return stepSlider(text, 0, steps);
     }
 
+    @Override
+    @NonNull
+    public Builder optionalStepSlider(
+        boolean shouldAdd,
+        @NonNull String text,
+        @NonNegative int defaultStep,
+        @NonNull String... steps) {
+      return null;
+    }
+
+    @Override
+    @NonNull
+    public Builder optionalStepSlider(
+        boolean shouldAdd,
+        @NonNull String text,
+        @NonNull String... steps) {
+      return null;
+    }
+
     @NonNull
     public Builder toggle(@NonNull String text, boolean defaultValue) {
       return component(ToggleComponent.of(translate(text), defaultValue));
@@ -211,6 +331,18 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
     @NonNull
     public Builder toggle(@NonNull String text) {
       return component(ToggleComponent.of(translate(text)));
+    }
+
+    @Override
+    @NonNull
+    public Builder optionalToggle(@NonNull String text, boolean defaultValue, boolean shouldAdd) {
+      return null;
+    }
+
+    @Override
+    @NonNull
+    public Builder optionalToggle(@NonNull String text, boolean shouldAdd) {
+      return null;
     }
 
     @Override

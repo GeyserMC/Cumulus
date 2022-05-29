@@ -25,18 +25,22 @@
 
 package org.geysermc.cumulus.response.result;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.response.FormResponse;
 
 @SuppressWarnings("unused")
-public interface FormResponseResult<T extends FormResponse> {
+public interface FormResponseResult<R extends FormResponse> {
+  @NonNull
   static <R extends FormResponse> ClosedFormResponseResult<R> closed() {
     return ClosedFormResponseResult.instance();
   }
 
+  @NonNull
   static <R extends FormResponse> InvalidFormResponseResult<R> invalid() {
     return InvalidFormResponseResult.instance();
   }
 
+  @NonNull
   static <R extends FormResponse> ValidFormResponseResult<R> valid(R formResponse) {
     return ValidFormResponseResult.of(formResponse);
   }
@@ -53,5 +57,5 @@ public interface FormResponseResult<T extends FormResponse> {
     return this instanceof ValidFormResponseResult;
   }
 
-  ResultType responseType();
+  @NonNull ResultType responseType();
 }

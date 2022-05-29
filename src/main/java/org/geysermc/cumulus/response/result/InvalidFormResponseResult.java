@@ -25,10 +25,11 @@
 
 package org.geysermc.cumulus.response.result;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.response.FormResponse;
 
-public final class InvalidFormResponseResult<T extends FormResponse>
-    implements FormResponseResult<T> {
+public final class InvalidFormResponseResult<R extends FormResponse>
+    implements FormResponseResult<R> {
 
   private static final InvalidFormResponseResult<?> result = new InvalidFormResponseResult<>();
 
@@ -36,11 +37,12 @@ public final class InvalidFormResponseResult<T extends FormResponse>
   }
 
   @SuppressWarnings("unchecked")
-  public static <T extends FormResponse> InvalidFormResponseResult<T> instance() {
-    return (InvalidFormResponseResult<T>) result;
+  public static <R extends FormResponse> InvalidFormResponseResult<R> instance() {
+    return (InvalidFormResponseResult<R>) result;
   }
 
   @Override
+  @NonNull
   public ResultType responseType() {
     return ResultType.INVALID;
   }

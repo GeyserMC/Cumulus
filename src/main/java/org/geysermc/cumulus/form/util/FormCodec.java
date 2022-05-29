@@ -23,7 +23,7 @@
  * @link https://github.com/GeyserMC/Cumulus
  */
 
-package org.geysermc.cumulus.util;
+package org.geysermc.cumulus.form.util;
 
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonSerializer;
@@ -37,9 +37,28 @@ import org.geysermc.cumulus.response.result.FormResponseResult;
 public interface FormCodec<F extends Form, R extends FormResponse>
     extends JsonDeserializer<F>, JsonSerializer<F> {
 
+  /**
+   *
+   * @param json
+   * @param rawResponseConsumer
+   * @return
+   */
   F fromJson(@NonNull String json, @Nullable BiConsumer<F, String> rawResponseConsumer);
 
+  /**
+   * Serializes the form to data that can be used by the Bedrock client to display the form.
+   *
+   * @param form the form to serialize
+   * @return the serialized form
+   */
   String jsonData(F form);
 
+  /**
+   * Deserializes the response of the client to a form that has been sent.
+   *
+   * @param form         the form instance that was sent to the client
+   * @param responseData the response of the client
+   * @return the responseResult from deserializing the response
+   */
   FormResponseResult<R> deserializeFormResponse(F form, @Nullable String responseData);
 }

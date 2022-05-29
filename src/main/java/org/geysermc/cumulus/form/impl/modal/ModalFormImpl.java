@@ -50,16 +50,19 @@ public final class ModalFormImpl extends FormImpl<ModalFormResponse>
   }
 
   @Override
-  public @NonNull String content() {
+  @NonNull
+  public String content() {
     return content;
   }
 
   @Override
+  @NonNull
   public String button1() {
     return button1;
   }
 
   @Override
+  @NonNull
   public String button2() {
     return button2;
   }
@@ -71,19 +74,16 @@ public final class ModalFormImpl extends FormImpl<ModalFormResponse>
     private String button1 = "";
     private String button2 = "";
 
-    @NonNull
     public Builder content(@NonNull String content) {
       this.content = translate(Objects.requireNonNull(content, "content"));
       return this;
     }
 
-    @NonNull
     public Builder button1(@NonNull String button1) {
       this.button1 = translate(Objects.requireNonNull(button1, "button1"));
       return this;
     }
 
-    @NonNull
     public Builder button2(@NonNull String button2) {
       this.button2 = translate(Objects.requireNonNull(button2, "button2"));
       return this;

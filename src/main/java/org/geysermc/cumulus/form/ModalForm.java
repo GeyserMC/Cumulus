@@ -26,9 +26,10 @@
 package org.geysermc.cumulus.form;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.common.returnsreceiver.qual.This;
 import org.geysermc.cumulus.form.impl.modal.ModalFormImpl;
+import org.geysermc.cumulus.form.util.FormBuilder;
 import org.geysermc.cumulus.response.ModalFormResponse;
-import org.geysermc.cumulus.util.FormBuilder;
 
 /**
  * Represents a ModalForm which can be shown to the client. A ModalForm is the most basic form type.
@@ -78,6 +79,7 @@ public interface ModalForm extends Form {
    * @return the content
    * @since 1.1
    */
+  @NonNull
   String button1();
 
   /**
@@ -86,6 +88,7 @@ public interface ModalForm extends Form {
    * @return the content
    * @since 1.1
    */
+  @NonNull
   String button2();
 
   /**
@@ -93,14 +96,13 @@ public interface ModalForm extends Form {
    * href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
    */
   interface Builder extends FormBuilder<Builder, ModalForm, ModalFormResponse> {
-    //todo rethink about optional components, as they're currently weird to handle in response
     /**
      * Set the description of the form.
      *
      * @param content the description of the form
      * @return the form builder
      */
-    @NonNull
+    @This
     Builder content(@NonNull String content);
 
     /**
@@ -109,23 +111,8 @@ public interface ModalForm extends Form {
      * @param button1 the text of the first button
      * @return the form builder
      */
-    @NonNull
+    @This
     Builder button1(@NonNull String button1);
-
-    /**
-     * Set the text of the first button.
-     *
-     * @param button1   the text of the first button
-     * @param shouldAdd if the button should be added
-     * @return the form builder
-     */
-    @NonNull
-    default Builder optionalButton1(@NonNull String button1, boolean shouldAdd) {
-      if (shouldAdd) {
-        return button1(button1);
-      }
-      return this;
-    }
 
     /**
      * Set the text of the second button.
@@ -133,22 +120,7 @@ public interface ModalForm extends Form {
      * @param button2 the text of the second button
      * @return the form builder
      */
-    @NonNull
+    @This
     Builder button2(@NonNull String button2);
-
-    /**
-     * Set the text of the second button, but only when shouldAdd is true.
-     *
-     * @param button2   the text of the second button
-     * @param shouldAdd if the button should be added
-     * @return the form builder
-     */
-    @NonNull
-    default Builder optionalButton2(@NonNull String button2, boolean shouldAdd) {
-      if (shouldAdd) {
-        return button2(button2);
-      }
-      return this;
-    }
   }
 }

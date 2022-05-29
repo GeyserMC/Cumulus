@@ -27,6 +27,8 @@ package org.geysermc.cumulus.util;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.Locale;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * An enum containing the valid component types. Valid component types are:
@@ -61,6 +63,7 @@ public enum ComponentType {
 
   private final String name = name().toLowerCase(Locale.ROOT);
 
+  @Nullable
   public static ComponentType fromName(String name) {
     for (ComponentType type : VALUES) {
       if (type.name.equals(name)) {
@@ -70,6 +73,7 @@ public enum ComponentType {
     return null;
   }
 
+  @NonNull
   public String componentName() {
     return this.name;
   }

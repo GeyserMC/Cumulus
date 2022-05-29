@@ -30,12 +30,13 @@ import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.index.qual.Positive;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.common.returnsreceiver.qual.This;
 import org.geysermc.cumulus.component.Component;
 import org.geysermc.cumulus.component.DropdownComponent;
 import org.geysermc.cumulus.component.StepSliderComponent;
 import org.geysermc.cumulus.form.impl.custom.CustomFormImpl;
+import org.geysermc.cumulus.form.util.FormBuilder;
 import org.geysermc.cumulus.response.CustomFormResponse;
-import org.geysermc.cumulus.util.FormBuilder;
 import org.geysermc.cumulus.util.FormImage;
 
 /**
@@ -43,7 +44,7 @@ import org.geysermc.cumulus.util.FormImage;
  * form type, you can add all component types except for buttons. For more information and for code
  * examples look at <a href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
  *
- * @since 1.0
+ * @since 1.1
  */
 public interface CustomForm extends Form {
   /**
@@ -77,245 +78,269 @@ public interface CustomForm extends Form {
   FormImage icon();
 
   /**
-   * Returns the list of components of the form.
+   * Returns all the components of the form. This includes optional components, which will be null
+   * when they are not present.
    */
   @NonNull
-  List<Component> content();
+  List<@Nullable Component> content();
 
   /**
    * An easy way to create a CustomForm. For more information and code examples look at <a
    * href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
    */
   interface Builder extends FormBuilder<Builder, CustomForm, CustomFormResponse> {
-    @NonNull
+    @This
     Builder icon(FormImage.@NonNull Type type, @NonNull String data);
 
-    @NonNull
+    @This
     Builder iconPath(@NonNull String path);
 
-    @NonNull
+    @This
     Builder iconUrl(@NonNull String url);
 
-    @NonNull
+    @This
     Builder component(@NonNull Component component);
 
-    @NonNull
-    default Builder optionalComponent(@NonNull Component component, boolean shouldAdd) {
-      if (shouldAdd) {
-        return component(component);
-      }
-      return this;
-    }
+    /**
+     * @param component
+     * @param shouldAdd
+     * @return
+     */
+    @This
+    Builder optionalComponent(@NonNull Component component, boolean shouldAdd);
 
-    @NonNull
+    @This
     Builder dropdown(DropdownComponent.@NonNull Builder dropdownBuilder);
 
-    @NonNull
+    @This
     Builder dropdown(
         @NonNull String text,
         @NonNegative int defaultOption,
-        @NonNull String... options);
+        @NonNull String... options
+    );
 
-    @NonNull
+    @This
     Builder dropdown(@NonNull String text, @NonNull String... options);
 
-    @NonNull
-    default Builder optionalDropdown(
+    /**
+     * @param shouldAdd
+     * @param text
+     * @param defaultOption
+     * @param options
+     * @return
+     */
+    @This
+    Builder optionalDropdown(
         boolean shouldAdd,
         @NonNull String text,
         @NonNegative int defaultOption,
-        @NonNull String... options) {
-      if (shouldAdd) {
-        return dropdown(text, defaultOption, options);
-      }
-      return this;
-    }
+        @NonNull String... options
+    );
 
-    @NonNull
-    default Builder optionalDropdown(
-        boolean shouldAdd,
-        @NonNull String text,
-        @NonNull String... options) {
-      if (shouldAdd) {
-        return dropdown(text, options);
-      }
-      return this;
-    }
+    /**
+     * @param shouldAdd
+     * @param text
+     * @param options
+     * @return
+     */
+    @This
+    Builder optionalDropdown(boolean shouldAdd, @NonNull String text, @NonNull String... options);
 
-    @NonNull
-    Builder input(
-        @NonNull String text,
-        @NonNull String placeholder,
-        @NonNull String defaultText);
+    @This
+    Builder input(@NonNull String text, @NonNull String placeholder, @NonNull String defaultText);
 
-    @NonNull
+    @This
     Builder input(@NonNull String text, @NonNull String placeholder);
 
-    @NonNull
+    @This
     Builder input(@NonNull String text);
 
-    @NonNull
-    default Builder optionalInput(
+    /**
+     * @param text
+     * @param placeholder
+     * @param defaultText
+     * @param shouldAdd
+     * @return
+     */
+    @This
+    Builder optionalInput(
         @NonNull String text,
         @NonNull String placeholder,
         @NonNull String defaultText,
-        boolean shouldAdd) {
-      if (shouldAdd) {
-        return input(text, placeholder, defaultText);
-      }
-      return this;
-    }
+        boolean shouldAdd
+    );
 
-    @NonNull
-    default Builder optionalInput(
-        @NonNull String text,
-        @NonNull String placeholder,
-        boolean shouldAdd) {
-      if (shouldAdd) {
-        return input(text, placeholder);
-      }
-      return this;
-    }
+    /**
+     * @param text
+     * @param placeholder
+     * @param shouldAdd
+     * @return
+     */
+    @This
+    Builder optionalInput(@NonNull String text, @NonNull String placeholder, boolean shouldAdd);
 
-    @NonNull
-    default Builder optionalInput(@NonNull String text, boolean shouldAdd) {
-      if (shouldAdd) {
-        return input(text);
-      }
-      return this;
-    }
+    /**
+     * @param text
+     * @param shouldAdd
+     * @return
+     */
+    @This
+    Builder optionalInput(@NonNull String text, boolean shouldAdd);
 
-    @NonNull
+    @This
     Builder label(@NonNull String text);
 
-    @NonNull
-    default Builder optionalLabel(@NonNull String text, boolean shouldAdd) {
-      if (shouldAdd) {
-        return label(text);
-      }
-      return this;
-    }
+    /**
+     * @param text
+     * @param shouldAdd
+     * @return
+     */
+    @This
+    Builder optionalLabel(@NonNull String text, boolean shouldAdd);
 
-    @NonNull
+    @This
     Builder slider(
         @NonNull String text,
         float min,
         float max,
         @Positive int step,
-        float defaultValue);
+        float defaultValue
+    );
 
-    @NonNull
+    @This
     Builder slider(@NonNull String text, float min, float max, @Positive int step);
 
-    @NonNull
+    @This
     Builder slider(@NonNull String text, float min, float max, float defaultValue);
 
-    @NonNull
+    @This
     Builder slider(@NonNull String text, float min, float max);
 
-    @NonNull
-    default Builder optionalSlider(
+    /**
+     * @param text
+     * @param min
+     * @param max
+     * @param step
+     * @param defaultValue
+     * @param shouldAdd
+     * @return
+     */
+    @This
+    Builder optionalSlider(
         @NonNull String text,
         float min,
         float max,
         @Positive int step,
         float defaultValue,
-        boolean shouldAdd) {
-      if (shouldAdd) {
-        return slider(text, min, max, step, defaultValue);
-      }
-      return this;
-    }
+        boolean shouldAdd
+    );
 
-    @NonNull
-    default Builder optionalSlider(
+    /**
+     * @param text
+     * @param min
+     * @param max
+     * @param step
+     * @param shouldAdd
+     * @return
+     */
+    @This
+    Builder optionalSlider(
         @NonNull String text,
         float min,
         float max,
         @Positive int step,
-        boolean shouldAdd) {
-      if (shouldAdd) {
-        return slider(text, min, max, step);
-      }
-      return this;
-    }
+        boolean shouldAdd
+    );
 
-    @NonNull
-    default Builder optionalSlider(
+    /**
+     * @param text
+     * @param min
+     * @param max
+     * @param defaultValue
+     * @param shouldAdd
+     * @return
+     */
+    @This
+    Builder optionalSlider(
         @NonNull String text,
         float min,
         float max,
         float defaultValue,
-        boolean shouldAdd) {
-      if (shouldAdd) {
-        return slider(text, min, max, defaultValue);
-      }
-      return this;
-    }
+        boolean shouldAdd
+    );
 
-    @NonNull
-    default Builder optionalSlider(@NonNull String text, float min, float max, boolean shouldAdd) {
-      if (shouldAdd) {
-        return slider(text, min, max);
-      }
-      return this;
-    }
+    /**
+     * @param text
+     * @param min
+     * @param max
+     * @param shouldAdd
+     * @return
+     */
+    @This
+    Builder optionalSlider(@NonNull String text, float min, float max, boolean shouldAdd);
 
-    @NonNull
+    @This
     Builder stepSlider(StepSliderComponent.@NonNull Builder stepSliderBuilder);
 
-    @NonNull
+    @This
     Builder stepSlider(
         @NonNull String text,
         @NonNegative int defaultStep,
-        @NonNull String... steps);
+        @NonNull String... steps
+    );
 
-    @NonNull
+    @This
     Builder stepSlider(@NonNull String text, @NonNull String... steps);
 
-    @NonNull
-    default Builder optionalStepSlider(
+    /**
+     * @param shouldAdd
+     * @param text
+     * @param defaultStep
+     * @param steps
+     * @return
+     */
+    @This
+    Builder optionalStepSlider(
         boolean shouldAdd,
         @NonNull String text,
         @NonNegative int defaultStep,
-        @NonNull String... steps) {
-      if (shouldAdd) {
-        return stepSlider(text, defaultStep, steps);
-      }
-      return this;
-    }
+        @NonNull String... steps
+    );
 
-    @NonNull
-    default Builder optionalStepSlider(
+    /**
+     * @param shouldAdd
+     * @param text
+     * @param steps
+     * @return
+     */
+    @This
+    Builder optionalStepSlider(
         boolean shouldAdd,
         @NonNull String text,
-        @NonNull String... steps) {
-      if (shouldAdd) {
-        return stepSlider(text, steps);
-      }
-      return this;
-    }
+        @NonNull String... steps
+    );
 
-    @NonNull
+    @This
     Builder toggle(@NonNull String text, boolean defaultValue);
 
-    @NonNull
+    @This
     Builder toggle(@NonNull String text);
 
-    @NonNull
-    default Builder optionalToggle(@NonNull String text, boolean defaultValue, boolean shouldAdd) {
-      if (shouldAdd) {
-        return toggle(text, defaultValue);
-      }
-      return this;
-    }
+    /**
+     * @param text
+     * @param defaultValue
+     * @param shouldAdd
+     * @return
+     */
+    @This
+    Builder optionalToggle(@NonNull String text, boolean defaultValue, boolean shouldAdd);
 
-    @NonNull
-    default Builder optionalToggle(@NonNull String text, boolean shouldAdd) {
-      if (shouldAdd) {
-        return toggle(text);
-      }
-      return this;
-    }
+    /**
+     * @param text
+     * @param shouldAdd
+     * @return
+     */
+    @This
+    Builder optionalToggle(@NonNull String text, boolean shouldAdd);
   }
 }

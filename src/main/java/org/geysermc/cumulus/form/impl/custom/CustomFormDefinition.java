@@ -27,8 +27,8 @@ package org.geysermc.cumulus.form.impl.custom;
 
 import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.form.impl.FormDefinition;
+import org.geysermc.cumulus.form.util.FormType;
 import org.geysermc.cumulus.response.CustomFormResponse;
-import org.geysermc.cumulus.util.FormType;
 
 public final class CustomFormDefinition
     extends FormDefinition<CustomForm, CustomFormImpl, CustomFormResponse> {

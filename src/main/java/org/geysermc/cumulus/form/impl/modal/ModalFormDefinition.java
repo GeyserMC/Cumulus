@@ -27,8 +27,8 @@ package org.geysermc.cumulus.form.impl.modal;
 
 import org.geysermc.cumulus.form.ModalForm;
 import org.geysermc.cumulus.form.impl.FormDefinition;
+import org.geysermc.cumulus.form.util.FormType;
 import org.geysermc.cumulus.response.ModalFormResponse;
-import org.geysermc.cumulus.util.FormType;
 
 public final class ModalFormDefinition
     extends FormDefinition<ModalForm, ModalFormImpl, ModalFormResponse> {

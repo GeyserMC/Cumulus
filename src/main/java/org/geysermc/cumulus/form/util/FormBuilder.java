@@ -23,17 +23,20 @@
  * @link https://github.com/GeyserMC/Cumulus
  */
 
-package org.geysermc.cumulus.util;
+package org.geysermc.cumulus.form.util;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.common.returnsreceiver.qual.This;
 import org.geysermc.cumulus.form.Form;
 import org.geysermc.cumulus.response.FormResponse;
+import org.geysermc.cumulus.response.result.ClosedFormResponseResult;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.cumulus.response.result.InvalidFormResponseResult;
 import org.geysermc.cumulus.response.result.ResultType;
+import org.geysermc.cumulus.response.result.ValidFormResponseResult;
 
 /**
  * A FormBuilder for the specified Form type in an easy to handle class.
@@ -41,18 +44,16 @@ import org.geysermc.cumulus.response.result.ResultType;
  * @param <B> the Builder extending this class
  * @param <F> the Form type this builder is made for
  * @param <R> the Form response type of the given form
- * @since 1.0
+ * @since 1.1
  */
 public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R extends FormResponse> {
-  //todo update documentation
-
   /**
    * Set the title of the form.
    *
    * @param title the title of the form
    * @return the form builder
    */
-  @NonNull B title(@NonNull String title);
+  @This B title(@NonNull String title);
 
   /**
    * Set the translator of the form. The translator is called every time a component is added, and
@@ -65,10 +66,11 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
    * @param locale     the locale to translate the messages to
    * @return the form builder
    */
-  @NonNull
+  @This
   B translator(
       @NonNull BiFunction<String, String, String> translator,
-      @NonNull String locale);
+      @NonNull String locale
+  );
 
   /**
    * Set the translator of the form. The translator is called every time a component is added, and
@@ -82,41 +84,99 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
    *                   to translate, the second argument is the player's locale
    * @return the form builder
    */
-  @NonNull B translator(@NonNull BiFunction<String, String, String> translator);
+  @This B translator(@NonNull BiFunction<String, String, String> translator);
 
   /**
    * Registers a result handler for the 'closed' result type. Note that there can only be
-   * <b>one</b> 'closedResultHandler'. Calling this method multiple times will override the
+   * <b>one</b> 'closedResultHandler'. Calling this method more than once will override the
    * previously defined closed result handler.
    *
    * @param resultHandler the result handler to define
    * @return the form builder
-   * @see org.geysermc.cumulus.response.result.ClosedFormResponseResult ClosedFormResponseResult
+   * @see ClosedFormResponseResult ClosedFormResponseResult
    */
-  @NonNull B closedResultHandler(@NonNull Consumer<F> resultHandler);
+  @This B closedResultHandler(@NonNull Runnable resultHandler);
+
+  /**
+   * Registers a result handler for the 'closed' result type. Note that there can only be
+   * <b>one</b> 'closedResultHandler'. Calling this method more than once will override the
+   * previously defined closed result handler.
+   *
+   * @param resultHandler the result handler to define
+   * @return the form builder
+   * @see ClosedFormResponseResult ClosedFormResponseResult
+   */
+  @This B closedResultHandler(@NonNull Consumer<F> resultHandler);
 
   /**
    * Registers a result handler for the 'invalid' result type. Note that there can only be
-   * <b>one</b> 'invalidResultHandler'. Calling this method multiple times will override the
+   * <b>one</b> 'invalidResultHandler'. Calling this method more than once will override the
    * previously defined invalid result handler.
    *
    * @param resultHandler the result handler to define
    * @return the form builder
    * @see InvalidFormResponseResult
    */
-  @NonNull B invalidResultHandler(
-      @NonNull BiConsumer<F, InvalidFormResponseResult<R>> resultHandler);
+  @This B invalidResultHandler(@NonNull Consumer<InvalidFormResponseResult<R>> resultHandler);
+
+  /**
+   * Registers a result handler for the 'invalid' result type. Note that there can only be
+   * <b>one</b> 'invalidResultHandler'. Calling this method more than once will override the
+   * previously defined invalid result handler.
+   *
+   * @param resultHandler the result handler to define
+   * @return the form builder
+   * @see InvalidFormResponseResult
+   */
+  @This B invalidResultHandler(@NonNull BiConsumer<F, InvalidFormResponseResult<R>> resultHandler);
+
+  /**
+   * Registers a result handler for both the 'closed' and the 'invalid' result type. Note that there
+   * can only be <b>one</b> 'closedAndInvalidResultHandler'. Calling this method more than once will
+   * override the previously defined closedAndInvalid result handler.
+   *
+   * @param resultHandler the result handler to define
+   * @return the form builder
+   * @see ClosedFormResponseResult
+   * @see InvalidFormResponseResult
+   */
+  @This
+  B closedAndInvalidResultHandler(@NonNull Consumer<FormResponseResult<R>> resultHandler);
+
+  /**
+   * Registers a result handler for both the 'closed' and the 'invalid' result type. Note that there
+   * can only be <b>one</b> 'closedAndInvalidResultHandler'. Calling this method more than once will
+   * override the previously defined closedAndInvalid result handler.
+   *
+   * @param resultHandler the result handler to define
+   * @return the form builder
+   * @see ClosedFormResponseResult
+   * @see InvalidFormResponseResult
+   */
+  @This
+  B closedAndInvalidResultHandler(@NonNull BiConsumer<F, FormResponseResult<R>> resultHandler);
 
   /**
    * Registers a result handler for the 'valid' result type. Note that there can only be <b>one</b>
-   * 'validResultHandler'. Calling this method multiple times will override the previously defined
+   * 'validResultHandler'. Calling this method more than once will override the previously defined
    * valid result handler.
    *
    * @param resultHandler the result handler to define
    * @return the form builder
-   * @see org.geysermc.cumulus.response.result.ValidFormResponseResult ValidFormResponseResult
+   * @see ValidFormResponseResult ValidFormResponseResult
    */
-  @NonNull B validResultHandler(@NonNull BiConsumer<F, R> resultHandler);
+  @This B validResultHandler(@NonNull Consumer<R> resultHandler);
+
+  /**
+   * Registers a result handler for the 'valid' result type. Note that there can only be <b>one</b>
+   * 'validResultHandler'. Calling this method more than once will override the previously defined
+   * valid result handler.
+   *
+   * @param resultHandler the result handler to define
+   * @return the form builder
+   * @see ValidFormResponseResult ValidFormResponseResult
+   */
+  @This B validResultHandler(@NonNull BiConsumer<F, R> resultHandler);
 
   /**
    * Registers a result handler for every result type. Note that there can only be <b>one</b>
@@ -127,21 +187,23 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
    * @return the form builder
    * @see FormResponseResult
    */
-  @NonNull B resultHandler(@NonNull BiConsumer<F, FormResponseResult<R>> resultHandler);
+  @This B resultHandler(@NonNull BiConsumer<F, FormResponseResult<R>> resultHandler);
 
   /**
    * Registers a result handler for the selected result types. Note that there can only be
-   * <b>one</b> 'resultHandler'. Calling this method or {@link #resultHandler(BiConsumer)} multiple
-   * times will override the previously defined result handler.
+   * <b>one</b> 'resultHandler'. Calling this method or its overloads more than once will override
+   * the previously defined result handler.
    *
    * @param resultHandler the result handler to define
    * @return the form builder
    * @see ResultType
    * @see FormResponseResult
    */
-  @NonNull B resultHandler(
+  @This
+  B resultHandler(
       @NonNull BiConsumer<F, FormResponseResult<R>> resultHandler,
-      @NonNull ResultType... selectedTypes);
+      @NonNull ResultType... selectedTypes
+  );
 
   /**
    * Build the form.

@@ -27,8 +27,8 @@ package org.geysermc.cumulus.form.impl.simple;
 
 import org.geysermc.cumulus.form.SimpleForm;
 import org.geysermc.cumulus.form.impl.FormDefinition;
+import org.geysermc.cumulus.form.util.FormType;
 import org.geysermc.cumulus.response.SimpleFormResponse;
-import org.geysermc.cumulus.util.FormType;
 
 public final class SimpleFormDefinition
     extends FormDefinition<SimpleForm, SimpleFormImpl, SimpleFormResponse> {

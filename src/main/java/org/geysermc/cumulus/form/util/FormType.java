@@ -23,9 +23,10 @@
  * @link https://github.com/GeyserMC/Cumulus
  */
 
-package org.geysermc.cumulus.util;
+package org.geysermc.cumulus.form.util;
 
 import com.google.gson.annotations.SerializedName;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.form.ModalForm;
 import org.geysermc.cumulus.form.SimpleForm;
@@ -52,6 +53,7 @@ public enum FormType {
 
   private static final FormType[] VALUES = values();
 
+  @Nullable
   public static FormType fromOrdinal(int ordinal) {
     return ordinal < VALUES.length ? VALUES[ordinal] : null;
   }

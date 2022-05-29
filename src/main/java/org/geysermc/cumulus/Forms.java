@@ -36,10 +36,10 @@ import org.geysermc.cumulus.component.impl.StepSliderComponentImpl;
 import org.geysermc.cumulus.component.impl.ToggleComponentImpl;
 import org.geysermc.cumulus.form.Form;
 import org.geysermc.cumulus.form.impl.FormDefinitions;
+import org.geysermc.cumulus.form.util.FormCodec;
+import org.geysermc.cumulus.form.util.FormType;
 import org.geysermc.cumulus.response.FormResponse;
 import org.geysermc.cumulus.util.ComponentType;
-import org.geysermc.cumulus.util.FormCodec;
-import org.geysermc.cumulus.util.FormType;
 
 public final class Forms {
   /**

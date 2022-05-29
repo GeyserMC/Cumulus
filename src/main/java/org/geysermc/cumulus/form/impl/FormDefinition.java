@@ -25,12 +25,14 @@
 
 package org.geysermc.cumulus.form.impl;
 
+import java.util.Objects;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.form.Form;
+import org.geysermc.cumulus.form.util.FormCodec;
+import org.geysermc.cumulus.form.util.FormType;
 import org.geysermc.cumulus.response.FormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
-import org.geysermc.cumulus.util.FormCodec;
-import org.geysermc.cumulus.util.FormType;
 
 public abstract class FormDefinition<F extends Form, I extends FormImpl<R>, R extends FormResponse> {
   private final FormCodec<F, R> codec;
@@ -39,14 +41,17 @@ public abstract class FormDefinition<F extends Form, I extends FormImpl<R>, R ex
   private final Class<I> formImplClass;
 
   protected FormDefinition(
-      FormCodec<F, R> codec, FormType formType, Class<F> formClass, Class<I> formImplClass) {
-
-    this.codec = codec;
-    this.formType = formType;
-    this.formClass = formClass;
-    this.formImplClass = formImplClass;
+      @NonNull FormCodec<F, R> codec,
+      @NonNull FormType formType,
+      @NonNull Class<F> formClass,
+      @NonNull Class<I> formImplClass) {
+    this.codec = Objects.requireNonNull(codec);
+    this.formType = Objects.requireNonNull(formType);
+    this.formClass = Objects.requireNonNull(formClass);
+    this.formImplClass = Objects.requireNonNull(formImplClass);
   }
 
+  @NonNull
   public final FormCodec<F, R> codec() {
     return codec;
   }
@@ -69,14 +74,17 @@ public abstract class FormDefinition<F extends Form, I extends FormImpl<R>, R ex
     ((FormImpl<R>) form).callResultHandler(result);
   }
 
+  @NonNull
   public final FormType formType() {
     return formType;
   }
 
+  @NonNull
   public final Class<F> formClass() {
     return formClass;
   }
 
+  @NonNull
   public final Class<I> formImplClass() {
     return formImplClass;
   }

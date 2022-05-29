@@ -28,10 +28,11 @@ package org.geysermc.cumulus.form;
 import java.util.List;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.common.returnsreceiver.qual.This;
 import org.geysermc.cumulus.component.ButtonComponent;
 import org.geysermc.cumulus.form.impl.simple.SimpleFormImpl;
+import org.geysermc.cumulus.form.util.FormBuilder;
 import org.geysermc.cumulus.response.SimpleFormResponse;
-import org.geysermc.cumulus.util.FormBuilder;
 import org.geysermc.cumulus.util.FormImage;
 
 /**
@@ -73,10 +74,11 @@ public interface SimpleForm extends Form {
   String content();
 
   /**
-   * Returns the list of button components.
+   * Returns all the components of the form. This includes optional components, which
+   * will be null when they are not present.
    */
   @NonNull
-  List<ButtonComponent> buttons();
+  List<@Nullable ButtonComponent> buttons();
 
   /**
    * An easy way to create a CustomForm. For more information and code examples look at <a
@@ -89,7 +91,7 @@ public interface SimpleForm extends Form {
      * @param content the description of the Form
      * @return the form builder
      */
-    @NonNull
+    @This
     Builder content(@NonNull String content);
 
     /**
@@ -100,7 +102,7 @@ public interface SimpleForm extends Form {
      * @param data the data for the image type
      * @return the form builder
      */
-    @NonNull
+    @This
     Builder button(@NonNull String text, FormImage.@NonNull Type type, @NonNull String data);
 
     /**
@@ -110,7 +112,7 @@ public interface SimpleForm extends Form {
      * @param image the image
      * @return the form builder
      */
-    @NonNull
+    @This
     Builder button(@NonNull String text, @Nullable FormImage image);
 
     /**
@@ -119,7 +121,7 @@ public interface SimpleForm extends Form {
      * @param text the text of the button
      * @return the form builder
      */
-    @NonNull
+    @This
     Builder button(@NonNull String text);
 
     /**
@@ -130,18 +132,15 @@ public interface SimpleForm extends Form {
      * @param data      the data for the image type
      * @param shouldAdd if the button should be added
      * @return the form builder
+     * @since 1.1
      */
-    @NonNull
-    default Builder optionalButton(
+    @This
+    Builder optionalButton(
         @NonNull String text,
         FormImage.@NonNull Type type,
         @NonNull String data,
-        boolean shouldAdd) {
-      if (shouldAdd) {
-        return button(text, type, data);
-      }
-      return this;
-    }
+        boolean shouldAdd
+    );
 
     /**
      * Adds a button with image to the Form, but only when shouldAdd is true.
@@ -150,17 +149,14 @@ public interface SimpleForm extends Form {
      * @param image     the image
      * @param shouldAdd if the button should be added
      * @return the form builder
+     * @since 1.1
      */
-    @NonNull
-    default Builder optionalButton(
+    @This
+    Builder optionalButton(
         @NonNull String text,
         @Nullable FormImage image,
-        boolean shouldAdd) {
-      if (shouldAdd) {
-        return button(text, image);
-      }
-      return this;
-    }
+        boolean shouldAdd
+    );
 
     /**
      * Adds a button to the Form, but only when shouldAdd is true.
@@ -168,13 +164,9 @@ public interface SimpleForm extends Form {
      * @param text      the text of the button
      * @param shouldAdd if the button should be added
      * @return the form builder
+     * @since 1.1
      */
-    @NonNull
-    default Builder optionalButton(@NonNull String text, boolean shouldAdd) {
-      if (shouldAdd) {
-        return button(text);
-      }
-      return this;
-    }
+    @This
+    Builder optionalButton(@NonNull String text, boolean shouldAdd);
   }
 }

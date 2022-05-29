@@ -32,24 +32,23 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import java.util.List;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.ButtonComponent;
 import org.geysermc.cumulus.form.SimpleForm;
+import org.geysermc.cumulus.form.util.FormCodec;
+import org.geysermc.cumulus.form.util.FormType;
+import org.geysermc.cumulus.form.util.impl.FormCodecImpl;
 import org.geysermc.cumulus.response.SimpleFormResponse;
 import org.geysermc.cumulus.response.impl.SimpleFormResponseImpl;
 import org.geysermc.cumulus.response.result.FormResponseResult;
-import org.geysermc.cumulus.util.FormCodec;
 import org.geysermc.cumulus.util.FormImage;
-import org.geysermc.cumulus.util.FormType;
 import org.geysermc.cumulus.util.Utils;
-import org.geysermc.cumulus.util.impl.FormCodecImpl;
 import org.geysermc.cumulus.util.impl.FormImageAdaptor;
 
 public final class SimpleFormCodec extends FormCodecImpl<SimpleForm, SimpleFormResponse>
     implements FormCodec<SimpleForm, SimpleFormResponse> {
 
   SimpleFormCodec() {
-    super(SimpleForm.class, FormType.MODAL_FORM);
+    super(SimpleForm.class, FormType.SIMPLE_FORM);
   }
 
   @Override
@@ -84,7 +83,7 @@ public final class SimpleFormCodec extends FormCodecImpl<SimpleForm, SimpleFormR
       return FormResponseResult.invalid();
     }
 
-    if (buttonId >= form.buttons().size()) {
+    if (buttonId < 0 || buttonId >= form.buttons().size()) {
       return FormResponseResult.invalid();
     }
 
