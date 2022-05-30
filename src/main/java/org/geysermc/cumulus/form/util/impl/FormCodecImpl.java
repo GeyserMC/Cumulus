@@ -109,11 +109,6 @@ public abstract class FormCodecImpl<F extends Form, R extends FormResponse>
 
   @Override
   public final FormResponseResult<R> deserializeFormResponse(F form, @Nullable String response) {
-    //todo we probably don't want to use a FormResponse for this, as we want to return
-    // ClosedFormResponseResult e.g. as argument so that we can use it in the responseHandler
-    // or possibly additional methods like a: onFormClosed / formClosedHandler
-
-
     // if the form has been closed by the client
     if (response == null || response.isEmpty() || "null".equalsIgnoreCase(response.trim())) {
       return FormResponseResult.closed();

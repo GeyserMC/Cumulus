@@ -42,6 +42,7 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
   private final List<ComponentType> componentTypes;
 
   private int index = -1;
+  private boolean includeLabels = false;
 
   private CustomFormResponseImpl(JsonArray responses, List<ComponentType> componentTypes) {
     this.responses = responses;
@@ -56,8 +57,10 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
     Objects.requireNonNull(responses, "responses");
 
     if (componentTypes.size() != responses.size()) {
-      return FormResponseResult.invalid();
+      return FormResponseResult.invalid(-1, "Response size doesn't match what has been sent");
     }
+
+    //todo move validation and such to here
 
     return FormResponseResult.valid(
         new CustomFormResponseImpl(responses, Collections.unmodifiableList(componentTypes))
@@ -74,10 +77,9 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
     return componentTypes;
   }
 
-  @Override
   @Nullable
   @SuppressWarnings("unchecked")
-  public <T> T next(boolean includeLabels) {
+  private <T> T nextComponent(boolean includeLabels) {
     if (!hasNext()) {
       return null;
     }
@@ -94,8 +96,14 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
 
   @Override
   @Nullable
+  public <T> T next(boolean includeLabels) {
+    return nextComponent(includeLabels);
+  }
+
+  @Override
+  @Nullable
   public <T> T next() {
-    return next(false);
+    return next(includeLabels);
   }
 
   @Override
@@ -116,8 +124,59 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
   }
 
   @Override
+  public void includeLabels(boolean includeLabels) {
+    this.includeLabels = includeLabels;
+  }
+
+  @Override
   public boolean hasNext() {
     return responses.size() > index + 1;
+  }
+
+  @Override
+  public boolean isPresent() {
+    // noinspection ConstantConditions
+    return responses.size() > index && !componentAt(index).isJsonNull();
+  }
+
+  @Override
+  public boolean isNextPresent() {
+    // noinspection ConstantConditions
+    return hasNext() && !componentAt(index + 1).isJsonNull();
+  }
+
+  //todo this doesn't work properly. Optional components are supposed to return the default value.
+  // Currently they throw an exception
+
+  @Override
+  public int asDropdown() {
+    skip();
+    return asDropdown(index);
+  }
+
+  @Override
+  @Nullable
+  public String asInput() {
+    skip();
+    return asInput(index);
+  }
+
+  @Override
+  public float asSlider() {
+    skip();
+    return asSlider(index);
+  }
+
+  @Override
+  public int asStepSlider() {
+    skip();
+    return asStepSlider(index);
+  }
+
+  @Override
+  public boolean asToggle() {
+    skip();
+    return asToggle(index);
   }
 
   @Override
@@ -160,7 +219,7 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
   }
 
   @Override
-  public int asStepSlide(int index) {
+  public int asStepSlider(int index) {
     JsonPrimitive primitive = componentAt(index);
     if (primitive == null || !primitive.isNumber()) {
       wrongType(index, "step slider");
@@ -186,7 +245,7 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
       case SLIDER:
         return asSlider(index);
       case STEP_SLIDER:
-        return asStepSlide(index);
+        return asStepSlider(index);
       case TOGGLE:
         return asToggle(index);
       default:

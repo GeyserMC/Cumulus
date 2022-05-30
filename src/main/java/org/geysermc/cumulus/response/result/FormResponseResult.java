@@ -36,8 +36,10 @@ public interface FormResponseResult<R extends FormResponse> {
   }
 
   @NonNull
-  static <R extends FormResponse> InvalidFormResponseResult<R> invalid() {
-    return InvalidFormResponseResult.instance();
+  static <R extends FormResponse> InvalidFormResponseResult<R> invalid(
+      int componentIndex,
+      String errorMessage) {
+    return InvalidFormResponseResult.of(componentIndex, errorMessage);
   }
 
   @NonNull

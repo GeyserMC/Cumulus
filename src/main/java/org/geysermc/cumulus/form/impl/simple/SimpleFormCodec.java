@@ -92,11 +92,13 @@ public final class SimpleFormCodec extends FormCodecImpl<SimpleForm, SimpleFormR
     try {
       buttonId = Integer.parseInt(data);
     } catch (Exception exception) {
-      return FormResponseResult.invalid();
+      return FormResponseResult.invalid(
+          -1, "Received invalid integer representing the clicked button"
+      );
     }
 
     if (buttonId < 0) {
-      return FormResponseResult.invalid();
+      return FormResponseResult.invalid(-1, "Received a clicked button id that's smaller than 0");
     }
 
     // we could have optional buttons.
@@ -112,9 +114,10 @@ public final class SimpleFormCodec extends FormCodecImpl<SimpleForm, SimpleFormR
       }
     }
 
-    // buttonId was larger than the amount of buttons in the form
     if (button == null) {
-      return FormResponseResult.invalid();
+      return FormResponseResult.invalid(
+          -1, "Receiver a button id larger than the amount of buttons in the form"
+      );
     }
 
     return FormResponseResult.valid(

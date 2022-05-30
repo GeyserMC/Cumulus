@@ -73,6 +73,6 @@ public class ModalFormCodec extends FormCodecImpl<ModalForm, ModalFormResponse>
     } else if ("false".equals(responseData)) {
       return FormResponseResult.valid(ModalFormResponseImpl.of(1, form.button2()));
     }
-    return FormResponseResult.invalid();
+    return FormResponseResult.invalid(-1, "Response wasn't a boolean");
   }
 }

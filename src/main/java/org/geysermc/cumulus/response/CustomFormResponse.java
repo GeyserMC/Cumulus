@@ -32,43 +32,229 @@ import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.index.qual.Positive;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.geysermc.cumulus.component.Component;
 import org.geysermc.cumulus.component.util.ComponentType;
+import org.geysermc.cumulus.form.CustomForm;
 
+/**
+ * The response class of CustomForm. Labels are not included by default, but this can be changed by
+ * calling the {@link #includeLabels(boolean)} method.
+ *
+ * @see #includeLabels(boolean)
+ */
 public interface CustomFormResponse extends FormResponse {
   /**
-   * @deprecated since 1.1, will be removed in 2.0. Please use the more friendly methods instead.
+   * @deprecated since 1.1 and will be removed in 2.0. Please use the more friendly methods instead.
    */
   @Deprecated
   @NonNull JsonArray responses();
 
   /**
-   * @deprecated since 1.1, will be removed in 2.0. The component types aren't relevant since
+   * @deprecated since 1.1 and will be removed in 2.0. The component types aren't relevant since
    * they're already defined in the form itself.
+   *
+   * @see CustomForm#content()
+   * @see Component#type()
    */
   @Deprecated
   @NonNull List<ComponentType> componentTypes();
 
-  @Nullable <T> T next(boolean includeLabels);
+  /**
+   * @deprecated since 1.1 and will be removed in 2.0. The alternative is calling both
+   * {@link #includeLabels(boolean)} and {@link #next()}
+   *
+   * @see #includeLabels(boolean)
+   * @see #next()
+   */
+  @Deprecated
+  @Nullable <T> T next(boolean includeLabels) throws ClassCastException;
 
-  @Nullable <T> T next();
+  /**
+   * @deprecated since 1.1 and will be removed in 2.0. Response validation now happens before an
+   * instance of this class is made, so we no longer have the raw json types.
+   */
+  @Deprecated
+  @Nullable
+  JsonPrimitive componentAt(@NonNegative int index);
 
+  /**
+   * Returns the next component. The value of {@link #includeLabels(boolean)} influences the outcome
+   * of this method. If the next component is an optional component that is not present, the value
+   * will be null.
+   *
+   * @param <T> the type to cast the component to
+   * @throws ClassCastException when the value of the component cannot be cast to the provided
+   *                            return type
+   * @see #includeLabels(boolean)
+   */
+  @Nullable <T> T next() throws ClassCastException;
+
+  /**
+   * Skips the specified amount of components. The value of {@link #includeLabels(boolean)}
+   * influences the outcome of this method.
+   *
+   * @param amount the amount of components to skip
+   * @see #includeLabels(boolean)
+   */
   void skip(@Positive int amount);
 
+  /**
+   * Skips one component. The value of {@link #includeLabels(boolean)} influences the outcome of
+   * this method.
+   *
+   * @see #includeLabels(boolean)
+   */
   void skip();
 
-  void index(@Positive int index);
+  /**
+   * Sets the index of the iterator. Use {@link #skip()} or {@link #skip(int)} when you want to
+   * increase the index (skip specific items) instead of setting the index.
+   *
+   * @param index the position to set
+   * @see #skip()
+   * @see #skip(int)
+   */
+  void index(@NonNegative int index);
 
+  /**
+   * If labels should be skipped or not when moving to next items (which includes skip and next
+   * methods). Default value is <b>false</b>
+   *
+   * @param includeLabels true if labels should be included, false otherwise
+   * @since 1.1
+   */
+  void includeLabels(boolean includeLabels);
+
+  /**
+   * Returns true when there is another element to be read (e.g. using {@link #next()}). The value
+   * of {@link #includeLabels(boolean)} influences the outcome of this method.
+   *
+   * @see #includeLabels(boolean)
+   */
   boolean hasNext();
 
-  @Nullable JsonPrimitive componentAt(@NonNegative int index);
+  /**
+   * Returns true if the currently selected component is present. It returns false when either the
+   * current component is out of bounds or when the current component is an optional component that
+   * is not present. Most of the time {@link #isNextPresent()} would be used instead of this
+   * method.
+   *
+   * @see #isNextPresent()
+   * @since 1.1
+   */
+  boolean isPresent();
 
-  int asDropdown(@NonNegative int index);
+  /**
+   * Returns true if the next component is present. It returns false when there is either no next
+   * component or when the next component is an optional component that is not present.
+   *
+   * @see #next()
+   * @see #hasNext()
+   * @since 1.1
+   */
+  boolean isNextPresent();
 
-  @Nullable String asInput(@NonNegative int index);
+  /**
+   * Returns the next component as a dropdown value. The value is the index of the dropdown that was
+   * selected. The default value of an int (0) will be returned when the component is an optional
+   * component that was not present.
+   *
+   * @throws IllegalArgumentException when the component is not a dropdown.
+   * @see #next()
+   * @see #isNextPresent()
+   * @since 1.1
+   */
+  int asDropdown() throws IllegalArgumentException;
 
-  float asSlider(@NonNegative int index);
+  /**
+   * Returns the next component as an input value. The value is the input the client gave. Null will
+   * be returned when the component is an optional component that was not present.
+   *
+   * @throws IllegalArgumentException when the component is not an input.
+   * @see #next()
+   * @see #isNextPresent()
+   * @since 1.1
+   */
+  @Nullable String asInput() throws IllegalArgumentException;
 
-  int asStepSlide(@NonNegative int index);
+  /**
+   * Returns the next component as a slider value. The value is the slider value the client
+   * selected. The default value of a float (0.0) will be returned when the component is an optional
+   * component that was not present.
+   *
+   * @throws IllegalArgumentException when the component is not a slider.
+   * @see #next()
+   * @see #isNextPresent()
+   * @since 1.1
+   */
+  float asSlider() throws IllegalArgumentException;
 
-  boolean asToggle(@NonNegative int index);
+  /**
+   * Returns the next component as a step slider value. The value is the step slider value the
+   * client selected. The default value of an int (0) will be returned when the component is an
+   * optional component that was not present.
+   *
+   * @throws IllegalArgumentException when the component is not a step slider.
+   * @see #next()
+   * @see #isNextPresent()
+   * @since 1.1
+   */
+  int asStepSlider() throws IllegalArgumentException;
+
+  /**
+   * Returns the next component as a toggle value. The value is the toggle value the client
+   * selected. The default value of a boolean (false) will be returned when the component is an
+   * optional component that was not present.
+   *
+   * @throws IllegalArgumentException when the component is not a toggle.
+   * @see #next()
+   * @see #isNextPresent()
+   * @since 1.1
+   */
+  boolean asToggle() throws IllegalArgumentException;
+
+  /**
+   * Returns the value of the selected component as a dropdown component.
+   *
+   * @param index the index of the dropdown to return
+   * @see #asDropdown()
+   * @since 1.1
+   */
+  int asDropdown(@NonNegative int index) throws IllegalArgumentException;
+
+  /**
+   * Returns the value of the selected component as an input component.
+   *
+   * @param index the index of the input to return
+   * @see #asInput()
+   * @since 1.1
+   */
+  @Nullable String asInput(@NonNegative int index) throws IllegalArgumentException;
+
+  /**
+   * Returns the value of the selected component as a slider component .
+   *
+   * @param index the index of the slider to return
+   * @see #asSlider()
+   * @since 1.1
+   */
+  float asSlider(@NonNegative int index) throws IllegalArgumentException;
+
+  /**
+   * Returns the value of the selected component as a step slider component.
+   *
+   * @param index the index of the step slider to return
+   * @see #asStepSlider()
+   * @since 1.1
+   */
+  int asStepSlider(@NonNegative int index) throws IllegalArgumentException;
+
+  /**
+   * Returns the value of the selected component as a toggle component.
+   *
+   * @param index the index of the toggle to return
+   * @see #asToggle()
+   * @since 1.1
+   */
+  boolean asToggle(@NonNegative int index) throws IllegalArgumentException;
 }
