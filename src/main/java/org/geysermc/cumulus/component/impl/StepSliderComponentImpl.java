@@ -37,7 +37,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.StepSliderComponent;
 import org.geysermc.cumulus.component.util.ComponentType;
 
-public final class StepSliderComponentImpl extends Component implements StepSliderComponent {
+public final class StepSliderComponentImpl extends ComponentImpl implements StepSliderComponent {
   private final List<String> steps;
   @SerializedName("default")
   private final int defaultStep;

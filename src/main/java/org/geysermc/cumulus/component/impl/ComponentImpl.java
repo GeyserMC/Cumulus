@@ -27,13 +27,14 @@ package org.geysermc.cumulus.component.impl;
 
 import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.geysermc.cumulus.component.Component;
 import org.geysermc.cumulus.component.util.ComponentType;
 
-public abstract class Component {
+public abstract class ComponentImpl implements Component {
   private final ComponentType type;
   private final String text;
 
-  Component(@NonNull ComponentType type, @NonNull String text) {
+  ComponentImpl(@NonNull ComponentType type, @NonNull String text) {
     this.type = Objects.requireNonNull(type, "type");
     this.text = Objects.requireNonNull(text, "text");
   }

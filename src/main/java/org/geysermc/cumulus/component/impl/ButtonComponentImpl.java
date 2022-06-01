@@ -41,12 +41,14 @@ public final class ButtonComponentImpl implements ButtonComponent {
   }
 
   @Override
-  public @NonNull String text() {
+  @NonNull
+  public String text() {
     return text;
   }
 
   @Override
-  public @Nullable FormImage image() {
+  @Nullable
+  public FormImage image() {
     return image;
   }
 }

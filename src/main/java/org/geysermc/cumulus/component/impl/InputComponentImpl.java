@@ -31,7 +31,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.InputComponent;
 import org.geysermc.cumulus.component.util.ComponentType;
 
-public final class InputComponentImpl extends Component implements InputComponent {
+public final class InputComponentImpl extends ComponentImpl implements InputComponent {
   private final String placeholder;
   @SerializedName("default")
   private final String defaultText;
@@ -46,12 +46,14 @@ public final class InputComponentImpl extends Component implements InputComponen
   }
 
   @Override
-  public @NonNull String placeholder() {
+  @NonNull
+  public String placeholder() {
     return placeholder;
   }
 
   @Override
-  public @NonNull String defaultText() {
+  @NonNull
+  public String defaultText() {
     return defaultText;
   }
 }

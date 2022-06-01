@@ -260,14 +260,9 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
         @NonNull String text,
         float min,
         float max,
-        @Positive int step,
+        @Positive float step,
         float defaultValue) {
       return component(SliderComponent.of(text, min, max, step, defaultValue));
-    }
-
-    @Override
-    public Builder slider(@NonNull String text, float min, float max, @Positive int step) {
-      return slider(text, min, max, step, 0);
     }
 
     @Override
@@ -275,13 +270,13 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
         @NonNull String text,
         float min,
         float max,
-        @Positive float defaultValue) {
-      return slider(text, min, max, 1, defaultValue);
+        @Positive float step) {
+      return component(SliderComponent.of(text, min, max, step));
     }
 
     @Override
     public Builder slider(@NonNull String text, float min, float max) {
-      return slider(text, min, max, 1, 0);
+      return slider(text, min, max, 1);
     }
 
     @Override
@@ -289,7 +284,7 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
         @NonNull String text,
         float min,
         float max,
-        @Positive int step,
+        @Positive float step,
         float defaultValue,
         boolean shouldAdd) {
       if (shouldAdd) {
@@ -303,23 +298,10 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
         @NonNull String text,
         float min,
         float max,
-        @Positive int step,
+        @Positive float step,
         boolean shouldAdd) {
       if (shouldAdd) {
         return slider(text, min, max, step);
-      }
-      return addNullComponent();
-    }
-
-    @Override
-    public Builder optionalSlider(
-        @NonNull String text,
-        float min,
-        float max,
-        float defaultValue,
-        boolean shouldAdd) {
-      if (shouldAdd) {
-        return slider(text, min, max, defaultValue);
       }
       return addNullComponent();
     }
@@ -345,7 +327,7 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
     @Override
     public Builder stepSlider(
         @NonNull String text,
-        @NonNegative int defaultStep,
+        @NonNegative int defaultStep, //todo should defaultStep be after listing the steps?
         @NonNull List<String> steps) {
       Objects.requireNonNull(text, "text");
       Preconditions.checkArgument(defaultStep >= 0, "defaultStep");

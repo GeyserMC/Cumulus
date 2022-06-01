@@ -32,10 +32,10 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.SliderComponent;
 import org.geysermc.cumulus.component.util.ComponentType;
 
-public final class SliderComponentImpl extends Component implements SliderComponent {
+public final class SliderComponentImpl extends ComponentImpl implements SliderComponent {
   private final float min;
   private final float max;
-  private final int step;
+  private final float step;
   @SerializedName("default")
   private final float defaultValue;
 
@@ -43,22 +43,56 @@ public final class SliderComponentImpl extends Component implements SliderCompon
       @NonNull String text,
       float min,
       float max,
-      int step,
+      @Positive float step,
       float defaultValue) {
     super(ComponentType.SLIDER, text);
-    Preconditions.checkArgument(step >= 1, "step");
-
-    min = Math.max(min, 0f);
-    max = Math.max(max, min);
-
-    if (defaultValue == -1f) {
-      defaultValue = (int) Math.floor(min + max / 2D);
-    }
+    // Bedrock doesn't work well with a higher min than max and negative steps,
+    // so let's check all that.
+    Preconditions.checkArgument(step > 0.0f, "step value cannot be negative");
+    Preconditions.checkArgument(min <= max, "min value is higher than max value");
 
     this.min = min;
     this.max = max;
     this.step = step;
     this.defaultValue = defaultValue;
+  }
+
+  public SliderComponentImpl(@NonNull String text, float min, float max, @Positive float step) {
+    this(text, min, max, step, generateDefaultValue(min, max, step));
+  }
+
+  private static float generateDefaultValue(float min, float max, @Positive float step) {
+    // because step is always positive, max has to be bigger than min.
+    // this allows us to get the middle between min and max quite easily.
+    float middle = min + ((max - min) / 2.0f);
+
+    // if the middle is a valid step, return it
+    if (((middle - min) / step) % 1 == 0) {
+      return middle;
+    }
+
+    // if it has tons of steps, don't even bother finding a technically correct middle
+    if (min + step * 50.0f < max) {
+      return min;
+    }
+
+    // find the closest middle (with a bias to the left)
+
+    float previousStep = min;
+    boolean foundMiddle = false;
+    while (previousStep < max) {
+      float next = previousStep + step;
+      if (next > middle) {
+        return previousStep;
+      }
+      previousStep = next;
+    }
+
+    // not sure how this can happen, but sure
+    if (!foundMiddle) {
+      middle = previousStep;
+    }
+    return middle;
   }
 
   @Override
@@ -72,7 +106,8 @@ public final class SliderComponentImpl extends Component implements SliderCompon
   }
 
   @Override
-  public @Positive int step() {
+  @Positive
+  public float step() {
     return step;
   }
 

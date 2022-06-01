@@ -30,7 +30,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.ToggleComponent;
 import org.geysermc.cumulus.component.util.ComponentType;
 
-public final class ToggleComponentImpl extends Component implements ToggleComponent {
+public final class ToggleComponentImpl extends ComponentImpl implements ToggleComponent {
   @SerializedName("default")
   private final boolean defaultValue;
 

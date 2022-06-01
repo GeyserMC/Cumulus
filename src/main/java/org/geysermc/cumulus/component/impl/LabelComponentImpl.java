@@ -29,7 +29,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.LabelComponent;
 import org.geysermc.cumulus.component.util.ComponentType;
 
-public final class LabelComponentImpl extends Component implements LabelComponent {
+public final class LabelComponentImpl extends ComponentImpl implements LabelComponent {
   public LabelComponentImpl(@NonNull String text) {
     super(ComponentType.LABEL, text);
   }

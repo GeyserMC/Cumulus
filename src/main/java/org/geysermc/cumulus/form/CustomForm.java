@@ -241,15 +241,12 @@ public interface CustomForm extends Form {
         @NonNull String text,
         float min,
         float max,
-        @Positive int step,
+        @Positive float step,
         float defaultValue
     );
 
     @This
-    Builder slider(@NonNull String text, float min, float max, @Positive int step);
-
-    @This
-    Builder slider(@NonNull String text, float min, float max, float defaultValue);
+    Builder slider(@NonNull String text, float min, float max, @Positive float step);
 
     @This
     Builder slider(@NonNull String text, float min, float max);
@@ -268,7 +265,7 @@ public interface CustomForm extends Form {
         @NonNull String text,
         float min,
         float max,
-        @Positive int step,
+        @Positive float step,
         float defaultValue,
         boolean shouldAdd
     );
@@ -286,24 +283,7 @@ public interface CustomForm extends Form {
         @NonNull String text,
         float min,
         float max,
-        @Positive int step,
-        boolean shouldAdd
-    );
-
-    /**
-     * @param text
-     * @param min
-     * @param max
-     * @param defaultValue
-     * @param shouldAdd
-     * @return
-     */
-    @This
-    Builder optionalSlider(
-        @NonNull String text,
-        float min,
-        float max,
-        float defaultValue,
+        @Positive float step,
         boolean shouldAdd
     );
 

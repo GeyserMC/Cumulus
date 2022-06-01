@@ -50,21 +50,19 @@ public interface CustomFormResponse extends FormResponse {
   @NonNull JsonArray responses();
 
   /**
-   * @deprecated since 1.1 and will be removed in 2.0. The component types aren't relevant since
-   * they're already defined in the form itself.
-   *
    * @see CustomForm#content()
    * @see Component#type()
+   * @deprecated since 1.1 and will be removed in 2.0. The component types aren't relevant since
+   * they're already defined in the form itself.
    */
   @Deprecated
   @NonNull List<ComponentType> componentTypes();
 
   /**
-   * @deprecated since 1.1 and will be removed in 2.0. The alternative is calling both
-   * {@link #includeLabels(boolean)} and {@link #next()}
-   *
    * @see #includeLabels(boolean)
    * @see #next()
+   * @deprecated since 1.1 and will be removed in 2.0. The alternative is calling both
+   * {@link #includeLabels(boolean)} and {@link #next()}
    */
   @Deprecated
   @Nullable <T> T next(boolean includeLabels) throws ClassCastException;
@@ -159,7 +157,7 @@ public interface CustomFormResponse extends FormResponse {
    * selected. The default value of an int (0) will be returned when the component is an optional
    * component that was not present.
    *
-   * @throws IllegalArgumentException when the component is not a dropdown.
+   * @throws IllegalArgumentException when the component is not a dropdown
    * @see #next()
    * @see #isNextPresent()
    * @since 1.1
@@ -170,7 +168,7 @@ public interface CustomFormResponse extends FormResponse {
    * Returns the next component as an input value. The value is the input the client gave. Null will
    * be returned when the component is an optional component that was not present.
    *
-   * @throws IllegalArgumentException when the component is not an input.
+   * @throws IllegalArgumentException when the component is not an input
    * @see #next()
    * @see #isNextPresent()
    * @since 1.1
@@ -182,7 +180,7 @@ public interface CustomFormResponse extends FormResponse {
    * selected. The default value of a float (0.0) will be returned when the component is an optional
    * component that was not present.
    *
-   * @throws IllegalArgumentException when the component is not a slider.
+   * @throws IllegalArgumentException when the component is not a slider
    * @see #next()
    * @see #isNextPresent()
    * @since 1.1
@@ -194,7 +192,7 @@ public interface CustomFormResponse extends FormResponse {
    * client selected. The default value of an int (0) will be returned when the component is an
    * optional component that was not present.
    *
-   * @throws IllegalArgumentException when the component is not a step slider.
+   * @throws IllegalArgumentException when the component is not a step slider
    * @see #next()
    * @see #isNextPresent()
    * @since 1.1
@@ -206,7 +204,7 @@ public interface CustomFormResponse extends FormResponse {
    * selected. The default value of a boolean (false) will be returned when the component is an
    * optional component that was not present.
    *
-   * @throws IllegalArgumentException when the component is not a toggle.
+   * @throws IllegalArgumentException when the component is not a toggle
    * @see #next()
    * @see #isNextPresent()
    * @since 1.1
@@ -232,7 +230,7 @@ public interface CustomFormResponse extends FormResponse {
   @Nullable String asInput(@NonNegative int index) throws IllegalArgumentException;
 
   /**
-   * Returns the value of the selected component as a slider component .
+   * Returns the value of the selected component as a slider component.
    *
    * @param index the index of the slider to return
    * @see #asSlider()

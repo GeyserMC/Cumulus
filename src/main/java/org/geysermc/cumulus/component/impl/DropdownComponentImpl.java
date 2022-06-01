@@ -37,7 +37,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.DropdownComponent;
 import org.geysermc.cumulus.component.util.ComponentType;
 
-public final class DropdownComponentImpl extends Component implements DropdownComponent {
+public final class DropdownComponentImpl extends ComponentImpl implements DropdownComponent {
   private final List<String> options;
   @SerializedName("default")
   private final int defaultOption;
@@ -58,12 +58,14 @@ public final class DropdownComponentImpl extends Component implements DropdownCo
   }
 
   @Override
-  public @NonNull List<String> options() {
+  @NonNull
+  public List<String> options() {
     return options;
   }
 
   @Override
-  public @NonNegative int defaultOption() {
+  @NonNegative
+  public int defaultOption() {
     return defaultOption;
   }
 
