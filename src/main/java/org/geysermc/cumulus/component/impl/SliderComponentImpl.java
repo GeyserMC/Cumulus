@@ -79,7 +79,6 @@ public final class SliderComponentImpl extends ComponentImpl implements SliderCo
     // find the closest middle (with a bias to the left)
 
     float previousStep = min;
-    boolean foundMiddle = false;
     while (previousStep < max) {
       float next = previousStep + step;
       if (next > middle) {
@@ -88,11 +87,9 @@ public final class SliderComponentImpl extends ComponentImpl implements SliderCo
       previousStep = next;
     }
 
-    // not sure how this can happen, but sure
-    if (!foundMiddle) {
-      middle = previousStep;
-    }
-    return middle;
+    // not sure how this can happen, but sure.
+    // fallback to the last step assuming that it's the closest to the middle
+    return previousStep;
   }
 
   @Override

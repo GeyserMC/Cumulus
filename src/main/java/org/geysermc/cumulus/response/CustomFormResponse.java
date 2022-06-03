@@ -69,40 +69,10 @@ public interface CustomFormResponse extends FormResponse {
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. Response validation now happens before an
-   * instance of this class is made, so we no longer have the raw json types.
+   * instance of this class is made, so raw json types are no longer relevant.
    */
   @Deprecated
-  @Nullable
-  JsonPrimitive componentAt(@NonNegative int index);
-
-  /**
-   * Returns the next component. The value of {@link #includeLabels(boolean)} influences the outcome
-   * of this method. If the next component is an optional component that is not present, the value
-   * will be null.
-   *
-   * @param <T> the type to cast the component to
-   * @throws ClassCastException when the value of the component cannot be cast to the provided
-   *                            return type
-   * @see #includeLabels(boolean)
-   */
-  @Nullable <T> T next() throws ClassCastException;
-
-  /**
-   * Skips the specified amount of components. The value of {@link #includeLabels(boolean)}
-   * influences the outcome of this method.
-   *
-   * @param amount the amount of components to skip
-   * @see #includeLabels(boolean)
-   */
-  void skip(@Positive int amount);
-
-  /**
-   * Skips one component. The value of {@link #includeLabels(boolean)} influences the outcome of
-   * this method.
-   *
-   * @see #includeLabels(boolean)
-   */
-  void skip();
+  @Nullable JsonPrimitive get(@NonNegative int index);
 
   /**
    * Sets the index of the iterator. Use {@link #skip()} or {@link #skip(int)} when you want to
@@ -153,106 +123,153 @@ public interface CustomFormResponse extends FormResponse {
   boolean isNextPresent();
 
   /**
+   * Returns the next component. When there is no next component the return value will be null. The
+   * value of {@link #includeLabels(boolean)} influences the outcome of this method. If the next
+   * component is an optional component that is not present, the value will be null.
+   *
+   * @param <T> the type to cast the component to
+   * @throws ClassCastException when the value of the component cannot be cast to the provided
+   *                            return type
+   * @see #includeLabels(boolean)
+   */
+  @Nullable <T> T next() throws ClassCastException;
+
+  /**
+   * Skips the specified amount of components. The value of {@link #includeLabels(boolean)}
+   * influences the outcome of this method.
+   *
+   * @param amount the amount of components to skip
+   * @see #includeLabels(boolean)
+   */
+  void skip(@Positive int amount);
+
+  /**
+   * Skips one component. The value of {@link #includeLabels(boolean)} influences the outcome of
+   * this method.
+   *
+   * @see #includeLabels(boolean)
+   */
+  void skip();
+
+  /**
+   * Returns the value at a given position. If the component is an optional component that is not
+   * present, the value will be null.
+   *
+   * @param index the index of the value you want to access
+   * @param <T>   the type to cast the component to
+   * @throws IllegalArgumentException when there is no component at the given index
+   * @throws ClassCastException       when the value of the component cannot be cast to the provided
+   *                                  return type
+   */
+  @Nullable <T> T valueAt(int index) throws IllegalArgumentException, ClassCastException;
+
+  /**
    * Returns the next component as a dropdown value. The value is the index of the dropdown that was
    * selected. The default value of an int (0) will be returned when the component is an optional
    * component that was not present.
    *
-   * @throws IllegalArgumentException when the component is not a dropdown
+   * @throws IllegalStateException when the component is not a dropdown
    * @see #next()
    * @see #isNextPresent()
    * @since 1.1
    */
-  int asDropdown() throws IllegalArgumentException;
+  int asDropdown() throws IllegalStateException;
 
   /**
    * Returns the next component as an input value. The value is the input the client gave. Null will
    * be returned when the component is an optional component that was not present.
    *
-   * @throws IllegalArgumentException when the component is not an input
+   * @throws IllegalStateException when the component is not an input
    * @see #next()
    * @see #isNextPresent()
    * @since 1.1
    */
-  @Nullable String asInput() throws IllegalArgumentException;
+  @Nullable String asInput() throws IllegalStateException;
 
   /**
    * Returns the next component as a slider value. The value is the slider value the client
    * selected. The default value of a float (0.0) will be returned when the component is an optional
    * component that was not present.
    *
-   * @throws IllegalArgumentException when the component is not a slider
+   * @throws IllegalStateException when the component is not a slider
    * @see #next()
    * @see #isNextPresent()
    * @since 1.1
    */
-  float asSlider() throws IllegalArgumentException;
+  float asSlider() throws IllegalStateException;
 
   /**
    * Returns the next component as a step slider value. The value is the step slider value the
    * client selected. The default value of an int (0) will be returned when the component is an
    * optional component that was not present.
    *
-   * @throws IllegalArgumentException when the component is not a step slider
+   * @throws IllegalStateException when the component is not a step slider
    * @see #next()
    * @see #isNextPresent()
    * @since 1.1
    */
-  int asStepSlider() throws IllegalArgumentException;
+  int asStepSlider() throws IllegalStateException;
 
   /**
    * Returns the next component as a toggle value. The value is the toggle value the client
    * selected. The default value of a boolean (false) will be returned when the component is an
    * optional component that was not present.
    *
-   * @throws IllegalArgumentException when the component is not a toggle
+   * @throws IllegalStateException when the component is not a toggle
    * @see #next()
    * @see #isNextPresent()
    * @since 1.1
    */
-  boolean asToggle() throws IllegalArgumentException;
+  boolean asToggle() throws IllegalStateException;
 
   /**
    * Returns the value of the selected component as a dropdown component.
    *
    * @param index the index of the dropdown to return
    * @see #asDropdown()
+   * @see #valueAt(int)
    * @since 1.1
    */
-  int asDropdown(@NonNegative int index) throws IllegalArgumentException;
+  int asDropdown(@NonNegative int index) throws IllegalArgumentException, IllegalStateException;
 
   /**
    * Returns the value of the selected component as an input component.
    *
    * @param index the index of the input to return
    * @see #asInput()
+   * @see #valueAt(int)
    * @since 1.1
    */
-  @Nullable String asInput(@NonNegative int index) throws IllegalArgumentException;
+  @Nullable
+  String asInput(@NonNegative int index) throws IllegalArgumentException, IllegalStateException;
 
   /**
    * Returns the value of the selected component as a slider component.
    *
    * @param index the index of the slider to return
    * @see #asSlider()
+   * @see #valueAt(int)
    * @since 1.1
    */
-  float asSlider(@NonNegative int index) throws IllegalArgumentException;
+  float asSlider(@NonNegative int index) throws IllegalArgumentException, IllegalStateException;
 
   /**
    * Returns the value of the selected component as a step slider component.
    *
    * @param index the index of the step slider to return
    * @see #asStepSlider()
+   * @see #valueAt(int)
    * @since 1.1
    */
-  int asStepSlider(@NonNegative int index) throws IllegalArgumentException;
+  int asStepSlider(@NonNegative int index) throws IllegalArgumentException, IllegalStateException;
 
   /**
    * Returns the value of the selected component as a toggle component.
    *
    * @param index the index of the toggle to return
    * @see #asToggle()
+   * @see #valueAt(int)
    * @since 1.1
    */
-  boolean asToggle(@NonNegative int index) throws IllegalArgumentException;
+  boolean asToggle(@NonNegative int index) throws IllegalArgumentException, IllegalStateException;
 }

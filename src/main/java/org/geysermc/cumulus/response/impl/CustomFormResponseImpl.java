@@ -35,45 +35,44 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.util.ComponentType;
 import org.geysermc.cumulus.response.CustomFormResponse;
-import org.geysermc.cumulus.response.result.FormResponseResult;
+import org.geysermc.cumulus.util.AbsentComponent;
 
 public final class CustomFormResponseImpl implements CustomFormResponse {
-  private final JsonArray responses;
+  private final List<Object> responses;
+  private final JsonArray rawResponse;
   private final List<ComponentType> componentTypes;
 
   private int index = -1;
   private boolean includeLabels = false;
 
-  private CustomFormResponseImpl(JsonArray responses, List<ComponentType> componentTypes) {
-    this.responses = responses;
-    this.componentTypes = componentTypes;
+  private CustomFormResponseImpl(
+      List<Object> responses,
+      JsonArray rawResponse,
+      List<ComponentType> componentTypes) {
+    this.responses = Collections.unmodifiableList(responses);
+    this.rawResponse = rawResponse;
+    this.componentTypes = Collections.unmodifiableList(componentTypes);
   }
 
   @NonNull
-  public static FormResponseResult<CustomFormResponse> of(
-      @NonNull List<ComponentType> componentTypes,
-      @NonNull JsonArray responses) {
-    Objects.requireNonNull(componentTypes, "componentTypes");
+  public static CustomFormResponse of(
+      @NonNull List<Object> responses,
+      @NonNull JsonArray rawResponse,
+      @NonNull List<ComponentType> componentTypes) {
     Objects.requireNonNull(responses, "responses");
-
-    if (componentTypes.size() != responses.size()) {
-      return FormResponseResult.invalid(-1, "Response size doesn't match what has been sent");
-    }
-
-    //todo move validation and such to here
-
-    return FormResponseResult.valid(
-        new CustomFormResponseImpl(responses, Collections.unmodifiableList(componentTypes))
-    );
+    Objects.requireNonNull(componentTypes, "componentTypes");
+    return new CustomFormResponseImpl(responses, rawResponse, componentTypes);
   }
 
   @Override
-  public @NonNull JsonArray responses() {
-    return responses;
+  @NonNull
+  public JsonArray responses() {
+    return rawResponse;
   }
 
   @Override
-  public @NonNull List<ComponentType> componentTypes() {
+  @NonNull
+  public List<ComponentType> componentTypes() {
     return componentTypes;
   }
 
@@ -85,11 +84,14 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
     }
 
     while (++index < responses.size()) {
-      ComponentType type = componentTypes.get(index);
-      if (type == ComponentType.LABEL && !includeLabels) {
+      Object response = responses.get(index);
+      if (response == null && !includeLabels) {
         continue;
       }
-      return (T) dataFromType(type, index);
+      if (response instanceof AbsentComponent) {
+        return null;
+      }
+      return (T) response;
     }
     return null; // we don't have anything to check anymore
   }
@@ -98,12 +100,6 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
   @Nullable
   public <T> T next(boolean includeLabels) {
     return nextComponent(includeLabels);
-  }
-
-  @Override
-  @Nullable
-  public <T> T next() {
-    return next(includeLabels);
   }
 
   @Override
@@ -135,126 +131,166 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
 
   @Override
   public boolean isPresent() {
-    // noinspection ConstantConditions
-    return responses.size() > index && !componentAt(index).isJsonNull();
+    return responses.size() > index && responses.get(index) != null;
   }
 
   @Override
   public boolean isNextPresent() {
-    // noinspection ConstantConditions
-    return hasNext() && !componentAt(index + 1).isJsonNull();
+    return hasNext() && responses.get(index + 1) != null;
   }
 
-  //todo this doesn't work properly. Optional components are supposed to return the default value.
-  // Currently they throw an exception
+  @Override
+  @Nullable
+  public <T> T next() {
+    return next(includeLabels);
+  }
 
   @Override
   public int asDropdown() {
-    skip();
-    return asDropdown(index);
+    Object next = next();
+    if (next == null) {
+      return 0;
+    }
+    if (next instanceof Integer) {
+      return (int) next;
+    }
+    throw wrongType(index, "dropdown");
   }
 
   @Override
   @Nullable
   public String asInput() {
-    skip();
-    return asInput(index);
+    Object next = next();
+    if (next == null) {
+      return null;
+    }
+    if (next instanceof String) {
+      return (String) next;
+    }
+    throw wrongType(index, "input");
   }
 
   @Override
   public float asSlider() {
-    skip();
-    return asSlider(index);
+    Object next = next();
+    if (next == null) {
+      return 0.0f;
+    }
+    if (next instanceof Float) {
+      return (float) next;
+    }
+    throw wrongType(index, "slider");
   }
 
   @Override
   public int asStepSlider() {
-    skip();
-    return asStepSlider(index);
+    Object next = next();
+    if (next == null) {
+      return 0;
+    }
+    if (next instanceof Integer) {
+      return (int) next;
+    }
+    throw wrongType(index, "step slider");
   }
 
   @Override
   public boolean asToggle() {
-    skip();
-    return asToggle(index);
+    Object next = next();
+    if (next == null) {
+      return false;
+    }
+    if (next instanceof Boolean) {
+      return (boolean) next;
+    }
+    throw wrongType(index, "toggle");
+  }
+
+  @Override
+  @NonNull
+  public JsonPrimitive get(int index) {
+    Preconditions.checkArgument(index >= 0, "index");
+    try {
+      return rawResponse.get(index).getAsJsonPrimitive();
+    } catch (IllegalStateException exception) {
+      throw wrongType(index, "a primitive");
+    }
   }
 
   @Override
   @Nullable
-  public JsonPrimitive componentAt(int index) {
+  @SuppressWarnings("unchecked")
+  public <T> T valueAt(int index) throws IllegalArgumentException, ClassCastException {
     Preconditions.checkArgument(index >= 0, "index");
-    try {
-      return responses.get(index).getAsJsonPrimitive();
-    } catch (IllegalStateException exception) {
-      wrongType(index, "a primitive");
-      return null;
+    if (index >= responses.size()) {
+      throw new IllegalArgumentException("Requested an higher index than there are components");
     }
+    return (T) responses.get(index);
   }
 
   @Override
   public int asDropdown(int index) {
-    JsonPrimitive primitive = componentAt(index);
-    if (primitive == null || !primitive.isNumber()) {
-      wrongType(index, "dropdown");
+    Object component = valueAt(index);
+    if (component == null) {
+      return 0;
     }
-    return primitive.getAsInt();
+    if (component instanceof Integer) {
+      return (int) component;
+    }
+    throw wrongType(index, "dropdown");
   }
 
   @Override
+  @Nullable
   public String asInput(int index) {
-    JsonPrimitive primitive = componentAt(index);
-    if (primitive == null || !primitive.isString()) {
-      wrongType(index, "input");
+    Object next = valueAt(index);
+    if (next == null) {
+      return null;
     }
-    return primitive.getAsString();
+    if (next instanceof String) {
+      return (String) next;
+    }
+    throw wrongType(index, "input");
   }
 
   @Override
   public float asSlider(int index) {
-    JsonPrimitive primitive = componentAt(index);
-    if (primitive == null || !primitive.isNumber()) {
-      wrongType(index, "slider");
+    Object next = valueAt(index);
+    if (next == null) {
+      return 0.0f;
     }
-    return primitive.getAsFloat();
+    if (next instanceof Float) {
+      return (float) next;
+    }
+    throw wrongType(index, "slider");
   }
 
   @Override
   public int asStepSlider(int index) {
-    JsonPrimitive primitive = componentAt(index);
-    if (primitive == null || !primitive.isNumber()) {
-      wrongType(index, "step slider");
+    Object next = valueAt(index);
+    if (next == null) {
+      return 0;
     }
-    return primitive.getAsInt();
+    if (next instanceof Integer) {
+      return (int) next;
+    }
+    throw wrongType(index, "step slider");
   }
 
   @Override
   public boolean asToggle(int index) {
-    JsonPrimitive primitive = componentAt(index);
-    if (primitive == null || !primitive.isBoolean()) {
-      wrongType(index, "toggle");
+    Object next = valueAt(index);
+    if (next == null) {
+      return false;
     }
-    return primitive.getAsBoolean();
+    if (next instanceof Boolean) {
+      return (boolean) next;
+    }
+    throw wrongType(index, "toggle");
   }
 
-  private Object dataFromType(ComponentType type, int index) {
-    switch (type) {
-      case DROPDOWN:
-        return asDropdown(index);
-      case INPUT:
-        return asInput(index);
-      case SLIDER:
-        return asSlider(index);
-      case STEP_SLIDER:
-        return asStepSlider(index);
-      case TOGGLE:
-        return asToggle(index);
-      default:
-        return null; // label e.g. is always null
-    }
-  }
-
-  private void wrongType(int index, String expected) {
-    throw new IllegalStateException(String.format(
+  private IllegalStateException wrongType(int index, String expected) {
+    return new IllegalStateException(String.format(
         "Expected %s on %s, got %s",
         expected, index, responses.get(index).toString()
     ));

@@ -31,6 +31,7 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,7 @@ import org.geysermc.cumulus.form.util.impl.FormCodecImpl;
 import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.response.impl.CustomFormResponseImpl;
 import org.geysermc.cumulus.response.result.FormResponseResult;
+import org.geysermc.cumulus.util.AbsentComponent;
 import org.geysermc.cumulus.util.FormImage;
 import org.geysermc.cumulus.util.JsonUtils;
 import org.geysermc.cumulus.util.impl.FormImageAdaptor;
@@ -98,15 +100,91 @@ public final class CustomFormCodec extends FormCodecImpl<CustomForm, CustomFormR
       @NonNull CustomForm form, @NonNull String responseData) {
 
     JsonArray responses = gson.fromJson(responseData, JsonArray.class);
+    JsonArray responsesCopy = responses.deepCopy();
 
-    //todo both verify the response and re-add null components
-
+    List<Object> mappedResponse = new ArrayList<>();
     List<ComponentType> types = new ArrayList<>();
-    for (Component component : form.content()) {
+
+    List<Component> content = form.content();
+    for (int i = 0; i < content.size(); i++) {
+      Component component = content.get(i);
+      if (component == null) {
+        mappedResponse.add(AbsentComponent.instance());
+        continue;
+      }
+
+      if (responses.isEmpty()) {
+        return FormResponseResult.invalid(-1, "Response doesn't contain enough components");
+      }
+
+      try {
+        JsonElement response = responses.remove(0);
+        mappedResponse.add(validateComponent(component, response));
+      } catch (Exception exception) {
+        // looks like it didn't pass the validation.
+        return FormResponseResult.invalid(i, exception.getMessage());
+      }
+
       types.add(component.type());
     }
 
-    return CustomFormResponseImpl.of(types, responses);
+    if (!responses.isEmpty()) {
+      return FormResponseResult.invalid(-1, "Response contains too many elements");
+    }
+
+    return FormResponseResult.valid(
+        CustomFormResponseImpl.of(mappedResponse, responsesCopy, types)
+    );
+  }
+
+  private Object validateComponent(Component component, JsonElement element) {
+    ComponentType type = component.type();
+    if (type == ComponentType.LABEL) {
+      if (element.isJsonNull()) {
+        return null;
+      }
+      throw new IllegalStateException("Return value of label should be null");
+    }
+
+    if (!element.isJsonPrimitive()) {
+      // throw our own exception
+      throw new IllegalStateException(String.format(
+          "Return value of %s should be a json primitive", type.componentName()
+      ));
+    }
+
+    JsonPrimitive value = element.getAsJsonPrimitive();
+
+    //todo (for a future version) make a separate validator class for each component
+    switch (type) {
+      case INPUT:
+        if (value.isString()) {
+          return value.getAsString();
+        }
+        throw new IllegalStateException("Return value of input should be a string");
+      case SLIDER:
+        if (value.isNumber()) {
+          return value.getAsFloat();
+        }
+        throw new IllegalStateException("Return value of slider should be a float");
+      case STEP_SLIDER:
+        if (value.isNumber()) {
+          return value.getAsInt();
+        }
+        throw new IllegalStateException("Return value of step slider should be an integer");
+      case TOGGLE:
+        if (value.isBoolean()) {
+          return value.getAsBoolean();
+        }
+        throw new IllegalStateException("Return value of toggle should be a boolean");
+      case DROPDOWN:
+        if (value.isNumber()) {
+          return value.getAsInt();
+        }
+        throw new IllegalStateException("Return value of dropdown should be an integer");
+      default:
+        throw new IllegalStateException("Type " + type + " does not have validation implemented");
+    }
   }
 
   @Override
