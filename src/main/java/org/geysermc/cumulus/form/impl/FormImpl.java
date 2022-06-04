@@ -74,7 +74,8 @@ public abstract class FormImpl<R extends FormResponse> implements Form {
   }
 
   @Override
-  public @NonNull String title() {
+  @NonNull
+  public String title() {
     return title;
   }
 

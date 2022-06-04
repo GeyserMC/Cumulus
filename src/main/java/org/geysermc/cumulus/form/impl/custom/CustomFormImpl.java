@@ -121,8 +121,8 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
     @Override
     public Builder dropdown(
         @NonNull String text,
-        @NonNegative int defaultOption,
-        @NonNull List<String> options) {
+        @NonNull List<String> options,
+        @NonNegative int defaultOption) {
       Objects.requireNonNull(text, "text");
       Preconditions.checkArgument(defaultOption >= 0, "defaultOption");
 
@@ -138,27 +138,27 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
         @NonNull String text,
         int defaultOption,
         @NonNull String... options) {
-      return dropdown(text, defaultOption, Arrays.asList(options));
+      return dropdown(text, Arrays.asList(options), defaultOption);
     }
 
     @Override
     public Builder dropdown(@NonNull String text, @NonNull List<String> options) {
-      return dropdown(text, 0, options);
+      return dropdown(text, options, 0);
     }
 
     @Override
     public Builder dropdown(@NonNull String text, @NonNull String... options) {
-      return dropdown(text, 0, Arrays.asList(options));
+      return dropdown(text, Arrays.asList(options), 0);
     }
 
     @Override
     public Builder optionalDropdown(
         @NonNull String text,
-        @NonNegative int defaultOption,
         @NonNull List<String> options,
+        @NonNegative int defaultOption,
         boolean shouldAdd) {
       if (shouldAdd) {
-        return dropdown(text, defaultOption, options);
+        return dropdown(text, options, defaultOption);
       }
       return addNullComponent();
     }
@@ -169,7 +169,7 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
         @NonNull String text,
         @NonNegative int defaultOption,
         @NonNull String... options) {
-      return optionalDropdown(text, defaultOption, Arrays.asList(options), shouldAdd);
+      return optionalDropdown(text, Arrays.asList(options), defaultOption, shouldAdd);
     }
 
     @Override
@@ -327,8 +327,8 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
     @Override
     public Builder stepSlider(
         @NonNull String text,
-        @NonNegative int defaultStep, //todo should defaultStep be after listing the steps?
-        @NonNull List<String> steps) {
+        @NonNull List<String> steps,
+        @NonNegative int defaultStep) {
       Objects.requireNonNull(text, "text");
       Preconditions.checkArgument(defaultStep >= 0, "defaultStep");
 
@@ -341,12 +341,12 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
 
     @Override
     public Builder stepSlider(@NonNull String text, int defaultStep, String... steps) {
-      return stepSlider(text, defaultStep, Arrays.asList(steps));
+      return stepSlider(text, Arrays.asList(steps), defaultStep);
     }
 
     @Override
     public Builder stepSlider(@NonNull String text, @NonNull List<String> steps) {
-      return stepSlider(text, 0, steps);
+      return stepSlider(text, steps, 0);
     }
 
     @Override
@@ -357,11 +357,11 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
     @Override
     public Builder optionalStepSlider(
         @NonNull String text,
-        @NonNegative int defaultStep,
         @NonNull List<String> steps,
+        @NonNegative int defaultStep,
         boolean shouldAdd) {
       if (shouldAdd) {
-        return stepSlider(text, defaultStep, steps);
+        return stepSlider(text, steps, defaultStep);
       }
       return addNullComponent();
     }
@@ -372,7 +372,7 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
         @NonNull String text,
         @NonNegative int defaultStep,
         @NonNull String... steps) {
-      return optionalStepSlider(text, defaultStep, Arrays.asList(steps), shouldAdd);
+      return optionalStepSlider(text, Arrays.asList(steps), defaultStep, shouldAdd);
     }
 
     @Override

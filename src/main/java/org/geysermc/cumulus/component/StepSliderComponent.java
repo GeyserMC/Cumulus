@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.function.Function;
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.common.returnsreceiver.qual.This;
 import org.geysermc.cumulus.component.impl.StepSliderComponentImpl;
 
 public interface StepSliderComponent extends Component {
@@ -51,7 +52,7 @@ public interface StepSliderComponent extends Component {
 
   @NonNull
   static StepSliderComponent of(@NonNull String text, @NonNull String... steps) {
-    return of(text, 1, steps);
+    return of(text, 0, steps);
   }
 
   @NonNull
@@ -71,16 +72,16 @@ public interface StepSliderComponent extends Component {
   int defaultStep();
 
   interface Builder {
-    @NonNull
+    @This
     Builder text(@NonNull String text);
 
-    @NonNull
+    @This
     Builder step(@NonNull String step, boolean defaultStep);
 
-    @NonNull
+    @This
     Builder step(@NonNull String step);
 
-    @NonNull
+    @This
     Builder defaultStep(@NonNegative int defaultStep);
 
     @NonNull

@@ -51,7 +51,8 @@ public final class SimpleFormResponseImpl implements SimpleFormResponse {
   }
 
   @Override
-  public @NonNull ButtonComponent clickedButton() {
+  @NonNull
+  public ButtonComponent clickedButton() {
     return clickedButton;
   }
 }

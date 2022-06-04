@@ -115,8 +115,8 @@ public interface CustomForm extends Form {
     @This
     Builder dropdown(
         @NonNull String text,
-        @NonNegative int defaultOption,
-        @NonNull List<String> options
+        @NonNull List<String> options,
+        @NonNegative int defaultOption
     );
 
     @This
@@ -134,16 +134,16 @@ public interface CustomForm extends Form {
 
     /**
      * @param text
-     * @param defaultOption
      * @param options
+     * @param defaultOption
      * @param shouldAdd
      * @return
      */
     @This
     Builder optionalDropdown(
         @NonNull String text,
-        @NonNegative int defaultOption,
         @NonNull List<String> options,
+        @NonNegative int defaultOption,
         boolean shouldAdd
     );
 
@@ -303,8 +303,8 @@ public interface CustomForm extends Form {
     @This
     Builder stepSlider(
         @NonNull String text,
-        @NonNegative int defaultStep,
-        @NonNull List<String> steps
+        @NonNull List<String> steps,
+        @NonNegative int defaultStep
     );
 
     @This
@@ -322,16 +322,16 @@ public interface CustomForm extends Form {
 
     /**
      * @param text
-     * @param defaultStep
      * @param steps
+     * @param defaultStep
      * @param shouldAdd
      * @return
      */
     @This
     Builder optionalStepSlider(
         @NonNull String text,
-        @NonNegative int defaultStep,
         @NonNull List<String> steps,
+        @NonNegative int defaultStep,
         boolean shouldAdd
     );
 

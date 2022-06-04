@@ -47,9 +47,11 @@ public final class StepSliderComponentImpl extends ComponentImpl implements Step
       @NonNull List<String> steps,
       int defaultStep) {
     super(ComponentType.STEP_SLIDER, text);
+    Preconditions.checkNotNull(steps, "steps");
     Preconditions.checkArgument(defaultStep >= 0, "defaultStep");
 
     this.steps = Collections.unmodifiableList(steps);
+    //todo should we allow this?
     if (defaultStep >= steps.size()) {
       defaultStep = 0;
     }
@@ -67,12 +69,14 @@ public final class StepSliderComponentImpl extends ComponentImpl implements Step
   }
 
   @Override
-  public @NonNull List<String> steps() {
+  @NonNull
+  public List<String> steps() {
     return steps;
   }
 
   @Override
-  public @NonNegative int defaultStep() {
+  @NonNegative
+  public int defaultStep() {
     return defaultStep;
   }
 
@@ -81,13 +85,11 @@ public final class StepSliderComponentImpl extends ComponentImpl implements Step
     private String text = "";
     private int defaultStep;
 
-    @NonNull
     public Builder text(@NonNull String text) {
       this.text = Objects.requireNonNull(text, "text");
       return this;
     }
 
-    @NonNull
     public Builder step(@NonNull String step, boolean defaultStep) {
       steps.add(Objects.requireNonNull(step, "step"));
       if (defaultStep) {
@@ -96,12 +98,10 @@ public final class StepSliderComponentImpl extends ComponentImpl implements Step
       return this;
     }
 
-    @NonNull
     public Builder step(@NonNull String step) {
       return step(step, false);
     }
 
-    @NonNull
     public Builder defaultStep(int defaultStep) {
       Preconditions.checkArgument(defaultStep >= 0, "defaultStep");
       this.defaultStep = defaultStep;

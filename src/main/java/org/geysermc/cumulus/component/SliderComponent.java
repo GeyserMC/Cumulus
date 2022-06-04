@@ -63,7 +63,7 @@ public interface SliderComponent extends Component {
   float maxValue();
 
   @Positive
-  float step(); //todo
+  float step();
 
   float defaultValue();
 

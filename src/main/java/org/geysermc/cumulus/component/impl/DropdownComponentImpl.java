@@ -47,10 +47,11 @@ public final class DropdownComponentImpl extends ComponentImpl implements Dropdo
       @NonNull List<String> options,
       int defaultOption) {
     super(ComponentType.DROPDOWN, text);
-    Objects.requireNonNull(options);
+    Preconditions.checkNotNull(options, "options");
     Preconditions.checkArgument(defaultOption >= 0, "defaultOption");
 
     this.options = Collections.unmodifiableList(options);
+    //todo should we allow this?
     if (defaultOption >= options.size()) {
       defaultOption = 0;
     }
@@ -75,14 +76,12 @@ public final class DropdownComponentImpl extends ComponentImpl implements Dropdo
     private int defaultOption = 0;
 
     @Override
-    @NonNull
     public Builder text(@NonNull String text) {
       this.text = Objects.requireNonNull(text, "test");
       return this;
     }
 
     @Override
-    @NonNull
     public Builder option(@NonNull String option, boolean isDefault) {
       options.add(Objects.requireNonNull(option, "option"));
       if (isDefault) {
@@ -92,13 +91,11 @@ public final class DropdownComponentImpl extends ComponentImpl implements Dropdo
     }
 
     @Override
-    @NonNull
     public Builder option(@NonNull String option) {
       return option(option, false);
     }
 
     @Override
-    @NonNull
     public Builder defaultOption(int defaultOption) {
       Preconditions.checkArgument(defaultOption >= 0, "defaultOption");
       this.defaultOption = defaultOption;
@@ -114,7 +111,7 @@ public final class DropdownComponentImpl extends ComponentImpl implements Dropdo
     @Override
     @NonNull
     public DropdownComponentImpl translateAndBuild(@NonNull Function<String, String> translator) {
-      Objects.requireNonNull(translator, "traslator");
+      Preconditions.checkNotNull(translator, "traslator");
       options.replaceAll(translator::apply);
       return new DropdownComponentImpl(translator.apply(text), options, defaultOption);
     }

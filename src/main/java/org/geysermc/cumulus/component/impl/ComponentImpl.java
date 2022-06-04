@@ -39,11 +39,13 @@ public abstract class ComponentImpl implements Component {
     this.text = Objects.requireNonNull(text, "text");
   }
 
-  public @NonNull ComponentType type() {
+  @NonNull
+  public ComponentType type() {
     return type;
   }
 
-  public @NonNull String text() {
+  @NonNull
+  public String text() {
     return text;
   }
 }

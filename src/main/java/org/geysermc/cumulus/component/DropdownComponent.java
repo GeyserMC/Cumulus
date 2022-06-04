@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.function.Function;
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.common.returnsreceiver.qual.This;
 import org.geysermc.cumulus.component.impl.DropdownComponentImpl;
 
 public interface DropdownComponent extends Component {
@@ -39,6 +40,8 @@ public interface DropdownComponent extends Component {
       @NonNegative int defaultOption) {
     return new DropdownComponentImpl(text, options, defaultOption);
   }
+
+  //todo should these 'of' methods be removed in favor of the builders?
 
   @NonNull
   static Builder builder() {
@@ -57,16 +60,16 @@ public interface DropdownComponent extends Component {
   int defaultOption();
 
   interface Builder {
-    @NonNull
+    @This
     Builder text(@NonNull String text);
 
-    @NonNull
+    @This
     Builder option(@NonNull String option, boolean isDefault);
 
-    @NonNull
+    @This
     Builder option(@NonNull String option);
 
-    @NonNull
+    @This
     Builder defaultOption(@NonNegative int defaultOption);
 
     @NonNull
