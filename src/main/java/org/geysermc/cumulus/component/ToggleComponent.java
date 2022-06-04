@@ -28,6 +28,10 @@ package org.geysermc.cumulus.component;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.impl.ToggleComponentImpl;
 
+/**
+ * Toggle component is a component that can only be used in CustomForm. With this component you can
+ * let the client toggle an option.
+ */
 public interface ToggleComponent extends Component {
   @NonNull
   static ToggleComponent of(@NonNull String text, boolean defaultValue) {
@@ -39,5 +43,17 @@ public interface ToggleComponent extends Component {
     return of(text, false);
   }
 
+  /**
+   * Returns whether the default value should be true or false.
+   */
   boolean defaultValue();
+
+  /**
+   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
+   * {@link #defaultValue()}.
+   */
+  @Deprecated
+  default boolean getDefaultValue() {
+    return defaultValue();
+  }
 }

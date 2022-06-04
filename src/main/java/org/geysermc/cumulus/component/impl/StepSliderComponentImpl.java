@@ -90,9 +90,9 @@ public final class StepSliderComponentImpl extends ComponentImpl implements Step
       return this;
     }
 
-    public Builder step(@NonNull String step, boolean defaultStep) {
+    public Builder step(@NonNull String step, boolean isDefault) {
       steps.add(Objects.requireNonNull(step, "step"));
-      if (defaultStep) {
+      if (isDefault) {
         this.defaultStep = steps.size() - 1;
       }
       return this;
@@ -104,6 +104,7 @@ public final class StepSliderComponentImpl extends ComponentImpl implements Step
 
     public Builder defaultStep(int defaultStep) {
       Preconditions.checkArgument(defaultStep >= 0, "defaultStep");
+      Preconditions.checkArgument(steps.size() > defaultStep, "defaultStep is out of bounds");
       this.defaultStep = defaultStep;
       return this;
     }

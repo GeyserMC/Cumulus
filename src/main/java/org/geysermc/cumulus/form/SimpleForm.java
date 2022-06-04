@@ -40,7 +40,7 @@ import org.geysermc.cumulus.util.FormImage;
  * type. It is a list of buttons which can have images. For more information and for code examples
  * look at <a href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
  *
- * @since 1.0
+ * @since 1.1
  */
 public interface SimpleForm extends Form {
   /**

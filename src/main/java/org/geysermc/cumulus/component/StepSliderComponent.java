@@ -33,6 +33,11 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.common.returnsreceiver.qual.This;
 import org.geysermc.cumulus.component.impl.StepSliderComponentImpl;
 
+/**
+ * Step slider component is a component that can only be used in CustomForm. This component is a
+ * combination of the dropdown component and the slider component. A step slider has a defined set
+ * of items you can slide through.
+ */
 public interface StepSliderComponent extends Component {
   @NonNull
   static StepSliderComponent of(
@@ -65,28 +70,90 @@ public interface StepSliderComponent extends Component {
     return builder().text(text);
   }
 
+  /**
+   * Returns the list of steps that will be shown in the step slider.
+   *
+   * @since 1.1
+   */
   @NonNull
   List<String> steps();
 
+  /**
+   * Returns the index of the step that is selected by default.
+   *
+   * @since 1.1
+   */
   @NonNegative
   int defaultStep();
 
+  /**
+   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
+   * {@link #steps()}.
+   */
+  @Deprecated
+  @NonNull
+  default List<String> getSteps() {
+    return steps();
+  }
+
+  /**
+   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
+   * {@link #defaultStep()}.
+   */
+  @Deprecated
+  @NonNegative
+  default int getDefaultStep() {
+    return defaultStep();
+  }
+
   interface Builder {
+    /**
+     * Sets the text that will be shown before the steps.
+     *
+     * @param text the text to show
+     */
     @This
     Builder text(@NonNull String text);
 
+    /**
+     * Adds a step to the list of steps.
+     *
+     * @param step      the text to show in the step slider entry
+     * @param isDefault if this should become the default option
+     */
     @This
-    Builder step(@NonNull String step, boolean defaultStep);
+    Builder step(@NonNull String step, boolean isDefault);
 
+    /**
+     * Adds a step to the list of steps. This step won't become the default step, unless
+     * {@link #defaultStep(int)} is called after this.
+     *
+     * @param step the text to show in the step slider entry
+     */
     @This
     Builder step(@NonNull String step);
 
+    /**
+     * Sets the default step of this step slider.
+     *
+     * @param defaultStep the index of the option that should become the default option.
+     * @throws IllegalArgumentException when the index of the default option is out of bounds
+     */
     @This
-    Builder defaultStep(@NonNegative int defaultStep);
+    Builder defaultStep(@NonNegative int defaultStep) throws IllegalArgumentException;
 
+    /**
+     * Returns the created step slider from the given options.
+     */
     @NonNull
     StepSliderComponent build();
 
+    /**
+     * Translated everything given to this builder using the provided translation function, and
+     * return the created step slider after that.
+     *
+     * @param translator the translation function
+     */
     @NonNull
     StepSliderComponent translateAndBuild(@NonNull Function<String, String> translator);
   }

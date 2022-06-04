@@ -65,7 +65,8 @@ public final class Forms {
    *
    * @param type the form type
    * @return the class implementing the form
-   * @deprecated since 1.1, will be removed in 2.0. Replaced with {@link FormDefinitions#formImplClass(FormType)}
+   * @deprecated since 1.1 and will be removed in 2.0. Replaced with
+   * {@link FormDefinitions#formImplClass(FormType)}
    */
   @NonNull
   @Deprecated

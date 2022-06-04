@@ -36,7 +36,7 @@ import org.geysermc.cumulus.response.ModalFormResponse;
  * It has a title, description and two buttons. For more information and for code examples look at
  * <a href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
  *
- * @since 1.0
+ * @since 1.1
  */
 public interface ModalForm extends Form {
   /**

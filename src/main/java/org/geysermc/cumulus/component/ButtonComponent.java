@@ -30,6 +30,10 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.impl.ButtonComponentImpl;
 import org.geysermc.cumulus.util.FormImage;
 
+/**
+ * Button component is a component that can only be used in SimpleForm. With this component you can
+ * show a button with an optional image attached to it.
+ */
 public interface ButtonComponent {
   @NonNull
   static ButtonComponent of(@NonNull String text, @Nullable FormImage image) {
@@ -49,9 +53,39 @@ public interface ButtonComponent {
     return of(text, null);
   }
 
+  /**
+   * Returns the text that will be shown in the button.
+   *
+   * @since 1.1
+   */
   @NonNull
   String text();
 
+  /**
+   * Returns the image that will be shown next to the button.
+   *
+   * @since 1.1
+   */
   @Nullable
   FormImage image();
+
+  /**
+   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
+   * {@link #text()}.
+   */
+  @Deprecated
+  @NonNull
+  default String getText() {
+    return text();
+  }
+
+  /**
+   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
+   * {@link #image()}.
+   */
+  @Deprecated
+  @Nullable
+  default FormImage getImage() {
+    return image();
+  }
 }

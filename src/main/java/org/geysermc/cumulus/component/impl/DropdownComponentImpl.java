@@ -98,6 +98,7 @@ public final class DropdownComponentImpl extends ComponentImpl implements Dropdo
     @Override
     public Builder defaultOption(int defaultOption) {
       Preconditions.checkArgument(defaultOption >= 0, "defaultOption");
+      Preconditions.checkArgument(options.size() > defaultOption, "defaultOption is out of bounds");
       this.defaultOption = defaultOption;
       return this;
     }

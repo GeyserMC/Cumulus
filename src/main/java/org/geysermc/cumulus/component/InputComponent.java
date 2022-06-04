@@ -28,6 +28,10 @@ package org.geysermc.cumulus.component;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.impl.InputComponentImpl;
 
+/**
+ * Input component is a component that can only be used in CustomForm. With this component you can
+ * show an input field where the client can enter something in.
+ */
 public interface InputComponent extends Component {
   @NonNull
   static InputComponent of(
@@ -47,9 +51,45 @@ public interface InputComponent extends Component {
     return of(text, "", "");
   }
 
+  /**
+   * Returns the text that will be shown as a placeholder in the input component. The text isn't
+   * actually placed in the component, but is shown to the client as a suggestion. To actually set
+   * text, use {@link #defaultText()} instead.
+   *
+   * @see #defaultText()
+   * @since 1.1
+   */
   @NonNull
   String placeholder();
 
+  /**
+   * Returns the text that will be placed in the input component by default when the component is
+   * being shown. For text that is only shown when there is nothing in the input component, use
+   * {@link #placeholder()} instead.
+   *
+   * @see #placeholder()
+   * @since 1.1
+   */
   @NonNull
   String defaultText();
+
+  /**
+   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
+   * {@link #placeholder()}.
+   */
+  @Deprecated
+  @NonNull
+  default String getPlaceholder() {
+    return placeholder();
+  }
+
+  /**
+   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
+   * {@link #defaultText()}.
+   */
+  @Deprecated
+  @NonNull
+  default String getDefaultText() {
+    return defaultText();
+  }
 }

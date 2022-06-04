@@ -28,10 +28,43 @@ package org.geysermc.cumulus.component;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.util.ComponentType;
 
+/**
+ * The base class of all components.
+ */
 public interface Component {
+  /**
+   * Returns the type of component this component is.
+   *
+   * @since 1.1
+   */
   @NonNull
   ComponentType type();
 
+  /**
+   * Returns the text that is shown in the component.
+   *
+   * @since 1.1
+   */
   @NonNull
   String text();
+
+  /**
+   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
+   * {@link #type()}.
+   */
+  @Deprecated
+  @NonNull
+  default ComponentType getType() {
+    return type();
+  }
+
+  /**
+   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
+   * {@link #text()}.
+   */
+  @Deprecated
+  @NonNull
+  default String getText() {
+    return text();
+  }
 }
