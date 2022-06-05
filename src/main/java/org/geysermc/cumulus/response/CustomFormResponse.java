@@ -44,37 +44,6 @@ import org.geysermc.cumulus.form.CustomForm;
  */
 public interface CustomFormResponse extends FormResponse {
   /**
-   * @deprecated since 1.1 and will be removed in 2.0. Please use the more friendly methods instead.
-   */
-  @Deprecated
-  @NonNull JsonArray responses();
-
-  /**
-   * @see CustomForm#content()
-   * @see Component#type()
-   * @deprecated since 1.1 and will be removed in 2.0. The component types aren't relevant since
-   * they're already defined in the form itself.
-   */
-  @Deprecated
-  @NonNull List<ComponentType> componentTypes();
-
-  /**
-   * @see #includeLabels(boolean)
-   * @see #next()
-   * @deprecated since 1.1 and will be removed in 2.0. The alternative is calling both
-   * {@link #includeLabels(boolean)} and {@link #next()}
-   */
-  @Deprecated
-  @Nullable <T> T next(boolean includeLabels) throws ClassCastException;
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. Response validation now happens before an
-   * instance of this class is made, so raw json types are no longer relevant.
-   */
-  @Deprecated
-  @Nullable JsonPrimitive get(@NonNegative int index);
-
-  /**
    * Sets the index of the iterator. Use {@link #skip()} or {@link #skip(int)} when you want to
    * increase the index (skip specific items) instead of setting the index.
    *
@@ -160,6 +129,7 @@ public interface CustomFormResponse extends FormResponse {
    * @throws IllegalArgumentException when there is no component at the given index
    * @throws ClassCastException       when the value of the component cannot be cast to the provided
    *                                  return type
+   * @since 1.1
    */
   @Nullable <T> T valueAt(int index) throws IllegalArgumentException, ClassCastException;
 
@@ -272,4 +242,82 @@ public interface CustomFormResponse extends FormResponse {
    * @since 1.1
    */
   boolean asToggle(@NonNegative int index) throws IllegalArgumentException, IllegalStateException;
+
+  /**
+   * @deprecated since 1.1 and will be removed in 2.0. Please use the more friendly methods instead.
+   */
+  @Deprecated
+  @NonNull JsonArray getResponses();
+
+  /**
+   * @see CustomForm#content()
+   * @see Component#type()
+   * @deprecated since 1.1 and will be removed in 2.0. The component types aren't relevant since
+   * they're already defined in the form itself.
+   */
+  @Deprecated
+  @NonNull List<ComponentType> getComponentTypes();
+
+  /**
+   * @see #includeLabels(boolean)
+   * @see #next()
+   * @deprecated since 1.1 and will be removed in 2.0. The alternative is calling both
+   * {@link #includeLabels(boolean)} and {@link #next()}
+   */
+  @Deprecated
+  @Nullable <T> T next(boolean includeLabels) throws ClassCastException;
+
+  /**
+   * @deprecated since 1.1 and will be removed in 2.0. Response validation now happens before an
+   * instance of this class is made, so raw json types are no longer relevant. The closest
+   * replacement is {@link #valueAt(int)}.
+   */
+  @Deprecated
+  @Nullable JsonPrimitive get(@NonNegative int index);
+
+  /**
+   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
+   * {@link #asDropdown(int)}.
+   */
+  @Deprecated
+  default int getDropdown(@NonNegative int index) {
+    return asDropdown(index);
+  }
+
+  /**
+   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
+   * {@link #asInput(int)}.
+   */
+  @Deprecated
+  @Nullable
+  default String getInput(@NonNegative int index) {
+    return asInput(index);
+  }
+
+  /**
+   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
+   * {@link #asSlider(int)}.
+   */
+  @Deprecated
+  default float getSlider(@NonNegative int index) {
+    return asSlider(index);
+  }
+
+  /**
+   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
+   * {@link #asStepSlider(int)}.
+   */
+  @Deprecated
+  default int getStepSlide(@NonNegative int index) {
+    return asStepSlider(index);
+  }
+
+  /**
+   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
+   * {@link #asToggle(int)}.
+   */
+  @Deprecated
+  default boolean getToggle(@NonNegative int index) {
+    return asToggle(index);
+  }
 }

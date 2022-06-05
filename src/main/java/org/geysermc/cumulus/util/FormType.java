@@ -23,50 +23,22 @@
  * @link https://github.com/GeyserMC/Cumulus
  */
 
-package org.geysermc.cumulus.response;
+package org.geysermc.cumulus.util;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-
-public interface ModalFormResponse extends FormResponse {
-  /**
-   * Returns the id of the button that has been clicked.
-   */
-  int clickedButtonId();
-
-  /**
-   * Returns the text of the button that has been clicked.
-   */
-  @NonNull String clickedButtonText();
+/**
+ * @deprecated since 1.1 and will be removed in 2.0. This class will be replaced by
+ * {@link org.geysermc.cumulus.form.util.FormType}.
+ */
+@Deprecated
+public enum FormType {
+  SIMPLE_FORM, MODAL_FORM, CUSTOM_FORM;
 
   /**
-   * Returns true if the player clicked the first button, returns false otherwise.
-   */
-  boolean clickedFirst();
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
-   * {@link #clickedButtonId()}.
+   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
+   * {@link org.geysermc.cumulus.form.util.FormType#fromOrdinal(int)}.
    */
   @Deprecated
-  default int getClickedButtonId() {
-    return clickedButtonId();
-  }
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
-   * {@link #clickedButtonText()}.
-   */
-  @Deprecated
-  default String getClickedButtonText() {
-    return clickedButtonText();
-  }
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
-   * {@link #clickedFirst()}.
-   */
-  @Deprecated
-  default boolean getResult() {
-    return clickedFirst();
+  public static FormType getByOrdinal(int ordinal) {
+    return ordinal < values().length ? values()[ordinal] : null;
   }
 }

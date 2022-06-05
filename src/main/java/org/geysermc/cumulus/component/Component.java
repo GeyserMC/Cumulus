@@ -53,9 +53,8 @@ public interface Component {
    * {@link #type()}.
    */
   @Deprecated
-  @NonNull
-  default ComponentType getType() {
-    return type();
+  default org.geysermc.cumulus.util.ComponentType getType() {
+    return org.geysermc.cumulus.util.ComponentType.values()[type().ordinal()];
   }
 
   /**

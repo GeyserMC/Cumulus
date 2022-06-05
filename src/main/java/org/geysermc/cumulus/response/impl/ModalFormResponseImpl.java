@@ -29,8 +29,9 @@ import com.google.common.base.Preconditions;
 import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.response.ModalFormResponse;
+import org.geysermc.cumulus.response.result.ResultType;
 
-public final class ModalFormResponseImpl implements ModalFormResponse {
+public final class ModalFormResponseImpl extends ResponseToResultGlue implements ModalFormResponse {
   private final int clickedButtonId;
   private final String clickedButtonText;
 
@@ -38,6 +39,14 @@ public final class ModalFormResponseImpl implements ModalFormResponse {
     Preconditions.checkArgument(clickedButtonId >= 0, "clickedButtonId");
     this.clickedButtonId = clickedButtonId;
     this.clickedButtonText = Objects.requireNonNull(clickedButtonText, "clickedButtonText");
+  }
+
+  @Deprecated
+  public ModalFormResponseImpl(ResultType resultType) {
+    //todo remove in 2.0
+    super(resultType);
+    clickedButtonId = -1;
+    clickedButtonText = null;
   }
 
   public static ModalFormResponseImpl of(int clickedButtonId, String clickedButtonText) {

@@ -23,50 +23,40 @@
  * @link https://github.com/GeyserMC/Cumulus
  */
 
-package org.geysermc.cumulus.response;
+package org.geysermc.cumulus.util;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
+import java.util.Locale;
 
-public interface ModalFormResponse extends FormResponse {
-  /**
-   * Returns the id of the button that has been clicked.
-   */
-  int clickedButtonId();
+/**
+ * @deprecated since 1.1 and will be removed in 2.0. This class has been replaced by
+ * {@link org.geysermc.cumulus.component.util.ComponentType}.
+ */
+@Deprecated
+public enum ComponentType {
+  DROPDOWN, INPUT, LABEL, SLIDER, STEP_SLIDER, TOGGLE;
 
-  /**
-   * Returns the text of the button that has been clicked.
-   */
-  @NonNull String clickedButtonText();
-
-  /**
-   * Returns true if the player clicked the first button, returns false otherwise.
-   */
-  boolean clickedFirst();
+  private final String name = name().toLowerCase(Locale.ROOT);
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
-   * {@link #clickedButtonId()}.
+   * {@link org.geysermc.cumulus.component.util.ComponentType#fromName(String)}.
    */
   @Deprecated
-  default int getClickedButtonId() {
-    return clickedButtonId();
+  public static ComponentType getByName(String name) {
+    for (ComponentType type : values()) {
+      if (type.name.equals(name)) {
+        return type;
+      }
+    }
+    return null;
   }
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
-   * {@link #clickedButtonText()}.
+   * {@link org.geysermc.cumulus.component.util.ComponentType#componentName()}.
    */
   @Deprecated
-  default String getClickedButtonText() {
-    return clickedButtonText();
-  }
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
-   * {@link #clickedFirst()}.
-   */
-  @Deprecated
-  default boolean getResult() {
-    return clickedFirst();
+  public String getName() {
+    return name;
   }
 }

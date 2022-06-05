@@ -64,13 +64,9 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
    * @param translator the translator that will translate every string. First argument is the text
    *                   to translate, the second argument is the player's locale
    * @param locale     the locale to translate the messages to
-   * @return the form builder
    */
   @This
-  B translator(
-      @NonNull BiFunction<String, String, String> translator,
-      @NonNull String locale
-  );
+  B translator(@NonNull BiFunction<String, String, String> translator, @NonNull String locale);
 
   /**
    * Set the translator of the form. The translator is called every time a component is added, and
@@ -82,7 +78,6 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
    *
    * @param translator the translator that will translate every string. First argument is the text
    *                   to translate, the second argument is the player's locale
-   * @return the form builder
    */
   @This B translator(@NonNull BiFunction<String, String, String> translator);
 
@@ -91,8 +86,7 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
    * once will override the previously defined closed result handler.
    *
    * @param resultHandler the result handler to define
-   * @return the form builder
-   * @see ClosedFormResponseResult ClosedFormResponseResult
+   * @see ClosedFormResponseResult
    */
   @This B closedResultHandler(@NonNull Runnable resultHandler);
 
@@ -101,8 +95,7 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
    * once will override the previously defined closed result handler.
    *
    * @param resultHandler the result handler to define
-   * @return the form builder
-   * @see ClosedFormResponseResult ClosedFormResponseResult
+   * @see ClosedFormResponseResult
    */
   @This B closedResultHandler(@NonNull Consumer<F> resultHandler);
 
@@ -111,7 +104,6 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
    * than once will override the previously defined invalid result handler.
    *
    * @param resultHandler the result handler to define
-   * @return the form builder
    * @see InvalidFormResponseResult
    */
   @This B invalidResultHandler(@NonNull Runnable resultHandler);
@@ -121,7 +113,6 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
    * than once will override the previously defined invalid result handler.
    *
    * @param resultHandler the result handler to define
-   * @return the form builder
    * @see InvalidFormResponseResult
    */
   @This B invalidResultHandler(@NonNull Consumer<InvalidFormResponseResult<R>> resultHandler);
@@ -131,58 +122,50 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
    * than once will override the previously defined invalid result handler.
    *
    * @param resultHandler the result handler to define
-   * @return the form builder
    * @see InvalidFormResponseResult
    */
   @This B invalidResultHandler(@NonNull BiConsumer<F, InvalidFormResponseResult<R>> resultHandler);
 
   /**
    * Registers a result handler for both the 'closed' and the 'invalid' result type. Calling this
-   * specific method more than once will override the previously defined closedAndInvalid result
+   * specific method more than once will override the previously defined closedOrInvalid result
    * handler.
    *
    * @param resultHandler the result handler to define
-   * @return the form builder
    * @see ClosedFormResponseResult
    * @see InvalidFormResponseResult
    */
-  @This
-  B closedOrInvalidResultHandler(@NonNull Runnable resultHandler);
+  @This B closedOrInvalidResultHandler(@NonNull Runnable resultHandler);
 
 
   /**
    * Registers a result handler for both the 'closed' and the 'invalid' result type. Calling this
-   * specific method more than once will override the previously defined closedAndInvalid result
+   * specific method more than once will override the previously defined closedOrInvalid result
    * handler.
    *
    * @param resultHandler the result handler to define
-   * @return the form builder
    * @see ClosedFormResponseResult
    * @see InvalidFormResponseResult
    */
-  @This
-  B closedOrInvalidResultHandler(@NonNull Consumer<FormResponseResult<R>> resultHandler);
+  @This B closedOrInvalidResultHandler(@NonNull Consumer<FormResponseResult<R>> resultHandler);
 
   /**
    * Registers a result handler for both the 'closed' and the 'invalid' result type. Calling this
-   * specific method more than once will override the previously defined closedAndInvalid result
+   * specific method more than once will override the previously defined closedOrInvalid result
    * handler.
    *
    * @param resultHandler the result handler to define
-   * @return the form builder
    * @see ClosedFormResponseResult
    * @see InvalidFormResponseResult
    */
-  @This
-  B closedOrInvalidResultHandler(@NonNull BiConsumer<F, FormResponseResult<R>> resultHandler);
+  @This B closedOrInvalidResultHandler(@NonNull BiConsumer<F, FormResponseResult<R>> resultHandler);
 
   /**
    * Registers a result handler for the 'valid' result type. Calling this specific method more than
    * once will override the previously defined valid result handler.
    *
    * @param resultHandler the result handler to define
-   * @return the form builder
-   * @see ValidFormResponseResult ValidFormResponseResult
+   * @see ValidFormResponseResult
    */
   @This B validResultHandler(@NonNull Consumer<R> resultHandler);
 
@@ -191,8 +174,7 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
    * once will override the previously defined valid result handler.
    *
    * @param resultHandler the result handler to define
-   * @return the form builder
-   * @see ValidFormResponseResult ValidFormResponseResult
+   * @see ValidFormResponseResult
    */
   @This B validResultHandler(@NonNull BiConsumer<F, R> resultHandler);
 
@@ -203,7 +185,6 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
    * defined result handler.
    *
    * @param resultHandler the result handler to define
-   * @return the form builder
    * @see FormResponseResult
    */
   @This B resultHandler(@NonNull BiConsumer<F, FormResponseResult<R>> resultHandler);
@@ -214,7 +195,6 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
    * override the previously defined result handler.
    *
    * @param resultHandler the result handler to define
-   * @return the form builder
    * @see ResultType
    * @see FormResponseResult
    */
@@ -225,9 +205,7 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
   );
 
   /**
-   * Build the form.
-   *
-   * @return the form instance
+   * Build the form and returns the created form.
    */
   @NonNull F build();
 }

@@ -35,6 +35,9 @@ import org.geysermc.cumulus.form.impl.simple.SimpleFormDefinition;
 import org.geysermc.cumulus.form.util.FormCodec;
 import org.geysermc.cumulus.form.util.FormType;
 
+/**
+ * This class is not part of the API, so breaking changes can happen.
+ */
 public final class FormDefinitions {
   private static final FormDefinitions definitions = new FormDefinitions();
 

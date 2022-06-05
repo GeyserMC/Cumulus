@@ -35,9 +35,12 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.util.ComponentType;
 import org.geysermc.cumulus.response.CustomFormResponse;
+import org.geysermc.cumulus.response.result.ResultType;
 import org.geysermc.cumulus.util.AbsentComponent;
 
-public final class CustomFormResponseImpl implements CustomFormResponse {
+public final class CustomFormResponseImpl extends ResponseToResultGlue
+    implements CustomFormResponse {
+
   private final List<Object> responses;
   private final JsonArray rawResponse;
   private final List<ComponentType> componentTypes;
@@ -54,6 +57,15 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
     this.componentTypes = Collections.unmodifiableList(componentTypes);
   }
 
+  @Deprecated
+  public CustomFormResponseImpl(ResultType resultType) {
+    //todo remove in 2.0
+    super(resultType);
+    this.responses = null;
+    this.rawResponse = null;
+    this.componentTypes = null;
+  }
+
   @NonNull
   public static CustomFormResponse of(
       @NonNull List<Object> responses,
@@ -66,13 +78,13 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
 
   @Override
   @NonNull
-  public JsonArray responses() {
+  public JsonArray getResponses() {
     return rawResponse;
   }
 
   @Override
   @NonNull
-  public List<ComponentType> componentTypes() {
+  public List<ComponentType> getComponentTypes() {
     return componentTypes;
   }
 

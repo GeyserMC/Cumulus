@@ -23,50 +23,34 @@
  * @link https://github.com/GeyserMC/Cumulus
  */
 
-package org.geysermc.cumulus.response;
+package org.geysermc.cumulus.response.impl;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.geysermc.cumulus.response.FormResponse;
+import org.geysermc.cumulus.response.result.ResultType;
 
-public interface ModalFormResponse extends FormResponse {
-  /**
-   * Returns the id of the button that has been clicked.
-   */
-  int clickedButtonId();
+class ResponseToResultGlue implements FormResponse {
+  private final ResultType resultType;
 
-  /**
-   * Returns the text of the button that has been clicked.
-   */
-  @NonNull String clickedButtonText();
-
-  /**
-   * Returns true if the player clicked the first button, returns false otherwise.
-   */
-  boolean clickedFirst();
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
-   * {@link #clickedButtonId()}.
-   */
-  @Deprecated
-  default int getClickedButtonId() {
-    return clickedButtonId();
+  public ResponseToResultGlue(ResultType resultType) {
+    this.resultType = resultType;
   }
 
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
-   * {@link #clickedButtonText()}.
-   */
-  @Deprecated
-  default String getClickedButtonText() {
-    return clickedButtonText();
+  public ResponseToResultGlue() {
+    this(ResultType.VALID);
   }
 
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
-   * {@link #clickedFirst()}.
-   */
-  @Deprecated
-  default boolean getResult() {
-    return clickedFirst();
+  @Override
+  public boolean isClosed() {
+    return resultType == ResultType.CLOSED;
+  }
+
+  @Override
+  public boolean isInvalid() {
+    return resultType == ResultType.INVALID;
+  }
+
+  @Override
+  public boolean isCorrect() {
+    return resultType == ResultType.VALID;
   }
 }

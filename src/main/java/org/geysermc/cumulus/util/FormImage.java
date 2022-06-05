@@ -36,8 +36,6 @@ import org.geysermc.cumulus.util.impl.FormImageImpl;
  * Represents a form image which is used in buttons and as image for client settings. This class
  * holds a image type and data for the image type. For more information and for code examples look
  * at <a href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
- *
- * @since 1.0
  */
 public interface FormImage {
   /**
@@ -81,6 +79,24 @@ public interface FormImage {
   String data();
 
   /**
+   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
+   * {@link #type()}.
+   */
+  @Deprecated
+  default Type getType() {
+    return type();
+  }
+
+  /**
+   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
+   * {@link #data()}.
+   */
+  @Deprecated
+  default String getData() {
+    return data();
+  }
+
+  /**
    * An enum which has the available FormImage Types. For more information and for code examples
    * look at <a href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
    */
@@ -107,6 +123,24 @@ public interface FormImage {
     @NonNull
     public String typeName() {
       return name;
+    }
+
+    /**
+     * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
+     * {@link #fromName(String)}.
+     */
+    @Deprecated
+    public static Type getByName(@NonNull String name) {
+      return fromName(name);
+    }
+
+    /**
+     * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
+     * {@link #typeName()}.
+     */
+    @Deprecated
+    public String getName() {
+      return name();
     }
   }
 }

@@ -30,8 +30,11 @@ import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.ButtonComponent;
 import org.geysermc.cumulus.response.SimpleFormResponse;
+import org.geysermc.cumulus.response.result.ResultType;
 
-public final class SimpleFormResponseImpl implements SimpleFormResponse {
+public final class SimpleFormResponseImpl extends ResponseToResultGlue
+    implements SimpleFormResponse {
+
   private final int clickedButtonId;
   private final ButtonComponent clickedButton;
 
@@ -39,6 +42,14 @@ public final class SimpleFormResponseImpl implements SimpleFormResponse {
     Preconditions.checkArgument(clickedButtonId >= 0, "clickedButtonId");
     this.clickedButtonId = clickedButtonId;
     this.clickedButton = Objects.requireNonNull(clickedButton, "clickedButton");
+  }
+
+  @Deprecated
+  public SimpleFormResponseImpl(ResultType resultType) {
+    //todo remove in 2.0
+    super(resultType);
+    clickedButtonId = -1;
+    clickedButton = null;
   }
 
   public static SimpleFormResponseImpl of(int clickedButtonId, ButtonComponent clickedButton) {

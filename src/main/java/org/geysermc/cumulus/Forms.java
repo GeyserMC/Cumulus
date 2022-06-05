@@ -25,6 +25,8 @@
 
 package org.geysermc.cumulus;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import java.util.function.BiConsumer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.Component;
@@ -40,6 +42,7 @@ import org.geysermc.cumulus.form.impl.FormDefinitions;
 import org.geysermc.cumulus.form.util.FormCodec;
 import org.geysermc.cumulus.form.util.FormType;
 import org.geysermc.cumulus.response.FormResponse;
+import org.geysermc.cumulus.util.JsonUtils;
 
 public final class Forms {
   /**
@@ -99,5 +102,15 @@ public final class Forms {
       default:
         throw new RuntimeException("Cannot find implementation for ComponentType " + type);
     }
+  }
+
+  /**
+   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
+   * {@link JsonUtils#assumeMember(JsonObject, String)}.
+   */
+  @Deprecated
+  @NonNull
+  public static JsonElement getOrThrow(@NonNull JsonObject object, @NonNull String memberName) {
+    return JsonUtils.assumeMember(object, memberName);
   }
 }
