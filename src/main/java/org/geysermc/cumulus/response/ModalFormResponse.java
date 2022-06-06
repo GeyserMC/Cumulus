@@ -48,25 +48,19 @@ public interface ModalFormResponse extends FormResponse {
    * {@link #clickedButtonId()}.
    */
   @Deprecated
-  default int getClickedButtonId() {
-    return clickedButtonId();
-  }
+  int getClickedButtonId();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
    * {@link #clickedButtonText()}.
    */
   @Deprecated
-  default String getClickedButtonText() {
-    return clickedButtonText();
-  }
+  String getClickedButtonText();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
    * {@link #clickedFirst()}.
    */
   @Deprecated
-  default boolean getResult() {
-    return clickedFirst();
-  }
+  boolean getResult();
 }

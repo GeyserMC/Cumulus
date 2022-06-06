@@ -45,16 +45,12 @@ public interface SimpleFormResponse extends FormResponse {
    * {@link #clickedButtonId()}.
    */
   @Deprecated
-  default int getClickedButtonId() {
-    return clickedButtonId();
-  }
+  int getClickedButtonId();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
    * {@link #clickedButton()}.
    */
   @Deprecated
-  default ButtonComponent getClickedButton() {
-    return clickedButton();
-  }
+  ButtonComponent getClickedButton();
 }

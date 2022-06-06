@@ -70,6 +70,18 @@ public final class DropdownComponentImpl extends ComponentImpl implements Dropdo
     return defaultOption;
   }
 
+  // the JVM doesn't allow interface methods to become default methods
+
+  @NonNull
+  public List<String> getOptions() {
+    return options();
+  }
+
+  @NonNegative
+  public int getDefaultOption() {
+    return defaultOption();
+  }
+
   public static class Builder implements DropdownComponent.Builder {
     private final List<String> options = new ArrayList<>();
     private String text = "";

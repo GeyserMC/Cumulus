@@ -75,9 +75,7 @@ public interface ButtonComponent {
    */
   @Deprecated
   @NonNull
-  default String getText() {
-    return text();
-  }
+  String getText();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
@@ -85,7 +83,5 @@ public interface ButtonComponent {
    */
   @Deprecated
   @Nullable
-  default FormImage getImage() {
-    return image();
-  }
+  FormImage getImage();
 }

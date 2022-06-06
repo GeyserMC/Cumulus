@@ -23,40 +23,59 @@
  * @link https://github.com/GeyserMC/Cumulus
  */
 
-package org.geysermc.cumulus.util;
+package org.geysermc.cumulus.util.glue;
 
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import org.geysermc.cumulus.Form;
+import org.geysermc.cumulus.util.FormBuilder;
 
-/**
- * @deprecated since 1.1 and will be removed in 2.0. This class will be replaced by
- * {@link org.geysermc.cumulus.form.util.FormBuilder}.
- */
-@Deprecated
-public interface FormBuilder<T extends FormBuilder<T, F>, F extends Form<?>> {
+public abstract class FormBuilderGlue<
+    T extends org.geysermc.cumulus.util.FormBuilder<T, F>,
+    F extends Form<?>,
+    N extends org.geysermc.cumulus.form.Form,
+    B extends org.geysermc.cumulus.form.util.FormBuilder<B, N, ?>>
+    implements FormBuilder<T, F> {
+
+  protected final B builder;
+  protected BiConsumer<F, String> biResponseHandler;
+  protected Consumer<String> responseHandler;
+
+  protected FormBuilderGlue(B builder) {
+    this.builder = builder;
+  }
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
    * {@link org.geysermc.cumulus.form.util.FormBuilder#title(String)}.
    */
   @Deprecated
-  T title(String title);
+  public T title(String title) {
+    builder.title(title);
+    return self();
+  }
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
    * {@link org.geysermc.cumulus.form.util.FormBuilder#translator(BiFunction, String)}.
    */
   @Deprecated
-  T translator(BiFunction<String, String, String> translator, String locale);
+  public T translator(BiFunction<String, String, String> translator, String locale) {
+    builder.translator(translator, locale);
+    return self();
+  }
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
    * {@link org.geysermc.cumulus.form.util.FormBuilder#translator(BiFunction)}.
    */
   @Deprecated
-  T translator(BiFunction<String, String, String> translator);
+  public T translator(BiFunction<String, String, String> translator) {
+    builder.translator(translator);
+    return self();
+  }
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method does not have a direct
@@ -65,7 +84,10 @@ public interface FormBuilder<T extends FormBuilder<T, F>, F extends Form<?>> {
    * to learn more about the response handling changes.
    */
   @Deprecated
-  T responseHandler(BiConsumer<F, String> responseHandler);
+  public T responseHandler(BiConsumer<F, String> responseHandler) {
+    this.biResponseHandler = Objects.requireNonNull(responseHandler);
+    return self();
+  }
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method does not have a direct
@@ -74,12 +96,20 @@ public interface FormBuilder<T extends FormBuilder<T, F>, F extends Form<?>> {
    * to learn more about the response handling changes.
    */
   @Deprecated
-  T responseHandler(Consumer<String> responseHandler);
+  public T responseHandler(Consumer<String> responseHandler) {
+    this.responseHandler = Objects.requireNonNull(responseHandler);
+    return self();
+  }
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
    * {@link org.geysermc.cumulus.form.util.FormBuilder#build()}.
    */
   @Deprecated
-  F build();
+  public abstract F build();
+
+  @SuppressWarnings("unchecked")
+  protected T self() {
+    return (T) this;
+  }
 }

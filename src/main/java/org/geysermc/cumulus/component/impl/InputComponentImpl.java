@@ -56,4 +56,16 @@ public final class InputComponentImpl extends ComponentImpl implements InputComp
   public String defaultText() {
     return defaultText;
   }
+
+  // the JVM doesn't allow interface methods to become default methods
+
+  @NonNull
+  public String getPlaceholder() {
+    return placeholder();
+  }
+
+  @NonNull
+  public String getDefaultText() {
+    return defaultText();
+  }
 }

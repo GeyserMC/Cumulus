@@ -51,4 +51,16 @@ public final class ButtonComponentImpl implements ButtonComponent {
   public FormImage image() {
     return image;
   }
+
+  // the JVM doesn't allow interface methods to become default methods
+
+  @NonNull
+  public String getText() {
+    return text();
+  }
+
+  @Nullable
+  public FormImage getImage() {
+    return image();
+  }
 }

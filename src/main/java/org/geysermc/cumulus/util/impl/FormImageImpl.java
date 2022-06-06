@@ -49,4 +49,15 @@ public final class FormImageImpl implements FormImage {
   public String data() {
     return data;
   }
+
+  // the JVM doesn't allow interface methods to become default methods
+
+  public Type getType() {
+    return type();
+  }
+
+  @Override
+  public String getData() {
+    return data();
+  }
 }

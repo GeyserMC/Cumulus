@@ -48,4 +48,15 @@ public abstract class ComponentImpl implements Component {
   public String text() {
     return text;
   }
+
+  // the JVM doesn't allow interface methods to become default methods
+
+  public org.geysermc.cumulus.util.ComponentType getType() {
+    return org.geysermc.cumulus.util.ComponentType.values()[type().ordinal()];
+  }
+
+  @NonNull
+  public String getText() {
+    return text();
+  }
 }

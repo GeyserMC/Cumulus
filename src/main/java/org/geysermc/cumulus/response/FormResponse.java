@@ -47,5 +47,8 @@ public interface FormResponse {
    * {@link FormResponseResult#isValid()}.
    */
   @Deprecated
-  boolean isCorrect();
+  default boolean isCorrect() {
+    // has to remain a default method for JVM
+    throw new IllegalStateException();
+  }
 }

@@ -53,9 +53,7 @@ public interface Component {
    * {@link #type()}.
    */
   @Deprecated
-  default org.geysermc.cumulus.util.ComponentType getType() {
-    return org.geysermc.cumulus.util.ComponentType.values()[type().ordinal()];
-  }
+  org.geysermc.cumulus.util.ComponentType getType();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
@@ -63,7 +61,5 @@ public interface Component {
    */
   @Deprecated
   @NonNull
-  default String getText() {
-    return text();
-  }
+  String getText();
 }

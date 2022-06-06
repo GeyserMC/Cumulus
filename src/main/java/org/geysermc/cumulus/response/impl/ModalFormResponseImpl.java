@@ -67,4 +67,18 @@ public final class ModalFormResponseImpl extends ResponseToResultGlue implements
   public boolean clickedFirst() {
     return clickedButtonId == 0;
   }
+
+  // the JVM doesn't allow interface methods to become default methods
+
+  public int getClickedButtonId() {
+    return clickedButtonId();
+  }
+
+  public String getClickedButtonText() {
+    return clickedButtonText();
+  }
+
+  public boolean getResult() {
+    return clickedFirst();
+  }
 }

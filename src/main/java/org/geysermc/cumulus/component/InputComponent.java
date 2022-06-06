@@ -79,9 +79,7 @@ public interface InputComponent extends Component {
    */
   @Deprecated
   @NonNull
-  default String getPlaceholder() {
-    return placeholder();
-  }
+  String getPlaceholder();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
@@ -89,7 +87,5 @@ public interface InputComponent extends Component {
    */
   @Deprecated
   @NonNull
-  default String getDefaultText() {
-    return defaultText();
-  }
+  String getDefaultText();
 }

@@ -42,4 +42,10 @@ public final class ToggleComponentImpl extends ComponentImpl implements ToggleCo
   public boolean defaultValue() {
     return defaultValue;
   }
+
+  // the JVM doesn't allow interface methods to become default methods
+
+  public boolean getDefaultValue() {
+    return defaultValue();
+  }
 }

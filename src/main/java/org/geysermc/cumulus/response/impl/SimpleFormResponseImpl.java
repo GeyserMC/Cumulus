@@ -66,4 +66,14 @@ public final class SimpleFormResponseImpl extends ResponseToResultGlue
   public ButtonComponent clickedButton() {
     return clickedButton;
   }
+
+  // the JVM doesn't allow interface methods to become default methods
+
+  public int getClickedButtonId() {
+    return clickedButtonId();
+  }
+
+  public ButtonComponent getClickedButton() {
+    return clickedButton();
+  }
 }

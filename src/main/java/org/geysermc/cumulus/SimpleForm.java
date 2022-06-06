@@ -27,128 +27,68 @@ package org.geysermc.cumulus;
 
 import java.util.List;
 import org.geysermc.cumulus.component.ButtonComponent;
-import org.geysermc.cumulus.form.impl.simple.SimpleFormImpl;
-import org.geysermc.cumulus.form.util.FormType;
 import org.geysermc.cumulus.response.SimpleFormResponse;
-import org.geysermc.cumulus.response.impl.SimpleFormResponseImpl;
-import org.geysermc.cumulus.response.result.FormResponseResult;
-import org.geysermc.cumulus.response.result.ResultType;
-import org.geysermc.cumulus.response.result.ValidFormResponseResult;
 import org.geysermc.cumulus.util.FormBuilder;
 import org.geysermc.cumulus.util.FormImage;
+import org.geysermc.cumulus.util.glue.SimpleFormGlue;
 
 /**
  * @deprecated since 1.1 and will be removed in 2.0. This class will be replaced by
  * {@link org.geysermc.cumulus.form.SimpleForm}.
  */
 @Deprecated
-public class SimpleForm extends Form<org.geysermc.cumulus.form.SimpleForm> {
+public interface SimpleForm extends Form<org.geysermc.cumulus.form.SimpleForm> {
 
-  public static Builder builder() {
-    return new Builder();
+  static Builder builder() {
+    return new SimpleFormGlue.Builder();
   }
 
-  public static SimpleForm of(String title, String content, List<ButtonComponent> buttons) {
-    return SimpleForm.builder()
+  static SimpleForm of(String title, String content, List<ButtonComponent> buttons) {
+    Builder builder = SimpleForm.builder()
         .title(title)
-        .content(content)
-        .build();
+        .content(content);
+
+    for (ButtonComponent button : buttons) {
+      builder.button(button.text(), button.image());
+    }
+
+    return builder.build();
   }
 
-  private SimpleForm() {
-    super(FormType.SIMPLE_FORM);
-  }
+  String getTitle();
 
-  public String getTitle() {
-    return form.title();
-  }
+  String getContent();
 
-  public String getContent() {
-    return form.content();
-  }
-
-  public List<ButtonComponent> getButtons() {
-    return form.buttons();
-  }
+  List<ButtonComponent> getButtons();
 
   @Override
-  public SimpleFormResponse parseResponse(String response) {
-    FormResponseResult<SimpleFormResponse> result = deserializeResponse(response);
-    if (result.isValid()) {
-      return ((ValidFormResponseResult<SimpleFormResponse>) result).response();
-    }
-    return new SimpleFormResponseImpl(result.isInvalid() ? ResultType.INVALID : ResultType.CLOSED);
-  }
+  SimpleFormResponse parseResponse(String response);
 
-  public static class Builder extends FormBuilder<
-      Builder,
-      SimpleForm,
-      org.geysermc.cumulus.form.SimpleForm,
-      org.geysermc.cumulus.form.SimpleForm.Builder> {
+  interface Builder extends FormBuilder<Builder, SimpleForm> {
+    Builder content(String content);
 
-    protected Builder() {
-      super(org.geysermc.cumulus.form.SimpleForm.builder());
-    }
+    Builder button(String text, FormImage.Type type, String data);
 
-    public Builder content(String content) {
-      builder.content(content);
-      return this;
-    }
+    Builder button(String text, FormImage image);
 
-    public Builder button(String text, FormImage.Type type, String data) {
-      builder.button(text, type, data);
-      return this;
-    }
+    Builder button(String text);
 
-    public Builder button(String text, FormImage image) {
-      builder.button(text, image);
-      return this;
-    }
+    // default methods have to stay default for the JVM (:
 
-    public Builder button(String text) {
-      builder.button(text);
-      return this;
-    }
-
-    public Builder optionalButton(
+    default Builder optionalButton(
         String text,
         FormImage.Type type,
         String data,
         boolean shouldAdd) {
-      builder.optionalButton(text, type, data, shouldAdd);
-      return this;
+      throw new IllegalStateException();
     }
 
-    public Builder optionalButton(
-        String text,
-        FormImage image,
-        boolean shouldAdd) {
-      builder.optionalButton(text, image, shouldAdd);
-      return this;
+    default Builder optionalButton(String text, FormImage image, boolean shouldAdd) {
+      throw new IllegalStateException();
     }
 
-    public Builder optionalButton(String text, boolean shouldAdd) {
-      builder.optionalButton(text, shouldAdd);
-      return this;
-    }
-
-    @Override
-    public SimpleForm build() {
-      SimpleForm oldForm = new SimpleForm();
-      oldForm.responseHandler = (response) -> {
-        if (biResponseHandler != null) {
-          biResponseHandler.accept(oldForm, response);
-        }
-        if (responseHandler != null) {
-          responseHandler.accept(response);
-        }
-      };
-
-      SimpleFormImpl newForm = (SimpleFormImpl) builder.build();
-      newForm.rawResponseConsumer(oldForm.responseHandler);
-      oldForm.form = newForm;
-
-      return oldForm;
+    default Builder optionalButton(String text, boolean shouldAdd) {
+      throw new IllegalStateException();
     }
   }
 }

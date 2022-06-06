@@ -29,31 +29,24 @@ import java.util.List;
 import org.geysermc.cumulus.component.Component;
 import org.geysermc.cumulus.component.DropdownComponent;
 import org.geysermc.cumulus.component.StepSliderComponent;
-import org.geysermc.cumulus.form.impl.custom.CustomFormImpl;
-import org.geysermc.cumulus.form.util.FormType;
 import org.geysermc.cumulus.response.CustomFormResponse;
-import org.geysermc.cumulus.response.impl.CustomFormResponseImpl;
-import org.geysermc.cumulus.response.result.FormResponseResult;
-import org.geysermc.cumulus.response.result.ResultType;
-import org.geysermc.cumulus.response.result.ValidFormResponseResult;
 import org.geysermc.cumulus.util.FormBuilder;
 import org.geysermc.cumulus.util.FormImage;
+import org.geysermc.cumulus.util.glue.CustomFormGlue;
 
 /**
  * @deprecated since 1.1 and will be removed in 2.0. This class will be replaced by
  * {@link org.geysermc.cumulus.form.CustomForm}.
  */
 @Deprecated
-public class CustomForm extends Form<org.geysermc.cumulus.form.CustomForm> {
+public interface CustomForm extends Form<org.geysermc.cumulus.form.CustomForm> {
 
-  public static Builder builder() {
-    return new Builder();
+  static Builder builder() {
+    return new CustomFormGlue.Builder();
   }
 
-  public static CustomForm of(String title, FormImage icon, List<Component> content) {
-    Builder builder = CustomForm.builder()
-        .title(title)
-        .icon(icon.type(), icon.data());
+  static CustomForm of(String title, FormImage icon, List<Component> content) {
+    Builder builder = CustomForm.builder().title(title).icon(icon.type(), icon.data());
 
     for (Component component : content) {
       builder.component(component);
@@ -62,267 +55,139 @@ public class CustomForm extends Form<org.geysermc.cumulus.form.CustomForm> {
     return builder.build();
   }
 
-  private CustomForm() {
-    super(FormType.CUSTOM_FORM);
-  }
+  String getTitle();
 
-  public String getTitle() {
-    return form.title();
-  }
+  FormImage getIcon();
 
-  public FormImage getIcon() {
-    return form.icon();
-  }
-
-  public List<Component> getContent() {
-    return form.content();
-  }
+  List<Component> getContent();
 
   @Override
-  public CustomFormResponse parseResponse(String response) {
-    FormResponseResult<CustomFormResponse> result = deserializeResponse(response);
-    if (result.isValid()) {
-      return ((ValidFormResponseResult<CustomFormResponse>) result).response();
-    }
-    return new CustomFormResponseImpl(result.isInvalid() ? ResultType.INVALID : ResultType.CLOSED);
-  }
+  CustomFormResponse parseResponse(String response);
 
-  public static class Builder extends FormBuilder<
-      Builder,
-      CustomForm,
-      org.geysermc.cumulus.form.CustomForm,
-      org.geysermc.cumulus.form.CustomForm.Builder> {
+  interface Builder extends FormBuilder<Builder, CustomForm> {
+    Builder icon(FormImage.Type type, String data);
 
-    protected Builder() {
-      super(org.geysermc.cumulus.form.CustomForm.builder());
-    }
+    Builder iconPath(String path);
 
-    public Builder icon(FormImage.Type type, String data) {
-      builder.icon(type, data);
-      return this;
+    Builder iconUrl(String url);
+
+    Builder component(Component component);
+
+    // default methods have to stay default for the JVM (:
+
+    default Builder optionalComponent(Component component, boolean shouldAdd) {
+      throw new IllegalStateException();
     }
 
-    public Builder iconPath(String path) {
-      builder.iconPath(path);
-      return this;
-    }
+    Builder dropdown(DropdownComponent.Builder dropdownBuilder);
 
-    public Builder iconUrl(String url) {
-      builder.iconUrl(url);
-      return this;
-    }
+    Builder dropdown(String text, int defaultOption, String... options);
 
-    public Builder component(Component component) {
-      builder.component(component);
-      return this;
-    }
+    Builder dropdown(String text, String... options);
 
-    public Builder optionalComponent(Component component, boolean shouldAdd) {
-      builder.optionalComponent(component, shouldAdd);
-      return this;
-    }
-
-    public Builder dropdown(DropdownComponent.Builder dropdownBuilder) {
-      builder.dropdown(dropdownBuilder);
-      return this;
-    }
-
-    public Builder dropdown(String text, int defaultOption, String... options) {
-      builder.dropdown(text, defaultOption, options);
-      return this;
-    }
-
-    public Builder dropdown(String text, String... options) {
-      builder.dropdown(text, options);
-      return this;
-    }
-
-    public Builder optionalDropdown(
+    default Builder optionalDropdown(
         boolean shouldAdd,
         String text,
         int defaultOption,
         String... options) {
-      builder.optionalDropdown(shouldAdd, text, defaultOption, options);
-      return this;
+      throw new IllegalStateException();
     }
 
-    public Builder optionalDropdown(
-        boolean shouldAdd,
-        String text,
-        String... options) {
-      builder.optionalDropdown(shouldAdd, text, options);
-      return this;
+    default Builder optionalDropdown(boolean shouldAdd, String text, String... options) {
+      throw new IllegalStateException();
     }
 
-    public Builder input(String text, String placeholder, String defaultText) {
-      builder.input(text, placeholder, defaultText);
-      return this;
-    }
+    Builder input(String text, String placeholder, String defaultText);
 
-    public Builder input(String text, String placeholder) {
-      builder.input(text, placeholder);
-      return this;
-    }
+    Builder input(String text, String placeholder);
 
-    public Builder input(String text) {
-      builder.input(text);
-      return this;
-    }
+    Builder input(String text);
 
-    public Builder optionalInput(
+    default Builder optionalInput(
         String text,
         String placeholder,
         String defaultText,
         boolean shouldAdd) {
-      builder.optionalInput(text, placeholder, defaultText, shouldAdd);
-      return this;
+      throw new IllegalStateException();
     }
 
-    public Builder optionalInput(String text, String placeholder, boolean shouldAdd) {
-      builder.optionalInput(text, placeholder, shouldAdd);
-      return this;
+    default Builder optionalInput(String text, String placeholder, boolean shouldAdd) {
+      throw new IllegalStateException();
     }
 
-    public Builder optionalInput(String text, boolean shouldAdd) {
-      builder.optionalInput(text, shouldAdd);
-      return this;
+    default Builder optionalInput(String text, boolean shouldAdd) {
+      throw new IllegalStateException();
     }
 
-    public Builder label(String text) {
-      builder.label(text);
-      return this;
+    Builder label(String text);
+
+    default Builder optionalLabel(String text, boolean shouldAdd) {
+      throw new IllegalStateException();
     }
 
-    public Builder optionalLabel(String text, boolean shouldAdd) {
-      builder.optionalLabel(text, shouldAdd);
-      return this;
-    }
+    Builder slider(String text, float min, float max, int step, float defaultValue);
 
-    public Builder slider(String text, float min, float max, int step, float defaultValue) {
-      builder.slider(text, min, max, step, defaultValue);
-      return this;
-    }
+    Builder slider(String text, float min, float max, int step);
 
-    public Builder slider(String text, float min, float max, int step) {
-      builder.slider(text, min, max, step);
-      return this;
-    }
+    Builder slider(String text, float min, float max, float defaultValue);
 
-    public Builder slider(String text, float min, float max, float defaultValue) {
-      builder.slider(text, min, max, defaultValue);
-      return this;
-    }
+    Builder slider(String text, float min, float max);
 
-    public Builder slider(String text, float min, float max) {
-      builder.slider(text, min, max);
-      return this;
-    }
-
-    public Builder optionalSlider(
+    default Builder optionalSlider(
         String text,
         float min,
         float max,
         int step,
         float defaultValue,
         boolean shouldAdd) {
-      builder.optionalSlider(text, min, max, step, defaultValue, shouldAdd);
-      return this;
+      throw new IllegalStateException();
     }
 
-    public Builder optionalSlider(
-        String text,
-        float min,
-        float max,
-        int step,
-        boolean shouldAdd) {
-      builder.optionalSlider(text, min, max, shouldAdd);
-      return this;
+    default Builder optionalSlider(String text, float min, float max, int step, boolean shouldAdd) {
+      throw new IllegalStateException();
     }
 
-    public Builder optionalSlider(
+    default Builder optionalSlider(
         String text,
         float min,
         float max,
         float defaultValue,
         boolean shouldAdd) {
-      builder.optionalSlider(text, min, max, defaultValue, shouldAdd);
-      return this;
+      throw new IllegalStateException();
     }
 
-    public Builder optionalSlider(String text, float min, float max, boolean shouldAdd) {
-      builder.optionalSlider(text, min, max, shouldAdd);
-      return this;
+    default Builder optionalSlider(String text, float min, float max, boolean shouldAdd) {
+      throw new IllegalStateException();
     }
 
-    public Builder stepSlider(StepSliderComponent.Builder stepSliderBuilder) {
-      builder.stepSlider(stepSliderBuilder);
-      return this;
-    }
+    Builder stepSlider(StepSliderComponent.Builder stepSliderBuilder);
 
-    public Builder stepSlider(String text, int defaultStep, String... steps) {
-      builder.stepSlider(text, defaultStep, steps);
-      return this;
-    }
+    Builder stepSlider(String text, int defaultStep, String... steps);
 
-    public Builder stepSlider(String text, String... steps) {
-      builder.stepSlider(text, steps);
-      return this;
-    }
+    Builder stepSlider(String text, String... steps);
 
-    public Builder optionalStepSlider(
+    default Builder optionalStepSlider(
         boolean shouldAdd,
         String text,
         int defaultStep,
         String... steps) {
-      builder.optionalStepSlider(shouldAdd, text, defaultStep, steps);
-      return this;
+      throw new IllegalStateException();
     }
 
-    public Builder optionalStepSlider(
-        boolean shouldAdd,
-        String text,
-        String... steps) {
-      builder.optionalStepSlider(shouldAdd, text, steps);
-      return this;
+    default Builder optionalStepSlider(boolean shouldAdd, String text, String... steps) {
+      throw new IllegalStateException();
     }
 
-    public Builder toggle(String text, boolean defaultValue) {
-      builder.toggle(text, defaultValue);
-      return this;
+    Builder toggle(String text, boolean defaultValue);
+
+    Builder toggle(String text);
+
+    default Builder optionalToggle(String text, boolean defaultValue, boolean shouldAdd) {
+      throw new IllegalStateException();
     }
 
-    public Builder toggle(String text) {
-      builder.toggle(text);
-      return this;
-    }
-
-    public Builder optionalToggle(String text, boolean defaultValue, boolean shouldAdd) {
-      builder.optionalToggle(text, defaultValue, shouldAdd);
-      return this;
-    }
-
-    public Builder optionalToggle(String text, boolean shouldAdd) {
-      builder.optionalToggle(text, shouldAdd);
-      return this;
-    }
-
-    @Override
-    public CustomForm build() {
-      CustomForm oldForm = new CustomForm();
-      oldForm.responseHandler = (response) -> {
-        if (biResponseHandler != null) {
-          biResponseHandler.accept(oldForm, response);
-        }
-        if (responseHandler != null) {
-          responseHandler.accept(response);
-        }
-      };
-
-      CustomFormImpl newForm = (CustomFormImpl) builder.build();
-      newForm.rawResponseConsumer(oldForm.responseHandler);
-      oldForm.form = newForm;
-
-      return oldForm;
+    default Builder optionalToggle(String text, boolean shouldAdd) {
+      throw new IllegalStateException();
     }
   }
 }

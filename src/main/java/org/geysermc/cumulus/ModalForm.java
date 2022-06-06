@@ -25,23 +25,18 @@
 
 package org.geysermc.cumulus;
 
-import org.geysermc.cumulus.form.impl.modal.ModalFormImpl;
-import org.geysermc.cumulus.form.util.FormType;
 import org.geysermc.cumulus.response.ModalFormResponse;
-import org.geysermc.cumulus.response.impl.ModalFormResponseImpl;
-import org.geysermc.cumulus.response.result.FormResponseResult;
-import org.geysermc.cumulus.response.result.ResultType;
-import org.geysermc.cumulus.response.result.ValidFormResponseResult;
 import org.geysermc.cumulus.util.FormBuilder;
+import org.geysermc.cumulus.util.glue.ModalFormGlue;
 
 @Deprecated
-public class ModalForm extends Form<org.geysermc.cumulus.form.ModalForm> {
+public interface ModalForm extends Form<org.geysermc.cumulus.form.ModalForm> {
 
-  public static Builder builder() {
-    return new Builder();
+  static Builder builder() {
+    return new ModalFormGlue.Builder();
   }
 
-  public static ModalForm of(String title, String content, String button1, String button2) {
+  static ModalForm of(String title, String content, String button1, String button2) {
     return ModalForm.builder()
         .title(title)
         .content(content)
@@ -50,73 +45,24 @@ public class ModalForm extends Form<org.geysermc.cumulus.form.ModalForm> {
         .build();
   }
 
-  private ModalForm() {
-    super(FormType.MODAL_FORM);
-  }
-
   @Override
-  public ModalFormResponse parseResponse(String response) {
-    FormResponseResult<ModalFormResponse> result = deserializeResponse(response);
-    if (result.isValid()) {
-      return ((ValidFormResponseResult<ModalFormResponse>) result).response();
-    }
-    return new ModalFormResponseImpl(result.isInvalid() ? ResultType.INVALID : ResultType.CLOSED);
-  }
+  ModalFormResponse parseResponse(String response);
 
-  public static class Builder extends FormBuilder<
-      Builder,
-      ModalForm,
-      org.geysermc.cumulus.form.ModalForm,
-      org.geysermc.cumulus.form.ModalForm.Builder> {
+  interface Builder extends FormBuilder<Builder, ModalForm> {
+    Builder content(String content);
 
-    protected Builder() {
-      super(org.geysermc.cumulus.form.ModalForm.builder());
+    Builder button1(String button1);
+
+    // default methods have to stay default for the JVM (:
+
+    default Builder optionalButton1(String button1, boolean shouldAdd) {
+      throw new IllegalStateException();
     }
 
-    public Builder content(String content) {
-      builder.content(content);
-      return this;
-    }
+    Builder button2(String button2);
 
-    public Builder button1(String button1) {
-      builder.button1(button1);
-      return this;
-    }
-
-    public Builder optionalButton1(String button1, boolean shouldAdd) {
-      // doesn't matter since the button will be showed anyway, either empty or with the text.
-      if (shouldAdd) builder.button1(button1);
-      return this;
-    }
-
-    public Builder button2(String button2) {
-      builder.button2(button2);
-      return this;
-    }
-
-    public Builder optionalButton2(String button2, boolean shouldAdd) {
-      // doesn't matter since the button will be showed anyway, either empty or with the text.
-      if (shouldAdd) builder.button2(button2);
-      return this;
-    }
-
-    @Override
-    public ModalForm build() {
-      ModalForm oldForm = new ModalForm();
-      oldForm.responseHandler = (response) -> {
-        if (biResponseHandler != null) {
-          biResponseHandler.accept(oldForm, response);
-        }
-        if (responseHandler != null) {
-          responseHandler.accept(response);
-        }
-      };
-
-      ModalFormImpl newForm = (ModalFormImpl) builder.build();
-      newForm.rawResponseConsumer(oldForm.responseHandler);
-      oldForm.form = newForm;
-
-      return oldForm;
+    default Builder optionalButton2(String button2, boolean shouldAdd) {
+      throw new IllegalStateException();
     }
   }
 }

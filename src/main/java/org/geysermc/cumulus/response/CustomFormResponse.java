@@ -280,9 +280,7 @@ public interface CustomFormResponse extends FormResponse {
    * {@link #asDropdown(int)}.
    */
   @Deprecated
-  default int getDropdown(@NonNegative int index) {
-    return asDropdown(index);
-  }
+  int getDropdown(@NonNegative int index);
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
@@ -290,34 +288,26 @@ public interface CustomFormResponse extends FormResponse {
    */
   @Deprecated
   @Nullable
-  default String getInput(@NonNegative int index) {
-    return asInput(index);
-  }
+  String getInput(@NonNegative int index);
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
    * {@link #asSlider(int)}.
    */
   @Deprecated
-  default float getSlider(@NonNegative int index) {
-    return asSlider(index);
-  }
+  float getSlider(@NonNegative int index);
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
    * {@link #asStepSlider(int)}.
    */
   @Deprecated
-  default int getStepSlide(@NonNegative int index) {
-    return asStepSlider(index);
-  }
+  int getStepSlide(@NonNegative int index);
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
    * {@link #asToggle(int)}.
    */
   @Deprecated
-  default boolean getToggle(@NonNegative int index) {
-    return asToggle(index);
-  }
+  boolean getToggle(@NonNegative int index);
 }

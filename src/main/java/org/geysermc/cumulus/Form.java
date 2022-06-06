@@ -26,11 +26,7 @@
 package org.geysermc.cumulus;
 
 import java.util.function.Consumer;
-import org.geysermc.cumulus.form.impl.FormDefinitions;
-import org.geysermc.cumulus.form.impl.FormImpl;
-import org.geysermc.cumulus.form.util.FormCodec;
 import org.geysermc.cumulus.response.FormResponse;
-import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.cumulus.util.FormType;
 
 /**
@@ -38,14 +34,7 @@ import org.geysermc.cumulus.util.FormType;
  * {@link org.geysermc.cumulus.form.Form}.
  */
 @Deprecated
-public abstract class Form<T extends org.geysermc.cumulus.form.Form> {
-  protected final org.geysermc.cumulus.form.util.FormType formType;
-  protected T form;
-  protected Consumer<String> responseHandler;
-
-  protected Form(org.geysermc.cumulus.form.util.FormType type) {
-    this.formType = type;
-  }
+public interface Form<T extends org.geysermc.cumulus.form.Form> {
 
   /**
    * @see org.geysermc.cumulus.form.impl.FormDefinitions#typeFromImplClass(Class)
@@ -54,9 +43,7 @@ public abstract class Form<T extends org.geysermc.cumulus.form.Form> {
    * in the API, an internal method can be used.
    */
   @Deprecated
-  public FormType getType() {
-    return FormType.values()[formType.ordinal()];
-  }
+  FormType getType();
 
   /**
    * @see org.geysermc.cumulus.form.util.FormCodec#jsonData(org.geysermc.cumulus.form.Form)
@@ -65,11 +52,7 @@ public abstract class Form<T extends org.geysermc.cumulus.form.Form> {
    * in the API, an internal method can be used.
    */
   @Deprecated
-  public String getJsonData() {
-    return FormDefinitions.instance()
-        .<FormCodec<org.geysermc.cumulus.form.Form, FormResponse>>codecFor(formType)
-        .jsonData(form);
-  }
+  String getJsonData();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This system has been replaced in favor of
@@ -77,9 +60,7 @@ public abstract class Form<T extends org.geysermc.cumulus.form.Form> {
    * href="https://github.com/GeyserMC/Cumulus/wiki/Updating-from-1.0-to-1.1-(and-2.0)#response-handling-changes">here</a>.
    */
   @Deprecated
-  public Consumer<String> getResponseHandler() {
-    return responseHandler;
-  }
+  Consumer<String> getResponseHandler();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This system has been replaced in favor of
@@ -87,10 +68,7 @@ public abstract class Form<T extends org.geysermc.cumulus.form.Form> {
    * href="https://github.com/GeyserMC/Cumulus/wiki/Updating-from-1.0-to-1.1-(and-2.0)#response-handling-changes">here</a>.
    */
   @Deprecated
-  public void setResponseHandler(Consumer<String> responseHandler) {
-    this.responseHandler = responseHandler;
-    ((FormImpl<?>) form).rawResponseConsumer(responseHandler);
-  }
+  void setResponseHandler(Consumer<String> responseHandler);
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This system has been replaced in favor of
@@ -98,7 +76,7 @@ public abstract class Form<T extends org.geysermc.cumulus.form.Form> {
    * href="https://github.com/GeyserMC/Cumulus/wiki/Updating-from-1.0-to-1.1-(and-2.0)#response-handling-changes">here</a>.
    */
   @Deprecated
-  public abstract FormResponse parseResponse(String response);
+  FormResponse parseResponse(String response);
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This system has been replaced in favor of
@@ -106,17 +84,7 @@ public abstract class Form<T extends org.geysermc.cumulus.form.Form> {
    * href="https://github.com/GeyserMC/Cumulus/wiki/Updating-from-1.0-to-1.1-(and-2.0)#response-handling-changes">here</a>.
    */
   @Deprecated
-  public boolean isClosed(String response) {
-    return response == null || response.isEmpty() || "null".equalsIgnoreCase(response.trim());
-  }
+  boolean isClosed(String response);
 
-  protected <R extends FormResponse> FormResponseResult<R> deserializeResponse(String response) {
-    return FormDefinitions.instance()
-        .<FormCodec<org.geysermc.cumulus.form.Form, R>>codecFor(formType)
-        .deserializeFormResponse(form, response);
-  }
-
-  public T newForm() {
-    return form;
-  }
+  T newForm();
 }

@@ -94,18 +94,14 @@ public interface SliderComponent extends Component {
    * {@link #minValue()}.
    */
   @Deprecated
-  default float getMin() {
-    return minValue();
-  }
+  float getMin();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
    * {@link #maxValue()}.
    */
   @Deprecated
-  default float getMax() {
-    return maxValue();
-  }
+  float getMax();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
@@ -113,15 +109,12 @@ public interface SliderComponent extends Component {
    */
   @Deprecated
   @Positive
-  default int getStep() {
-    return (int) step();
-  }
+  int getStep();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
    * {@link #defaultValue()}.
    */
-  default float getDefaultValue() {
-    return defaultValue();
-  }
+  @Deprecated
+  float getDefaultValue();
 }

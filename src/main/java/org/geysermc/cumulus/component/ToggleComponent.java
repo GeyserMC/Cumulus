@@ -53,7 +53,5 @@ public interface ToggleComponent extends Component {
    * {@link #defaultValue()}.
    */
   @Deprecated
-  default boolean getDefaultValue() {
-    return defaultValue();
-  }
+  boolean getDefaultValue();
 }

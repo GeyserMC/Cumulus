@@ -92,9 +92,7 @@ public interface StepSliderComponent extends Component {
    */
   @Deprecated
   @NonNull
-  default List<String> getSteps() {
-    return steps();
-  }
+  List<String> getSteps();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
@@ -102,9 +100,7 @@ public interface StepSliderComponent extends Component {
    */
   @Deprecated
   @NonNegative
-  default int getDefaultStep() {
-    return defaultStep();
-  }
+  int getDefaultStep();
 
   interface Builder {
     /**

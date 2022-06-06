@@ -31,6 +31,7 @@ import com.google.gson.JsonPrimitive;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.util.ComponentType;
@@ -299,6 +300,29 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
       return (boolean) next;
     }
     throw wrongType(index, "toggle");
+  }
+
+  // the JVM doesn't allow interface methods to become default methods
+
+  public int getDropdown(@NonNegative int index) {
+    return asDropdown(index);
+  }
+
+  @Nullable
+  public String getInput(@NonNegative int index) {
+    return asInput(index);
+  }
+
+  public float getSlider(@NonNegative int index) {
+    return asSlider(index);
+  }
+
+  public int getStepSlide(@NonNegative int index) {
+    return asStepSlider(index);
+  }
+
+  public boolean getToggle(@NonNegative int index) {
+    return asToggle(index);
   }
 
   private IllegalStateException wrongType(int index, String expected) {

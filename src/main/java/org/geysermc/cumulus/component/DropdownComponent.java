@@ -79,9 +79,7 @@ public interface DropdownComponent extends Component {
    */
   @Deprecated
   @NonNull
-  default List<String> getOptions() {
-    return options();
-  }
+  List<String> getOptions();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
@@ -89,9 +87,7 @@ public interface DropdownComponent extends Component {
    */
   @Deprecated
   @NonNegative
-  default int getDefaultOption() {
-    return defaultOption();
-  }
+  int getDefaultOption();
 
   interface Builder {
     /**

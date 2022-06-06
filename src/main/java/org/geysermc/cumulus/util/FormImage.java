@@ -83,18 +83,14 @@ public interface FormImage {
    * {@link #type()}.
    */
   @Deprecated
-  default Type getType() {
-    return type();
-  }
+  Type getType();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
    * {@link #data()}.
    */
   @Deprecated
-  default String getData() {
-    return data();
-  }
+  String getData();
 
   /**
    * An enum which has the available FormImage Types. For more information and for code examples
