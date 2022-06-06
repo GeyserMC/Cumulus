@@ -110,32 +110,32 @@
           </execution>
         </executions>
       </plugin>
-<!--      <plugin>todo uncomment later, when we're finished -->
-<!--        <groupId>com.github.spotbugs</groupId>-->
-<!--        <artifactId>spotbugs-maven-plugin</artifactId>-->
-<!--        <version>4.2.0</version>-->
-<!--        <configuration>-->
-<!--          <effort>Max</effort>-->
-<!--          <threshold>Low</threshold>-->
-<!--          <failOnError>true</failOnError>-->
-<!--&lt;!&ndash;          <plugins>&ndash;&gt;-->
-<!--&lt;!&ndash;            <plugin>&ndash;&gt;-->
-<!--&lt;!&ndash;              <groupId>com.h3xstream.findsecbugs</groupId>&ndash;&gt;-->
-<!--&lt;!&ndash;              <artifactId>findsecbugs-plugin</artifactId>&ndash;&gt;-->
-<!--&lt;!&ndash;              <version>1.11.0</version>&ndash;&gt;-->
-<!--&lt;!&ndash;            </plugin>&ndash;&gt;-->
-<!--&lt;!&ndash;          </plugins>&ndash;&gt;-->
-<!--        </configuration>-->
-<!--        <executions>-->
-<!--          <execution>-->
-<!--            <id>scan</id>-->
-<!--            <phase>verify</phase>-->
-<!--            <goals>-->
-<!--              <goal>check</goal>-->
-<!--            </goals>-->
-<!--          </execution>-->
-<!--        </executions>-->
-<!--      </plugin>-->
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>4.2.0</version>
+        <configuration>
+          <effort>Max</effort>
+          <threshold>Low</threshold>
+          <failOnError>true</failOnError>
+          <plugins>
+            <plugin>
+              <groupId>com.h3xstream.findsecbugs</groupId>
+              <artifactId>findsecbugs-plugin</artifactId>
+              <version>1.11.0</version>
+            </plugin>
+          </plugins>
+        </configuration>
+        <executions>
+          <execution>
+            <id>scan</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 

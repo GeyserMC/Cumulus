@@ -107,9 +107,8 @@ public interface FormImage {
     @Nullable
     public static Type fromName(@NonNull String name) {
       Objects.requireNonNull(name, "name");
-      String upper = name.toUpperCase(Locale.ROOT);
       for (Type value : VALUES) {
-        if (value.name().equals(upper)) {
+        if (value.typeName().equals(name)) {
           return value;
         }
       }

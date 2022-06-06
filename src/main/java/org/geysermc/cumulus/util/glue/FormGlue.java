@@ -65,7 +65,7 @@ public abstract class FormGlue<T extends org.geysermc.cumulus.form.Form> impleme
   public abstract FormResponse parseResponse(String response);
 
   public boolean isClosed(String response) {
-    return response == null || response.isEmpty() || "null".equalsIgnoreCase(response.trim());
+    return response == null || response.isEmpty() || "null".equals(response.trim());
   }
 
   protected <R extends FormResponse> FormResponseResult<R> deserializeResponse(String response) {

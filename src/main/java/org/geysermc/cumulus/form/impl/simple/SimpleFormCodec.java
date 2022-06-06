@@ -35,7 +35,6 @@ import java.util.List;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.ButtonComponent;
 import org.geysermc.cumulus.form.SimpleForm;
-import org.geysermc.cumulus.form.util.FormCodec;
 import org.geysermc.cumulus.form.util.FormType;
 import org.geysermc.cumulus.form.util.impl.FormCodecImpl;
 import org.geysermc.cumulus.response.SimpleFormResponse;
@@ -45,9 +44,7 @@ import org.geysermc.cumulus.util.FormImage;
 import org.geysermc.cumulus.util.JsonUtils;
 import org.geysermc.cumulus.util.impl.FormImageAdaptor;
 
-public final class SimpleFormCodec extends FormCodecImpl<SimpleForm, SimpleFormResponse>
-    implements FormCodec<SimpleForm, SimpleFormResponse> {
-
+public final class SimpleFormCodec extends FormCodecImpl<SimpleForm, SimpleFormResponse> {
   SimpleFormCodec() {
     super(SimpleForm.class, FormType.SIMPLE_FORM);
   }

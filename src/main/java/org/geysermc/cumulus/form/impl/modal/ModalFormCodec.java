@@ -30,7 +30,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.form.ModalForm;
-import org.geysermc.cumulus.form.util.FormCodec;
 import org.geysermc.cumulus.form.util.FormType;
 import org.geysermc.cumulus.form.util.impl.FormCodecImpl;
 import org.geysermc.cumulus.response.ModalFormResponse;
@@ -38,9 +37,7 @@ import org.geysermc.cumulus.response.impl.ModalFormResponseImpl;
 import org.geysermc.cumulus.response.result.FormResponseResult;
 import org.geysermc.cumulus.util.JsonUtils;
 
-public class ModalFormCodec extends FormCodecImpl<ModalForm, ModalFormResponse>
-    implements FormCodec<ModalForm, ModalFormResponse> {
-
+public class ModalFormCodec extends FormCodecImpl<ModalForm, ModalFormResponse> {
   ModalFormCodec() {
     super(ModalForm.class, FormType.MODAL_FORM);
   }

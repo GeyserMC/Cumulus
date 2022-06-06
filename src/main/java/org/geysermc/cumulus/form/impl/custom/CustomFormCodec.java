@@ -40,7 +40,6 @@ import org.geysermc.cumulus.Forms;
 import org.geysermc.cumulus.component.Component;
 import org.geysermc.cumulus.component.util.ComponentType;
 import org.geysermc.cumulus.form.CustomForm;
-import org.geysermc.cumulus.form.util.FormCodec;
 import org.geysermc.cumulus.form.util.FormType;
 import org.geysermc.cumulus.form.util.impl.FormCodecImpl;
 import org.geysermc.cumulus.response.CustomFormResponse;
@@ -52,9 +51,7 @@ import org.geysermc.cumulus.util.JsonUtils;
 import org.geysermc.cumulus.util.impl.FormImageAdaptor;
 import org.geysermc.cumulus.util.impl.FormImageImpl;
 
-public final class CustomFormCodec extends FormCodecImpl<CustomForm, CustomFormResponse>
-    implements FormCodec<CustomForm, CustomFormResponse> {
-
+public final class CustomFormCodec extends FormCodecImpl<CustomForm, CustomFormResponse> {
   CustomFormCodec() {
     super(CustomForm.class, FormType.CUSTOM_FORM);
   }

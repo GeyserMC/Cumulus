@@ -51,7 +51,7 @@ public interface FormCodec<F extends Form, R extends FormResponse>
    * @param form the form to serialize
    * @return the serialized form
    */
-  String jsonData(F form);
+  String jsonData(@NonNull F form);
 
   /**
    * Deserializes the response of the client to a form that has been sent.
@@ -60,5 +60,5 @@ public interface FormCodec<F extends Form, R extends FormResponse>
    * @param responseData the response of the client
    * @return the responseResult from deserializing the response
    */
-  FormResponseResult<R> deserializeFormResponse(F form, @Nullable String responseData);
+  FormResponseResult<R> deserializeFormResponse(@NonNull F form, @Nullable String responseData);
 }

@@ -37,6 +37,7 @@ import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -83,7 +84,7 @@ public abstract class FormCodecImpl<F extends Form, R extends FormResponse>
   }
 
   @Override
-  public final String jsonData(F form) {
+  public final String jsonData(@NonNull F form) {
     return gson.toJson(form, typeClass);
   }
 
@@ -108,9 +109,13 @@ public abstract class FormCodecImpl<F extends Form, R extends FormResponse>
   }
 
   @Override
-  public final FormResponseResult<R> deserializeFormResponse(F form, @Nullable String response) {
+  public final FormResponseResult<R> deserializeFormResponse(
+      @NonNull F form,
+      @Nullable String response) {
+    Objects.requireNonNull(form);
+
     // if the form has been closed by the client
-    if (response == null || response.isEmpty() || "null".equalsIgnoreCase(response.trim())) {
+    if (response == null || response.isEmpty() || "null".equals(response.trim())) {
       return FormResponseResult.closed();
     }
 
