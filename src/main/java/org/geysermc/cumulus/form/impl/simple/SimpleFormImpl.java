@@ -70,27 +70,42 @@ public final class SimpleFormImpl extends FormImpl<SimpleFormResponse>
     private final List<ButtonComponent> buttons = new ArrayList<>();
     private String content = "";
 
+    @Override
     public Builder content(@NonNull String content) {
       this.content = translate(Objects.requireNonNull(content, "content"));
       return this;
     }
 
+    @Override
+    public Builder button(@NonNull ButtonComponent button) {
+      buttons.add(button);
+      return this;
+    }
+
+    @Override
     public Builder button(
         @NonNull String text,
         FormImage.@NonNull Type type,
         @NonNull String data) {
-      buttons.add(ButtonComponent.of(translate(text), type, data));
-      return this;
+      return button(ButtonComponent.of(translate(text), type, data));
     }
 
+    @Override
     public Builder button(@NonNull String text, @Nullable FormImage image) {
-      buttons.add(ButtonComponent.of(translate(text), image));
-      return this;
+      return button(ButtonComponent.of(translate(text), image));
     }
 
+    @Override
     public Builder button(@NonNull String text) {
-      buttons.add(ButtonComponent.of(translate(text)));
-      return this;
+      return button(ButtonComponent.of(translate(text)));
+    }
+
+    @Override
+    public Builder optionalButton(@NonNull ButtonComponent button, boolean shouldAdd) {
+      if (shouldAdd) {
+        return button(button);
+      }
+      return addNullButton();
     }
 
     @Override

@@ -90,6 +90,9 @@ public interface CustomForm extends Form {
    */
   interface Builder extends FormBuilder<Builder, CustomForm, CustomFormResponse> {
     @This
+    Builder icon(@NonNull FormImage image);
+
+    @This
     Builder icon(FormImage.@NonNull Type type, @NonNull String data);
 
     @This
