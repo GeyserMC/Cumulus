@@ -33,6 +33,7 @@ import org.checkerframework.checker.index.qual.Positive;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.Component;
+import org.geysermc.cumulus.component.LabelComponent;
 import org.geysermc.cumulus.component.util.ComponentType;
 import org.geysermc.cumulus.form.CustomForm;
 
@@ -122,7 +123,7 @@ public interface CustomFormResponse extends FormResponse {
 
   /**
    * Returns the value at a given position. If the component is an optional component that is not
-   * present, the value will be null.
+   * present, or the component is a {@link LabelComponent}, the value will be null.
    *
    * @param index the index of the value you want to access
    * @param <T>   the type to cast the component to

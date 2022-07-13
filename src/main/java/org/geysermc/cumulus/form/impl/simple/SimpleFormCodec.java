@@ -106,8 +106,11 @@ public final class SimpleFormCodec extends FormCodecImpl<SimpleForm, SimpleFormR
     for (int i = 0; i < form.buttons().size(); i++) {
       ButtonComponent current = form.buttons().get(i);
       if (current != null && buttonId-- == 0) {
+        // only decrement buttonId when we pass over a button that is present
+        // once buttonId is zero, we have reached the correct button that was pressed
         button = form.buttons().get(i);
         correctButtonId = i;
+        break;
       }
     }
 

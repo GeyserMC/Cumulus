@@ -99,9 +99,11 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
     while (++index < responses.size()) {
       Object response = responses.get(index);
       if (response == null && !includeLabels) {
+        // if response is null, it was a label
         continue;
       }
       if (response instanceof AbsentComponent) {
+        // component was optional and not included
         return null;
       }
       return (T) response;
@@ -238,17 +240,22 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
     if (index >= responses.size()) {
       throw new IllegalArgumentException("Requested an higher index than there are components");
     }
-    return (T) responses.get(index);
+
+    T response = (T) responses.get(index);
+    if (response instanceof AbsentComponent) {
+      return null;
+    }
+    return response;
   }
 
   @Override
   public int asDropdown(int index) {
-    Object component = valueAt(index);
-    if (component == null) {
+    Object next = valueAt(index);
+    if (next == null) {
       return 0;
     }
-    if (component instanceof Integer) {
-      return (int) component;
+    if (next instanceof Integer) {
+      return (int) next;
     }
     throw wrongType(index, "dropdown");
   }
