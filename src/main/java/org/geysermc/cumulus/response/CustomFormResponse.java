@@ -32,6 +32,7 @@ import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.index.qual.Positive;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.common.value.qual.IntRange;
 import org.geysermc.cumulus.component.Component;
 import org.geysermc.cumulus.component.LabelComponent;
 import org.geysermc.cumulus.component.util.ComponentType;
@@ -52,7 +53,7 @@ public interface CustomFormResponse extends FormResponse {
    * @see #skip()
    * @see #skip(int)
    */
-  void index(@NonNegative int index);
+  void index(@IntRange(from = -1) int index);
 
   /**
    * If labels should be skipped or not when moving to next items (which includes skip and next

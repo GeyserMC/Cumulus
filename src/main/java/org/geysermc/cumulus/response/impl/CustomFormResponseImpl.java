@@ -42,7 +42,11 @@ import org.geysermc.cumulus.util.AbsentComponent;
 public final class CustomFormResponseImpl extends ResponseToResultGlue
     implements CustomFormResponse {
 
-  private final List<Object> responses;
+  /**
+   * Contains null for LabelComponent and {@link AbsentComponent} for components that were optional
+   * and not added.
+   */
+  private final List<@Nullable Object> responses;
   private final JsonArray rawResponse;
   private final List<ComponentType> componentTypes;
 
@@ -73,6 +77,7 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
       @NonNull JsonArray rawResponse,
       @NonNull List<ComponentType> componentTypes) {
     Objects.requireNonNull(responses, "responses");
+    Objects.requireNonNull(rawResponse, "rawResponse");
     Objects.requireNonNull(componentTypes, "componentTypes");
     return new CustomFormResponseImpl(responses, rawResponse, componentTypes);
   }
@@ -89,9 +94,16 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
     return componentTypes;
   }
 
+  /**
+   * This should be used internally so that {@link AbsentComponent} can be taken into consideration
+   * separately from label components.
+   *
+   * @return null for label components or if there is no next component, and {@link AbsentComponent}
+   * for optional components that were not added
+   */
   @Nullable
   @SuppressWarnings("unchecked")
-  private <T> T nextComponent(boolean includeLabels) {
+  private <T> T nextOrAbsent(boolean includeLabels) {
     if (!hasNext()) {
       return null;
     }
@@ -102,10 +114,6 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
         // if response is null, it was a label
         continue;
       }
-      if (response instanceof AbsentComponent) {
-        // component was optional and not included
-        return null;
-      }
       return (T) response;
     }
     return null; // we don't have anything to check anymore
@@ -114,7 +122,11 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
   @Override
   @Nullable
   public <T> T next(boolean includeLabels) {
-    return nextComponent(includeLabels);
+    T next = nextOrAbsent(includeLabels);
+    if (next instanceof AbsentComponent) {
+      return null;
+    }
+    return next;
   }
 
   @Override
@@ -130,7 +142,7 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
 
   @Override
   public void index(int index) {
-    Preconditions.checkArgument(index >= 0, "index");
+    Preconditions.checkArgument(index >= -1, "index");
     this.index = index;
   }
 
@@ -154,6 +166,16 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
     return hasNext() && responses.get(index + 1) != null;
   }
 
+  /**
+   * This should be used internally so that {@link AbsentComponent} can be taken into consideration
+   * separately from label components.
+   *
+   * @return null for label components and {@link AbsentComponent} for optional components that were not added
+   */
+  private <T> T nextOrAbsent() {
+    return nextOrAbsent(includeLabels);
+  }
+
   @Override
   @Nullable
   public <T> T next() {
@@ -162,11 +184,10 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
 
   @Override
   public int asDropdown() {
-    Object next = next();
-    if (next == null) {
+    Object next = nextOrAbsent();
+    if (next instanceof AbsentComponent) {
       return 0;
-    }
-    if (next instanceof Integer) {
+    } else if (next instanceof Integer) {
       return (int) next;
     }
     throw wrongType(index, "dropdown");
@@ -175,11 +196,10 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
   @Override
   @Nullable
   public String asInput() {
-    Object next = next();
-    if (next == null) {
+    Object next = nextOrAbsent();
+    if (next instanceof AbsentComponent) {
       return null;
-    }
-    if (next instanceof String) {
+    } else if (next instanceof String) {
       return (String) next;
     }
     throw wrongType(index, "input");
@@ -187,11 +207,10 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
 
   @Override
   public float asSlider() {
-    Object next = next();
-    if (next == null) {
+    Object next = nextOrAbsent();
+    if (next instanceof AbsentComponent) {
       return 0.0f;
-    }
-    if (next instanceof Float) {
+    } else if (next instanceof Float) {
       return (float) next;
     }
     throw wrongType(index, "slider");
@@ -199,11 +218,10 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
 
   @Override
   public int asStepSlider() {
-    Object next = next();
-    if (next == null) {
+    Object next = nextOrAbsent();
+    if (next instanceof AbsentComponent) {
       return 0;
-    }
-    if (next instanceof Integer) {
+    } else if (next instanceof Integer) {
       return (int) next;
     }
     throw wrongType(index, "step slider");
@@ -211,11 +229,10 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
 
   @Override
   public boolean asToggle() {
-    Object next = next();
-    if (next == null) {
+    Object next = nextOrAbsent();
+    if (next instanceof AbsentComponent) {
       return false;
-    }
-    if (next instanceof Boolean) {
+    } else if (next instanceof Boolean) {
       return (boolean) next;
     }
     throw wrongType(index, "toggle");
@@ -232,16 +249,24 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
     }
   }
 
-  @Override
+  /**
+   * @return null for label components and {@link AbsentComponent} for optional components that were not added
+   */
   @Nullable
   @SuppressWarnings("unchecked")
-  public <T> T valueAt(int index) throws IllegalArgumentException, ClassCastException {
+  private <T> T valueOrAbsent(int index) throws IllegalArgumentException, ClassCastException {
     Preconditions.checkArgument(index >= 0, "index");
     if (index >= responses.size()) {
       throw new IllegalArgumentException("Requested an higher index than there are components");
     }
 
-    T response = (T) responses.get(index);
+    return (T) responses.get(index);
+  }
+
+  @Override
+  @Nullable
+  public <T> T valueAt(int index) throws IllegalArgumentException, ClassCastException {
+    T response = valueOrAbsent(index);
     if (response instanceof AbsentComponent) {
       return null;
     }
@@ -250,11 +275,10 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
 
   @Override
   public int asDropdown(int index) {
-    Object next = valueAt(index);
-    if (next == null) {
+    Object next = valueOrAbsent(index);
+    if (next instanceof AbsentComponent) {
       return 0;
-    }
-    if (next instanceof Integer) {
+    } else if (next instanceof Integer) {
       return (int) next;
     }
     throw wrongType(index, "dropdown");
@@ -263,11 +287,10 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
   @Override
   @Nullable
   public String asInput(int index) {
-    Object next = valueAt(index);
-    if (next == null) {
+    Object next = valueOrAbsent(index);
+    if (next instanceof AbsentComponent) {
       return null;
-    }
-    if (next instanceof String) {
+    } else if (next instanceof String) {
       return (String) next;
     }
     throw wrongType(index, "input");
@@ -275,11 +298,10 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
 
   @Override
   public float asSlider(int index) {
-    Object next = valueAt(index);
-    if (next == null) {
+    Object next = valueOrAbsent(index);
+    if (next instanceof AbsentComponent) {
       return 0.0f;
-    }
-    if (next instanceof Float) {
+    } else if (next instanceof Float) {
       return (float) next;
     }
     throw wrongType(index, "slider");
@@ -287,11 +309,10 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
 
   @Override
   public int asStepSlider(int index) {
-    Object next = valueAt(index);
-    if (next == null) {
+    Object next = valueOrAbsent(index);
+    if (next instanceof AbsentComponent) {
       return 0;
-    }
-    if (next instanceof Integer) {
+    } else if (next instanceof Integer) {
       return (int) next;
     }
     throw wrongType(index, "step slider");
@@ -299,11 +320,10 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
 
   @Override
   public boolean asToggle(int index) {
-    Object next = valueAt(index);
-    if (next == null) {
+    Object next = valueOrAbsent(index);
+    if (next instanceof AbsentComponent) {
       return false;
-    }
-    if (next instanceof Boolean) {
+    } else if (next instanceof Boolean) {
       return (boolean) next;
     }
     throw wrongType(index, "toggle");
@@ -333,9 +353,17 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
   }
 
   private IllegalStateException wrongType(int index, String expected) {
+    Object response = responses.get(index);
+    String unexpected;
+    if (response == null) {
+      unexpected = "a Label";
+    } else {
+      unexpected = response.toString();
+    }
+
     return new IllegalStateException(String.format(
         "Expected %s on %s, got %s",
-        expected, index, responses.get(index).toString()
+        expected, index, unexpected
     ));
   }
 }
