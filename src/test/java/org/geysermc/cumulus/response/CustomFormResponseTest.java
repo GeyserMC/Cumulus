@@ -75,7 +75,6 @@ public class CustomFormResponseTest {
     ));
   }
 
-  // regenerate before each test so that index is reset to 0
   @BeforeAll
   public static void generate() {
     List<Object> responses = new ArrayList<>();
