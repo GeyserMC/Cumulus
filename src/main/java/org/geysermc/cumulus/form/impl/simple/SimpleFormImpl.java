@@ -78,7 +78,7 @@ public final class SimpleFormImpl extends FormImpl<SimpleFormResponse>
 
     @Override
     public Builder button(@NonNull ButtonComponent button) {
-      buttons.add(button);
+      buttons.add(Objects.requireNonNull(button, "button"));
       return this;
     }
 
@@ -98,14 +98,6 @@ public final class SimpleFormImpl extends FormImpl<SimpleFormResponse>
     @Override
     public Builder button(@NonNull String text) {
       return button(ButtonComponent.of(translate(text)));
-    }
-
-    @Override
-    public Builder optionalButton(@NonNull ButtonComponent button, boolean shouldAdd) {
-      if (shouldAdd) {
-        return button(button);
-      }
-      return addNullButton();
     }
 
     @Override
