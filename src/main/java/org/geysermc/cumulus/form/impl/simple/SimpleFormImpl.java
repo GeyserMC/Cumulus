@@ -87,17 +87,20 @@ public final class SimpleFormImpl extends FormImpl<SimpleFormResponse>
         @NonNull String text,
         FormImage.@NonNull Type type,
         @NonNull String data) {
-      return button(ButtonComponent.of(translate(text), type, data));
+      buttons.add(ButtonComponent.of(translate(text), type, data));
+      return this;
     }
 
     @Override
     public Builder button(@NonNull String text, @Nullable FormImage image) {
-      return button(ButtonComponent.of(translate(text), image));
+      buttons.add(ButtonComponent.of(translate(text), image));
+      return this;
     }
 
     @Override
     public Builder button(@NonNull String text) {
-      return button(ButtonComponent.of(translate(text)));
+      buttons.add(ButtonComponent.of(translate(text)));
+      return this;
     }
 
     @Override

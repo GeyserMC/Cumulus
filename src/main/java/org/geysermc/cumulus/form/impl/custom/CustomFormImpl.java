@@ -89,7 +89,8 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
 
     @Override
     public Builder icon(FormImage.@NonNull Type type, @NonNull String data) {
-      return icon(FormImage.of(type, data));
+      icon = FormImage.of(type, data);
+      return this;
     }
 
     @Override
