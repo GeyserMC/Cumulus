@@ -187,7 +187,8 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
     Object next = nextOrAbsent();
     if (next instanceof AbsentComponent) {
       return 0;
-    } else if (next instanceof Integer) {
+    }
+    if (next instanceof Integer) {
       return (int) next;
     }
     throw wrongType(index, "dropdown");
@@ -199,7 +200,8 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
     Object next = nextOrAbsent();
     if (next instanceof AbsentComponent) {
       return null;
-    } else if (next instanceof String) {
+    }
+    if (next instanceof String) {
       return (String) next;
     }
     throw wrongType(index, "input");
@@ -210,7 +212,8 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
     Object next = nextOrAbsent();
     if (next instanceof AbsentComponent) {
       return 0.0f;
-    } else if (next instanceof Float) {
+    }
+    if (next instanceof Float) {
       return (float) next;
     }
     throw wrongType(index, "slider");
@@ -221,7 +224,8 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
     Object next = nextOrAbsent();
     if (next instanceof AbsentComponent) {
       return 0;
-    } else if (next instanceof Integer) {
+    }
+    if (next instanceof Integer) {
       return (int) next;
     }
     throw wrongType(index, "step slider");
@@ -232,7 +236,8 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
     Object next = nextOrAbsent();
     if (next instanceof AbsentComponent) {
       return false;
-    } else if (next instanceof Boolean) {
+    }
+    if (next instanceof Boolean) {
       return (boolean) next;
     }
     throw wrongType(index, "toggle");
@@ -278,7 +283,8 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
     Object next = valueOrAbsent(index);
     if (next instanceof AbsentComponent) {
       return 0;
-    } else if (next instanceof Integer) {
+    }
+    if (next instanceof Integer) {
       return (int) next;
     }
     throw wrongType(index, "dropdown");
@@ -290,7 +296,8 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
     Object next = valueOrAbsent(index);
     if (next instanceof AbsentComponent) {
       return null;
-    } else if (next instanceof String) {
+    }
+    if (next instanceof String) {
       return (String) next;
     }
     throw wrongType(index, "input");
@@ -301,7 +308,8 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
     Object next = valueOrAbsent(index);
     if (next instanceof AbsentComponent) {
       return 0.0f;
-    } else if (next instanceof Float) {
+    }
+    if (next instanceof Float) {
       return (float) next;
     }
     throw wrongType(index, "slider");
@@ -312,7 +320,8 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
     Object next = valueOrAbsent(index);
     if (next instanceof AbsentComponent) {
       return 0;
-    } else if (next instanceof Integer) {
+    }
+    if (next instanceof Integer) {
       return (int) next;
     }
     throw wrongType(index, "step slider");
@@ -323,7 +332,8 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
     Object next = valueOrAbsent(index);
     if (next instanceof AbsentComponent) {
       return false;
-    } else if (next instanceof Boolean) {
+    }
+    if (next instanceof Boolean) {
       return (boolean) next;
     }
     throw wrongType(index, "toggle");
@@ -356,7 +366,7 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
     Object response = responses.get(index);
     String unexpected;
     if (response == null) {
-      unexpected = "a Label";
+      unexpected = "label";
     } else {
       unexpected = response.toString();
     }
