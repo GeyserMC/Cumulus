@@ -46,7 +46,11 @@ public interface CustomForm extends Form<org.geysermc.cumulus.form.CustomForm> {
   }
 
   static CustomForm of(String title, FormImage icon, List<Component> content) {
-    Builder builder = CustomForm.builder().title(title).icon(icon.type(), icon.data());
+    Builder builder = CustomForm.builder().title(title);
+
+    if (icon != null) {
+      builder.icon(icon.type(), icon.data());
+    }
 
     for (Component component : content) {
       builder.component(component);
