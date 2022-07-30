@@ -97,11 +97,12 @@ public final class CustomFormCodec extends FormCodecImpl<CustomForm, CustomFormR
       @NonNull CustomForm form, @NonNull String responseData) {
 
     JsonArray responses = gson.fromJson(responseData, JsonArray.class);
-    JsonArray responsesCopy = responses.deepCopy();
+    int responsesSize = responses.size();
 
     List<Object> mappedResponse = new ArrayList<>();
     List<ComponentType> types = new ArrayList<>();
 
+    int responseIndex = 0;
     List<Component> content = form.content();
     for (int i = 0; i < content.size(); i++) {
       Component component = content.get(i);
@@ -110,12 +111,12 @@ public final class CustomFormCodec extends FormCodecImpl<CustomForm, CustomFormR
         continue;
       }
 
-      if (responses.isEmpty()) {
+      if (responseIndex >= responsesSize) {
         return FormResponseResult.invalid(-1, "Response doesn't contain enough components");
       }
 
       try {
-        JsonElement response = responses.remove(0);
+        JsonElement response = responses.get(responseIndex++); // note the index increment
         mappedResponse.add(validateComponent(component, response));
       } catch (Exception exception) {
         // looks like it didn't pass the validation.
@@ -125,12 +126,12 @@ public final class CustomFormCodec extends FormCodecImpl<CustomForm, CustomFormR
       types.add(component.type());
     }
 
-    if (!responses.isEmpty()) {
+    if (responseIndex < responsesSize) {
       return FormResponseResult.invalid(-1, "Response contains too many elements");
     }
 
     return FormResponseResult.valid(
-        CustomFormResponseImpl.of(mappedResponse, responsesCopy, types)
+        CustomFormResponseImpl.of(mappedResponse, responses, types)
     );
   }
 
