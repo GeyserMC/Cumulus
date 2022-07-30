@@ -46,7 +46,6 @@ import org.geysermc.cumulus.form.CustomForm;
 import org.geysermc.cumulus.form.impl.FormImpl;
 import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.util.FormImage;
-import org.geysermc.cumulus.util.impl.FormImageImpl;
 
 public final class CustomFormImpl extends FormImpl<CustomFormResponse>
     implements CustomForm {
@@ -83,8 +82,14 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
     private FormImage icon;
 
     @Override
+    public Builder icon(@NonNull FormImage image) {
+      icon = Objects.requireNonNull(image, "image");
+      return this;
+    }
+
+    @Override
     public Builder icon(FormImage.@NonNull Type type, @NonNull String data) {
-      icon = new FormImageImpl(type, data);
+      icon = FormImage.of(type, data);
       return this;
     }
 

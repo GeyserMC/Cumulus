@@ -70,11 +70,19 @@ public final class SimpleFormImpl extends FormImpl<SimpleFormResponse>
     private final List<ButtonComponent> buttons = new ArrayList<>();
     private String content = "";
 
+    @Override
     public Builder content(@NonNull String content) {
       this.content = translate(Objects.requireNonNull(content, "content"));
       return this;
     }
 
+    @Override
+    public Builder button(@NonNull ButtonComponent button) {
+      buttons.add(Objects.requireNonNull(button, "button"));
+      return this;
+    }
+
+    @Override
     public Builder button(
         @NonNull String text,
         FormImage.@NonNull Type type,
@@ -83,11 +91,13 @@ public final class SimpleFormImpl extends FormImpl<SimpleFormResponse>
       return this;
     }
 
+    @Override
     public Builder button(@NonNull String text, @Nullable FormImage image) {
       buttons.add(ButtonComponent.of(translate(text), image));
       return this;
     }
 
+    @Override
     public Builder button(@NonNull String text) {
       buttons.add(ButtonComponent.of(translate(text)));
       return this;

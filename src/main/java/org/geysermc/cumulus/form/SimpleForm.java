@@ -95,6 +95,15 @@ public interface SimpleForm extends Form {
     Builder content(@NonNull String content);
 
     /**
+     * Adds a button directly to the form.
+     *
+     * @param button the button to add
+     * @return the form builder
+     */
+    @This
+    Builder button(@NonNull ButtonComponent button);
+
+    /**
      * Adds a button with image to the Form.
      *
      * @param text text of the button
