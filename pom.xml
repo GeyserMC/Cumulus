@@ -65,7 +65,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.1</version>
+        <version>3.3.0</version>
         <configuration>
           <finalName>${project.artifactId}</finalName>
           <shadedArtifactAttached>true</shadedArtifactAttached>
@@ -93,7 +93,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>3.1.1</version>
+        <version>3.1.2</version>
         <executions>
           <execution>
             <id>verify</id>
@@ -113,16 +113,16 @@
       <plugin>
         <groupId>com.github.spotbugs</groupId>
         <artifactId>spotbugs-maven-plugin</artifactId>
-        <version>4.2.0</version>
+        <version>4.7.0.0</version>
         <configuration>
           <effort>Max</effort>
-          <threshold>Low</threshold>
+          <threshold>High</threshold><!-- todo change threshold to Low later -->
           <failOnError>true</failOnError>
           <plugins>
             <plugin>
               <groupId>com.h3xstream.findsecbugs</groupId>
               <artifactId>findsecbugs-plugin</artifactId>
-              <version>1.11.0</version>
+              <version>1.12.0</version>
             </plugin>
           </plugins>
         </configuration>
@@ -165,12 +165,6 @@
       <groupId>com.google.errorprone</groupId>
       <artifactId>javac</artifactId>
       <version>9+181-r4173-1</version>
-    </dependency>
-    <!-- SpotBugs annotations -->
-    <dependency>
-      <groupId>com.github.spotbugs</groupId>
-      <artifactId>spotbugs-annotations</artifactId>
-      <version>4.5.3</version>
     </dependency>
   </dependencies>
 
