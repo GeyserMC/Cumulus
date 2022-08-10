@@ -141,6 +141,11 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
   }
 
   @Override
+  public void reset() {
+    this.index = -1;
+  }
+
+  @Override
   public void index(int index) {
     Preconditions.checkArgument(index >= -1, "index");
     this.index = index;

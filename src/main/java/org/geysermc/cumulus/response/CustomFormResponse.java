@@ -46,12 +46,19 @@ import org.geysermc.cumulus.form.CustomForm;
  */
 public interface CustomFormResponse extends FormResponse {
   /**
+   * Resets the index of the iterator.
+   */
+  void reset();
+
+  /**
    * Sets the index of the iterator. Use {@link #skip()} or {@link #skip(int)} when you want to
-   * increase the index (skip specific items) instead of setting the index.
+   * increase the index (skip specific items) instead of setting the index. Use {@link @reset()} to
+   * reset the index.
    *
    * @param index the position to set
    * @see #skip()
    * @see #skip(int)
+   * @see #reset()
    */
   void index(@IntRange(from = -1) int index);
 
