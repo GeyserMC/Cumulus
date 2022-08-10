@@ -43,7 +43,7 @@ import org.geysermc.cumulus.response.result.ValidFormResponseResult;
 
 public abstract class FormImpl<R extends FormResponse> implements Form {
   protected Consumer<FormResponseResult<R>> responseHandler;
-  protected Consumer<String> rawResponseConsumer;
+  protected Consumer<@Nullable String> rawResponseConsumer;
 
   private final String title;
 
@@ -59,7 +59,7 @@ public abstract class FormImpl<R extends FormResponse> implements Form {
     return false;
   }
 
-  public void rawResponseConsumer(Consumer<String> rawResponseConsumer) {
+  public void rawResponseConsumer(Consumer<@Nullable String> rawResponseConsumer) {
     this.rawResponseConsumer = rawResponseConsumer;
   }
 

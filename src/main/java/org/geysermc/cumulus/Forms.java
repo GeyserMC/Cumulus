@@ -29,6 +29,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.function.BiConsumer;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.component.Component;
 import org.geysermc.cumulus.component.impl.DropdownComponentImpl;
 import org.geysermc.cumulus.component.impl.InputComponentImpl;
@@ -56,7 +57,7 @@ public final class Forms {
   @NonNull
   public static <T extends Form> T fromJson(
       String json, FormType type,
-      BiConsumer<T, String> responseHandler) {
+      BiConsumer<T, @Nullable String> responseHandler) {
 
     return FormDefinitions.instance()
         .<FormCodec<T, FormResponse>>codecFor(type)
