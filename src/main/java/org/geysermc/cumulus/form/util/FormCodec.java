@@ -43,7 +43,7 @@ public interface FormCodec<F extends Form, R extends FormResponse>
    * @param rawResponseConsumer
    * @return
    */
-  F fromJson(@NonNull String json, @Nullable BiConsumer<F, String> rawResponseConsumer);
+  F fromJson(@NonNull String json, @Nullable BiConsumer<F, @Nullable String> rawResponseConsumer);
 
   /**
    * Serializes the form to data that can be used by the Bedrock client to display the form.

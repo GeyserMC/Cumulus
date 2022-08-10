@@ -71,14 +71,14 @@ public abstract class FormCodecImpl<F extends Form, R extends FormResponse>
   @Override
   public final F fromJson(
       @NonNull String json,
-      @Nullable BiConsumer<F, String> rawResponseConsumer) {
+      @Nullable BiConsumer<F, @Nullable String> rawResponseConsumer) {
     F form = gson.fromJson(json, typeClass);
     setRawResponseConsumer(form, rawResponseConsumer);
     return form;
   }
 
   @SuppressWarnings("unchecked")
-  protected void setRawResponseConsumer(F form, BiConsumer<F, String> rawResponseConsumer) {
+  protected void setRawResponseConsumer(F form, BiConsumer<F, @Nullable String> rawResponseConsumer) {
     ((FormImpl<R>) form)
         .rawResponseConsumer(response -> rawResponseConsumer.accept(form, response));
   }
