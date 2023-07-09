@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,21 +8,20 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  * @author GeyserMC
  * @link https://github.com/GeyserMC/Cumulus
  */
-
 package org.geysermc.cumulus.component;
 
 import java.util.List;
@@ -38,13 +37,11 @@ import org.geysermc.cumulus.component.impl.DropdownComponentImpl;
  */
 public interface DropdownComponent extends Component {
   static @NonNull DropdownComponent of(
-      @NonNull String text,
-      @NonNull List<String> options,
-      @NonNegative int defaultOption) {
+      @NonNull String text, @NonNull List<String> options, @NonNegative int defaultOption) {
     return new DropdownComponentImpl(text, options, defaultOption);
   }
 
-  //todo should these 'of' methods be removed in favor of the builders?
+  // todo should these 'of' methods be removed in favor of the builders?
 
   static @NonNull Builder builder() {
     return new DropdownComponentImpl.Builder();
@@ -69,15 +66,15 @@ public interface DropdownComponent extends Component {
   @NonNegative int defaultOption();
 
   /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
-   * {@link #options()}.
+   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by {@link
+   *     #options()}.
    */
   @Deprecated
   @NonNull List<String> getOptions();
 
   /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
-   * {@link #defaultOption()}.
+   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by {@link
+   *     #defaultOption()}.
    */
   @Deprecated
   @NonNegative int getDefaultOption();
@@ -93,7 +90,7 @@ public interface DropdownComponent extends Component {
     /**
      * Adds an option to the list of options.
      *
-     * @param option    the text to show in the dropdown entry
+     * @param option the text to show in the dropdown entry
      * @param isDefault if this should become the default option
      */
     @This Builder option(@NonNull String option, boolean isDefault);
@@ -114,9 +111,7 @@ public interface DropdownComponent extends Component {
      */
     @This Builder defaultOption(@NonNegative int defaultOption) throws IllegalArgumentException;
 
-    /**
-     * Returns the created dropdown from the given options.
-     */
+    /** Returns the created dropdown from the given options. */
     @NonNull DropdownComponent build();
 
     /**

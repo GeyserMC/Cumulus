@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,21 +8,20 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  * @author GeyserMC
  * @link https://github.com/GeyserMC/Cumulus
  */
-
 package org.geysermc.cumulus.component;
 
 import java.util.Arrays;
@@ -40,16 +39,12 @@ import org.geysermc.cumulus.component.impl.StepSliderComponentImpl;
  */
 public interface StepSliderComponent extends Component {
   static @NonNull StepSliderComponent of(
-      @NonNull String text,
-      @NonNull List<String> steps,
-      @NonNegative int defaultStep) {
+      @NonNull String text, @NonNull List<String> steps, @NonNegative int defaultStep) {
     return new StepSliderComponentImpl(text, steps, defaultStep);
   }
 
   static @NonNull StepSliderComponent of(
-      @NonNull String text,
-      @NonNegative int defaultStep,
-      @NonNull String... steps) {
+      @NonNull String text, @NonNegative int defaultStep, @NonNull String... steps) {
     return of(text, Arrays.asList(steps), defaultStep);
   }
 
@@ -80,15 +75,15 @@ public interface StepSliderComponent extends Component {
   @NonNegative int defaultStep();
 
   /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
-   * {@link #steps()}.
+   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by {@link
+   *     #steps()}.
    */
   @Deprecated
   @NonNull List<String> getSteps();
 
   /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
-   * {@link #defaultStep()}.
+   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by {@link
+   *     #defaultStep()}.
    */
   @Deprecated
   @NonNegative int getDefaultStep();
@@ -104,14 +99,14 @@ public interface StepSliderComponent extends Component {
     /**
      * Adds a step to the list of steps.
      *
-     * @param step      the text to show in the step slider entry
+     * @param step the text to show in the step slider entry
      * @param isDefault if this should become the default option
      */
     @This Builder step(@NonNull String step, boolean isDefault);
 
     /**
-     * Adds a step to the list of steps. This step won't become the default step, unless
-     * {@link #defaultStep(int)} is called after this.
+     * Adds a step to the list of steps. This step won't become the default step, unless {@link
+     * #defaultStep(int)} is called after this.
      *
      * @param step the text to show in the step slider entry
      */
@@ -125,9 +120,7 @@ public interface StepSliderComponent extends Component {
      */
     @This Builder defaultStep(@NonNegative int defaultStep) throws IllegalArgumentException;
 
-    /**
-     * Returns the created step slider from the given options.
-     */
+    /** Returns the created step slider from the given options. */
     @NonNull StepSliderComponent build();
 
     /**

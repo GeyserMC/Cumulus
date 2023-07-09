@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,21 +8,20 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  * @author GeyserMC
  * @link https://github.com/GeyserMC/Cumulus
  */
-
 package org.geysermc.cumulus.form.util;
 
 import com.google.gson.annotations.SerializedName;
@@ -33,13 +32,15 @@ import org.geysermc.cumulus.form.SimpleForm;
 
 /**
  * An enum containing the valid form types. Valid form types are:
+ *
  * <ul>
- *     <li>{@link SimpleForm Simple Form}</li>
- *     <li>{@link ModalForm Modal Form}</li>
- *     <li>{@link CustomForm Custom Form}</li>
+ *   <li>{@link SimpleForm Simple Form}
+ *   <li>{@link ModalForm Modal Form}
+ *   <li>{@link CustomForm Custom Form}
  * </ul>
- * For more information and for code examples look at
- * <a href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
+ *
+ * For more information and for code examples look at <a
+ * href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
  *
  * @since 1.1
  */

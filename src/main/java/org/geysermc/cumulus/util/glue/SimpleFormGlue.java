@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,21 +8,20 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  * @author GeyserMC
  * @link https://github.com/GeyserMC/Cumulus
  */
-
 package org.geysermc.cumulus.util.glue;
 
 import java.util.List;
@@ -65,11 +64,13 @@ public class SimpleFormGlue extends FormGlue<org.geysermc.cumulus.form.SimpleFor
     return new SimpleFormResponseImpl(result.isInvalid() ? ResultType.INVALID : ResultType.CLOSED);
   }
 
-  public static class Builder extends FormBuilderGlue<
-      SimpleForm.Builder,
-      SimpleForm,
-      org.geysermc.cumulus.form.SimpleForm,
-      org.geysermc.cumulus.form.SimpleForm.Builder> implements SimpleForm.Builder {
+  public static class Builder
+      extends FormBuilderGlue<
+          SimpleForm.Builder,
+          SimpleForm,
+          org.geysermc.cumulus.form.SimpleForm,
+          org.geysermc.cumulus.form.SimpleForm.Builder>
+      implements SimpleForm.Builder {
 
     public Builder() {
       super(org.geysermc.cumulus.form.SimpleForm.builder());
@@ -96,18 +97,12 @@ public class SimpleFormGlue extends FormGlue<org.geysermc.cumulus.form.SimpleFor
     }
 
     public SimpleForm.Builder optionalButton(
-        String text,
-        FormImage.Type type,
-        String data,
-        boolean shouldAdd) {
+        String text, FormImage.Type type, String data, boolean shouldAdd) {
       builder.optionalButton(text, type, data, shouldAdd);
       return this;
     }
 
-    public SimpleForm.Builder optionalButton(
-        String text,
-        FormImage image,
-        boolean shouldAdd) {
+    public SimpleForm.Builder optionalButton(String text, FormImage image, boolean shouldAdd) {
       builder.optionalButton(text, image, shouldAdd);
       return this;
     }
@@ -120,14 +115,15 @@ public class SimpleFormGlue extends FormGlue<org.geysermc.cumulus.form.SimpleFor
     @Override
     public SimpleForm build() {
       SimpleFormGlue oldForm = new SimpleFormGlue();
-      oldForm.responseHandler = (response) -> {
-        if (biResponseHandler != null) {
-          biResponseHandler.accept(oldForm, response);
-        }
-        if (responseHandler != null) {
-          responseHandler.accept(response);
-        }
-      };
+      oldForm.responseHandler =
+          (response) -> {
+            if (biResponseHandler != null) {
+              biResponseHandler.accept(oldForm, response);
+            }
+            if (responseHandler != null) {
+              responseHandler.accept(response);
+            }
+          };
 
       SimpleFormImpl newForm = (SimpleFormImpl) builder.build();
       newForm.rawResponseConsumer(oldForm.responseHandler);

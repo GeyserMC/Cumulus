@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,21 +8,20 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  * @author GeyserMC
  * @link https://github.com/GeyserMC/Cumulus
  */
-
 package org.geysermc.cumulus.util.glue;
 
 import java.util.List;
@@ -67,11 +66,13 @@ public class CustomFormGlue extends FormGlue<org.geysermc.cumulus.form.CustomFor
     return new CustomFormResponseImpl(result.isInvalid() ? ResultType.INVALID : ResultType.CLOSED);
   }
 
-  public static class Builder extends FormBuilderGlue<
-      CustomForm.Builder,
-      CustomForm,
-      org.geysermc.cumulus.form.CustomForm,
-      org.geysermc.cumulus.form.CustomForm.Builder> implements CustomForm.Builder {
+  public static class Builder
+      extends FormBuilderGlue<
+          CustomForm.Builder,
+          CustomForm,
+          org.geysermc.cumulus.form.CustomForm,
+          org.geysermc.cumulus.form.CustomForm.Builder>
+      implements CustomForm.Builder {
 
     public Builder() {
       super(org.geysermc.cumulus.form.CustomForm.builder());
@@ -118,10 +119,7 @@ public class CustomFormGlue extends FormGlue<org.geysermc.cumulus.form.CustomFor
     }
 
     public Builder optionalDropdown(
-        boolean shouldAdd,
-        String text,
-        int defaultOption,
-        String... options) {
+        boolean shouldAdd, String text, int defaultOption, String... options) {
       builder.optionalDropdown(shouldAdd, text, defaultOption, options);
       return this;
     }
@@ -147,10 +145,7 @@ public class CustomFormGlue extends FormGlue<org.geysermc.cumulus.form.CustomFor
     }
 
     public Builder optionalInput(
-        String text,
-        String placeholder,
-        String defaultText,
-        boolean shouldAdd) {
+        String text, String placeholder, String defaultText, boolean shouldAdd) {
       builder.optionalInput(text, placeholder, defaultText, shouldAdd);
       return this;
     }
@@ -196,32 +191,18 @@ public class CustomFormGlue extends FormGlue<org.geysermc.cumulus.form.CustomFor
     }
 
     public Builder optionalSlider(
-        String text,
-        float min,
-        float max,
-        int step,
-        float defaultValue,
-        boolean shouldAdd) {
+        String text, float min, float max, int step, float defaultValue, boolean shouldAdd) {
       builder.optionalSlider(text, min, max, step, defaultValue, shouldAdd);
       return this;
     }
 
-    public Builder optionalSlider(
-        String text,
-        float min,
-        float max,
-        int step,
-        boolean shouldAdd) {
+    public Builder optionalSlider(String text, float min, float max, int step, boolean shouldAdd) {
       builder.optionalSlider(text, min, max, shouldAdd);
       return this;
     }
 
     public Builder optionalSlider(
-        String text,
-        float min,
-        float max,
-        float defaultValue,
-        boolean shouldAdd) {
+        String text, float min, float max, float defaultValue, boolean shouldAdd) {
       builder.optionalSlider(text, min, max, defaultValue, shouldAdd);
       return this;
     }
@@ -247,10 +228,7 @@ public class CustomFormGlue extends FormGlue<org.geysermc.cumulus.form.CustomFor
     }
 
     public Builder optionalStepSlider(
-        boolean shouldAdd,
-        String text,
-        int defaultStep,
-        String... steps) {
+        boolean shouldAdd, String text, int defaultStep, String... steps) {
       builder.optionalStepSlider(shouldAdd, text, defaultStep, steps);
       return this;
     }
@@ -283,14 +261,15 @@ public class CustomFormGlue extends FormGlue<org.geysermc.cumulus.form.CustomFor
     @Override
     public CustomForm build() {
       CustomFormGlue oldForm = new CustomFormGlue();
-      oldForm.responseHandler = (response) -> {
-        if (biResponseHandler != null) {
-          biResponseHandler.accept(oldForm, response);
-        }
-        if (responseHandler != null) {
-          responseHandler.accept(response);
-        }
-      };
+      oldForm.responseHandler =
+          (response) -> {
+            if (biResponseHandler != null) {
+              biResponseHandler.accept(oldForm, response);
+            }
+            if (responseHandler != null) {
+              responseHandler.accept(response);
+            }
+          };
 
       CustomFormImpl newForm = (CustomFormImpl) builder.build();
       newForm.rawResponseConsumer(oldForm.responseHandler);

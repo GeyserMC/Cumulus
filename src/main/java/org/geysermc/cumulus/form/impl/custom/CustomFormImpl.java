@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,21 +8,20 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  * @author GeyserMC
  * @link https://github.com/GeyserMC/Cumulus
  */
-
 package org.geysermc.cumulus.form.impl.custom;
 
 import com.google.common.base.Preconditions;
@@ -47,16 +46,13 @@ import org.geysermc.cumulus.form.impl.FormImpl;
 import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.util.FormImage;
 
-public final class CustomFormImpl extends FormImpl<CustomFormResponse>
-    implements CustomForm {
+public final class CustomFormImpl extends FormImpl<CustomFormResponse> implements CustomForm {
 
   private final FormImage icon;
   private final List<Component> content;
 
   public CustomFormImpl(
-      @NonNull String title,
-      @Nullable FormImage icon,
-      @NonNull List<Component> content) {
+      @NonNull String title, @Nullable FormImage icon, @NonNull List<Component> content) {
     super(title);
     this.icon = icon;
     this.content = Collections.unmodifiableList(content);
@@ -123,9 +119,7 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
 
     @Override
     public Builder dropdown(
-        @NonNull String text,
-        @NonNull List<String> options,
-        @NonNegative int defaultOption) {
+        @NonNull String text, @NonNull List<String> options, @NonNegative int defaultOption) {
       Objects.requireNonNull(text, "text");
       Preconditions.checkArgument(defaultOption >= 0, "defaultOption");
 
@@ -137,10 +131,7 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
     }
 
     @Override
-    public Builder dropdown(
-        @NonNull String text,
-        int defaultOption,
-        @NonNull String... options) {
+    public Builder dropdown(@NonNull String text, int defaultOption, @NonNull String... options) {
       return dropdown(text, Arrays.asList(options), defaultOption);
     }
 
@@ -177,9 +168,7 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
 
     @Override
     public Builder optionalDropdown(
-        @NonNull String text,
-        @NonNull List<String> options,
-        boolean shouldAdd) {
+        @NonNull String text, @NonNull List<String> options, boolean shouldAdd) {
       if (shouldAdd) {
         return dropdown(text, options);
       }
@@ -188,20 +177,15 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
 
     @Override
     public Builder optionalDropdown(
-        boolean shouldAdd,
-        @NonNull String text,
-        @NonNull String... options) {
+        boolean shouldAdd, @NonNull String text, @NonNull String... options) {
       return optionalDropdown(text, Arrays.asList(options), shouldAdd);
     }
 
     @Override
     public Builder input(
-        @NonNull String text,
-        @NonNull String placeholder,
-        @NonNull String defaultText) {
-      return component(InputComponent.of(
-          translate(text), translate(placeholder), translate(defaultText)
-      ));
+        @NonNull String text, @NonNull String placeholder, @NonNull String defaultText) {
+      return component(
+          InputComponent.of(translate(text), translate(placeholder), translate(defaultText)));
     }
 
     @Override
@@ -228,9 +212,7 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
 
     @Override
     public Builder optionalInput(
-        @NonNull String text,
-        @NonNull String placeholder,
-        boolean shouldAdd) {
+        @NonNull String text, @NonNull String placeholder, boolean shouldAdd) {
       if (shouldAdd) {
         return input(text, placeholder);
       }
@@ -260,20 +242,12 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
 
     @Override
     public Builder slider(
-        @NonNull String text,
-        float min,
-        float max,
-        @Positive float step,
-        float defaultValue) {
+        @NonNull String text, float min, float max, @Positive float step, float defaultValue) {
       return component(SliderComponent.of(text, min, max, step, defaultValue));
     }
 
     @Override
-    public Builder slider(
-        @NonNull String text,
-        float min,
-        float max,
-        @Positive float step) {
+    public Builder slider(@NonNull String text, float min, float max, @Positive float step) {
       return component(SliderComponent.of(text, min, max, step));
     }
 
@@ -298,11 +272,7 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
 
     @Override
     public Builder optionalSlider(
-        @NonNull String text,
-        float min,
-        float max,
-        @Positive float step,
-        boolean shouldAdd) {
+        @NonNull String text, float min, float max, @Positive float step, boolean shouldAdd) {
       if (shouldAdd) {
         return slider(text, min, max, step);
       }
@@ -310,11 +280,7 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
     }
 
     @Override
-    public Builder optionalSlider(
-        @NonNull String text,
-        float min,
-        float max,
-        boolean shouldAdd) {
+    public Builder optionalSlider(@NonNull String text, float min, float max, boolean shouldAdd) {
       if (shouldAdd) {
         return slider(text, min, max);
       }
@@ -329,9 +295,7 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
 
     @Override
     public Builder stepSlider(
-        @NonNull String text,
-        @NonNull List<String> steps,
-        @NonNegative int defaultStep) {
+        @NonNull String text, @NonNull List<String> steps, @NonNegative int defaultStep) {
       Objects.requireNonNull(text, "text");
       Preconditions.checkArgument(defaultStep >= 0, "defaultStep");
 
@@ -380,9 +344,7 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
 
     @Override
     public Builder optionalStepSlider(
-        @NonNull String text,
-        @NonNull List<String> steps,
-        boolean shouldAdd) {
+        @NonNull String text, @NonNull List<String> steps, boolean shouldAdd) {
       if (shouldAdd) {
         return stepSlider(text, steps);
       }
@@ -391,9 +353,7 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
 
     @Override
     public Builder optionalStepSlider(
-        boolean shouldAdd,
-        @NonNull String text,
-        @NonNull String... steps) {
+        boolean shouldAdd, @NonNull String text, @NonNull String... steps) {
       return optionalStepSlider(text, Arrays.asList(steps), shouldAdd);
     }
 

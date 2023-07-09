@@ -4,26 +4,26 @@ on: [pull_request]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v1
-      - uses: actions/cache@v1
+
+      - uses: actions/setup-java@v3
         with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-      - name: Set up JDK 1.8
-        uses: actions/setup-java@v1
+          java-version: 8
+          distribution: temurin
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Build
+        uses: gradle/gradle-build-action@v2
         with:
-          java-version: 1.8
-      - name: Build with Maven
-        run: mvn -B package
+          arguments: build
+
       - name: Archive Cumulus artifact
         uses: actions/upload-artifact@v1
         if: success()
         with:
           name: Cumulus
-          path: target/cumulus.jar
+          path: build/libs/cumulus.jar

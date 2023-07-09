@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,21 +8,20 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  * @author GeyserMC
  * @link https://github.com/GeyserMC/Cumulus
  */
-
 package org.geysermc.cumulus.form.util;
 
 import java.util.function.BiConsumer;
@@ -46,7 +45,8 @@ import org.geysermc.cumulus.response.result.ValidFormResponseResult;
  * @param <R> the Form response type of the given form
  * @since 1.1
  */
-public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R extends FormResponse> {
+public interface FormBuilder<
+    B extends FormBuilder<B, F, R>, F extends Form, R extends FormResponse> {
   /**
    * Set the title of the form.
    *
@@ -58,27 +58,30 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
   /**
    * Set the translator of the form. The translator is called every time a component is added, and
    * it can be called more than once for one component (it depends on the amount of string fields a
-   * component has).<br><br> Note that the translation is executed when building the form. This info
-   * will not be present in the final form instance.
+   * component has).<br>
+   * <br>
+   * Note that the translation is executed when building the form. This info will not be present in
+   * the final form instance.
    *
    * @param translator the translator that will translate every string. First argument is the text
-   *                   to translate, the second argument is the player's locale
-   * @param locale     the locale to translate the messages to
+   *     to translate, the second argument is the player's locale
+   * @param locale the locale to translate the messages to
    */
-  @This B translator(
-      @NonNull BiFunction<String, String, String> translator,
-      @NonNull String locale);
+  @This B translator(@NonNull BiFunction<String, String, String> translator, @NonNull String locale);
 
   /**
    * Set the translator of the form. The translator is called every time a component is added, and
    * it can be called more than once for one component (it depends on the amount of string fields a
-   * component has).<br><br> Note that the translation is executed when building the form. This info
-   * will not be present in the final form instance.<br><br> This specific method assumes that
-   * {@link #translator(BiFunction, String)} has been executed before, because this method will
-   * reuse the same locale.
+   * component has).<br>
+   * <br>
+   * Note that the translation is executed when building the form. This info will not be present in
+   * the final form instance.<br>
+   * <br>
+   * This specific method assumes that {@link #translator(BiFunction, String)} has been executed
+   * before, because this method will reuse the same locale.
    *
    * @param translator the translator that will translate every string. First argument is the text
-   *                   to translate, the second argument is the player's locale
+   *     to translate, the second argument is the player's locale
    */
   @This B translator(@NonNull BiFunction<String, String, String> translator);
 
@@ -138,7 +141,6 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
    */
   @This B closedOrInvalidResultHandler(@NonNull Runnable resultHandler);
 
-
   /**
    * Registers a result handler for both the 'closed' and the 'invalid' result type. Calling this
    * specific method more than once will override the previously defined closedOrInvalid result
@@ -181,9 +183,8 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
 
   /**
    * Registers a result handler for every result type. Note that there can only be <b>one</b>
-   * 'resultHandler'. Calling this specific method or
-   * {@link #resultHandler(BiConsumer, ResultType...)} multiple times will override the previously
-   * defined result handler.
+   * 'resultHandler'. Calling this specific method or {@link #resultHandler(BiConsumer,
+   * ResultType...)} multiple times will override the previously defined result handler.
    *
    * @param resultHandler the result handler to define
    * @see FormResponseResult
@@ -201,11 +202,8 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
    */
   @This B resultHandler(
       @NonNull BiConsumer<F, FormResponseResult<R>> resultHandler,
-      @NonNull ResultType... selectedTypes
-  );
+      @NonNull ResultType... selectedTypes);
 
-  /**
-   * Build the form and returns the created form.
-   */
+  /** Build the form and returns the created form. */
   @NonNull F build();
 }

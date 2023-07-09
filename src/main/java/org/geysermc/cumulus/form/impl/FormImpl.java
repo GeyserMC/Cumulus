@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,21 +8,20 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  * @author GeyserMC
  * @link https://github.com/GeyserMC/Cumulus
  */
-
 package org.geysermc.cumulus.form.impl;
 
 import java.util.Arrays;
@@ -78,7 +77,8 @@ public abstract class FormImpl<R extends FormResponse> implements Form {
     return title;
   }
 
-  public abstract static class Builder<B extends FormBuilder<B, F, R>, F extends Form, R extends FormResponse>
+  public abstract static class Builder<
+          B extends FormBuilder<B, F, R>, F extends Form, R extends FormResponse>
       implements FormBuilder<B, F, R> {
 
     protected String title = "";
@@ -110,8 +110,7 @@ public abstract class FormImpl<R extends FormResponse> implements Form {
 
     @Override
     public B translator(
-        @NonNull BiFunction<String, String, String> translator,
-        @NonNull String locale) {
+        @NonNull BiFunction<String, String, String> translator, @NonNull String locale) {
       this.translationHandler = Objects.requireNonNull(translator, "translator");
       this.locale = Objects.requireNonNull(locale, "locale");
       return title(title);
@@ -149,8 +148,7 @@ public abstract class FormImpl<R extends FormResponse> implements Form {
     @Override
     public B invalidResultHandler(
         @NonNull BiConsumer<F, InvalidFormResponseResult<R>> resultHandler) {
-      this.invalidResultHandlerBiConsumer =
-          Objects.requireNonNull(resultHandler, "resultHandler");
+      this.invalidResultHandlerBiConsumer = Objects.requireNonNull(resultHandler, "resultHandler");
       return self();
     }
 
@@ -208,73 +206,74 @@ public abstract class FormImpl<R extends FormResponse> implements Form {
       EnumSet<ResultType> selected = EnumSet.noneOf(ResultType.class);
       selected.addAll(Arrays.asList(selectedTypes));
 
-      this.selectedResultHandler = (form, response) -> {
-        if (selected.contains(response.responseType()))  {
-          resultHandler.accept(form, response);
-        }
-      };
+      this.selectedResultHandler =
+          (form, response) -> {
+            if (selected.contains(response.responseType())) {
+              resultHandler.accept(form, response);
+            }
+          };
       return self();
     }
-
 
     @Override
     public abstract @NonNull F build();
 
     protected void setResponseHandler(FormImpl<R> impl, F form) {
-      impl.resultHandler(result -> {
-        if (selectedResultHandler != null) {
-          selectedResultHandler.accept(form, result);
-        }
+      impl.resultHandler(
+          result -> {
+            if (selectedResultHandler != null) {
+              selectedResultHandler.accept(form, result);
+            }
 
-        if (result.isClosed()) {
-          if (closedResultHandlerRunnable != null) {
-            closedResultHandlerRunnable.run();
-          }
-          if (closedResultHandlerConsumer != null) {
-            closedResultHandlerConsumer.accept(form);
-          }
-          if (closedOrInvalidResultHandlerRunnable != null) {
-            closedOrInvalidResultHandlerRunnable.run();
-          }
-          if (closedOrInvalidResultHandlerConsumer != null) {
-            closedOrInvalidResultHandlerConsumer.accept(result);
-          }
-          if (closedOrInvalidResultHandlerBiConsumer != null) {
-            closedOrInvalidResultHandlerBiConsumer.accept(form, result);
-          }
-        }
+            if (result.isClosed()) {
+              if (closedResultHandlerRunnable != null) {
+                closedResultHandlerRunnable.run();
+              }
+              if (closedResultHandlerConsumer != null) {
+                closedResultHandlerConsumer.accept(form);
+              }
+              if (closedOrInvalidResultHandlerRunnable != null) {
+                closedOrInvalidResultHandlerRunnable.run();
+              }
+              if (closedOrInvalidResultHandlerConsumer != null) {
+                closedOrInvalidResultHandlerConsumer.accept(result);
+              }
+              if (closedOrInvalidResultHandlerBiConsumer != null) {
+                closedOrInvalidResultHandlerBiConsumer.accept(form, result);
+              }
+            }
 
-        if (result.isInvalid()) {
-          if (invalidResultHandlerRunnable != null) {
-            invalidResultHandlerRunnable.run();
-          }
-          if (invalidResultHandlerConsumer != null) {
-            invalidResultHandlerConsumer.accept((InvalidFormResponseResult<R>) result);
-          }
-          if (invalidResultHandlerBiConsumer != null) {
-            invalidResultHandlerBiConsumer.accept(form, (InvalidFormResponseResult<R>) result);
-          }
-          if (closedResultHandlerRunnable != null) {
-            closedResultHandlerRunnable.run();
-          }
-          if (closedOrInvalidResultHandlerConsumer != null) {
-            closedOrInvalidResultHandlerConsumer.accept(result);
-          }
-          if (closedOrInvalidResultHandlerBiConsumer != null) {
-            closedOrInvalidResultHandlerBiConsumer.accept(form, result);
-          }
-        }
+            if (result.isInvalid()) {
+              if (invalidResultHandlerRunnable != null) {
+                invalidResultHandlerRunnable.run();
+              }
+              if (invalidResultHandlerConsumer != null) {
+                invalidResultHandlerConsumer.accept((InvalidFormResponseResult<R>) result);
+              }
+              if (invalidResultHandlerBiConsumer != null) {
+                invalidResultHandlerBiConsumer.accept(form, (InvalidFormResponseResult<R>) result);
+              }
+              if (closedResultHandlerRunnable != null) {
+                closedResultHandlerRunnable.run();
+              }
+              if (closedOrInvalidResultHandlerConsumer != null) {
+                closedOrInvalidResultHandlerConsumer.accept(result);
+              }
+              if (closedOrInvalidResultHandlerBiConsumer != null) {
+                closedOrInvalidResultHandlerBiConsumer.accept(form, result);
+              }
+            }
 
-        if (result.isValid()) {
-          R response = ((ValidFormResponseResult<R>) result).response();
-          if (validResultHandlerConsumer != null) {
-            validResultHandlerConsumer.accept(response);
-          }
-          if (validResultHandlerBiConsumer != null) {
-            validResultHandlerBiConsumer.accept(form, response);
-          }
-        }
-      });
+            if (result.isValid()) {
+              R response = ((ValidFormResponseResult<R>) result).response();
+              if (validResultHandlerConsumer != null) {
+                validResultHandlerConsumer.accept(response);
+              }
+              if (validResultHandlerBiConsumer != null) {
+                validResultHandlerBiConsumer.accept(form, response);
+              }
+            }
+          });
     }
 
     protected @NonNull String translate(@NonNull String text) {

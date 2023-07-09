@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,21 +8,20 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  * @author GeyserMC
  * @link https://github.com/GeyserMC/Cumulus
  */
-
 package org.geysermc.cumulus.form.impl.custom;
 
 import com.google.gson.GsonBuilder;
@@ -65,7 +64,8 @@ public final class CustomFormCodec extends FormCodecImpl<CustomForm, CustomFormR
 
     JsonArray contentArray = JsonUtils.assumeMember(source, "content").getAsJsonArray();
     for (JsonElement contentElement : contentArray) {
-      String typeName = JsonUtils.assumeMember(contentElement.getAsJsonObject(), "type").getAsString();
+      String typeName =
+          JsonUtils.assumeMember(contentElement.getAsJsonObject(), "type").getAsString();
 
       ComponentType type = ComponentType.fromName(typeName);
       if (type == null) {
@@ -78,7 +78,8 @@ public final class CustomFormCodec extends FormCodecImpl<CustomForm, CustomFormR
   }
 
   @Override
-  protected void serializeForm(CustomForm form, JsonSerializationContext context, JsonObject result) {
+  protected void serializeForm(
+      CustomForm form, JsonSerializationContext context, JsonObject result) {
     result.addProperty("title", form.title());
     result.add("icon", context.serialize(form.icon()));
 
@@ -130,9 +131,7 @@ public final class CustomFormCodec extends FormCodecImpl<CustomForm, CustomFormR
       return FormResponseResult.invalid(-1, "Response contains too many elements");
     }
 
-    return FormResponseResult.valid(
-        CustomFormResponseImpl.of(mappedResponse, responses, types)
-    );
+    return FormResponseResult.valid(CustomFormResponseImpl.of(mappedResponse, responses, types));
   }
 
   private Object validateComponent(Component component, JsonElement element) {
@@ -146,14 +145,13 @@ public final class CustomFormCodec extends FormCodecImpl<CustomForm, CustomFormR
 
     if (!element.isJsonPrimitive()) {
       // throw our own exception
-      throw new IllegalStateException(String.format(
-          "Return value of %s should be a json primitive", type.componentName()
-      ));
+      throw new IllegalStateException(
+          String.format("Return value of %s should be a json primitive", type.componentName()));
     }
 
     JsonPrimitive value = element.getAsJsonPrimitive();
 
-    //todo (for a future version) make a separate validator class for each component
+    // todo (for a future version) make a separate validator class for each component
     switch (type) {
       case INPUT:
         if (value.isString()) {

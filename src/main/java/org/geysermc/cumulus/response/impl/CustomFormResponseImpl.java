@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,21 +8,20 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  * @author GeyserMC
  * @link https://github.com/GeyserMC/Cumulus
  */
-
 package org.geysermc.cumulus.response.impl;
 
 import com.google.common.base.Preconditions;
@@ -47,6 +46,7 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
    * and not added.
    */
   private final List<@Nullable Object> responses;
+
   private final JsonArray rawResponse;
   private final List<ComponentType> componentTypes;
 
@@ -54,9 +54,7 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
   private boolean includeLabels = false;
 
   private CustomFormResponseImpl(
-      List<Object> responses,
-      JsonArray rawResponse,
-      List<ComponentType> componentTypes) {
+      List<Object> responses, JsonArray rawResponse, List<ComponentType> componentTypes) {
     this.responses = Collections.unmodifiableList(responses);
     this.rawResponse = rawResponse;
     this.componentTypes = Collections.unmodifiableList(componentTypes);
@@ -64,15 +62,14 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
 
   @Deprecated
   public CustomFormResponseImpl(ResultType resultType) {
-    //todo remove in 2.0
+    // todo remove in 2.0
     super(resultType);
     this.responses = null;
     this.rawResponse = null;
     this.componentTypes = null;
   }
 
-  @NonNull
-  public static CustomFormResponse of(
+  public static @NonNull CustomFormResponse of(
       @NonNull List<Object> responses,
       @NonNull JsonArray rawResponse,
       @NonNull List<ComponentType> componentTypes) {
@@ -97,7 +94,7 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
    * separately from label components.
    *
    * @return null for label components or if there is no next component, and {@link AbsentComponent}
-   * for optional components that were not added
+   *     for optional components that were not added
    */
   @SuppressWarnings("unchecked")
   private <T> @Nullable T nextOrAbsent(boolean includeLabels) {
@@ -171,7 +168,8 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
    * This should be used internally so that {@link AbsentComponent} can be taken into consideration
    * separately from label components.
    *
-   * @return null for label components and {@link AbsentComponent} for optional components that were not added
+   * @return null for label components and {@link AbsentComponent} for optional components that were
+   *     not added
    */
   private <T> T nextOrAbsent() {
     return nextOrAbsent(includeLabels);
@@ -253,7 +251,8 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
   }
 
   /**
-   * @return null for label components and {@link AbsentComponent} for optional components that were not added
+   * @return null for label components and {@link AbsentComponent} for optional components that were
+   *     not added
    */
   @SuppressWarnings("unchecked")
   private <T> @Nullable T valueOrAbsent(int index)
@@ -366,9 +365,7 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
       unexpected = response.toString();
     }
 
-    return new IllegalStateException(String.format(
-        "Expected %s on %s, got %s",
-        expected, index, unexpected
-    ));
+    return new IllegalStateException(
+        String.format("Expected %s on %s, got %s", expected, index, unexpected));
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,21 +8,20 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  * @author GeyserMC
  * @link https://github.com/GeyserMC/Cumulus
  */
-
 package org.geysermc.cumulus;
 
 import com.google.gson.JsonElement;
@@ -51,13 +50,11 @@ public final class Forms {
    *
    * @param json the json data that is readable by the client
    * @param type the form data type
-   * @param <T>  the result will be cast to T
+   * @param <T> the result will be cast to T
    * @return the form instance holding the translated data
    */
   public static <T extends Form> @NonNull T fromJson(
-      String json,
-      FormType type,
-      BiConsumer<T, @Nullable String> responseHandler) {
+      String json, FormType type, BiConsumer<T, @Nullable String> responseHandler) {
     return FormDefinitions.instance()
         .<FormCodec<T, FormResponse>>codecFor(type)
         .fromJson(json, responseHandler);
@@ -68,8 +65,8 @@ public final class Forms {
    *
    * @param type the form type
    * @return the class implementing the form
-   * @deprecated since 1.1 and will be removed in 2.0. Replaced with
-   * {@link FormDefinitions#formImplClass(FormType)}
+   * @deprecated since 1.1 and will be removed in 2.0. Replaced with {@link
+   *     FormDefinitions#formImplClass(FormType)}
    */
   @Deprecated
   public static @NonNull Class<? extends Form> getFormTypeImpl(FormType type) {
@@ -84,7 +81,7 @@ public final class Forms {
    */
   public static @NonNull Class<? extends Component> getComponentTypeImpl(
       @NonNull ComponentType type) {
-    //todo do we want a component definition as well?
+    // todo do we want a component definition as well?
     switch (type) {
       case DROPDOWN:
         return DropdownComponentImpl.class;
@@ -104,13 +101,12 @@ public final class Forms {
   }
 
   /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
-   * {@link JsonUtils#assumeMember(JsonObject, String)}.
+   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
+   *     JsonUtils#assumeMember(JsonObject, String)}.
    */
   @Deprecated
   public static @NonNull JsonElement getOrThrow(
-      @NonNull JsonObject object,
-      @NonNull String memberName) {
+      @NonNull JsonObject object, @NonNull String memberName) {
     return JsonUtils.assumeMember(object, memberName);
   }
 }

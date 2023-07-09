@@ -1,0 +1,15 @@
+[versions]
+gson = "2.3.1" # Provided by Spigot 1.8.8
+guava = "31.0.1-jre"
+checker-qual = "3.21.1"
+indra = "3.1.2"
+
+[libraries]
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
+checker-qual = { module = "org.checkerframework:checker-qual", version.ref = "checker-qual" }
+
+[plugins]
+indra = { id = "net.kyori.indra", version.ref = "indra" }
+indra-publishing = { id = "net.kyori.indra.publishing", version.ref = "indra" }
+indra-licenser-spotless = { id = "net.kyori.indra.licenser.spotless", version.ref = "indra" }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,21 +8,20 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  * @author GeyserMC
  * @link https://github.com/GeyserMC/Cumulus
  */
-
 package org.geysermc.cumulus.response;
 
 import com.google.gson.JsonArray;
@@ -45,14 +44,12 @@ import org.geysermc.cumulus.form.CustomForm;
  * @see #includeLabels(boolean)
  */
 public interface CustomFormResponse extends FormResponse {
-  /**
-   * Resets the index of the iterator.
-   */
+  /** Resets the index of the iterator. */
   void reset();
 
   /**
    * Sets the index of the iterator. Use {@link #skip()} or {@link #skip(int)} when you want to
-   * increase the index (skip specific items) instead of setting the index. Use {@link @reset()} to
+   * increase the index (skip specific items) instead of setting the index. Use {@link #reset()} to
    * reset the index.
    *
    * @param index the position to set
@@ -82,8 +79,7 @@ public interface CustomFormResponse extends FormResponse {
   /**
    * Returns true if the currently selected component is present. It returns false when either the
    * current component is out of bounds or when the current component is an optional component that
-   * is not present. Most of the time {@link #isNextPresent()} would be used instead of this
-   * method.
+   * is not present. Most of the time {@link #isNextPresent()} would be used instead of this method.
    *
    * @see #isNextPresent()
    * @since 1.1
@@ -107,7 +103,7 @@ public interface CustomFormResponse extends FormResponse {
    *
    * @param <T> the type to cast the component to
    * @throws ClassCastException when the value of the component cannot be cast to the provided
-   *                            return type
+   *     return type
    * @see #includeLabels(boolean)
    */
   <T> @Nullable T next() throws ClassCastException;
@@ -134,10 +130,10 @@ public interface CustomFormResponse extends FormResponse {
    * present, or the component is a {@link LabelComponent}, the value will be null.
    *
    * @param index the index of the value you want to access
-   * @param <T>   the type to cast the component to
+   * @param <T> the type to cast the component to
    * @throws IllegalArgumentException when there is no component at the given index
-   * @throws ClassCastException       when the value of the component cannot be cast to the provided
-   *                                  return type
+   * @throws ClassCastException when the value of the component cannot be cast to the provided
+   *     return type
    * @since 1.1
    */
   <T> @Nullable T valueAt(int index) throws IllegalArgumentException, ClassCastException;
@@ -219,8 +215,7 @@ public interface CustomFormResponse extends FormResponse {
    * @see #valueAt(int)
    * @since 1.1
    */
-  @Nullable String asInput(@NonNegative int index)
-      throws IllegalArgumentException, IllegalStateException;
+  @Nullable String asInput(@NonNegative int index) throws IllegalArgumentException, IllegalStateException;
 
   /**
    * Returns the value of the selected component as a slider component.
@@ -262,7 +257,7 @@ public interface CustomFormResponse extends FormResponse {
    * @see CustomForm#content()
    * @see Component#type()
    * @deprecated since 1.1 and will be removed in 2.0. The component types aren't relevant since
-   * they're already defined in the form itself.
+   *     they're already defined in the form itself.
    */
   @Deprecated
   @NonNull List<ComponentType> getComponentTypes();
@@ -270,51 +265,51 @@ public interface CustomFormResponse extends FormResponse {
   /**
    * @see #includeLabels(boolean)
    * @see #next()
-   * @deprecated since 1.1 and will be removed in 2.0. The alternative is calling both
-   * {@link #includeLabels(boolean)} and {@link #next()}
+   * @deprecated since 1.1 and will be removed in 2.0. The alternative is calling both {@link
+   *     #includeLabels(boolean)} and {@link #next()}
    */
   @Deprecated
   <T> @Nullable T next(boolean includeLabels) throws ClassCastException;
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. Response validation now happens before an
-   * instance of this class is made, so raw json types are no longer relevant. The closest
-   * replacement is {@link #valueAt(int)}.
+   *     instance of this class is made, so raw json types are no longer relevant. The closest
+   *     replacement is {@link #valueAt(int)}.
    */
   @Deprecated
   @Nullable JsonPrimitive get(@NonNegative int index);
 
   /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
-   * {@link #asDropdown(int)}.
+   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
+   *     #asDropdown(int)}.
    */
   @Deprecated
   int getDropdown(@NonNegative int index);
 
   /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
-   * {@link #asInput(int)}.
+   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
+   *     #asInput(int)}.
    */
   @Deprecated
   @Nullable String getInput(@NonNegative int index);
 
   /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
-   * {@link #asSlider(int)}.
+   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
+   *     #asSlider(int)}.
    */
   @Deprecated
   float getSlider(@NonNegative int index);
 
   /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
-   * {@link #asStepSlider(int)}.
+   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
+   *     #asStepSlider(int)}.
    */
   @Deprecated
   int getStepSlide(@NonNegative int index);
 
   /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
-   * {@link #asToggle(int)}.
+   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
+   *     #asToggle(int)}.
    */
   @Deprecated
   boolean getToggle(@NonNegative int index);

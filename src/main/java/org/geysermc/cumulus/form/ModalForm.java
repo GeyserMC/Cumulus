@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,21 +8,20 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  * @author GeyserMC
  * @link https://github.com/GeyserMC/Cumulus
  */
-
 package org.geysermc.cumulus.form;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -39,9 +38,7 @@ import org.geysermc.cumulus.response.ModalFormResponse;
  * @since 1.1
  */
 public interface ModalForm extends Form {
-  /**
-   * Returns a new ModalForm builder. A more friendly way of creating a form.
-   */
+  /** Returns a new ModalForm builder. A more friendly way of creating a form. */
   static @NonNull Builder builder() {
     return new ModalFormImpl.Builder();
   }
@@ -49,7 +46,7 @@ public interface ModalForm extends Form {
   /**
    * Create a SimpleForm with predefined information.
    *
-   * @param title   the title of the form
+   * @param title the title of the form
    * @param content the description of the form
    * @param button1 the first button of the form
    * @param button2 the second button of the form

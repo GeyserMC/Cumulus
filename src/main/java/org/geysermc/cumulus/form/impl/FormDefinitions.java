@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,21 +8,20 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  * @author GeyserMC
  * @link https://github.com/GeyserMC/Cumulus
  */
-
 package org.geysermc.cumulus.form.impl;
 
 import com.google.common.base.Preconditions;
@@ -35,17 +34,15 @@ import org.geysermc.cumulus.form.impl.simple.SimpleFormDefinition;
 import org.geysermc.cumulus.form.util.FormCodec;
 import org.geysermc.cumulus.form.util.FormType;
 
-/**
- * This class is not part of the API, so breaking changes can happen.
- */
+/** This class is not part of the API, so breaking changes can happen. */
 public final class FormDefinitions {
   private static final FormDefinitions definitions = new FormDefinitions();
 
   private final Map<FormType, FormDefinition<?, ?, ?>> typeDefinitionMap = new HashMap<>();
-  private final Map<Class<? extends FormImpl<?>>, FormDefinition<?, ?, ?>> implClassTypeDefinitionMap = new HashMap<>();
+  private final Map<Class<? extends FormImpl<?>>, FormDefinition<?, ?, ?>>
+      implClassTypeDefinitionMap = new HashMap<>();
 
-  private FormDefinitions() {
-  }
+  private FormDefinitions() {}
 
   public Class<? extends FormImpl<?>> formImplClass(FormType formType) {
     return findDefinition(formType).formImplClass();

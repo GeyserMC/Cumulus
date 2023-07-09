@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,21 +8,20 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  * @author GeyserMC
  * @link https://github.com/GeyserMC/Cumulus
  */
-
 package org.geysermc.cumulus.form;
 
 import java.util.List;
@@ -43,9 +42,7 @@ import org.geysermc.cumulus.util.FormImage;
  * @since 1.1
  */
 public interface SimpleForm extends Form {
-  /**
-   * Returns a new SimpleForm builder. A more friendly way of creating a Form.
-   */
+  /** Returns a new SimpleForm builder. A more friendly way of creating a Form. */
   static @NonNull Builder builder() {
     return new SimpleFormImpl.Builder();
   }
@@ -53,26 +50,22 @@ public interface SimpleForm extends Form {
   /**
    * Create a SimpleForm with predefined information.
    *
-   * @param title   the title of the form
+   * @param title the title of the form
    * @param content the description of the form (under title, above the buttons)
    * @param buttons the list of buttons to place in the form
    * @return the created SimpleForm instance
    */
   static @NonNull SimpleForm of(
-      @NonNull String title,
-      @NonNull String content,
-      @NonNull List<ButtonComponent> buttons) {
+      @NonNull String title, @NonNull String content, @NonNull List<ButtonComponent> buttons) {
     return new SimpleFormImpl(title, content, buttons);
   }
 
-  /**
-   * Returns the description of the Form.
-   */
+  /** Returns the description of the Form. */
   @NonNull String content();
 
   /**
-   * Returns all the components of the form. This includes optional components, which
-   * will be null when they are not present.
+   * Returns all the components of the form. This includes optional components, which will be null
+   * when they are not present.
    */
   @NonNull List<@Nullable ButtonComponent> buttons();
 
@@ -110,7 +103,7 @@ public interface SimpleForm extends Form {
     /**
      * Adds a button with image to the Form.
      *
-     * @param text  the text of the button
+     * @param text the text of the button
      * @param image the image
      * @return the form builder
      */
@@ -127,9 +120,9 @@ public interface SimpleForm extends Form {
     /**
      * Adds a button with image to the Form, but only when shouldAdd is true.
      *
-     * @param text      text of the button
-     * @param type      type of image
-     * @param data      the data for the image type
+     * @param text text of the button
+     * @param type type of image
+     * @param data the data for the image type
      * @param shouldAdd if the button should be added
      * @return the form builder
      * @since 1.1
@@ -138,28 +131,23 @@ public interface SimpleForm extends Form {
         @NonNull String text,
         FormImage.@NonNull Type type,
         @NonNull String data,
-        boolean shouldAdd
-    );
+        boolean shouldAdd);
 
     /**
      * Adds a button with image to the Form, but only when shouldAdd is true.
      *
-     * @param text      the text of the button
-     * @param image     the image
+     * @param text the text of the button
+     * @param image the image
      * @param shouldAdd if the button should be added
      * @return the form builder
      * @since 1.1
      */
-    @This Builder optionalButton(
-        @NonNull String text,
-        @Nullable FormImage image,
-        boolean shouldAdd
-    );
+    @This Builder optionalButton(@NonNull String text, @Nullable FormImage image, boolean shouldAdd);
 
     /**
      * Adds a button to the Form, but only when shouldAdd is true.
      *
-     * @param text      the text of the button
+     * @param text the text of the button
      * @param shouldAdd if the button should be added
      * @return the form builder
      * @since 1.1

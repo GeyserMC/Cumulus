@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,21 +8,20 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  * @author GeyserMC
  * @link https://github.com/GeyserMC/Cumulus
  */
-
 package org.geysermc.cumulus.component;
 
 import org.checkerframework.checker.index.qual.Positive;
@@ -33,25 +32,18 @@ import org.geysermc.cumulus.component.impl.SliderComponentImpl;
  * Slider component is a component that can only be used in CustomForm. With this component you can
  * slide between the min (left) and max (right) using the provided step size. The Bedrock client
  * does not work well with a negative step value. Because of that, Cumulus does not allow the min
- * higher than the max and also doesn't allow a negative step value.<br> Cumulus will generate a
- * default value if none is provided. It will try to find a valid step in the middle of your range,
- * but if your step size is too low it will use the min value instead.
+ * higher than the max and also doesn't allow a negative step value.<br>
+ * Cumulus will generate a default value if none is provided. It will try to find a valid step in
+ * the middle of your range, but if your step size is too low it will use the min value instead.
  */
 public interface SliderComponent extends Component {
   static @NonNull SliderComponent of(
-      @NonNull String text,
-      float min,
-      float max,
-      @Positive float step,
-      float defaultValue) {
+      @NonNull String text, float min, float max, @Positive float step, float defaultValue) {
     return new SliderComponentImpl(text, min, max, step, defaultValue);
   }
 
   static @NonNull SliderComponent of(
-      @NonNull String text,
-      float min,
-      float max,
-      @Positive float step) {
+      @NonNull String text, float min, float max, @Positive float step) {
     return new SliderComponentImpl(text, min, max, step);
   }
 
@@ -87,32 +79,32 @@ public interface SliderComponent extends Component {
    */
   float defaultValue();
 
-  //todo control_locked ??
+  // todo control_locked ??
 
   /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
-   * {@link #minValue()}.
+   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
+   *     #minValue()}.
    */
   @Deprecated
   float getMin();
 
   /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
-   * {@link #maxValue()}.
+   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
+   *     #maxValue()}.
    */
   @Deprecated
   float getMax();
 
   /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
-   * {@link #step()}.
+   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
+   *     #step()}.
    */
   @Deprecated
   @Positive int getStep();
 
   /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
-   * {@link #defaultValue()}.
+   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
+   *     #defaultValue()}.
    */
   @Deprecated
   float getDefaultValue();

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,21 +8,20 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  * @author GeyserMC
  * @link https://github.com/GeyserMC/Cumulus
  */
-
 package org.geysermc.cumulus.form.impl.simple;
 
 import com.google.gson.GsonBuilder;
@@ -63,9 +62,7 @@ public final class SimpleFormCodec extends FormCodecImpl<SimpleForm, SimpleFormR
 
   @Override
   protected void serializeForm(
-      SimpleForm form,
-      JsonSerializationContext context,
-      JsonObject result) {
+      SimpleForm form, JsonSerializationContext context, JsonObject result) {
     result.addProperty("title", form.title());
     result.addProperty("content", form.content());
 
@@ -90,8 +87,7 @@ public final class SimpleFormCodec extends FormCodecImpl<SimpleForm, SimpleFormR
       buttonId = Integer.parseInt(data);
     } catch (Exception exception) {
       return FormResponseResult.invalid(
-          -1, "Received invalid integer representing the clicked button"
-      );
+          -1, "Received invalid integer representing the clicked button");
     }
 
     if (buttonId < 0) {
@@ -116,13 +112,10 @@ public final class SimpleFormCodec extends FormCodecImpl<SimpleForm, SimpleFormR
 
     if (button == null) {
       return FormResponseResult.invalid(
-          -1, "Receiver a button id larger than the amount of buttons in the form"
-      );
+          -1, "Receiver a button id larger than the amount of buttons in the form");
     }
 
-    return FormResponseResult.valid(
-        SimpleFormResponseImpl.of(correctButtonId, button)
-    );
+    return FormResponseResult.valid(SimpleFormResponseImpl.of(correctButtonId, button));
   }
 
   @Override

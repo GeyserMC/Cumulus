@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2022 GeyserMC. http://geysermc.org
+ * Copyright (c) 2020-2022 GeyserMC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -8,21 +8,20 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  *
  * @author GeyserMC
  * @link https://github.com/GeyserMC/Cumulus
  */
-
 package org.geysermc.cumulus.form.impl.simple;
 
 import java.util.ArrayList;
@@ -37,15 +36,12 @@ import org.geysermc.cumulus.form.impl.FormImpl;
 import org.geysermc.cumulus.response.SimpleFormResponse;
 import org.geysermc.cumulus.util.FormImage;
 
-public final class SimpleFormImpl extends FormImpl<SimpleFormResponse>
-    implements SimpleForm {
+public final class SimpleFormImpl extends FormImpl<SimpleFormResponse> implements SimpleForm {
   private final String content;
   private final List<ButtonComponent> buttons;
 
   public SimpleFormImpl(
-      @NonNull String title,
-      @NonNull String content,
-      @NonNull List<ButtonComponent> buttons) {
+      @NonNull String title, @NonNull String content, @NonNull List<ButtonComponent> buttons) {
     super(title);
     this.content = Objects.requireNonNull(content, "content");
     this.buttons = Collections.unmodifiableList(buttons);
@@ -82,9 +78,7 @@ public final class SimpleFormImpl extends FormImpl<SimpleFormResponse>
 
     @Override
     public Builder button(
-        @NonNull String text,
-        FormImage.@NonNull Type type,
-        @NonNull String data) {
+        @NonNull String text, FormImage.@NonNull Type type, @NonNull String data) {
       buttons.add(ButtonComponent.of(translate(text), type, data));
       return this;
     }
@@ -115,9 +109,7 @@ public final class SimpleFormImpl extends FormImpl<SimpleFormResponse>
 
     @Override
     public Builder optionalButton(
-        @NonNull String text,
-        @Nullable FormImage image,
-        boolean shouldAdd) {
+        @NonNull String text, @Nullable FormImage image, boolean shouldAdd) {
       if (shouldAdd) {
         return button(text, image);
       }
