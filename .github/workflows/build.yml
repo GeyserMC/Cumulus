@@ -27,13 +27,11 @@ jobs:
 
       - name: Publish to Maven Repository
         if: ${{ github.repository == 'GeyserMC/Cumulus' && github.ref_name == 'master' }}
-        uses: gradle/gradle-build-action@v2
         env:
           ORG_GRADLE_PROJECT_geysermcUsername: ${{ vars.DEPLOY_USER }}
           ORG_GRADLE_PROJECT_geysermcPassword: ${{ secrets.DEPLOY_PASS }}
-        with:
-          arguments: publish
-          cache-read-only: ${{ github.ref_name != 'master' && github.ref_name != 'development' }}
+        # gradle-build-action doesn't work in combination with fetch-depth: 0
+        run: ./gradlew publish
 
       - name: Notify Discord
         if: ${{ (success() || failure()) && github.repository == 'GeyserMC/Cumulus' }}

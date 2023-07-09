@@ -1,5 +1,4 @@
 plugins {
-    `java-library`
     alias(libs.plugins.indra)
     alias(libs.plugins.indra.publishing)
     alias(libs.plugins.indra.licenser.spotless)
