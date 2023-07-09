@@ -19,15 +19,21 @@ jobs:
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
 
-      - name: Build & publish to Maven Repository
+      - name: Build
         uses: gradle/gradle-build-action@v2
-        if: ${{ github.repository == 'GeyserMC/Cumulus' }}
+        with:
+          arguments: build
+          cache-read-only: ${{ github.ref_name != 'master' && github.ref_name != 'development' }}
+
+      - name: Publish to Maven Repository
+        if: ${{ github.repository == 'GeyserMC/Cumulus' && github.ref_name == 'master' }}
+        uses: gradle/gradle-build-action@v2
         env:
           ORG_GRADLE_PROJECT_geysermcUsername: ${{ vars.DEPLOY_USER }}
           ORG_GRADLE_PROJECT_geysermcPassword: ${{ secrets.DEPLOY_PASS }}
         with:
-          arguments: publish
-          cache-read-only: false
+          arguments: clean publish
+          cache-read-only: ${{ github.ref_name != 'master' && github.ref_name != 'development' }}
 
       - name: Notify Discord
         if: ${{ (success() || failure()) && github.repository == 'GeyserMC/Cumulus' }}
