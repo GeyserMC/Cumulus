@@ -34,5 +34,6 @@ indra {
             googleJavaFormat()
             formatAnnotations()
         }
+        ratchetFrom("origin/master")
     }
 }

@@ -26,4 +26,4 @@ jobs:
         if: success()
         with:
           name: Cumulus
-          path: build/libs/cumulus.jar
+          path: build/libs/cumulus-*.jar
