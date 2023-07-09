@@ -19,19 +19,15 @@ jobs:
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
 
-      - name: Build
+      - name: Build & publish to Maven Repository
         uses: gradle/gradle-build-action@v2
-        with:
-          arguments: build
-          cache-read-only: ${{ github.ref_name != 'master' && github.ref_name != 'development' }}
-
-      - name: Publish to Maven Repository
-        if: ${{ github.repository == 'GeyserMC/Cumulus' && github.ref_name == 'master' }}
+        if: ${{ github.repository == 'GeyserMC/Cumulus' }}
         env:
           ORG_GRADLE_PROJECT_geysermcUsername: ${{ vars.DEPLOY_USER }}
           ORG_GRADLE_PROJECT_geysermcPassword: ${{ secrets.DEPLOY_PASS }}
-        # gradle-build-action doesn't work in combination with fetch-depth: 0
-        run: ./gradlew publish
+        with:
+          arguments: publish
+          cache-read-only: false
 
       - name: Notify Discord
         if: ${{ (success() || failure()) && github.repository == 'GeyserMC/Cumulus' }}
