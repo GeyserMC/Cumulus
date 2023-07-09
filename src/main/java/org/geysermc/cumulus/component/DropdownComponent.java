@@ -37,8 +37,7 @@ import org.geysermc.cumulus.component.impl.DropdownComponentImpl;
  * can choose one item from the given options in a dropdown.
  */
 public interface DropdownComponent extends Component {
-  @NonNull
-  static DropdownComponent of(
+  static @NonNull DropdownComponent of(
       @NonNull String text,
       @NonNull List<String> options,
       @NonNegative int defaultOption) {
@@ -47,13 +46,11 @@ public interface DropdownComponent extends Component {
 
   //todo should these 'of' methods be removed in favor of the builders?
 
-  @NonNull
-  static Builder builder() {
+  static @NonNull Builder builder() {
     return new DropdownComponentImpl.Builder();
   }
 
-  @NonNull
-  static Builder builder(@NonNull String text) {
+  static @NonNull Builder builder(@NonNull String text) {
     return builder().text(text);
   }
 
@@ -62,32 +59,28 @@ public interface DropdownComponent extends Component {
    *
    * @since 1.1
    */
-  @NonNull
-  List<String> options();
+  @NonNull List<String> options();
 
   /**
    * Returns the index of the option that is selected by default.
    *
    * @since 1.1
    */
-  @NonNegative
-  int defaultOption();
+  @NonNegative int defaultOption();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
    * {@link #options()}.
    */
   @Deprecated
-  @NonNull
-  List<String> getOptions();
+  @NonNull List<String> getOptions();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
    * {@link #defaultOption()}.
    */
   @Deprecated
-  @NonNegative
-  int getDefaultOption();
+  @NonNegative int getDefaultOption();
 
   interface Builder {
     /**
@@ -95,8 +88,7 @@ public interface DropdownComponent extends Component {
      *
      * @param text the text to show
      */
-    @This
-    Builder text(@NonNull String text);
+    @This Builder text(@NonNull String text);
 
     /**
      * Adds an option to the list of options.
@@ -104,8 +96,7 @@ public interface DropdownComponent extends Component {
      * @param option    the text to show in the dropdown entry
      * @param isDefault if this should become the default option
      */
-    @This
-    Builder option(@NonNull String option, boolean isDefault);
+    @This Builder option(@NonNull String option, boolean isDefault);
 
     /**
      * Adds an option to the list of options. This option won't become the default option, unless
@@ -113,8 +104,7 @@ public interface DropdownComponent extends Component {
      *
      * @param option the text to show in the dropdown entry
      */
-    @This
-    Builder option(@NonNull String option);
+    @This Builder option(@NonNull String option);
 
     /**
      * Sets the default option of this dropdown.
@@ -122,14 +112,12 @@ public interface DropdownComponent extends Component {
      * @param defaultOption the index of the option that should become the default option.
      * @throws IllegalArgumentException when the index of the default option is out of bounds
      */
-    @This
-    Builder defaultOption(@NonNegative int defaultOption) throws IllegalArgumentException;
+    @This Builder defaultOption(@NonNegative int defaultOption) throws IllegalArgumentException;
 
     /**
      * Returns the created dropdown from the given options.
      */
-    @NonNull
-    DropdownComponent build();
+    @NonNull DropdownComponent build();
 
     /**
      * Translates everything given to this builder using the provided translation function, and
@@ -137,7 +125,6 @@ public interface DropdownComponent extends Component {
      *
      * @param translator the translation function
      */
-    @NonNull
-    DropdownComponent translateAndBuild(@NonNull Function<String, String> translator);
+    @NonNull DropdownComponent translateAndBuild(@NonNull Function<String, String> translator);
   }
 }

@@ -51,8 +51,7 @@ public abstract class FormDefinition<F extends Form, I extends FormImpl<R>, R ex
     this.formImplClass = Objects.requireNonNull(formImplClass);
   }
 
-  @NonNull
-  public final FormCodec<F, R> codec() {
+  public final @NonNull FormCodec<F, R> codec() {
     return codec;
   }
 
@@ -74,18 +73,15 @@ public abstract class FormDefinition<F extends Form, I extends FormImpl<R>, R ex
     ((FormImpl<R>) form).callResultHandler(result);
   }
 
-  @NonNull
-  public final FormType formType() {
+  public final @NonNull FormType formType() {
     return formType;
   }
 
-  @NonNull
-  public final Class<F> formClass() {
+  public final @NonNull Class<F> formClass() {
     return formClass;
   }
 
-  @NonNull
-  public final Class<I> formImplClass() {
+  public final @NonNull Class<I> formImplClass() {
     return formImplClass;
   }
 }

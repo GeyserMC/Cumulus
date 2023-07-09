@@ -41,26 +41,22 @@ public final class ButtonComponentImpl implements ButtonComponent {
   }
 
   @Override
-  @NonNull
-  public String text() {
+  public @NonNull String text() {
     return text;
   }
 
   @Override
-  @Nullable
-  public FormImage image() {
+  public @Nullable FormImage image() {
     return image;
   }
 
   // the JVM doesn't allow interface methods to become default methods
 
-  @NonNull
-  public String getText() {
+  public @NonNull String getText() {
     return text();
   }
 
-  @Nullable
-  public FormImage getImage() {
+  public @Nullable FormImage getImage() {
     return image();
   }
 }

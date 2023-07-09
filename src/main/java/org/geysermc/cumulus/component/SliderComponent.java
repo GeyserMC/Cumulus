@@ -38,8 +38,7 @@ import org.geysermc.cumulus.component.impl.SliderComponentImpl;
  * but if your step size is too low it will use the min value instead.
  */
 public interface SliderComponent extends Component {
-  @NonNull
-  static SliderComponent of(
+  static @NonNull SliderComponent of(
       @NonNull String text,
       float min,
       float max,
@@ -48,13 +47,15 @@ public interface SliderComponent extends Component {
     return new SliderComponentImpl(text, min, max, step, defaultValue);
   }
 
-  @NonNull
-  static SliderComponent of(@NonNull String text, float min, float max, @Positive float step) {
+  static @NonNull SliderComponent of(
+      @NonNull String text,
+      float min,
+      float max,
+      @Positive float step) {
     return new SliderComponentImpl(text, min, max, step);
   }
 
-  @NonNull
-  static SliderComponent of(@NonNull String text, float min, float max) {
+  static @NonNull SliderComponent of(@NonNull String text, float min, float max) {
     return of(text, min, max, 1);
   }
 
@@ -77,8 +78,7 @@ public interface SliderComponent extends Component {
    *
    * @since 1.1
    */
-  @Positive
-  float step();
+  @Positive float step();
 
   /**
    * Returns the default value of the slider.
@@ -108,8 +108,7 @@ public interface SliderComponent extends Component {
    * {@link #step()}.
    */
   @Deprecated
-  @Positive
-  int getStep();
+  @Positive int getStep();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by

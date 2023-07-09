@@ -74,8 +74,7 @@ public abstract class FormImpl<R extends FormResponse> implements Form {
   }
 
   @Override
-  @NonNull
-  public String title() {
+  public @NonNull String title() {
     return title;
   }
 
@@ -219,8 +218,7 @@ public abstract class FormImpl<R extends FormResponse> implements Form {
 
 
     @Override
-    @NonNull
-    public abstract F build();
+    public abstract @NonNull F build();
 
     protected void setResponseHandler(FormImpl<R> impl, F form) {
       impl.resultHandler(result -> {
@@ -279,8 +277,7 @@ public abstract class FormImpl<R extends FormResponse> implements Form {
       });
     }
 
-    @NonNull
-    protected String translate(@NonNull String text) {
+    protected @NonNull String translate(@NonNull String text) {
       Objects.requireNonNull(text, "text");
 
       if (translationHandler != null && !text.isEmpty()) {

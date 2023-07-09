@@ -33,13 +33,11 @@ import org.geysermc.cumulus.component.impl.ToggleComponentImpl;
  * let the client toggle an option.
  */
 public interface ToggleComponent extends Component {
-  @NonNull
-  static ToggleComponent of(@NonNull String text, boolean defaultValue) {
+  static @NonNull ToggleComponent of(@NonNull String text, boolean defaultValue) {
     return new ToggleComponentImpl(text, defaultValue);
   }
 
-  @NonNull
-  static ToggleComponent of(@NonNull String text) {
+  static @NonNull ToggleComponent of(@NonNull String text) {
     return of(text, false);
   }
 

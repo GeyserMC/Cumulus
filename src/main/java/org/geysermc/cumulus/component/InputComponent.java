@@ -33,21 +33,18 @@ import org.geysermc.cumulus.component.impl.InputComponentImpl;
  * show an input field where the client can enter something in.
  */
 public interface InputComponent extends Component {
-  @NonNull
-  static InputComponent of(
+  static @NonNull InputComponent of(
       @NonNull String text,
       @NonNull String placeholder,
       @NonNull String defaultText) {
     return new InputComponentImpl(text, placeholder, defaultText);
   }
 
-  @NonNull
-  static InputComponent of(@NonNull String text, @NonNull String placeholder) {
+  static @NonNull InputComponent of(@NonNull String text, @NonNull String placeholder) {
     return of(text, placeholder, "");
   }
 
-  @NonNull
-  static InputComponent of(@NonNull String text) {
+  static @NonNull InputComponent of(@NonNull String text) {
     return of(text, "", "");
   }
 
@@ -59,8 +56,7 @@ public interface InputComponent extends Component {
    * @see #defaultText()
    * @since 1.1
    */
-  @NonNull
-  String placeholder();
+  @NonNull String placeholder();
 
   /**
    * Returns the text that will be placed in the input component by default when the component is
@@ -70,22 +66,19 @@ public interface InputComponent extends Component {
    * @see #placeholder()
    * @since 1.1
    */
-  @NonNull
-  String defaultText();
+  @NonNull String defaultText();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
    * {@link #placeholder()}.
    */
   @Deprecated
-  @NonNull
-  String getPlaceholder();
+  @NonNull String getPlaceholder();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
    * {@link #defaultText()}.
    */
   @Deprecated
-  @NonNull
-  String getDefaultText();
+  @NonNull String getDefaultText();
 }

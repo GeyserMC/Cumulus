@@ -54,11 +54,10 @@ public final class Forms {
    * @param <T>  the result will be cast to T
    * @return the form instance holding the translated data
    */
-  @NonNull
-  public static <T extends Form> T fromJson(
-      String json, FormType type,
+  public static <T extends Form> @NonNull T fromJson(
+      String json,
+      FormType type,
       BiConsumer<T, @Nullable String> responseHandler) {
-
     return FormDefinitions.instance()
         .<FormCodec<T, FormResponse>>codecFor(type)
         .fromJson(json, responseHandler);
@@ -72,9 +71,8 @@ public final class Forms {
    * @deprecated since 1.1 and will be removed in 2.0. Replaced with
    * {@link FormDefinitions#formImplClass(FormType)}
    */
-  @NonNull
   @Deprecated
-  public static Class<? extends Form> getFormTypeImpl(FormType type) {
+  public static @NonNull Class<? extends Form> getFormTypeImpl(FormType type) {
     return FormDefinitions.instance().formImplClass(type);
   }
 
@@ -84,8 +82,8 @@ public final class Forms {
    * @param type the component type
    * @return the class implementing the component
    */
-  @NonNull
-  public static Class<? extends Component> getComponentTypeImpl(@NonNull ComponentType type) {
+  public static @NonNull Class<? extends Component> getComponentTypeImpl(
+      @NonNull ComponentType type) {
     //todo do we want a component definition as well?
     switch (type) {
       case DROPDOWN:
@@ -110,8 +108,9 @@ public final class Forms {
    * {@link JsonUtils#assumeMember(JsonObject, String)}.
    */
   @Deprecated
-  @NonNull
-  public static JsonElement getOrThrow(@NonNull JsonObject object, @NonNull String memberName) {
+  public static @NonNull JsonElement getOrThrow(
+      @NonNull JsonObject object,
+      @NonNull String memberName) {
     return JsonUtils.assumeMember(object, memberName);
   }
 }

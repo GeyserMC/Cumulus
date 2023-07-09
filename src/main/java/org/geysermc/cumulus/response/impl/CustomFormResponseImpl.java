@@ -83,14 +83,12 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
   }
 
   @Override
-  @NonNull
-  public JsonArray getResponses() {
+  public @NonNull JsonArray getResponses() {
     return rawResponse;
   }
 
   @Override
-  @NonNull
-  public List<ComponentType> getComponentTypes() {
+  public @NonNull List<ComponentType> getComponentTypes() {
     return componentTypes;
   }
 
@@ -101,9 +99,8 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
    * @return null for label components or if there is no next component, and {@link AbsentComponent}
    * for optional components that were not added
    */
-  @Nullable
   @SuppressWarnings("unchecked")
-  private <T> T nextOrAbsent(boolean includeLabels) {
+  private <T> @Nullable T nextOrAbsent(boolean includeLabels) {
     if (!hasNext()) {
       return null;
     }
@@ -120,8 +117,7 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
   }
 
   @Override
-  @Nullable
-  public <T> T next(boolean includeLabels) {
+  public <T> @Nullable T next(boolean includeLabels) {
     T next = nextOrAbsent(includeLabels);
     if (next instanceof AbsentComponent) {
       return null;
@@ -182,8 +178,7 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
   }
 
   @Override
-  @Nullable
-  public <T> T next() {
+  public <T> @Nullable T next() {
     return next(includeLabels);
   }
 
@@ -200,8 +195,7 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
   }
 
   @Override
-  @Nullable
-  public String asInput() {
+  public @Nullable String asInput() {
     Object next = nextOrAbsent();
     if (next instanceof AbsentComponent) {
       return null;
@@ -249,8 +243,7 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
   }
 
   @Override
-  @NonNull
-  public JsonPrimitive get(int index) {
+  public @NonNull JsonPrimitive get(int index) {
     Preconditions.checkArgument(index >= 0, "index");
     try {
       return rawResponse.get(index).getAsJsonPrimitive();
@@ -262,9 +255,9 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
   /**
    * @return null for label components and {@link AbsentComponent} for optional components that were not added
    */
-  @Nullable
   @SuppressWarnings("unchecked")
-  private <T> T valueOrAbsent(int index) throws IllegalArgumentException, ClassCastException {
+  private <T> @Nullable T valueOrAbsent(int index)
+      throws IllegalArgumentException, ClassCastException {
     Preconditions.checkArgument(index >= 0, "index");
     if (index >= responses.size()) {
       throw new IllegalArgumentException("Requested an higher index than there are components");
@@ -274,8 +267,7 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
   }
 
   @Override
-  @Nullable
-  public <T> T valueAt(int index) throws IllegalArgumentException, ClassCastException {
+  public <T> @Nullable T valueAt(int index) throws IllegalArgumentException, ClassCastException {
     T response = valueOrAbsent(index);
     if (response instanceof AbsentComponent) {
       return null;
@@ -296,8 +288,7 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
   }
 
   @Override
-  @Nullable
-  public String asInput(int index) {
+  public @Nullable String asInput(int index) {
     Object next = valueOrAbsent(index);
     if (next instanceof AbsentComponent) {
       return null;
@@ -350,8 +341,7 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
     return asDropdown(index);
   }
 
-  @Nullable
-  public String getInput(@NonNegative int index) {
+  public @Nullable String getInput(@NonNegative int index) {
     return asInput(index);
   }
 

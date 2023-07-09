@@ -62,8 +62,7 @@ public final class SimpleFormResponseImpl extends ResponseToResultGlue
   }
 
   @Override
-  @NonNull
-  public ButtonComponent clickedButton() {
+  public @NonNull ButtonComponent clickedButton() {
     return clickedButton;
   }
 

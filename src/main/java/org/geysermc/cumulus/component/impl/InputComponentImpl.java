@@ -46,26 +46,22 @@ public final class InputComponentImpl extends ComponentImpl implements InputComp
   }
 
   @Override
-  @NonNull
-  public String placeholder() {
+  public @NonNull String placeholder() {
     return placeholder;
   }
 
   @Override
-  @NonNull
-  public String defaultText() {
+  public @NonNull String defaultText() {
     return defaultText;
   }
 
   // the JVM doesn't allow interface methods to become default methods
 
-  @NonNull
-  public String getPlaceholder() {
+  public @NonNull String getPlaceholder() {
     return placeholder();
   }
 
-  @NonNull
-  public String getDefaultText() {
+  public @NonNull String getDefaultText() {
     return defaultText();
   }
 }

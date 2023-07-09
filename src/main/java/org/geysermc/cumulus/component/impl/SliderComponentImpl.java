@@ -103,8 +103,7 @@ public final class SliderComponentImpl extends ComponentImpl implements SliderCo
   }
 
   @Override
-  @Positive
-  public float step() {
+  public @Positive float step() {
     return step;
   }
 

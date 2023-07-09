@@ -46,8 +46,7 @@ public interface SimpleForm extends Form {
   /**
    * Returns a new SimpleForm builder. A more friendly way of creating a Form.
    */
-  @NonNull
-  static Builder builder() {
+  static @NonNull Builder builder() {
     return new SimpleFormImpl.Builder();
   }
 
@@ -59,8 +58,7 @@ public interface SimpleForm extends Form {
    * @param buttons the list of buttons to place in the form
    * @return the created SimpleForm instance
    */
-  @NonNull
-  static SimpleForm of(
+  static @NonNull SimpleForm of(
       @NonNull String title,
       @NonNull String content,
       @NonNull List<ButtonComponent> buttons) {
@@ -70,15 +68,13 @@ public interface SimpleForm extends Form {
   /**
    * Returns the description of the Form.
    */
-  @NonNull
-  String content();
+  @NonNull String content();
 
   /**
    * Returns all the components of the form. This includes optional components, which
    * will be null when they are not present.
    */
-  @NonNull
-  List<@Nullable ButtonComponent> buttons();
+  @NonNull List<@Nullable ButtonComponent> buttons();
 
   /**
    * An easy way to create a CustomForm. For more information and code examples look at <a
@@ -91,8 +87,7 @@ public interface SimpleForm extends Form {
      * @param content the description of the Form
      * @return the form builder
      */
-    @This
-    Builder content(@NonNull String content);
+    @This Builder content(@NonNull String content);
 
     /**
      * Adds a button directly to the form.
@@ -100,8 +95,7 @@ public interface SimpleForm extends Form {
      * @param button the button to add
      * @return the form builder
      */
-    @This
-    Builder button(@NonNull ButtonComponent button);
+    @This Builder button(@NonNull ButtonComponent button);
 
     /**
      * Adds a button with image to the Form.
@@ -111,8 +105,7 @@ public interface SimpleForm extends Form {
      * @param data the data for the image type
      * @return the form builder
      */
-    @This
-    Builder button(@NonNull String text, FormImage.@NonNull Type type, @NonNull String data);
+    @This Builder button(@NonNull String text, FormImage.@NonNull Type type, @NonNull String data);
 
     /**
      * Adds a button with image to the Form.
@@ -121,8 +114,7 @@ public interface SimpleForm extends Form {
      * @param image the image
      * @return the form builder
      */
-    @This
-    Builder button(@NonNull String text, @Nullable FormImage image);
+    @This Builder button(@NonNull String text, @Nullable FormImage image);
 
     /**
      * Adds a button to the Form.
@@ -130,8 +122,7 @@ public interface SimpleForm extends Form {
      * @param text the text of the button
      * @return the form builder
      */
-    @This
-    Builder button(@NonNull String text);
+    @This Builder button(@NonNull String text);
 
     /**
      * Adds a button with image to the Form, but only when shouldAdd is true.
@@ -143,8 +134,7 @@ public interface SimpleForm extends Form {
      * @return the form builder
      * @since 1.1
      */
-    @This
-    Builder optionalButton(
+    @This Builder optionalButton(
         @NonNull String text,
         FormImage.@NonNull Type type,
         @NonNull String data,
@@ -160,8 +150,7 @@ public interface SimpleForm extends Form {
      * @return the form builder
      * @since 1.1
      */
-    @This
-    Builder optionalButton(
+    @This Builder optionalButton(
         @NonNull String text,
         @Nullable FormImage image,
         boolean shouldAdd
@@ -175,7 +164,6 @@ public interface SimpleForm extends Form {
      * @return the form builder
      * @since 1.1
      */
-    @This
-    Builder optionalButton(@NonNull String text, boolean shouldAdd);
+    @This Builder optionalButton(@NonNull String text, boolean shouldAdd);
   }
 }

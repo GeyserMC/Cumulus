@@ -35,13 +35,11 @@ import org.geysermc.cumulus.util.FormImage;
  * show a button with an optional image attached to it.
  */
 public interface ButtonComponent {
-  @NonNull
-  static ButtonComponent of(@NonNull String text, @Nullable FormImage image) {
+  static @NonNull ButtonComponent of(@NonNull String text, @Nullable FormImage image) {
     return new ButtonComponentImpl(text, image);
   }
 
-  @NonNull
-  static ButtonComponent of(
+  static @NonNull ButtonComponent of(
       @NonNull String text,
       FormImage.@NonNull Type type,
       @NonNull String data) {
@@ -58,30 +56,26 @@ public interface ButtonComponent {
    *
    * @since 1.1
    */
-  @NonNull
-  String text();
+  @NonNull String text();
 
   /**
    * Returns the image that will be shown next to the button.
    *
    * @since 1.1
    */
-  @Nullable
-  FormImage image();
+  @Nullable FormImage image();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
    * {@link #text()}.
    */
   @Deprecated
-  @NonNull
-  String getText();
+  @NonNull String getText();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
    * {@link #image()}.
    */
   @Deprecated
-  @Nullable
-  FormImage getImage();
+  @Nullable FormImage getImage();
 }

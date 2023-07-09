@@ -53,8 +53,7 @@ public enum FormType {
 
   private static final FormType[] VALUES = values();
 
-  @Nullable
-  public static FormType fromOrdinal(int ordinal) {
+  public static @Nullable FormType fromOrdinal(int ordinal) {
     return ordinal < VALUES.length ? VALUES[ordinal] : null;
   }
 }

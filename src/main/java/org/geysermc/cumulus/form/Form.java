@@ -39,6 +39,5 @@ public interface Form {
    *
    * @since 1.1
    */
-  @NonNull
-  String title();
+  @NonNull String title();
 }

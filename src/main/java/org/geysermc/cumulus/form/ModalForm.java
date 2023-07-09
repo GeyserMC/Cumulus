@@ -42,8 +42,7 @@ public interface ModalForm extends Form {
   /**
    * Returns a new ModalForm builder. A more friendly way of creating a form.
    */
-  @NonNull
-  static Builder builder() {
+  static @NonNull Builder builder() {
     return new ModalFormImpl.Builder();
   }
 
@@ -56,8 +55,7 @@ public interface ModalForm extends Form {
    * @param button2 the second button of the form
    * @return the created ModalForm instance
    */
-  @NonNull
-  static ModalForm of(
+  static @NonNull ModalForm of(
       @NonNull String title,
       @NonNull String content,
       @NonNull String button1,
@@ -70,8 +68,7 @@ public interface ModalForm extends Form {
    *
    * @since 1.1
    */
-  @NonNull
-  String content();
+  @NonNull String content();
 
   /**
    * Returns the content of the first button.
@@ -79,8 +76,7 @@ public interface ModalForm extends Form {
    * @return the content
    * @since 1.1
    */
-  @NonNull
-  String button1();
+  @NonNull String button1();
 
   /**
    * Returns the content of the second (last) button.
@@ -88,8 +84,7 @@ public interface ModalForm extends Form {
    * @return the content
    * @since 1.1
    */
-  @NonNull
-  String button2();
+  @NonNull String button2();
 
   /**
    * An easy way to create a ModalForm. For more information and code examples look at <a
@@ -102,8 +97,7 @@ public interface ModalForm extends Form {
      * @param content the description of the form
      * @return the form builder
      */
-    @This
-    Builder content(@NonNull String content);
+    @This Builder content(@NonNull String content);
 
     /**
      * Set the text of the first button.
@@ -111,8 +105,7 @@ public interface ModalForm extends Form {
      * @param button1 the text of the first button
      * @return the form builder
      */
-    @This
-    Builder button1(@NonNull String button1);
+    @This Builder button1(@NonNull String button1);
 
     /**
      * Set the text of the second button.
@@ -120,7 +113,6 @@ public interface ModalForm extends Form {
      * @param button2 the text of the second button
      * @return the form builder
      */
-    @This
-    Builder button2(@NonNull String button2);
+    @This Builder button2(@NonNull String button2);
   }
 }

@@ -30,20 +30,17 @@ import org.geysermc.cumulus.response.FormResponse;
 
 @SuppressWarnings("unused")
 public interface FormResponseResult<R extends FormResponse> {
-  @NonNull
-  static <R extends FormResponse> ClosedFormResponseResult<R> closed() {
+  static <R extends FormResponse> @NonNull ClosedFormResponseResult<R> closed() {
     return ClosedFormResponseResult.instance();
   }
 
-  @NonNull
-  static <R extends FormResponse> InvalidFormResponseResult<R> invalid(
+  static <R extends FormResponse> @NonNull InvalidFormResponseResult<R> invalid(
       int componentIndex,
       String errorMessage) {
     return InvalidFormResponseResult.of(componentIndex, errorMessage);
   }
 
-  @NonNull
-  static <R extends FormResponse> ValidFormResponseResult<R> valid(R formResponse) {
+  static <R extends FormResponse> @NonNull ValidFormResponseResult<R> valid(R formResponse) {
     return ValidFormResponseResult.of(formResponse);
   }
 

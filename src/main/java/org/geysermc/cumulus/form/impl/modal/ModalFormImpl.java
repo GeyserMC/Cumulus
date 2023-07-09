@@ -50,20 +50,17 @@ public final class ModalFormImpl extends FormImpl<ModalFormResponse>
   }
 
   @Override
-  @NonNull
-  public String content() {
+  public @NonNull String content() {
     return content;
   }
 
   @Override
-  @NonNull
-  public String button1() {
+  public @NonNull String button1() {
     return button1;
   }
 
   @Override
-  @NonNull
-  public String button2() {
+  public @NonNull String button2() {
     return button2;
   }
 
@@ -90,8 +87,7 @@ public final class ModalFormImpl extends FormImpl<ModalFormResponse>
     }
 
     @Override
-    @NonNull
-    public ModalForm build() {
+    public @NonNull ModalForm build() {
       ModalFormImpl form = new ModalFormImpl(title, content, button1, button2);
       setResponseHandler(form, form);
       return form;

@@ -42,14 +42,12 @@ public final class ValidFormResponseResult<R extends FormResponse>
     return new ValidFormResponseResult<>(response);
   }
 
-  @NonNull
-  public R response() {
+  public @NonNull R response() {
     return response;
   }
 
   @Override
-  @NonNull
-  public ResultType responseType() {
+  public @NonNull ResultType responseType() {
     return ResultType.VALID;
   }
 }

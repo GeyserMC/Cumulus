@@ -63,14 +63,12 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
   }
 
   @Override
-  @NonNull
-  public FormImage icon() {
+  public @NonNull FormImage icon() {
     return icon;
   }
 
   @Override
-  @NonNull
-  public List<Component> content() {
+  public @NonNull List<Component> content() {
     return content;
   }
 
@@ -426,8 +424,7 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse>
     }
 
     @Override
-    @NonNull
-    public CustomForm build() {
+    public @NonNull CustomForm build() {
       CustomFormImpl form = new CustomFormImpl(title, icon, components);
       setResponseHandler(form, form);
       return form;

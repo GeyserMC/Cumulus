@@ -52,14 +52,12 @@ public final class SimpleFormImpl extends FormImpl<SimpleFormResponse>
   }
 
   @Override
-  @NonNull
-  public String content() {
+  public @NonNull String content() {
     return content;
   }
 
   @Override
-  @NonNull
-  public List<ButtonComponent> buttons() {
+  public @NonNull List<ButtonComponent> buttons() {
     return buttons;
   }
 
@@ -135,8 +133,7 @@ public final class SimpleFormImpl extends FormImpl<SimpleFormResponse>
     }
 
     @Override
-    @NonNull
-    public SimpleForm build() {
+    public @NonNull SimpleForm build() {
       SimpleFormImpl form = new SimpleFormImpl(title, content, buttons);
       setResponseHandler(form, form);
       return form;

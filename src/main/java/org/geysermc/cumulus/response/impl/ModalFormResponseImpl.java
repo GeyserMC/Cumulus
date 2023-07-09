@@ -59,8 +59,7 @@ public final class ModalFormResponseImpl extends ResponseToResultGlue implements
   }
 
   @Override
-  @NonNull
-  public String clickedButtonText() {
+  public @NonNull String clickedButtonText() {
     return clickedButtonText;
   }
 

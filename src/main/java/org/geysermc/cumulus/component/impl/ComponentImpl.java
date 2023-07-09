@@ -39,13 +39,11 @@ public abstract class ComponentImpl implements Component {
     this.text = Objects.requireNonNull(text, "text");
   }
 
-  @NonNull
-  public ComponentType type() {
+  public @NonNull ComponentType type() {
     return type;
   }
 
-  @NonNull
-  public String text() {
+  public @NonNull String text() {
     return text;
   }
 
@@ -55,8 +53,7 @@ public abstract class ComponentImpl implements Component {
     return org.geysermc.cumulus.util.ComponentType.values()[type().ordinal()];
   }
 
-  @NonNull
-  public String getText() {
+  public @NonNull String getText() {
     return text();
   }
 }

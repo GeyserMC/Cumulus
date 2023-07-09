@@ -42,8 +42,7 @@ public final class ClosedFormResponseResult<T extends FormResponse>
   }
 
   @Override
-  @NonNull
-  public ResultType responseType() {
+  public @NonNull ResultType responseType() {
     return ResultType.CLOSED;
   }
 }

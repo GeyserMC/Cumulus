@@ -45,8 +45,7 @@ public interface FormImage {
    * @param data the data form the form image type
    * @return a FormImage holding the given data
    */
-  @NonNull
-  static FormImage of(@NonNull Type type, @NonNull String data) {
+  static @NonNull FormImage of(@NonNull Type type, @NonNull String data) {
     return new FormImageImpl(type, data);
   }
 
@@ -57,8 +56,7 @@ public interface FormImage {
    * @param data the data form the form image type
    * @return a FormImage holding the given data
    */
-  @NonNull
-  static FormImage of(@NonNull String type, @NonNull String data) {
+  static @NonNull FormImage of(@NonNull String type, @NonNull String data) {
     Type imageType = Type.fromName(type);
     if (imageType == null) {
       throw new IllegalArgumentException("Received an unknown type '" + type + "'");
@@ -69,14 +67,12 @@ public interface FormImage {
   /**
    * Returns the type of FormImage.
    */
-  @NonNull
-  Type type();
+  @NonNull Type type();
 
   /**
    * Returns the data needed for the FormImage.
    */
-  @NonNull
-  String data();
+  @NonNull String data();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
@@ -104,8 +100,7 @@ public interface FormImage {
 
     private final String name = name().toLowerCase(Locale.ROOT);
 
-    @Nullable
-    public static Type fromName(@NonNull String name) {
+    public static @Nullable Type fromName(@NonNull String name) {
       Objects.requireNonNull(name, "name");
       for (Type value : VALUES) {
         if (value.typeName().equals(name)) {
@@ -115,8 +110,7 @@ public interface FormImage {
       return null;
     }
 
-    @NonNull
-    public String typeName() {
+    public @NonNull String typeName() {
       return name;
     }
 

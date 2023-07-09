@@ -65,8 +65,9 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
    *                   to translate, the second argument is the player's locale
    * @param locale     the locale to translate the messages to
    */
-  @This
-  B translator(@NonNull BiFunction<String, String, String> translator, @NonNull String locale);
+  @This B translator(
+      @NonNull BiFunction<String, String, String> translator,
+      @NonNull String locale);
 
   /**
    * Set the translator of the form. The translator is called every time a component is added, and
@@ -198,8 +199,7 @@ public interface FormBuilder<B extends FormBuilder<B, F, R>, F extends Form, R e
    * @see ResultType
    * @see FormResponseResult
    */
-  @This
-  B resultHandler(
+  @This B resultHandler(
       @NonNull BiConsumer<F, FormResponseResult<R>> resultHandler,
       @NonNull ResultType... selectedTypes
   );

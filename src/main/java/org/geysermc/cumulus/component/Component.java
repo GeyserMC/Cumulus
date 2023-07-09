@@ -37,16 +37,14 @@ public interface Component {
    *
    * @since 1.1
    */
-  @NonNull
-  ComponentType type();
+  @NonNull ComponentType type();
 
   /**
    * Returns the text that is shown in the component.
    *
    * @since 1.1
    */
-  @NonNull
-  String text();
+  @NonNull String text();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
@@ -60,6 +58,5 @@ public interface Component {
    * {@link #text()}.
    */
   @Deprecated
-  @NonNull
-  String getText();
+  @NonNull String getText();
 }

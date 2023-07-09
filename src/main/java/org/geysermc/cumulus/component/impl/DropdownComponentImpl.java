@@ -59,26 +59,22 @@ public final class DropdownComponentImpl extends ComponentImpl implements Dropdo
   }
 
   @Override
-  @NonNull
-  public List<String> options() {
+  public @NonNull List<String> options() {
     return options;
   }
 
   @Override
-  @NonNegative
-  public int defaultOption() {
+  public @NonNegative int defaultOption() {
     return defaultOption;
   }
 
   // the JVM doesn't allow interface methods to become default methods
 
-  @NonNull
-  public List<String> getOptions() {
+  public @NonNull List<String> getOptions() {
     return options();
   }
 
-  @NonNegative
-  public int getDefaultOption() {
+  public @NonNegative int getDefaultOption() {
     return defaultOption();
   }
 
@@ -116,15 +112,14 @@ public final class DropdownComponentImpl extends ComponentImpl implements Dropdo
     }
 
     @Override
-    @NonNull
-    public DropdownComponentImpl build() {
+    public @NonNull DropdownComponentImpl build() {
       return new DropdownComponentImpl(text, options, defaultOption);
     }
 
     @Override
-    @NonNull
-    public DropdownComponentImpl translateAndBuild(@NonNull Function<String, String> translator) {
-      Preconditions.checkNotNull(translator, "traslator");
+    public @NonNull DropdownComponentImpl translateAndBuild(
+        @NonNull Function<String, String> translator) {
+      Preconditions.checkNotNull(translator, "translator");
       options.replaceAll(translator::apply);
       return new DropdownComponentImpl(translator.apply(text), options, defaultOption);
     }

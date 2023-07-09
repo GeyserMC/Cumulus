@@ -58,31 +58,27 @@ public final class StepSliderComponentImpl extends ComponentImpl implements Step
     this.defaultStep = defaultStep;
   }
 
-  @NonNull
-  public static Builder builder() {
+  public static @NonNull Builder builder() {
     return new Builder();
   }
 
-  @NonNull
-  public static Builder builder(@NonNull String text) {
+  public static @NonNull Builder builder(@NonNull String text) {
     return builder().text(text);
   }
 
   @Override
-  @NonNull
-  public List<String> steps() {
+  public @NonNull List<String> steps() {
     return steps;
   }
 
   @Override
-  @NonNegative
-  public int defaultStep() {
+  public @NonNegative int defaultStep() {
     return defaultStep;
   }
 
   // the JVM doesn't allow interface methods to become default methods
 
-  public List<String> getSteps() {
+  public @NonNull List<String> getSteps() {
     return steps();
   }
 
@@ -119,13 +115,11 @@ public final class StepSliderComponentImpl extends ComponentImpl implements Step
       return this;
     }
 
-    @NonNull
-    public StepSliderComponentImpl build() {
+    public @NonNull StepSliderComponentImpl build() {
       return new StepSliderComponentImpl(text, steps, defaultStep);
     }
 
-    @NonNull
-    public StepSliderComponentImpl translateAndBuild(@NonNull Function<String, String> translator) {
+    public @NonNull StepSliderComponentImpl translateAndBuild(@NonNull Function<String, String> translator) {
       Objects.requireNonNull(translator, "translator");
       steps.replaceAll(translator::apply);
       return new StepSliderComponentImpl(translator.apply(text), steps, defaultStep);

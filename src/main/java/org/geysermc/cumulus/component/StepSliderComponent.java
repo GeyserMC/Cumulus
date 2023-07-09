@@ -39,34 +39,29 @@ import org.geysermc.cumulus.component.impl.StepSliderComponentImpl;
  * of items you can slide through.
  */
 public interface StepSliderComponent extends Component {
-  @NonNull
-  static StepSliderComponent of(
+  static @NonNull StepSliderComponent of(
       @NonNull String text,
       @NonNull List<String> steps,
       @NonNegative int defaultStep) {
     return new StepSliderComponentImpl(text, steps, defaultStep);
   }
 
-  @NonNull
-  static StepSliderComponent of(
+  static @NonNull StepSliderComponent of(
       @NonNull String text,
       @NonNegative int defaultStep,
       @NonNull String... steps) {
     return of(text, Arrays.asList(steps), defaultStep);
   }
 
-  @NonNull
-  static StepSliderComponent of(@NonNull String text, @NonNull String... steps) {
+  static @NonNull StepSliderComponent of(@NonNull String text, @NonNull String... steps) {
     return of(text, 0, steps);
   }
 
-  @NonNull
-  static Builder builder() {
+  static @NonNull Builder builder() {
     return new StepSliderComponentImpl.Builder();
   }
 
-  @NonNull
-  static Builder builder(@NonNull String text) {
+  static @NonNull Builder builder(@NonNull String text) {
     return builder().text(text);
   }
 
@@ -75,32 +70,28 @@ public interface StepSliderComponent extends Component {
    *
    * @since 1.1
    */
-  @NonNull
-  List<String> steps();
+  @NonNull List<String> steps();
 
   /**
    * Returns the index of the step that is selected by default.
    *
    * @since 1.1
    */
-  @NonNegative
-  int defaultStep();
+  @NonNegative int defaultStep();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
    * {@link #steps()}.
    */
   @Deprecated
-  @NonNull
-  List<String> getSteps();
+  @NonNull List<String> getSteps();
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by
    * {@link #defaultStep()}.
    */
   @Deprecated
-  @NonNegative
-  int getDefaultStep();
+  @NonNegative int getDefaultStep();
 
   interface Builder {
     /**
@@ -108,8 +99,7 @@ public interface StepSliderComponent extends Component {
      *
      * @param text the text to show
      */
-    @This
-    Builder text(@NonNull String text);
+    @This Builder text(@NonNull String text);
 
     /**
      * Adds a step to the list of steps.
@@ -117,8 +107,7 @@ public interface StepSliderComponent extends Component {
      * @param step      the text to show in the step slider entry
      * @param isDefault if this should become the default option
      */
-    @This
-    Builder step(@NonNull String step, boolean isDefault);
+    @This Builder step(@NonNull String step, boolean isDefault);
 
     /**
      * Adds a step to the list of steps. This step won't become the default step, unless
@@ -126,8 +115,7 @@ public interface StepSliderComponent extends Component {
      *
      * @param step the text to show in the step slider entry
      */
-    @This
-    Builder step(@NonNull String step);
+    @This Builder step(@NonNull String step);
 
     /**
      * Sets the default step of this step slider.
@@ -135,14 +123,12 @@ public interface StepSliderComponent extends Component {
      * @param defaultStep the index of the option that should become the default option.
      * @throws IllegalArgumentException when the index of the default option is out of bounds
      */
-    @This
-    Builder defaultStep(@NonNegative int defaultStep) throws IllegalArgumentException;
+    @This Builder defaultStep(@NonNegative int defaultStep) throws IllegalArgumentException;
 
     /**
      * Returns the created step slider from the given options.
      */
-    @NonNull
-    StepSliderComponent build();
+    @NonNull StepSliderComponent build();
 
     /**
      * Translated everything given to this builder using the provided translation function, and
@@ -150,7 +136,6 @@ public interface StepSliderComponent extends Component {
      *
      * @param translator the translation function
      */
-    @NonNull
-    StepSliderComponent translateAndBuild(@NonNull Function<String, String> translator);
+    @NonNull StepSliderComponent translateAndBuild(@NonNull Function<String, String> translator);
   }
 }

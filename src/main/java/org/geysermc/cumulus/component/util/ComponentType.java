@@ -63,8 +63,7 @@ public enum ComponentType {
 
   private final String name = name().toLowerCase(Locale.ROOT);
 
-  @Nullable
-  public static ComponentType fromName(@Nullable String name) {
+  public static @Nullable ComponentType fromName(@Nullable String name) {
     for (ComponentType type : VALUES) {
       if (type.name.equals(name)) {
         return type;
@@ -73,8 +72,7 @@ public enum ComponentType {
     return null;
   }
 
-  @NonNull
-  public String componentName() {
+  public @NonNull String componentName() {
     return name;
   }
 }

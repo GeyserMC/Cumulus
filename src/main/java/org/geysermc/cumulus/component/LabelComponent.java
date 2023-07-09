@@ -33,8 +33,7 @@ import org.geysermc.cumulus.component.impl.LabelComponentImpl;
  * piece of text that is being shown to the client.
  */
 public interface LabelComponent extends Component {
-  @NonNull
-  static LabelComponent of(@NonNull String text) {
+  static @NonNull LabelComponent of(@NonNull String text) {
     return new LabelComponentImpl(text);
   }
 }

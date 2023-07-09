@@ -110,7 +110,7 @@ public interface CustomFormResponse extends FormResponse {
    *                            return type
    * @see #includeLabels(boolean)
    */
-  @Nullable <T> T next() throws ClassCastException;
+  <T> @Nullable T next() throws ClassCastException;
 
   /**
    * Skips the specified amount of components. The value of {@link #includeLabels(boolean)}
@@ -140,7 +140,7 @@ public interface CustomFormResponse extends FormResponse {
    *                                  return type
    * @since 1.1
    */
-  @Nullable <T> T valueAt(int index) throws IllegalArgumentException, ClassCastException;
+  <T> @Nullable T valueAt(int index) throws IllegalArgumentException, ClassCastException;
 
   /**
    * Returns the next component as a dropdown value. The value is the index of the dropdown that was
@@ -219,8 +219,8 @@ public interface CustomFormResponse extends FormResponse {
    * @see #valueAt(int)
    * @since 1.1
    */
-  @Nullable
-  String asInput(@NonNegative int index) throws IllegalArgumentException, IllegalStateException;
+  @Nullable String asInput(@NonNegative int index)
+      throws IllegalArgumentException, IllegalStateException;
 
   /**
    * Returns the value of the selected component as a slider component.
@@ -274,7 +274,7 @@ public interface CustomFormResponse extends FormResponse {
    * {@link #includeLabels(boolean)} and {@link #next()}
    */
   @Deprecated
-  @Nullable <T> T next(boolean includeLabels) throws ClassCastException;
+  <T> @Nullable T next(boolean includeLabels) throws ClassCastException;
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. Response validation now happens before an
@@ -296,8 +296,7 @@ public interface CustomFormResponse extends FormResponse {
    * {@link #asInput(int)}.
    */
   @Deprecated
-  @Nullable
-  String getInput(@NonNegative int index);
+  @Nullable String getInput(@NonNegative int index);
 
   /**
    * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by
