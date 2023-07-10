@@ -1,3 +1,5 @@
+import java.net.URI
+
 plugins {
     alias(libs.plugins.indra)
     alias(libs.plugins.indra.publishing)
@@ -26,8 +28,8 @@ indra {
         target(8)
     }
 
-    publishSnapshotsTo("geysermc", "https://repo.opencollab.dev/maven-snapshots")
-    publishReleasesTo("geysermc", "https://repo.opencollab.dev/maven-releases")
+//    publishSnapshotsTo("geysermc", "https://repo.opencollab.dev/maven-snapshots")
+//    publishReleasesTo("geysermc", "https://repo.opencollab.dev/maven-releases")
 
     spotless {
         java {
@@ -35,5 +37,22 @@ indra {
             formatAnnotations()
         }
         ratchetFrom("origin/master")
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "geysermc"
+            url = URI.create(
+                when {
+                    project.version.toString().endsWith("-SNAPSHOT") ->
+                        "https://repo.opencollab.dev/maven-snapshots"
+                    else ->
+                        "https://repo.opencollab.dev/maven-releases"
+                }
+            )
+            credentials(PasswordCredentials::class.java)
+        }
     }
 }
