@@ -38,21 +38,13 @@ public abstract class ComponentImpl implements Component {
     this.text = Objects.requireNonNull(text, "text");
   }
 
+  @Override
   public @NonNull ComponentType type() {
     return type;
   }
 
+  @Override
   public @NonNull String text() {
     return text;
-  }
-
-  // the JVM doesn't allow interface methods to become default methods
-
-  public org.geysermc.cumulus.util.ComponentType getType() {
-    return org.geysermc.cumulus.util.ComponentType.values()[type().ordinal()];
-  }
-
-  public @NonNull String getText() {
-    return text();
   }
 }

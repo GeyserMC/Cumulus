@@ -35,25 +35,4 @@ public interface ModalFormResponse extends FormResponse {
 
   /** Returns true if the player clicked the first button, returns false otherwise. */
   boolean clickedFirst();
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
-   *     #clickedButtonId()}.
-   */
-  @Deprecated
-  int getClickedButtonId();
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
-   *     #clickedButtonText()}.
-   */
-  @Deprecated
-  String getClickedButtonText();
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
-   *     #clickedFirst()}.
-   */
-  @Deprecated
-  boolean getResult();
 }

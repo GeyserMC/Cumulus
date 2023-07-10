@@ -65,20 +65,6 @@ public interface DropdownComponent extends Component {
    */
   @NonNegative int defaultOption();
 
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by {@link
-   *     #options()}.
-   */
-  @Deprecated
-  @NonNull List<String> getOptions();
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by {@link
-   *     #defaultOption()}.
-   */
-  @Deprecated
-  @NonNegative int getDefaultOption();
-
   interface Builder {
     /**
      * Sets the text that will be shown in the component.

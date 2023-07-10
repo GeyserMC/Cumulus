@@ -24,30 +24,5 @@
  */
 package org.geysermc.cumulus.response;
 
-import org.geysermc.cumulus.response.result.FormResponseResult;
-
 public interface FormResponse {
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This logic has been moved to {@link
-   *     FormResponseResult#isClosed()}.
-   */
-  @Deprecated
-  boolean isClosed();
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This logic has been moved to {@link
-   *     FormResponseResult#isInvalid()}.
-   */
-  @Deprecated
-  boolean isInvalid();
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This logic has been moved to {@link
-   *     FormResponseResult#isValid()}.
-   */
-  @Deprecated
-  default boolean isCorrect() {
-    // has to remain a default method for JVM
-    throw new IllegalStateException();
-  }
 }

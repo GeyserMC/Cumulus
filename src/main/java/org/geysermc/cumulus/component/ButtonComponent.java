@@ -60,18 +60,4 @@ public interface ButtonComponent {
    * @since 1.1
    */
   @Nullable FormImage image();
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by {@link
-   *     #text()}.
-   */
-  @Deprecated
-  @NonNull String getText();
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by {@link
-   *     #image()}.
-   */
-  @Deprecated
-  @Nullable FormImage getImage();
 }

@@ -80,32 +80,4 @@ public interface SliderComponent extends Component {
   float defaultValue();
 
   // todo control_locked ??
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
-   *     #minValue()}.
-   */
-  @Deprecated
-  float getMin();
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
-   *     #maxValue()}.
-   */
-  @Deprecated
-  float getMax();
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
-   *     #step()}.
-   */
-  @Deprecated
-  @Positive int getStep();
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
-   *     #defaultValue()}.
-   */
-  @Deprecated
-  float getDefaultValue();
 }

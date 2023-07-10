@@ -34,18 +34,4 @@ public interface SimpleFormResponse extends FormResponse {
 
   /** Returns the button component that has been clicked. */
   @NonNull ButtonComponent clickedButton();
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
-   *     #clickedButtonId()}.
-   */
-  @Deprecated
-  int getClickedButtonId();
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
-   *     #clickedButton()}.
-   */
-  @Deprecated
-  ButtonComponent getClickedButton();
 }

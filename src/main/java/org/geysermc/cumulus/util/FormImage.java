@@ -70,20 +70,6 @@ public interface FormImage {
   @NonNull String data();
 
   /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
-   *     #type()}.
-   */
-  @Deprecated
-  Type getType();
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
-   *     #data()}.
-   */
-  @Deprecated
-  String getData();
-
-  /**
    * An enum which has the available FormImage Types. For more information and for code examples
    * look at <a href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
    */
@@ -109,24 +95,6 @@ public interface FormImage {
 
     public @NonNull String typeName() {
       return name;
-    }
-
-    /**
-     * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
-     *     #fromName(String)}.
-     */
-    @Deprecated
-    public static Type getByName(@NonNull String name) {
-      return fromName(name);
-    }
-
-    /**
-     * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
-     *     #typeName()}.
-     */
-    @Deprecated
-    public String getName() {
-      return name();
     }
   }
 }

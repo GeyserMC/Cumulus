@@ -42,11 +42,4 @@ public interface ToggleComponent extends Component {
 
   /** Returns whether the default value should be true or false. */
   boolean defaultValue();
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by {@link
-   *     #defaultValue()}.
-   */
-  @Deprecated
-  boolean getDefaultValue();
 }

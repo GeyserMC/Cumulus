@@ -25,21 +25,15 @@
 package org.geysermc.cumulus.response.impl;
 
 import com.google.common.base.Preconditions;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonPrimitive;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.geysermc.cumulus.component.util.ComponentType;
 import org.geysermc.cumulus.response.CustomFormResponse;
-import org.geysermc.cumulus.response.result.ResultType;
 import org.geysermc.cumulus.util.AbsentComponent;
 
-public final class CustomFormResponseImpl extends ResponseToResultGlue
-    implements CustomFormResponse {
+public final class CustomFormResponseImpl implements CustomFormResponse {
 
   /**
    * Contains null for LabelComponent and {@link AbsentComponent} for components that were optional
@@ -47,46 +41,16 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
    */
   private final List<@Nullable Object> responses;
 
-  private final JsonArray rawResponse;
-  private final List<ComponentType> componentTypes;
-
   private int index = -1;
   private boolean includeLabels = false;
 
-  private CustomFormResponseImpl(
-      List<Object> responses, JsonArray rawResponse, List<ComponentType> componentTypes) {
+  private CustomFormResponseImpl(List<Object> responses) {
     this.responses = Collections.unmodifiableList(responses);
-    this.rawResponse = rawResponse;
-    this.componentTypes = Collections.unmodifiableList(componentTypes);
   }
 
-  @Deprecated
-  public CustomFormResponseImpl(ResultType resultType) {
-    // todo remove in 2.0
-    super(resultType);
-    this.responses = null;
-    this.rawResponse = null;
-    this.componentTypes = null;
-  }
-
-  public static @NonNull CustomFormResponse of(
-      @NonNull List<Object> responses,
-      @NonNull JsonArray rawResponse,
-      @NonNull List<ComponentType> componentTypes) {
+  public static @NonNull CustomFormResponse of(@NonNull List<Object> responses) {
     Objects.requireNonNull(responses, "responses");
-    Objects.requireNonNull(rawResponse, "rawResponse");
-    Objects.requireNonNull(componentTypes, "componentTypes");
-    return new CustomFormResponseImpl(responses, rawResponse, componentTypes);
-  }
-
-  @Override
-  public @NonNull JsonArray getResponses() {
-    return rawResponse;
-  }
-
-  @Override
-  public @NonNull List<ComponentType> getComponentTypes() {
-    return componentTypes;
+    return new CustomFormResponseImpl(responses);
   }
 
   /**
@@ -111,15 +75,6 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
       return (T) response;
     }
     return null; // we don't have anything to check anymore
-  }
-
-  @Override
-  public <T> @Nullable T next(boolean includeLabels) {
-    T next = nextOrAbsent(includeLabels);
-    if (next instanceof AbsentComponent) {
-      return null;
-    }
-    return next;
   }
 
   @Override
@@ -177,7 +132,11 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
 
   @Override
   public <T> @Nullable T next() {
-    return next(includeLabels);
+    T next = nextOrAbsent(includeLabels);
+    if (next instanceof AbsentComponent) {
+      return null;
+    }
+    return next;
   }
 
   @Override
@@ -238,16 +197,6 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
       return (boolean) next;
     }
     throw wrongType(index, "toggle");
-  }
-
-  @Override
-  public @NonNull JsonPrimitive get(int index) {
-    Preconditions.checkArgument(index >= 0, "index");
-    try {
-      return rawResponse.get(index).getAsJsonPrimitive();
-    } catch (IllegalStateException exception) {
-      throw wrongType(index, "a primitive");
-    }
   }
 
   /**
@@ -332,28 +281,6 @@ public final class CustomFormResponseImpl extends ResponseToResultGlue
       return (boolean) next;
     }
     throw wrongType(index, "toggle");
-  }
-
-  // the JVM doesn't allow interface methods to become default methods
-
-  public int getDropdown(@NonNegative int index) {
-    return asDropdown(index);
-  }
-
-  public @Nullable String getInput(@NonNegative int index) {
-    return asInput(index);
-  }
-
-  public float getSlider(@NonNegative int index) {
-    return asSlider(index);
-  }
-
-  public int getStepSlide(@NonNegative int index) {
-    return asStepSlider(index);
-  }
-
-  public boolean getToggle(@NonNegative int index) {
-    return asToggle(index);
   }
 
   private IllegalStateException wrongType(int index, String expected) {

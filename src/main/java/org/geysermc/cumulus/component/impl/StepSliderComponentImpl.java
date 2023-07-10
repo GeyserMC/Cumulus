@@ -74,16 +74,6 @@ public final class StepSliderComponentImpl extends ComponentImpl implements Step
     return defaultStep;
   }
 
-  // the JVM doesn't allow interface methods to become default methods
-
-  public @NonNull List<String> getSteps() {
-    return steps();
-  }
-
-  public int getDefaultStep() {
-    return defaultStep();
-  }
-
   public static final class Builder implements StepSliderComponent.Builder {
     private final List<String> steps = new ArrayList<>();
     private String text = "";

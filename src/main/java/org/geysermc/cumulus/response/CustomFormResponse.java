@@ -24,18 +24,11 @@
  */
 package org.geysermc.cumulus.response;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonPrimitive;
-import java.util.List;
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.index.qual.Positive;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.common.value.qual.IntRange;
-import org.geysermc.cumulus.component.Component;
 import org.geysermc.cumulus.component.LabelComponent;
-import org.geysermc.cumulus.component.util.ComponentType;
-import org.geysermc.cumulus.form.CustomForm;
 
 /**
  * The response class of CustomForm. Labels are not included by default, but this can be changed by
@@ -246,71 +239,4 @@ public interface CustomFormResponse extends FormResponse {
    * @since 1.1
    */
   boolean asToggle(@NonNegative int index) throws IllegalArgumentException, IllegalStateException;
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. Please use the more friendly methods instead.
-   */
-  @Deprecated
-  @NonNull JsonArray getResponses();
-
-  /**
-   * @see CustomForm#content()
-   * @see Component#type()
-   * @deprecated since 1.1 and will be removed in 2.0. The component types aren't relevant since
-   *     they're already defined in the form itself.
-   */
-  @Deprecated
-  @NonNull List<ComponentType> getComponentTypes();
-
-  /**
-   * @see #includeLabels(boolean)
-   * @see #next()
-   * @deprecated since 1.1 and will be removed in 2.0. The alternative is calling both {@link
-   *     #includeLabels(boolean)} and {@link #next()}
-   */
-  @Deprecated
-  <T> @Nullable T next(boolean includeLabels) throws ClassCastException;
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. Response validation now happens before an
-   *     instance of this class is made, so raw json types are no longer relevant. The closest
-   *     replacement is {@link #valueAt(int)}.
-   */
-  @Deprecated
-  @Nullable JsonPrimitive get(@NonNegative int index);
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
-   *     #asDropdown(int)}.
-   */
-  @Deprecated
-  int getDropdown(@NonNegative int index);
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
-   *     #asInput(int)}.
-   */
-  @Deprecated
-  @Nullable String getInput(@NonNegative int index);
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
-   *     #asSlider(int)}.
-   */
-  @Deprecated
-  float getSlider(@NonNegative int index);
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
-   *     #asStepSlider(int)}.
-   */
-  @Deprecated
-  int getStepSlide(@NonNegative int index);
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
-   *     #asToggle(int)}.
-   */
-  @Deprecated
-  boolean getToggle(@NonNegative int index);
 }

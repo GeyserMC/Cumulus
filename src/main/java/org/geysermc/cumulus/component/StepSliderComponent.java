@@ -74,20 +74,6 @@ public interface StepSliderComponent extends Component {
    */
   @NonNegative int defaultStep();
 
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by {@link
-   *     #steps()}.
-   */
-  @Deprecated
-  @NonNull List<String> getSteps();
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by {@link
-   *     #defaultStep()}.
-   */
-  @Deprecated
-  @NonNegative int getDefaultStep();
-
   interface Builder {
     /**
      * Sets the text that will be shown before the steps.

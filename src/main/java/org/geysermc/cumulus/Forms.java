@@ -24,8 +24,6 @@
  */
 package org.geysermc.cumulus;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import java.util.function.BiConsumer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -42,7 +40,6 @@ import org.geysermc.cumulus.form.impl.FormDefinitions;
 import org.geysermc.cumulus.form.util.FormCodec;
 import org.geysermc.cumulus.form.util.FormType;
 import org.geysermc.cumulus.response.FormResponse;
-import org.geysermc.cumulus.util.JsonUtils;
 
 public final class Forms {
   /**
@@ -58,19 +55,6 @@ public final class Forms {
     return FormDefinitions.instance()
         .<FormCodec<T, FormResponse>>codecFor(type)
         .fromJson(json, responseHandler);
-  }
-
-  /**
-   * Get the class implementing the form by the form type.
-   *
-   * @param type the form type
-   * @return the class implementing the form
-   * @deprecated since 1.1 and will be removed in 2.0. Replaced with {@link
-   *     FormDefinitions#formImplClass(FormType)}
-   */
-  @Deprecated
-  public static @NonNull Class<? extends Form> getFormTypeImpl(FormType type) {
-    return FormDefinitions.instance().formImplClass(type);
   }
 
   /**
@@ -98,15 +82,5 @@ public final class Forms {
       default:
         throw new RuntimeException("Cannot find implementation for ComponentType " + type);
     }
-  }
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
-   *     JsonUtils#assumeMember(JsonObject, String)}.
-   */
-  @Deprecated
-  public static @NonNull JsonElement getOrThrow(
-      @NonNull JsonObject object, @NonNull String memberName) {
-    return JsonUtils.assumeMember(object, memberName);
   }
 }

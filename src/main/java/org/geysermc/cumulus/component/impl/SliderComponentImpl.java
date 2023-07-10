@@ -107,22 +107,4 @@ public final class SliderComponentImpl extends ComponentImpl implements SliderCo
   public float defaultValue() {
     return defaultValue;
   }
-
-  // the JVM doesn't allow interface methods to become default methods
-
-  public float getMin() {
-    return minValue();
-  }
-
-  public float getMax() {
-    return maxValue();
-  }
-
-  public int getStep() {
-    return (int) step();
-  }
-
-  public float getDefaultValue() {
-    return defaultValue();
-  }
 }

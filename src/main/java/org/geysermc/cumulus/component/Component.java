@@ -42,18 +42,4 @@ public interface Component {
    * @since 1.1
    */
   @NonNull String text();
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
-   *     #type()}.
-   */
-  @Deprecated
-  org.geysermc.cumulus.util.ComponentType getType();
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method has been replaced by {@link
-   *     #text()}.
-   */
-  @Deprecated
-  @NonNull String getText();
 }

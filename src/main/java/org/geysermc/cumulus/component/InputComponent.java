@@ -64,18 +64,4 @@ public interface InputComponent extends Component {
    * @since 1.1
    */
   @NonNull String defaultText();
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by {@link
-   *     #placeholder()}.
-   */
-  @Deprecated
-  @NonNull String getPlaceholder();
-
-  /**
-   * @deprecated since 1.1 and will be removed in 2.0. This method will be replaced by {@link
-   *     #defaultText()}.
-   */
-  @Deprecated
-  @NonNull String getDefaultText();
 }

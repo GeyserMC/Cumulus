@@ -28,9 +28,8 @@ import com.google.common.base.Preconditions;
 import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.response.ModalFormResponse;
-import org.geysermc.cumulus.response.result.ResultType;
 
-public final class ModalFormResponseImpl extends ResponseToResultGlue implements ModalFormResponse {
+public final class ModalFormResponseImpl implements ModalFormResponse {
   private final int clickedButtonId;
   private final String clickedButtonText;
 
@@ -38,14 +37,6 @@ public final class ModalFormResponseImpl extends ResponseToResultGlue implements
     Preconditions.checkArgument(clickedButtonId >= 0, "clickedButtonId");
     this.clickedButtonId = clickedButtonId;
     this.clickedButtonText = Objects.requireNonNull(clickedButtonText, "clickedButtonText");
-  }
-
-  @Deprecated
-  public ModalFormResponseImpl(ResultType resultType) {
-    // todo remove in 2.0
-    super(resultType);
-    clickedButtonId = -1;
-    clickedButtonText = null;
   }
 
   public static ModalFormResponseImpl of(int clickedButtonId, String clickedButtonText) {
@@ -62,21 +53,8 @@ public final class ModalFormResponseImpl extends ResponseToResultGlue implements
     return clickedButtonText;
   }
 
+  @Override
   public boolean clickedFirst() {
     return clickedButtonId == 0;
-  }
-
-  // the JVM doesn't allow interface methods to become default methods
-
-  public int getClickedButtonId() {
-    return clickedButtonId();
-  }
-
-  public String getClickedButtonText() {
-    return clickedButtonText();
-  }
-
-  public boolean getResult() {
-    return clickedFirst();
   }
 }

@@ -101,7 +101,6 @@ public final class CustomFormCodec extends FormCodecImpl<CustomForm, CustomFormR
     int responsesSize = responses.size();
 
     List<Object> mappedResponse = new ArrayList<>();
-    List<ComponentType> types = new ArrayList<>();
 
     int responseIndex = 0;
     List<Component> content = form.content();
@@ -123,15 +122,13 @@ public final class CustomFormCodec extends FormCodecImpl<CustomForm, CustomFormR
         // looks like it didn't pass the validation.
         return FormResponseResult.invalid(i, exception.getMessage());
       }
-
-      types.add(component.type());
     }
 
     if (responseIndex < responsesSize) {
       return FormResponseResult.invalid(-1, "Response contains too many elements");
     }
 
-    return FormResponseResult.valid(CustomFormResponseImpl.of(mappedResponse, responses, types));
+    return FormResponseResult.valid(CustomFormResponseImpl.of(mappedResponse));
   }
 
   private Object validateComponent(Component component, JsonElement element) {
