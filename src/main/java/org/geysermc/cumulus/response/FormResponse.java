@@ -24,5 +24,4 @@
  */
 package org.geysermc.cumulus.response;
 
-public interface FormResponse {
-}
+public interface FormResponse {}
