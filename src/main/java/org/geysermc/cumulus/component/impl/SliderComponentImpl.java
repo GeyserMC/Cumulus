@@ -24,7 +24,6 @@
  */
 package org.geysermc.cumulus.component.impl;
 
-import com.google.common.base.Preconditions;
 import com.google.gson.annotations.SerializedName;
 import org.checkerframework.checker.index.qual.Positive;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -44,8 +43,8 @@ public final class SliderComponentImpl extends ComponentImpl implements SliderCo
     super(ComponentType.SLIDER, text);
     // Bedrock doesn't work well with a higher min than max and negative steps,
     // so let's check all that.
-    Preconditions.checkArgument(step > 0.0f, "step value cannot be negative");
-    Preconditions.checkArgument(min <= max, "min value is higher than max value");
+    if (step <= 0.0f) throw new IllegalArgumentException("step value has to be positive");
+    if (min > max) throw new IllegalArgumentException("min value is higher than max value");
 
     this.min = min;
     this.max = max;

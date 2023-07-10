@@ -24,7 +24,6 @@
  */
 package org.geysermc.cumulus.response.impl;
 
-import com.google.common.base.Preconditions;
 import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.ButtonComponent;
@@ -36,7 +35,9 @@ public final class SimpleFormResponseImpl implements SimpleFormResponse {
   private final ButtonComponent clickedButton;
 
   private SimpleFormResponseImpl(int clickedButtonId, ButtonComponent clickedButton) {
-    Preconditions.checkArgument(clickedButtonId >= 0, "clickedButtonId");
+    if (clickedButtonId < 0) {
+      throw new IllegalArgumentException("clickedButtonId cannot be negative");
+    }
     this.clickedButtonId = clickedButtonId;
     this.clickedButton = Objects.requireNonNull(clickedButton, "clickedButton");
   }

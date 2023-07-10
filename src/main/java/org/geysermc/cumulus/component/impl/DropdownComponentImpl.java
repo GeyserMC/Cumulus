@@ -24,7 +24,6 @@
  */
 package org.geysermc.cumulus.component.impl;
 
-import com.google.common.base.Preconditions;
 import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,8 +44,8 @@ public final class DropdownComponentImpl extends ComponentImpl implements Dropdo
   public DropdownComponentImpl(
       @NonNull String text, @NonNull List<String> options, int defaultOption) {
     super(ComponentType.DROPDOWN, text);
-    Preconditions.checkNotNull(options, "options");
-    Preconditions.checkArgument(defaultOption >= 0, "defaultOption");
+    Objects.requireNonNull(options);
+    if (defaultOption < 0) throw new IllegalArgumentException("defaultOption cannot be negative");
 
     this.options = Collections.unmodifiableList(options);
     // todo should we allow this?
@@ -93,8 +92,10 @@ public final class DropdownComponentImpl extends ComponentImpl implements Dropdo
 
     @Override
     public Builder defaultOption(int defaultOption) {
-      Preconditions.checkArgument(defaultOption >= 0, "defaultOption");
-      Preconditions.checkArgument(options.size() > defaultOption, "defaultOption is out of bounds");
+      if (defaultOption < 0) throw new IllegalArgumentException("defaultOption cannot be negative");
+      if (defaultOption >= options.size()) {
+        throw new IllegalArgumentException("defaultOption is out of bounds");
+      }
       this.defaultOption = defaultOption;
       return this;
     }
@@ -107,7 +108,7 @@ public final class DropdownComponentImpl extends ComponentImpl implements Dropdo
     @Override
     public @NonNull DropdownComponentImpl translateAndBuild(
         @NonNull Function<String, String> translator) {
-      Preconditions.checkNotNull(translator, "translator");
+      Objects.requireNonNull(translator, "translator cannot be null");
       options.replaceAll(translator::apply);
       return new DropdownComponentImpl(translator.apply(text), options, defaultOption);
     }

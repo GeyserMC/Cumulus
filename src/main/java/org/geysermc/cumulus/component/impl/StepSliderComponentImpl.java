@@ -24,7 +24,6 @@
  */
 package org.geysermc.cumulus.component.impl;
 
-import com.google.common.base.Preconditions;
 import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,8 +44,8 @@ public final class StepSliderComponentImpl extends ComponentImpl implements Step
   public StepSliderComponentImpl(
       @NonNull String text, @NonNull List<String> steps, int defaultStep) {
     super(ComponentType.STEP_SLIDER, text);
-    Preconditions.checkNotNull(steps, "steps");
-    Preconditions.checkArgument(defaultStep >= 0, "defaultStep");
+    Objects.requireNonNull(steps, "steps cannot be null");
+    if (defaultStep < 0) throw new IllegalArgumentException("defaultStep cannot be negative");
 
     this.steps = Collections.unmodifiableList(steps);
     // todo should we allow this?
@@ -97,8 +96,10 @@ public final class StepSliderComponentImpl extends ComponentImpl implements Step
     }
 
     public Builder defaultStep(int defaultStep) {
-      Preconditions.checkArgument(defaultStep >= 0, "defaultStep");
-      Preconditions.checkArgument(steps.size() > defaultStep, "defaultStep is out of bounds");
+      if (defaultStep < 0) throw new IllegalArgumentException("defaultStep cannot be negative");
+      if (defaultStep >= steps.size()) {
+        throw new IllegalArgumentException("defaultStep is out of bound");
+      }
       this.defaultStep = defaultStep;
       return this;
     }
@@ -109,7 +110,7 @@ public final class StepSliderComponentImpl extends ComponentImpl implements Step
 
     public @NonNull StepSliderComponentImpl translateAndBuild(
         @NonNull Function<String, String> translator) {
-      Objects.requireNonNull(translator, "translator");
+      Objects.requireNonNull(translator, "translator cannot be null");
       steps.replaceAll(translator::apply);
       return new StepSliderComponentImpl(translator.apply(text), steps, defaultStep);
     }

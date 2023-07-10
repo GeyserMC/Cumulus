@@ -24,7 +24,6 @@
  */
 package org.geysermc.cumulus.form.impl;
 
-import com.google.common.base.Preconditions;
 import java.util.HashMap;
 import java.util.Map;
 import org.geysermc.cumulus.form.Form;
@@ -82,7 +81,9 @@ public final class FormDefinitions {
   }
 
   private void ensureDefinitionAdded(FormDefinition<?, ?, ?> definition) {
-    Preconditions.checkArgument(addDefinition(definition));
+    if (!addDefinition(definition)) {
+      throw new IllegalStateException("Cumulus was unable to add all default form definitions");
+    }
   }
 
   private FormDefinition<?, ?, ?> findDefinition(FormType formType) {

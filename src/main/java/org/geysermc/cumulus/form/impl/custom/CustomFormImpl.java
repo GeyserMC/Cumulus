@@ -24,7 +24,6 @@
  */
 package org.geysermc.cumulus.form.impl.custom;
 
-import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -121,7 +120,8 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse> implement
     public Builder dropdown(
         @NonNull String text, @NonNull List<String> options, @NonNegative int defaultOption) {
       Objects.requireNonNull(text, "text");
-      Preconditions.checkArgument(defaultOption >= 0, "defaultOption");
+      //noinspection ConstantValue
+      if (defaultOption < 0) throw new IllegalArgumentException("defaultOption cannot be negative");
 
       List<String> optionsList = new ArrayList<>();
       for (String option : options) {
@@ -297,7 +297,8 @@ public final class CustomFormImpl extends FormImpl<CustomFormResponse> implement
     public Builder stepSlider(
         @NonNull String text, @NonNull List<String> steps, @NonNegative int defaultStep) {
       Objects.requireNonNull(text, "text");
-      Preconditions.checkArgument(defaultStep >= 0, "defaultStep");
+      //noinspection ConstantValue
+      if (defaultStep < 0) throw new IllegalArgumentException("defaultStep cannot be negative");
 
       List<String> stepsList = new ArrayList<>();
       for (String option : steps) {

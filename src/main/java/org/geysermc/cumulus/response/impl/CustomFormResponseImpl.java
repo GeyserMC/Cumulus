@@ -24,7 +24,6 @@
  */
 package org.geysermc.cumulus.response.impl;
 
-import com.google.common.base.Preconditions;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -79,7 +78,7 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
 
   @Override
   public void skip(int amount) {
-    Preconditions.checkArgument(amount >= 1, "amount");
+    if (amount < 1) throw new IllegalArgumentException("skip amount has to be positive");
     index += amount;
   }
 
@@ -95,7 +94,7 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
 
   @Override
   public void index(int index) {
-    Preconditions.checkArgument(index >= -1, "index");
+    if (index < -1) throw new IllegalArgumentException("index has to be -1 or greater");
     this.index = index;
   }
 
@@ -206,7 +205,7 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
   @SuppressWarnings("unchecked")
   private <T> @Nullable T valueOrAbsent(int index)
       throws IllegalArgumentException, ClassCastException {
-    Preconditions.checkArgument(index >= 0, "index");
+    if (index < 0) throw new IllegalArgumentException("index cannot be negative");
     if (index >= responses.size()) {
       throw new IllegalArgumentException("Requested an higher index than there are components");
     }
