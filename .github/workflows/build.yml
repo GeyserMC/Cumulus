@@ -32,7 +32,7 @@ jobs:
           ORG_GRADLE_PROJECT_geysermcUsername: ${{ vars.DEPLOY_USER }}
           ORG_GRADLE_PROJECT_geysermcPassword: ${{ secrets.DEPLOY_PASS }}
         with:
-          arguments: clean publish
+          arguments: publish
           cache-read-only: ${{ github.ref_name != 'master' && github.ref_name != 'development' }}
 
       - name: Notify Discord
