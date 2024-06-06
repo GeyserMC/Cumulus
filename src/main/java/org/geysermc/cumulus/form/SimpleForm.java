@@ -153,5 +153,15 @@ public interface SimpleForm extends Form {
      * @since 1.1
      */
     @This Builder optionalButton(@NonNull String text, boolean shouldAdd);
+
+    /**
+     * Adds a button to the Form, but only when shouldAdd is true.
+     *
+     * @param button the button to add
+     * @param shouldAdd if the button should be added
+     * @return the form builder
+     * @since 1.2
+     */
+    @This Builder optionalButton(@NonNull ButtonComponent button, boolean shouldAdd);
   }
 }
