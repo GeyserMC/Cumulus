@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2023 GeyserMC
+ * Copyright (c) 2020-2024 GeyserMC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -126,7 +126,8 @@ public final class SimpleFormImpl extends FormImpl<SimpleFormResponse> implement
     }
 
     @Override
-    public SimpleForm.@This Builder optionalButton(@NonNull ButtonComponent button, boolean shouldAdd) {
+    public SimpleForm.@This Builder optionalButton(
+        @NonNull ButtonComponent button, boolean shouldAdd) {
       if (shouldAdd) {
         return button(button);
       }
