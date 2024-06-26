@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2023 GeyserMC
+ * Copyright (c) 2020-2024 GeyserMC
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.common.returnsreceiver.qual.This;
 import org.geysermc.cumulus.component.ButtonComponent;
 import org.geysermc.cumulus.form.SimpleForm;
 import org.geysermc.cumulus.form.impl.FormImpl;
@@ -120,6 +121,15 @@ public final class SimpleFormImpl extends FormImpl<SimpleFormResponse> implement
     public Builder optionalButton(@NonNull String text, boolean shouldAdd) {
       if (shouldAdd) {
         return button(text);
+      }
+      return addNullButton();
+    }
+
+    @Override
+    public SimpleForm.@This Builder optionalButton(
+        @NonNull ButtonComponent button, boolean shouldAdd) {
+      if (shouldAdd) {
+        return button(button);
       }
       return addNullButton();
     }
