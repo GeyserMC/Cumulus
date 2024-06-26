@@ -1,30 +1,12 @@
 /*
- * Copyright (c) 2020-2023 GeyserMC
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *
- * @author GeyserMC
+ * Copyright (c) 2020-2024 GeyserMC
+ * Licensed under the MIT license
  * @link https://github.com/GeyserMC/Cumulus
  */
 package org.geysermc.cumulus.form;
 
 import java.util.List;
+import java.util.function.Consumer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.common.returnsreceiver.qual.This;
@@ -91,6 +73,15 @@ public interface SimpleForm extends Form {
     @This Builder button(@NonNull ButtonComponent button);
 
     /**
+     * Adds a button with callback directly to the form.
+     *
+     * @param button the button to add
+     * @param callback the handler when the button is clicked
+     * @return the form builder
+     */
+    @This Builder button(@NonNull ButtonComponent button, @NonNull Consumer<SimpleFormResponse> callback);
+
+    /**
      * Adds a button with image to the Form.
      *
      * @param text text of the button
@@ -99,6 +90,21 @@ public interface SimpleForm extends Form {
      * @return the form builder
      */
     @This Builder button(@NonNull String text, FormImage.@NonNull Type type, @NonNull String data);
+
+    /**
+     * Adds a button with image and callback to the Form.
+     *
+     * @param text text of the button
+     * @param type type of image
+     * @param data the data for the image type
+     * @param callback the handler when the button is clicked
+     * @return the form builder
+     */
+    @This Builder button(
+        @NonNull String text,
+        FormImage.@NonNull Type type,
+        @NonNull String data,
+        @NonNull Consumer<SimpleFormResponse> callback);
 
     /**
      * Adds a button with image to the Form.
@@ -110,12 +116,34 @@ public interface SimpleForm extends Form {
     @This Builder button(@NonNull String text, @Nullable FormImage image);
 
     /**
+     * Adds a button with image and callback to the Form.
+     *
+     * @param text the text of the button
+     * @param image the image
+     * @param callback the handler when the button is clicked
+     * @return the form builder
+     */
+    @This Builder button(
+        @NonNull String text,
+        @Nullable FormImage image,
+        @NonNull Consumer<SimpleFormResponse> callback);
+
+    /**
      * Adds a button to the Form.
      *
      * @param text the text of the button
      * @return the form builder
      */
     @This Builder button(@NonNull String text);
+
+    /**
+     * Adds a button with callback to the Form.
+     *
+     * @param text the text of the button
+     * @param callback the handler when the button is clicked
+     * @return the form builder
+     */
+    @This Builder button(@NonNull String text, @NonNull Consumer<SimpleFormResponse> callback);
 
     /**
      * Adds a button with image to the Form, but only when shouldAdd is true.

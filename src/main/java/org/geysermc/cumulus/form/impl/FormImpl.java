@@ -187,7 +187,12 @@ public abstract class FormImpl<R extends FormResponse> implements Form {
     @Override
     public abstract @NonNull F build();
 
-    protected void setResponseHandler(FormImpl<R> impl, F form) {
+    protected void setResponseHandler(@NonNull FormImpl<R> impl, @NonNull F form) {
+      setResponseHandler(impl, form, null);
+    }
+
+    protected void setResponseHandler(
+        @NonNull FormImpl<R> impl, @NonNull F form, @Nullable Consumer<R> validHandler) {
       impl.resultHandler(
           result -> {
             if (selectedResultHandler != null) {
@@ -216,6 +221,9 @@ public abstract class FormImpl<R extends FormResponse> implements Form {
               R response = ((ValidFormResponseResult<R>) result).response();
               if (validResultHandler != null) {
                 validResultHandler.accept(form, response);
+              }
+              if (validHandler != null) {
+                validHandler.accept(response);
               }
             }
           });
