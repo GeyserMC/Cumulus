@@ -1,25 +1,6 @@
 /*
- * Copyright (c) 2020-2023 GeyserMC
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *
- * @author GeyserMC
+ * Copyright (c) 2020-2024 GeyserMC
+ * Licensed under the MIT license
  * @link https://github.com/GeyserMC/Cumulus
  */
 package org.geysermc.cumulus.response.impl;
@@ -27,13 +8,13 @@ package org.geysermc.cumulus.response.impl;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.util.AbsentComponent;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
+@NullMarked
 public final class CustomFormResponseImpl implements CustomFormResponse {
-
   /**
    * Contains null for LabelComponent and {@link AbsentComponent} for components that were optional
    * and not added.
@@ -43,11 +24,11 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
   private int index = -1;
   private boolean includeLabels = false;
 
-  private CustomFormResponseImpl(List<Object> responses) {
+  private CustomFormResponseImpl(List<@Nullable Object> responses) {
     this.responses = Collections.unmodifiableList(responses);
   }
 
-  public static @NonNull CustomFormResponse of(@NonNull List<Object> responses) {
+  public static CustomFormResponse of(List<@Nullable Object> responses) {
     Objects.requireNonNull(responses, "responses");
     return new CustomFormResponseImpl(responses);
   }
@@ -125,7 +106,7 @@ public final class CustomFormResponseImpl implements CustomFormResponse {
    * @return null for label components and {@link AbsentComponent} for optional components that were
    *     not added
    */
-  private <T> T nextOrAbsent() {
+  private <T> @Nullable T nextOrAbsent() {
     return nextOrAbsent(includeLabels);
   }
 

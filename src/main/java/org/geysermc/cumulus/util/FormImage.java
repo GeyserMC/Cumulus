@@ -1,25 +1,6 @@
 /*
- * Copyright (c) 2020-2023 GeyserMC
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *
- * @author GeyserMC
+ * Copyright (c) 2020-2024 GeyserMC
+ * Licensed under the MIT license
  * @link https://github.com/GeyserMC/Cumulus
  */
 package org.geysermc.cumulus.util;
@@ -27,15 +8,18 @@ package org.geysermc.cumulus.util;
 import com.google.gson.annotations.SerializedName;
 import java.util.Locale;
 import java.util.Objects;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.util.impl.FormImageImpl;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Represents a form image which is used in buttons and as image for client settings. This class
- * holds a image type and data for the image type. For more information and for code examples look
+ * holds an image type and data for the image type. For more information and for code examples look
  * at <a href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
+ *
+ * @since 1.0
  */
+@NullMarked
 public interface FormImage {
   /**
    * Create a FormImage with the following information.
@@ -43,8 +27,9 @@ public interface FormImage {
    * @param type the form image type
    * @param data the data form the form image type
    * @return a FormImage holding the given data
+   * @since 1.0
    */
-  static @NonNull FormImage of(@NonNull Type type, @NonNull String data) {
+  static FormImage of(Type type, String data) {
     return new FormImageImpl(type, data);
   }
 
@@ -54,8 +39,9 @@ public interface FormImage {
    * @param type the form image type
    * @param data the data form the form image type
    * @return a FormImage holding the given data
+   * @since 1.0
    */
-  static @NonNull FormImage of(@NonNull String type, @NonNull String data) {
+  static FormImage of(String type, String data) {
     Type imageType = Type.fromName(type);
     if (imageType == null) {
       throw new IllegalArgumentException("Received an unknown type '" + type + "'");
@@ -63,19 +49,41 @@ public interface FormImage {
     return of(imageType, data);
   }
 
-  /** Returns the type of FormImage. */
-  @NonNull Type type();
+  /**
+   * Returns the type of FormImage.
+   *
+   * @since 1.1
+   */
+  Type type();
 
-  /** Returns the data needed for the FormImage. */
-  @NonNull String data();
+  /**
+   * Returns the data needed for the FormImage.
+   *
+   * @since 1.1
+   */
+  String data();
 
   /**
    * An enum which has the available FormImage Types. For more information and for code examples
    * look at <a href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
+   *
+   * @since 1.0
    */
   enum Type {
+    /**
+     * Path is the path to an image of a resource pack. Example path: {@code
+     * textures/i/glyph_world_template.png}
+     *
+     * @since 1.0
+     */
     @SerializedName("path")
     PATH,
+    /**
+     * Url is an url to an image on a website. Example url: {@code
+     * https://github.com/GeyserMC.png?size=200}
+     *
+     * @since 1.0
+     */
     @SerializedName("url")
     URL;
 
@@ -83,7 +91,14 @@ public interface FormImage {
 
     private final String name = name().toLowerCase(Locale.ROOT);
 
-    public static @Nullable Type fromName(@NonNull String name) {
+    /**
+     * Gets the image type from the name as used in Bedrock.
+     *
+     * @param name the name of the image type
+     * @return the image type or null if the image type doesn't exist
+     * @since 1.1
+     */
+    public static @Nullable Type fromName(String name) {
       Objects.requireNonNull(name, "name");
       for (Type value : VALUES) {
         if (value.typeName().equals(name)) {
@@ -93,7 +108,12 @@ public interface FormImage {
       return null;
     }
 
-    public @NonNull String typeName() {
+    /**
+     * Returns the image type name as used in Bedrock.
+     *
+     * @since 1.1
+     */
+    public String typeName() {
       return name;
     }
   }

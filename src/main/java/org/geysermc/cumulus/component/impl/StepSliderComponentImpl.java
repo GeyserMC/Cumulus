@@ -1,25 +1,6 @@
 /*
- * Copyright (c) 2020-2023 GeyserMC
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *
- * @author GeyserMC
+ * Copyright (c) 2020-2024 GeyserMC
+ * Licensed under the MIT license
  * @link https://github.com/GeyserMC/Cumulus
  */
 package org.geysermc.cumulus.component.impl;
@@ -31,18 +12,18 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 import org.checkerframework.checker.index.qual.NonNegative;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.StepSliderComponent;
 import org.geysermc.cumulus.component.util.ComponentType;
+import org.jspecify.annotations.NullMarked;
 
+@NullMarked
 public final class StepSliderComponentImpl extends ComponentImpl implements StepSliderComponent {
   private final List<String> steps;
 
   @SerializedName("default")
   private final int defaultStep;
 
-  public StepSliderComponentImpl(
-      @NonNull String text, @NonNull List<String> steps, int defaultStep) {
+  public StepSliderComponentImpl(String text, List<String> steps, int defaultStep) {
     super(ComponentType.STEP_SLIDER, text);
     Objects.requireNonNull(steps, "steps cannot be null");
     if (defaultStep < 0) throw new IllegalArgumentException("defaultStep cannot be negative");
@@ -55,16 +36,16 @@ public final class StepSliderComponentImpl extends ComponentImpl implements Step
     this.defaultStep = defaultStep;
   }
 
-  public static @NonNull Builder builder() {
+  public static Builder builder() {
     return new Builder();
   }
 
-  public static @NonNull Builder builder(@NonNull String text) {
+  public static Builder builder(String text) {
     return builder().text(text);
   }
 
   @Override
-  public @NonNull List<String> steps() {
+  public List<String> steps() {
     return steps;
   }
 
@@ -78,12 +59,12 @@ public final class StepSliderComponentImpl extends ComponentImpl implements Step
     private String text = "";
     private int defaultStep;
 
-    public Builder text(@NonNull String text) {
+    public Builder text(String text) {
       this.text = Objects.requireNonNull(text, "text");
       return this;
     }
 
-    public Builder step(@NonNull String step, boolean isDefault) {
+    public Builder step(String step, boolean isDefault) {
       steps.add(Objects.requireNonNull(step, "step"));
       if (isDefault) {
         this.defaultStep = steps.size() - 1;
@@ -91,7 +72,7 @@ public final class StepSliderComponentImpl extends ComponentImpl implements Step
       return this;
     }
 
-    public Builder step(@NonNull String step) {
+    public Builder step(String step) {
       return step(step, false);
     }
 
@@ -104,12 +85,11 @@ public final class StepSliderComponentImpl extends ComponentImpl implements Step
       return this;
     }
 
-    public @NonNull StepSliderComponentImpl build() {
+    public StepSliderComponentImpl build() {
       return new StepSliderComponentImpl(text, steps, defaultStep);
     }
 
-    public @NonNull StepSliderComponentImpl translateAndBuild(
-        @NonNull Function<String, String> translator) {
+    public StepSliderComponentImpl translateAndBuild(Function<String, String> translator) {
       Objects.requireNonNull(translator, "translator cannot be null");
       steps.replaceAll(translator::apply);
       return new StepSliderComponentImpl(translator.apply(text), steps, defaultStep);

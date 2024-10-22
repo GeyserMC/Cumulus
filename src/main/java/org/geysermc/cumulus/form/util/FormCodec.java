@@ -1,25 +1,6 @@
 /*
- * Copyright (c) 2020-2023 GeyserMC
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *
- * @author GeyserMC
+ * Copyright (c) 2020-2024 GeyserMC
+ * Licensed under the MIT license
  * @link https://github.com/GeyserMC/Cumulus
  */
 package org.geysermc.cumulus.form.util;
@@ -27,36 +8,49 @@ package org.geysermc.cumulus.form.util;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonSerializer;
 import java.util.function.BiConsumer;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.geysermc.cumulus.form.Form;
 import org.geysermc.cumulus.response.FormResponse;
 import org.geysermc.cumulus.response.result.FormResponseResult;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
+/**
+ * The base form codec, responsible for encoding and decoding form requests and responses.
+ *
+ * @param <F> the form (request) type
+ * @param <R> the form response type
+ * @since 1.1
+ */
+@NullMarked
 public interface FormCodec<F extends Form, R extends FormResponse>
     extends JsonDeserializer<F>, JsonSerializer<F> {
-
   /**
-   * @param json
-   * @param rawResponseConsumer
-   * @return
+   * Parse the form request data into {@link F}
+   *
+   * @param json the json containing the form request data
+   * @param rawResponseConsumer a consumer for when the response is received
+   * @return the parsed form
+   * @since 1.1
    */
-  F fromJson(@NonNull String json, @Nullable BiConsumer<F, @Nullable String> rawResponseConsumer);
+  F fromJson(String json, BiConsumer<F, @Nullable String> rawResponseConsumer);
 
   /**
    * Serializes the form to data that can be used by the Bedrock client to display the form.
    *
    * @param form the form to serialize
    * @return the serialized form
+   * @since 1.1
    */
-  String jsonData(@NonNull F form);
+  String jsonData(F form);
 
   /**
-   * Deserializes the response of the client to a form that has been sent.
+   * Deserializes the response of the client to a form that has been sent. A null responseData
+   * indicates that the client has closed the form.
    *
    * @param form the form instance that was sent to the client
    * @param responseData the response of the client
    * @return the responseResult from deserializing the response
+   * @since 1.1
    */
-  FormResponseResult<R> deserializeFormResponse(@NonNull F form, @Nullable String responseData);
+  FormResponseResult<R> deserializeFormResponse(F form, @Nullable String responseData);
 }

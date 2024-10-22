@@ -1,53 +1,72 @@
 /*
- * Copyright (c) 2020-2023 GeyserMC
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *
- * @author GeyserMC
+ * Copyright (c) 2020-2024 GeyserMC
+ * Licensed under the MIT license
  * @link https://github.com/GeyserMC/Cumulus
  */
 package org.geysermc.cumulus.component;
 
 import org.checkerframework.checker.index.qual.Positive;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.geysermc.cumulus.component.impl.SliderComponentImpl;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Slider component is a component that can only be used in CustomForm. With this component you can
- * slide between the min (left) and max (right) using the provided step size. The Bedrock client
- * does not work well with a negative step value. Because of that, Cumulus does not allow the min
- * higher than the max and also doesn't allow a negative step value.<br>
- * Cumulus will generate a default value if none is provided. It will try to find a valid step in
- * the middle of your range, but if your step size is too low it will use the min value instead.
+ * slide between the min (left) and max (right) using the provided step size.
+ *
+ * <p>The Bedrock client does not work well with a negative step value. Because of that, Cumulus
+ * does not allow the min higher than the max and also doesn't allow a negative step value.
+ *
+ * <p>Cumulus will generate a default value if none is provided. It will try to find a valid step in
+ * the middle of your range, but if your slider contains a lot of steps it may use min value
+ * instead.
+ *
+ * @since 1.0
  */
+@NullMarked
 public interface SliderComponent extends Component {
-  static @NonNull SliderComponent of(
-      @NonNull String text, float min, float max, @Positive float step, float defaultValue) {
+  /**
+   * Create a direct instance of a slider.
+   *
+   * @param text the text that is shown in the component
+   * @param min the minimal value of the slider
+   * @param max the maximum value of the slider
+   * @param step the amount between each step
+   * @param defaultValue the default value of the slider
+   * @return the created instance
+   * @since 1.1
+   */
+  static SliderComponent of(
+      String text, float min, float max, @Positive float step, float defaultValue) {
     return new SliderComponentImpl(text, min, max, step, defaultValue);
   }
 
-  static @NonNull SliderComponent of(
-      @NonNull String text, float min, float max, @Positive float step) {
+  /**
+   * Create a direct instance of a slider, with the default value being computed.
+   *
+   * @param text the text that is shown in the component
+   * @param min the minimal value of the slider
+   * @param max the maximum value of the slider
+   * @param step the amount between each step
+   * @return the created instance
+   * @see SliderComponent
+   * @since 1.1
+   */
+  static SliderComponent of(String text, float min, float max, @Positive float step) {
     return new SliderComponentImpl(text, min, max, step);
   }
 
-  static @NonNull SliderComponent of(@NonNull String text, float min, float max) {
+  /**
+   * Create a direct instance of a slider, with the step being 1 and the default value being
+   * computed.
+   *
+   * @param text the text that is shown in the component
+   * @param min the minimal value of the slider
+   * @param max the maximum value of the slider
+   * @return the created instance
+   * @see SliderComponent
+   * @since 1.0
+   */
+  static SliderComponent of(String text, float min, float max) {
     return of(text, min, max, 1);
   }
 

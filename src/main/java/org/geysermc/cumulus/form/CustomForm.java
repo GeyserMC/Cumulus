@@ -1,25 +1,6 @@
 /*
- * Copyright (c) 2020-2023 GeyserMC
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *
- * @author GeyserMC
+ * Copyright (c) 2020-2024 GeyserMC
+ * Licensed under the MIT license
  * @link https://github.com/GeyserMC/Cumulus
  */
 package org.geysermc.cumulus.form;
@@ -27,8 +8,6 @@ package org.geysermc.cumulus.form;
 import java.util.List;
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.index.qual.Positive;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.common.returnsreceiver.qual.This;
 import org.geysermc.cumulus.component.Component;
 import org.geysermc.cumulus.component.DropdownComponent;
@@ -37,6 +16,8 @@ import org.geysermc.cumulus.form.impl.custom.CustomFormImpl;
 import org.geysermc.cumulus.form.util.FormBuilder;
 import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.util.FormImage;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Represents a CustomForm which can be shown to the client. A CustomForm is the most customisable
@@ -45,9 +26,14 @@ import org.geysermc.cumulus.util.FormImage;
  *
  * @since 1.1
  */
+@NullMarked
 public interface CustomForm extends Form {
-  /** Returns a new CustomForm builder. A more friendly way of creating a Form. */
-  static @NonNull Builder builder() {
+  /**
+   * Returns a new CustomForm builder. A more friendly way of creating a Form.
+   *
+   * @since 1.1
+   */
+  static Builder builder() {
     return new CustomFormImpl.Builder();
   }
 
@@ -55,162 +41,334 @@ public interface CustomForm extends Form {
    * Create a CustomForm with predefined information.
    *
    * @param title the title of the form
-   * @param icon the icon of the form (optional)
+   * @param icon the icon of the form
    * @param content the list of components in this form
    * @return the created CustomForm instance
+   * @since 1.1
    */
-  static @NonNull CustomForm of(
-      @NonNull String title, @Nullable FormImage icon, @NonNull List<Component> content) {
+  static CustomForm of(String title, @Nullable FormImage icon, List<Component> content) {
     return new CustomFormImpl(title, icon, content);
   }
 
-  /** Returns the optional icon of the form. The icon can only be seen in the servers settings. */
+  /**
+   * Returns the optional icon of the form. The icon can only be seen in the servers settings.
+   *
+   * @since 1.1
+   */
   @Nullable FormImage icon();
 
   /**
    * Returns all the components of the form. This includes optional components, which will be null
    * when they are not present.
+   *
+   * @since 1.1
    */
-  @NonNull List<@Nullable Component> content();
+  List<@Nullable Component> content();
 
   /**
    * An easy way to create a CustomForm. For more information and code examples look at <a
    * href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
+   *
+   * @since 1.1
    */
   interface Builder extends FormBuilder<Builder, CustomForm, CustomFormResponse> {
-    @This Builder icon(@NonNull FormImage image);
-
-    @This Builder icon(FormImage.@NonNull Type type, @NonNull String data);
-
-    @This Builder iconPath(@NonNull String path);
-
-    @This Builder iconUrl(@NonNull String url);
-
-    @This Builder component(@NonNull Component component);
-
     /**
-     * @param component
-     * @param shouldAdd
-     * @return
+     * Set the icon of the form.
+     *
+     * @param image the icon to set
+     * @see #icon()
+     * @since 1.1.1
      */
-    @This Builder optionalComponent(@NonNull Component component, boolean shouldAdd);
-
-    @This Builder dropdown(DropdownComponent.@NonNull Builder dropdownBuilder);
-
-    @This Builder dropdown(
-        @NonNull String text, @NonNull List<String> options, @NonNegative int defaultOption);
-
-    @This Builder dropdown(
-        @NonNull String text, @NonNegative int defaultOption, @NonNull String... options);
-
-    @This Builder dropdown(@NonNull String text, @NonNull List<String> options);
-
-    @This Builder dropdown(@NonNull String text, @NonNull String... options);
+    @This Builder icon(FormImage image);
 
     /**
-     * @param text
-     * @param options
-     * @param defaultOption
-     * @param shouldAdd
-     * @return
+     * Set the icon of the form.
+     *
+     * @param type the type of the icon to set
+     * @param data the data of the icon to set
+     * @see #icon()
+     * @since 1.1
+     */
+    @This Builder icon(FormImage.Type type, String data);
+
+    /**
+     * Set the icon of the form.
+     *
+     * @param path the path of the icon to set
+     * @see #icon()
+     * @see FormImage.Type#PATH
+     * @since 1.1
+     */
+    @This Builder iconPath(String path);
+
+    /**
+     * Set the icon of the form.
+     *
+     * @param url the url of the icon to set
+     * @see #icon()
+     * @see FormImage.Type#URL
+     * @since 1.1
+     */
+    @This Builder iconUrl(String url);
+
+    /**
+     * Manually add a component. This is not the recommended approach but could be useful when you
+     * directly create component instances.
+     *
+     * @param component the component to add
+     * @since 1.1
+     */
+    @This Builder component(Component component);
+
+    /**
+     * Manually add a component. This is not the recommended approach but could be useful when you
+     * directly create component instances. The component is only added when shouldAdd is true.
+     *
+     * @param component the component to add
+     * @param shouldAdd whether the component should actually be added
+     * @since 1.1
+     */
+    @This Builder optionalComponent(Component component, boolean shouldAdd);
+
+    /**
+     * Add a dropdown component using the provided dropdown builder.
+     *
+     * @param dropdownBuilder the builder to add
+     * @see DropdownComponent
+     * @since 1.1
+     */
+    @This Builder dropdown(DropdownComponent.Builder dropdownBuilder);
+
+    /**
+     * Add a dropdown component using the provided data.
+     *
+     * @param text the text that is shown in the component
+     * @param options the options to choose from
+     * @param defaultOption the index of the default option
+     * @see DropdownComponent
+     * @since 1.1
+     */
+    @This Builder dropdown(String text, List<String> options, @NonNegative int defaultOption);
+
+    /**
+     * Add a dropdown component using the provided data.
+     *
+     * @param text the text that is shown in the component
+     * @param defaultOption the index of the default option
+     * @param options the options to choose from
+     * @see DropdownComponent
+     * @since 1.1
+     */
+    @This Builder dropdown(String text, @NonNegative int defaultOption, String... options);
+
+    /**
+     * Add a dropdown component using the provided data, with the default option being set to the
+     * first option.
+     *
+     * @param text the text that is shown in the component
+     * @param options the options to choose from
+     * @see DropdownComponent
+     * @since 1.1
+     */
+    @This Builder dropdown(String text, List<String> options);
+
+    /**
+     * Add a dropdown component using the provided data, with the default option being set to the
+     * first option.
+     *
+     * @param text the text that is shown in the component
+     * @param options the options to choose from
+     * @see DropdownComponent
+     * @since 1.1
+     */
+    @This Builder dropdown(String text, String... options);
+
+    /**
+     * Optionally add a dropdown component using the provided data.
+     *
+     * @param text the text that is shown in the component
+     * @param options the options to choose from
+     * @param defaultOption the index of the default option
+     * @param shouldAdd whether the component should be added
+     * @see DropdownComponent
+     * @since 1.1
      */
     @This Builder optionalDropdown(
-        @NonNull String text,
-        @NonNull List<String> options,
-        @NonNegative int defaultOption,
-        boolean shouldAdd);
+        String text, List<String> options, @NonNegative int defaultOption, boolean shouldAdd);
 
     /**
-     * @param shouldAdd
-     * @param text
-     * @param defaultOption
-     * @param options
-     * @return
+     * Optionally add a dropdown component using the provided data
+     *
+     * @param shouldAdd whether the component should be added
+     * @param text the text that is shown in the component
+     * @param defaultOption the index of the default option
+     * @param options the options to choose from
+     * @see DropdownComponent
+     * @since 1.1
      */
     @This Builder optionalDropdown(
-        boolean shouldAdd,
-        @NonNull String text,
-        @NonNegative int defaultOption,
-        @NonNull String... options);
+        boolean shouldAdd, String text, @NonNegative int defaultOption, String... options);
 
     /**
-     * @param text
-     * @param options
-     * @param shouldAdd
-     * @return
+     * Optionally add a dropdown component using the provided data, with the default option being
+     * the first option.
+     *
+     * @param text the text that is shown in the component
+     * @param options the options to choose from
+     * @param shouldAdd whether the component should be added
+     * @see DropdownComponent
+     * @since 1.1
      */
-    @This Builder optionalDropdown(
-        @NonNull String text, @NonNull List<String> options, boolean shouldAdd);
+    @This Builder optionalDropdown(String text, List<String> options, boolean shouldAdd);
 
     /**
-     * @param shouldAdd
-     * @param text
-     * @param options
-     * @return
+     * Optionally add a dropdown component using the provided data, with the default option being
+     * the first option.
+     *
+     * @param shouldAdd whether the component should be added
+     * @param text the text that is shown in the component
+     * @param options the options to choose from
+     * @see DropdownComponent
+     * @since 1.1
      */
-    @This Builder optionalDropdown(boolean shouldAdd, @NonNull String text, @NonNull String... options);
-
-    @This Builder input(@NonNull String text, @NonNull String placeholder, @NonNull String defaultText);
-
-    @This Builder input(@NonNull String text, @NonNull String placeholder);
-
-    @This Builder input(@NonNull String text);
+    @This Builder optionalDropdown(boolean shouldAdd, String text, String... options);
 
     /**
-     * @param text
-     * @param placeholder
-     * @param defaultText
-     * @param shouldAdd
-     * @return
+     * Add an input component using the provided data.
+     *
+     * @param text the text that is shown in the component
+     * @param placeholder the text to be shown when no text is entered
+     * @param defaultText the text that is entered by default
+     * @see org.geysermc.cumulus.component.InputComponent
+     * @since 1.1
      */
-    @This Builder optionalInput(
-        @NonNull String text,
-        @NonNull String placeholder,
-        @NonNull String defaultText,
-        boolean shouldAdd);
+    @This Builder input(String text, String placeholder, String defaultText);
 
     /**
-     * @param text
-     * @param placeholder
-     * @param shouldAdd
-     * @return
+     * Add an input component using the provided data, with defaultText being empty.
+     *
+     * @param text the text that is shown in the component
+     * @param placeholder the text to be shown when no text is entered
+     * @see org.geysermc.cumulus.component.InputComponent
+     * @since 1.1
      */
-    @This Builder optionalInput(@NonNull String text, @NonNull String placeholder, boolean shouldAdd);
+    @This Builder input(String text, String placeholder);
 
     /**
-     * @param text
-     * @param shouldAdd
-     * @return
+     * Add an input component using the provided data, with both placeholder and defaultText being
+     * empty.
+     *
+     * @param text the text that is shown in the component
+     * @see org.geysermc.cumulus.component.InputComponent
+     * @since 1.1
      */
-    @This Builder optionalInput(@NonNull String text, boolean shouldAdd);
-
-    @This Builder label(@NonNull String text);
+    @This Builder input(String text);
 
     /**
-     * @param text
-     * @param shouldAdd
-     * @return
+     * Optionally add an input component using the provided data.
+     *
+     * @param text the text that is shown in the component
+     * @param placeholder the text to be shown when no text is entered
+     * @param defaultText the text that is entered by default
+     * @param shouldAdd whether the component should be added
+     * @see org.geysermc.cumulus.component.InputComponent
+     * @since 1.1
      */
-    @This Builder optionalLabel(@NonNull String text, boolean shouldAdd);
-
-    @This Builder slider(
-        @NonNull String text, float min, float max, @Positive float step, float defaultValue);
-
-    @This Builder slider(@NonNull String text, float min, float max, @Positive float step);
-
-    @This Builder slider(@NonNull String text, float min, float max);
+    @This Builder optionalInput(String text, String placeholder, String defaultText, boolean shouldAdd);
 
     /**
-     * @param text
-     * @param min
-     * @param max
-     * @param step
-     * @param defaultValue
-     * @param shouldAdd
-     * @return
+     * Optionally add an input component using the provided data, with defaultText being empty.
+     *
+     * @param text the text that is shown in the component
+     * @param placeholder the text to be shown when no text is entered
+     * @param shouldAdd whether the component should be added
+     * @see org.geysermc.cumulus.component.InputComponent
+     * @since 1.1
+     */
+    @This Builder optionalInput(String text, String placeholder, boolean shouldAdd);
+
+    /**
+     * Optionally add an input component using the provided data, with both placeholder and
+     * defaultText being empty.
+     *
+     * @param text the text that is shown in the component
+     * @param shouldAdd whether the component should be added
+     * @see org.geysermc.cumulus.component.InputComponent
+     * @since 1.1
+     */
+    @This Builder optionalInput(String text, boolean shouldAdd);
+
+    /**
+     * Add a label component using the provided data.
+     *
+     * @param text the text that is shown in the component
+     * @see org.geysermc.cumulus.component.InputComponent
+     * @since 1.1
+     */
+    @This Builder label(String text);
+
+    /**
+     * Optionally add a label component using the provided data.
+     *
+     * @param text the text that is shown in the component
+     * @param shouldAdd whether the component should be added
+     * @see org.geysermc.cumulus.component.InputComponent
+     * @since 1.1
+     */
+    @This Builder optionalLabel(String text, boolean shouldAdd);
+
+    /**
+     * Add a slider component using the provided data.
+     *
+     * @param text the text that is shown in the component
+     * @param min the minimal value of the slider
+     * @param max the maximum value of the slider
+     * @param step the amount between each step
+     * @param defaultValue the default value of the slider
+     * @see org.geysermc.cumulus.component.SliderComponent
+     * @since 1.1
+     */
+    @This Builder slider(String text, float min, float max, @Positive float step, float defaultValue);
+
+    /**
+     * Add a slider component using the provided data, with defaultValue being automatically
+     * computed.
+     *
+     * @param text the text that is shown in the component
+     * @param min the minimal value of the slider
+     * @param max the maximum value of the slider
+     * @param step the amount between each step
+     * @see org.geysermc.cumulus.component.SliderComponent
+     * @since 1.1
+     */
+    @This Builder slider(String text, float min, float max, @Positive float step);
+
+    /**
+     * Add a slider component using the provided data, with step being 1 and defaultValue being
+     * automatically computed.
+     *
+     * @param text the text that is shown in the component
+     * @param min the minimal value of the slider
+     * @param max the maximum value of the slider
+     * @see org.geysermc.cumulus.component.SliderComponent
+     * @since 1.1
+     */
+    @This Builder slider(String text, float min, float max);
+
+    /**
+     * Optionally add a slider component using the provided data.
+     *
+     * @param text the text that is shown in the component
+     * @param min the minimal value of the slider
+     * @param max the maximum value of the slider
+     * @param step the amount between each step
+     * @param defaultValue the default value of the slider
+     * @param shouldAdd whether the component should be added
+     * @see org.geysermc.cumulus.component.SliderComponent
+     * @since 1.1
      */
     @This Builder optionalSlider(
-        @NonNull String text,
+        String text,
         float min,
         float max,
         @Positive float step,
@@ -218,97 +376,170 @@ public interface CustomForm extends Form {
         boolean shouldAdd);
 
     /**
-     * @param text
-     * @param min
-     * @param max
-     * @param step
-     * @param shouldAdd
-     * @return
+     * Optionally add a slider component using the provided data, with defaultValue being computed
+     * automatically.
+     *
+     * @param text the text that is shown in the component
+     * @param min the minimal value of the slider
+     * @param max the maximum value of the slider
+     * @param step the amount between each step
+     * @param shouldAdd whether the component should be added
+     * @see org.geysermc.cumulus.component.SliderComponent
+     * @since 1.1
      */
     @This Builder optionalSlider(
-        @NonNull String text, float min, float max, @Positive float step, boolean shouldAdd);
+        String text, float min, float max, @Positive float step, boolean shouldAdd);
 
     /**
-     * @param text
-     * @param min
-     * @param max
-     * @param shouldAdd
-     * @return
+     * Optionally add a slider component using the provided data, with step being 1 and defaultValue
+     * being computed automatically.
+     *
+     * @param text the text that is shown in the component
+     * @param min the minimal value of the slider
+     * @param max the maximum value of the slider
+     * @param shouldAdd whether the component should be added
+     * @see org.geysermc.cumulus.component.SliderComponent
+     * @since 1.1
      */
-    @This Builder optionalSlider(@NonNull String text, float min, float max, boolean shouldAdd);
-
-    @This Builder stepSlider(StepSliderComponent.@NonNull Builder stepSliderBuilder);
-
-    @This Builder stepSlider(
-        @NonNull String text, @NonNull List<String> steps, @NonNegative int defaultStep);
-
-    @This Builder stepSlider(
-        @NonNull String text, @NonNegative int defaultStep, @NonNull String... steps);
-
-    @This Builder stepSlider(@NonNull String text, @NonNull List<String> steps);
-
-    @This Builder stepSlider(@NonNull String text, @NonNull String... steps);
+    @This Builder optionalSlider(String text, float min, float max, boolean shouldAdd);
 
     /**
-     * @param text
-     * @param steps
-     * @param defaultStep
-     * @param shouldAdd
-     * @return
+     * Add a step slider component using the provided step slider builder.
+     *
+     * @param stepSliderBuilder the builder to add
+     * @see StepSliderComponent
+     * @since 1.1
+     */
+    @This Builder stepSlider(StepSliderComponent.Builder stepSliderBuilder);
+
+    /**
+     * Add a step slider using the provided data.
+     *
+     * @param text the text that is shown in the component
+     * @param steps all the steps
+     * @param defaultStep the index of the step that is selected by default
+     * @see StepSliderComponent
+     * @since 1.1
+     */
+    @This Builder stepSlider(String text, List<String> steps, @NonNegative int defaultStep);
+
+    /**
+     * Add a step slider using the provided data.
+     *
+     * @param text the text that is shown in the component
+     * @param defaultStep the index of the step that is selected by default
+     * @param steps all the steps
+     * @see StepSliderComponent
+     * @since 1.1
+     */
+    @This Builder stepSlider(String text, @NonNegative int defaultStep, String... steps);
+
+    /**
+     * Add a step slider using the provided data, with the default step being the first.
+     *
+     * @param text the text that is shown in the component
+     * @param steps all the steps
+     * @see StepSliderComponent
+     * @since 1.1
+     */
+    @This Builder stepSlider(String text, List<String> steps);
+
+    /**
+     * Add a step slider using the provided data, with the default step being the first.
+     *
+     * @param text the text that is shown in the component
+     * @param steps all the steps
+     * @see StepSliderComponent
+     * @since 1.1
+     */
+    @This Builder stepSlider(String text, String... steps);
+
+    /**
+     * Optionally add a step slider using the provided data.
+     *
+     * @param text the text that is shown in the component
+     * @param steps all the steps
+     * @param defaultStep the index of the step that is selected by default
+     * @param shouldAdd whether the component should be added
+     * @see StepSliderComponent
+     * @since 1.1
      */
     @This Builder optionalStepSlider(
-        @NonNull String text,
-        @NonNull List<String> steps,
-        @NonNegative int defaultStep,
-        boolean shouldAdd);
+        String text, List<String> steps, @NonNegative int defaultStep, boolean shouldAdd);
 
     /**
-     * @param shouldAdd
-     * @param text
-     * @param defaultStep
-     * @param steps
-     * @return
+     * Optionally add a step slider using the provided data.
+     *
+     * @param shouldAdd whether the component should be added
+     * @param text the text that is shown in the component
+     * @param defaultStep the index of the step that is selected by default
+     * @param steps all the steps
+     * @see StepSliderComponent
+     * @since 1.1
      */
     @This Builder optionalStepSlider(
-        boolean shouldAdd,
-        @NonNull String text,
-        @NonNegative int defaultStep,
-        @NonNull String... steps);
+        boolean shouldAdd, String text, @NonNegative int defaultStep, String... steps);
 
     /**
-     * @param text
-     * @param steps
-     * @param shouldAdd
-     * @return
+     * Optionally add a step slider using the provided data, with the default step being the first.
+     *
+     * @param text the text that is shown in the component
+     * @param steps all the steps
+     * @param shouldAdd whether the component should be added
+     * @see StepSliderComponent
+     * @since 1.1
      */
-    @This Builder optionalStepSlider(
-        @NonNull String text, @NonNull List<String> steps, boolean shouldAdd);
+    @This Builder optionalStepSlider(String text, List<String> steps, boolean shouldAdd);
 
     /**
-     * @param shouldAdd
-     * @param text
-     * @param steps
-     * @return
+     * Optionally add a step slider using the provided data, with the default step being the first.
+     *
+     * @param shouldAdd whether the component should be added
+     * @param text the text that is shown in the component
+     * @param steps all the steps
+     * @see StepSliderComponent
+     * @since 1.1
      */
-    @This Builder optionalStepSlider(boolean shouldAdd, @NonNull String text, @NonNull String... steps);
-
-    @This Builder toggle(@NonNull String text, boolean defaultValue);
-
-    @This Builder toggle(@NonNull String text);
+    @This Builder optionalStepSlider(boolean shouldAdd, String text, String... steps);
 
     /**
-     * @param text
-     * @param defaultValue
-     * @param shouldAdd
-     * @return
+     * Add a toggle component using the provided data.
+     *
+     * @param text the text that is shown in the component
+     * @param defaultValue the default value for the toggle
+     * @see org.geysermc.cumulus.component.ToggleComponent
+     * @since 1.1
      */
-    @This Builder optionalToggle(@NonNull String text, boolean defaultValue, boolean shouldAdd);
+    @This Builder toggle(String text, boolean defaultValue);
 
     /**
-     * @param text
-     * @param shouldAdd
-     * @return
+     * Add a toggle component using the provided data, with the default value being false.
+     *
+     * @param text the text that is shown in the component
+     * @see org.geysermc.cumulus.component.ToggleComponent
+     * @since 1.1
      */
-    @This Builder optionalToggle(@NonNull String text, boolean shouldAdd);
+    @This Builder toggle(String text);
+
+    /**
+     * Add a toggle component using the provided data.
+     *
+     * @param text the text that is shown in the component
+     * @param defaultValue the default value for the toggle
+     * @param shouldAdd whether the component should be added
+     * @see org.geysermc.cumulus.component.ToggleComponent
+     * @since 1.1
+     */
+    @This Builder optionalToggle(String text, boolean defaultValue, boolean shouldAdd);
+
+    /**
+     * Optionally add a toggle component using the provided data.
+     *
+     * @param text the text that is shown in the component
+     * @param shouldAdd whether the component should be added
+     * @see org.geysermc.cumulus.component.ToggleComponent
+     * @since 1.1
+     */
+    @This Builder optionalToggle(String text, boolean shouldAdd);
   }
 }

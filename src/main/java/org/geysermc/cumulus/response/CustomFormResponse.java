@@ -1,43 +1,31 @@
 /*
- * Copyright (c) 2020-2023 GeyserMC
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *
- * @author GeyserMC
+ * Copyright (c) 2020-2024 GeyserMC
+ * Licensed under the MIT license
  * @link https://github.com/GeyserMC/Cumulus
  */
 package org.geysermc.cumulus.response;
 
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.index.qual.Positive;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.common.value.qual.IntRange;
 import org.geysermc.cumulus.component.LabelComponent;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * The response class of CustomForm. Labels are not included by default, but this can be changed by
  * calling the {@link #includeLabels(boolean)} method.
  *
  * @see #includeLabels(boolean)
+ * @since 1.0
  */
+@NullMarked
 public interface CustomFormResponse extends FormResponse {
-  /** Resets the index of the iterator. */
+  /**
+   * Resets the index of the iterator.
+   *
+   * @since 1.1.1
+   */
   void reset();
 
   /**
@@ -49,6 +37,7 @@ public interface CustomFormResponse extends FormResponse {
    * @see #skip()
    * @see #skip(int)
    * @see #reset()
+   * @since 1.0
    */
   void index(@IntRange(from = -1) int index);
 
@@ -66,6 +55,7 @@ public interface CustomFormResponse extends FormResponse {
    * of {@link #includeLabels(boolean)} influences the outcome of this method.
    *
    * @see #includeLabels(boolean)
+   * @since 1.0
    */
   boolean hasNext();
 
@@ -98,6 +88,7 @@ public interface CustomFormResponse extends FormResponse {
    * @throws ClassCastException when the value of the component cannot be cast to the provided
    *     return type
    * @see #includeLabels(boolean)
+   * @since 1.0
    */
   <T> @Nullable T next() throws ClassCastException;
 
@@ -107,6 +98,7 @@ public interface CustomFormResponse extends FormResponse {
    *
    * @param amount the amount of components to skip
    * @see #includeLabels(boolean)
+   * @since 1.0
    */
   void skip(@Positive int amount);
 
@@ -115,6 +107,7 @@ public interface CustomFormResponse extends FormResponse {
    * this method.
    *
    * @see #includeLabels(boolean)
+   * @since 1.0
    */
   void skip();
 
@@ -208,7 +201,8 @@ public interface CustomFormResponse extends FormResponse {
    * @see #valueAt(int)
    * @since 1.1
    */
-  @Nullable String asInput(@NonNegative int index) throws IllegalArgumentException, IllegalStateException;
+  @Nullable String asInput(@NonNegative int index)
+      throws IllegalArgumentException, IllegalStateException;
 
   /**
    * Returns the value of the selected component as a slider component.

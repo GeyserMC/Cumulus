@@ -1,33 +1,14 @@
 /*
- * Copyright (c) 2020-2023 GeyserMC
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *
- * @author GeyserMC
+ * Copyright (c) 2020-2024 GeyserMC
+ * Licensed under the MIT license
  * @link https://github.com/GeyserMC/Cumulus
  */
 package org.geysermc.cumulus.component.util;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.Locale;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An enum containing the valid component types. Valid component types are:
@@ -46,6 +27,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * @since 1.1
  */
+@NullMarked
 public enum ComponentType {
   @SerializedName("dropdown")
   DROPDOWN,
@@ -64,6 +46,11 @@ public enum ComponentType {
 
   private final String name = name().toLowerCase(Locale.ROOT);
 
+  /**
+   * Returns the component type from the name that is used in Bedrock.
+   *
+   * @param name the name that is used in Bedrock
+   */
   public static @Nullable ComponentType fromName(@Nullable String name) {
     for (ComponentType type : VALUES) {
       if (type.name.equals(name)) {
@@ -73,7 +60,8 @@ public enum ComponentType {
     return null;
   }
 
-  public @NonNull String componentName() {
+  /** Returns the component name as used in Bedrock. */
+  public String componentName() {
     return name;
   }
 }
