@@ -18,13 +18,16 @@ import org.jspecify.annotations.NullMarked;
 /** This class is not part of the API, so breaking changes can happen. */
 @NullMarked
 public final class FormDefinitions {
-  private static final FormDefinitions definitions = new FormDefinitions();
-
   private final Map<FormType, FormDefinition<?, ?, ?>> typeDefinitionMap = new HashMap<>();
   private final Map<Class<? extends FormImpl<?>>, FormDefinition<?, ?, ?>>
       implClassTypeDefinitionMap = new HashMap<>();
 
-  private FormDefinitions() {}
+  FormDefinitions() {
+    // add the default form definitions
+    ensureDefinitionAdded(SimpleFormDefinition.instance());
+    ensureDefinitionAdded(ModalFormDefinition.instance());
+    ensureDefinitionAdded(CustomFormDefinition.instance());
+  }
 
   public Class<? extends FormImpl<?>> formImplClass(FormType formType) {
     return findDefinition(formType).formImplClass();
@@ -75,16 +78,5 @@ public final class FormDefinitions {
       throw new RuntimeException("Cannot find implementation for FormType " + formType);
     }
     return definition;
-  }
-
-  public static FormDefinitions instance() {
-    return definitions;
-  }
-
-  static {
-    // add the default form definitions
-    definitions.ensureDefinitionAdded(SimpleFormDefinition.instance());
-    definitions.ensureDefinitionAdded(ModalFormDefinition.instance());
-    definitions.ensureDefinitionAdded(CustomFormDefinition.instance());
   }
 }

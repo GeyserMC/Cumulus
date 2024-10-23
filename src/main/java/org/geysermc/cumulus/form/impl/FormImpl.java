@@ -7,6 +7,8 @@ package org.geysermc.cumulus.form.impl;
 
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -27,6 +29,7 @@ public abstract class FormImpl<R extends FormResponse> implements Form {
   protected @Nullable Consumer<@Nullable String> rawResponseConsumer;
 
   private final String title;
+  private final Map<Integer, Runnable> closeListeners = new HashMap<>();
 
   public FormImpl(String title) {
     this.title = Objects.requireNonNull(title, "title");
@@ -54,9 +57,32 @@ public abstract class FormImpl<R extends FormResponse> implements Form {
     this.resultHandler = Objects.requireNonNull(responseHandler);
   }
 
+  public void addCloseListener(int formId, Runnable listener) {
+    closeListeners.put(formId, listener);
+  }
+
   @Override
   public String title() {
     return title;
+  }
+
+  @Override
+  public void close() {
+    closeListeners
+        .values()
+        .removeIf(
+            listener -> {
+              listener.run();
+              return true;
+            });
+  }
+
+  @Override
+  public void close(int formId) {
+    Runnable closeListener = closeListeners.remove(formId);
+    if (closeListener != null) {
+      closeListener.run();
+    }
   }
 
   public abstract static class Builder<

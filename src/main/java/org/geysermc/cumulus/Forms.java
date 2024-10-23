@@ -5,7 +5,6 @@
  */
 package org.geysermc.cumulus;
 
-import java.util.function.BiConsumer;
 import org.geysermc.cumulus.component.Component;
 import org.geysermc.cumulus.component.impl.DropdownComponentImpl;
 import org.geysermc.cumulus.component.impl.InputComponentImpl;
@@ -14,37 +13,16 @@ import org.geysermc.cumulus.component.impl.SliderComponentImpl;
 import org.geysermc.cumulus.component.impl.StepSliderComponentImpl;
 import org.geysermc.cumulus.component.impl.ToggleComponentImpl;
 import org.geysermc.cumulus.component.util.ComponentType;
-import org.geysermc.cumulus.form.Form;
-import org.geysermc.cumulus.form.impl.FormDefinitions;
-import org.geysermc.cumulus.form.util.FormCodec;
-import org.geysermc.cumulus.form.util.FormType;
-import org.geysermc.cumulus.response.FormResponse;
 import org.jspecify.annotations.NullMarked;
-import org.jspecify.annotations.Nullable;
 
 /**
- * Some common utility methods related to forms.
+ * Some common utility methods related to forms. These methods aren't meant to be public API and may
+ * disappear without notice.
  *
  * @since 1.0
  */
 @NullMarked
 public final class Forms {
-  /**
-   * Translate the data that is readable by the Bedrock client into a form instance.
-   *
-   * @param json the json data that is readable by the client
-   * @param type the form data type
-   * @param <T> the result will be cast to T
-   * @return the form instance holding the translated data
-   * @since 1.1
-   */
-  public static <T extends Form> T fromJson(
-      String json, FormType type, BiConsumer<T, @Nullable String> responseHandler) {
-    return FormDefinitions.instance()
-        .<FormCodec<T, FormResponse>>codecFor(type)
-        .fromJson(json, responseHandler);
-  }
-
   /**
    * Get the class implementing the component by the component type.
    *

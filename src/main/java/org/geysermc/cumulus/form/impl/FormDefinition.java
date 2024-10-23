@@ -52,6 +52,11 @@ public abstract class FormDefinition<
     ((FormImpl<R>) form).callResultHandler(result);
   }
 
+  @SuppressWarnings("unchecked")
+  protected void addCloseListener(F form, int formId, Runnable runnable) {
+    ((FormImpl<R>) form).addCloseListener(formId, runnable);
+  }
+
   public final FormType formType() {
     return formType;
   }
