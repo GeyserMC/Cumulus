@@ -12,6 +12,7 @@ dependencies {
     implementation(libs.gson)
 
     compileOnlyApi(libs.checker.qual)
+    compileOnlyApi(libs.jspecify)
 }
 
 indra {

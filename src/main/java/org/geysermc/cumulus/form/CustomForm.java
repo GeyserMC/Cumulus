@@ -1,25 +1,6 @@
 /*
- * Copyright (c) 2020-2023 GeyserMC
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *
- * @author GeyserMC
+ * Copyright (c) 2020-2026 GeyserMC
+ * Licensed under the MIT license
  * @link https://github.com/GeyserMC/Cumulus
  */
 package org.geysermc.cumulus.form;
@@ -27,8 +8,6 @@ package org.geysermc.cumulus.form;
 import java.util.List;
 import org.checkerframework.checker.index.qual.NonNegative;
 import org.checkerframework.checker.index.qual.Positive;
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.common.returnsreceiver.qual.This;
 import org.geysermc.cumulus.component.Component;
 import org.geysermc.cumulus.component.DropdownComponent;
@@ -37,6 +16,7 @@ import org.geysermc.cumulus.form.impl.custom.CustomFormImpl;
 import org.geysermc.cumulus.form.util.FormBuilder;
 import org.geysermc.cumulus.response.CustomFormResponse;
 import org.geysermc.cumulus.util.FormImage;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Represents a CustomForm which can be shown to the client. A CustomForm is the most customisable
@@ -47,7 +27,7 @@ import org.geysermc.cumulus.util.FormImage;
  */
 public interface CustomForm extends Form {
   /** Returns a new CustomForm builder. A more friendly way of creating a Form. */
-  static @NonNull Builder builder() {
+  static Builder builder() {
     return new CustomFormImpl.Builder();
   }
 
@@ -59,8 +39,7 @@ public interface CustomForm extends Form {
    * @param content the list of components in this form
    * @return the created CustomForm instance
    */
-  static @NonNull CustomForm of(
-      @NonNull String title, @Nullable FormImage icon, @NonNull List<Component> content) {
+  static CustomForm of(String title, @Nullable FormImage icon, List<Component> content) {
     return new CustomFormImpl(title, icon, content);
   }
 
@@ -71,41 +50,39 @@ public interface CustomForm extends Form {
    * Returns all the components of the form. This includes optional components, which will be null
    * when they are not present.
    */
-  @NonNull List<@Nullable Component> content();
+  List<@Nullable Component> content();
 
   /**
    * An easy way to create a CustomForm. For more information and code examples look at <a
    * href="https://github.com/GeyserMC/Cumulus/wiki">the wiki</a>.
    */
   interface Builder extends FormBuilder<Builder, CustomForm, CustomFormResponse> {
-    @This Builder icon(@NonNull FormImage image);
+    @This Builder icon(FormImage image);
 
-    @This Builder icon(FormImage.@NonNull Type type, @NonNull String data);
+    @This Builder icon(FormImage.Type type, String data);
 
-    @This Builder iconPath(@NonNull String path);
+    @This Builder iconPath(String path);
 
-    @This Builder iconUrl(@NonNull String url);
+    @This Builder iconUrl(String url);
 
-    @This Builder component(@NonNull Component component);
+    @This Builder component(Component component);
 
     /**
      * @param component
      * @param shouldAdd
      * @return
      */
-    @This Builder optionalComponent(@NonNull Component component, boolean shouldAdd);
+    @This Builder optionalComponent(Component component, boolean shouldAdd);
 
-    @This Builder dropdown(DropdownComponent.@NonNull Builder dropdownBuilder);
+    @This Builder dropdown(DropdownComponent.Builder dropdownBuilder);
 
-    @This Builder dropdown(
-        @NonNull String text, @NonNull List<String> options, @NonNegative int defaultOption);
+    @This Builder dropdown(String text, List<String> options, @NonNegative int defaultOption);
 
-    @This Builder dropdown(
-        @NonNull String text, @NonNegative int defaultOption, @NonNull String... options);
+    @This Builder dropdown(String text, @NonNegative int defaultOption, String... options);
 
-    @This Builder dropdown(@NonNull String text, @NonNull List<String> options);
+    @This Builder dropdown(String text, List<String> options);
 
-    @This Builder dropdown(@NonNull String text, @NonNull String... options);
+    @This Builder dropdown(String text, String... options);
 
     /**
      * @param text
@@ -115,10 +92,7 @@ public interface CustomForm extends Form {
      * @return
      */
     @This Builder optionalDropdown(
-        @NonNull String text,
-        @NonNull List<String> options,
-        @NonNegative int defaultOption,
-        boolean shouldAdd);
+        String text, List<String> options, @NonNegative int defaultOption, boolean shouldAdd);
 
     /**
      * @param shouldAdd
@@ -128,10 +102,7 @@ public interface CustomForm extends Form {
      * @return
      */
     @This Builder optionalDropdown(
-        boolean shouldAdd,
-        @NonNull String text,
-        @NonNegative int defaultOption,
-        @NonNull String... options);
+        boolean shouldAdd, String text, @NonNegative int defaultOption, String... options);
 
     /**
      * @param text
@@ -139,8 +110,7 @@ public interface CustomForm extends Form {
      * @param shouldAdd
      * @return
      */
-    @This Builder optionalDropdown(
-        @NonNull String text, @NonNull List<String> options, boolean shouldAdd);
+    @This Builder optionalDropdown(String text, List<String> options, boolean shouldAdd);
 
     /**
      * @param shouldAdd
@@ -148,13 +118,13 @@ public interface CustomForm extends Form {
      * @param options
      * @return
      */
-    @This Builder optionalDropdown(boolean shouldAdd, @NonNull String text, @NonNull String... options);
+    @This Builder optionalDropdown(boolean shouldAdd, String text, String... options);
 
-    @This Builder input(@NonNull String text, @NonNull String placeholder, @NonNull String defaultText);
+    @This Builder input(String text, String placeholder, String defaultText);
 
-    @This Builder input(@NonNull String text, @NonNull String placeholder);
+    @This Builder input(String text, String placeholder);
 
-    @This Builder input(@NonNull String text);
+    @This Builder input(String text);
 
     /**
      * @param text
@@ -163,11 +133,7 @@ public interface CustomForm extends Form {
      * @param shouldAdd
      * @return
      */
-    @This Builder optionalInput(
-        @NonNull String text,
-        @NonNull String placeholder,
-        @NonNull String defaultText,
-        boolean shouldAdd);
+    @This Builder optionalInput(String text, String placeholder, String defaultText, boolean shouldAdd);
 
     /**
      * @param text
@@ -175,30 +141,29 @@ public interface CustomForm extends Form {
      * @param shouldAdd
      * @return
      */
-    @This Builder optionalInput(@NonNull String text, @NonNull String placeholder, boolean shouldAdd);
+    @This Builder optionalInput(String text, String placeholder, boolean shouldAdd);
 
     /**
      * @param text
      * @param shouldAdd
      * @return
      */
-    @This Builder optionalInput(@NonNull String text, boolean shouldAdd);
+    @This Builder optionalInput(String text, boolean shouldAdd);
 
-    @This Builder label(@NonNull String text);
+    @This Builder label(String text);
 
     /**
      * @param text
      * @param shouldAdd
      * @return
      */
-    @This Builder optionalLabel(@NonNull String text, boolean shouldAdd);
+    @This Builder optionalLabel(String text, boolean shouldAdd);
 
-    @This Builder slider(
-        @NonNull String text, float min, float max, @Positive float step, float defaultValue);
+    @This Builder slider(String text, float min, float max, @Positive float step, float defaultValue);
 
-    @This Builder slider(@NonNull String text, float min, float max, @Positive float step);
+    @This Builder slider(String text, float min, float max, @Positive float step);
 
-    @This Builder slider(@NonNull String text, float min, float max);
+    @This Builder slider(String text, float min, float max);
 
     /**
      * @param text
@@ -210,7 +175,7 @@ public interface CustomForm extends Form {
      * @return
      */
     @This Builder optionalSlider(
-        @NonNull String text,
+        String text,
         float min,
         float max,
         @Positive float step,
@@ -226,7 +191,7 @@ public interface CustomForm extends Form {
      * @return
      */
     @This Builder optionalSlider(
-        @NonNull String text, float min, float max, @Positive float step, boolean shouldAdd);
+        String text, float min, float max, @Positive float step, boolean shouldAdd);
 
     /**
      * @param text
@@ -235,19 +200,17 @@ public interface CustomForm extends Form {
      * @param shouldAdd
      * @return
      */
-    @This Builder optionalSlider(@NonNull String text, float min, float max, boolean shouldAdd);
+    @This Builder optionalSlider(String text, float min, float max, boolean shouldAdd);
 
-    @This Builder stepSlider(StepSliderComponent.@NonNull Builder stepSliderBuilder);
+    @This Builder stepSlider(StepSliderComponent.Builder stepSliderBuilder);
 
-    @This Builder stepSlider(
-        @NonNull String text, @NonNull List<String> steps, @NonNegative int defaultStep);
+    @This Builder stepSlider(String text, List<String> steps, @NonNegative int defaultStep);
 
-    @This Builder stepSlider(
-        @NonNull String text, @NonNegative int defaultStep, @NonNull String... steps);
+    @This Builder stepSlider(String text, @NonNegative int defaultStep, String... steps);
 
-    @This Builder stepSlider(@NonNull String text, @NonNull List<String> steps);
+    @This Builder stepSlider(String text, List<String> steps);
 
-    @This Builder stepSlider(@NonNull String text, @NonNull String... steps);
+    @This Builder stepSlider(String text, String... steps);
 
     /**
      * @param text
@@ -257,10 +220,7 @@ public interface CustomForm extends Form {
      * @return
      */
     @This Builder optionalStepSlider(
-        @NonNull String text,
-        @NonNull List<String> steps,
-        @NonNegative int defaultStep,
-        boolean shouldAdd);
+        String text, List<String> steps, @NonNegative int defaultStep, boolean shouldAdd);
 
     /**
      * @param shouldAdd
@@ -270,10 +230,7 @@ public interface CustomForm extends Form {
      * @return
      */
     @This Builder optionalStepSlider(
-        boolean shouldAdd,
-        @NonNull String text,
-        @NonNegative int defaultStep,
-        @NonNull String... steps);
+        boolean shouldAdd, String text, @NonNegative int defaultStep, String... steps);
 
     /**
      * @param text
@@ -281,8 +238,7 @@ public interface CustomForm extends Form {
      * @param shouldAdd
      * @return
      */
-    @This Builder optionalStepSlider(
-        @NonNull String text, @NonNull List<String> steps, boolean shouldAdd);
+    @This Builder optionalStepSlider(String text, List<String> steps, boolean shouldAdd);
 
     /**
      * @param shouldAdd
@@ -290,11 +246,11 @@ public interface CustomForm extends Form {
      * @param steps
      * @return
      */
-    @This Builder optionalStepSlider(boolean shouldAdd, @NonNull String text, @NonNull String... steps);
+    @This Builder optionalStepSlider(boolean shouldAdd, String text, String... steps);
 
-    @This Builder toggle(@NonNull String text, boolean defaultValue);
+    @This Builder toggle(String text, boolean defaultValue);
 
-    @This Builder toggle(@NonNull String text);
+    @This Builder toggle(String text);
 
     /**
      * @param text
@@ -302,13 +258,13 @@ public interface CustomForm extends Form {
      * @param shouldAdd
      * @return
      */
-    @This Builder optionalToggle(@NonNull String text, boolean defaultValue, boolean shouldAdd);
+    @This Builder optionalToggle(String text, boolean defaultValue, boolean shouldAdd);
 
     /**
      * @param text
      * @param shouldAdd
      * @return
      */
-    @This Builder optionalToggle(@NonNull String text, boolean shouldAdd);
+    @This Builder optionalToggle(String text, boolean shouldAdd);
   }
 }

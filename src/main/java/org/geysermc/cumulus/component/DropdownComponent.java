@@ -1,25 +1,6 @@
 /*
- * Copyright (c) 2020-2023 GeyserMC
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *
- * @author GeyserMC
+ * Copyright (c) 2020-2026 GeyserMC
+ * Licensed under the MIT license
  * @link https://github.com/GeyserMC/Cumulus
  */
 package org.geysermc.cumulus.component;
@@ -27,7 +8,6 @@ package org.geysermc.cumulus.component;
 import java.util.List;
 import java.util.function.Function;
 import org.checkerframework.checker.index.qual.NonNegative;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.common.returnsreceiver.qual.This;
 import org.geysermc.cumulus.component.impl.DropdownComponentImpl;
 
@@ -36,18 +16,17 @@ import org.geysermc.cumulus.component.impl.DropdownComponentImpl;
  * can choose one item from the given options in a dropdown.
  */
 public interface DropdownComponent extends Component {
-  static @NonNull DropdownComponent of(
-      @NonNull String text, @NonNull List<String> options, @NonNegative int defaultOption) {
+  static DropdownComponent of(String text, List<String> options, @NonNegative int defaultOption) {
     return new DropdownComponentImpl(text, options, defaultOption);
   }
 
   // todo should these 'of' methods be removed in favor of the builders?
 
-  static @NonNull Builder builder() {
+  static Builder builder() {
     return new DropdownComponentImpl.Builder();
   }
 
-  static @NonNull Builder builder(@NonNull String text) {
+  static Builder builder(String text) {
     return builder().text(text);
   }
 
@@ -56,7 +35,7 @@ public interface DropdownComponent extends Component {
    *
    * @since 1.1
    */
-  @NonNull List<String> options();
+  List<String> options();
 
   /**
    * Returns the index of the option that is selected by default.
@@ -71,7 +50,7 @@ public interface DropdownComponent extends Component {
      *
      * @param text the text to show
      */
-    @This Builder text(@NonNull String text);
+    @This Builder text(String text);
 
     /**
      * Adds an option to the list of options.
@@ -79,7 +58,7 @@ public interface DropdownComponent extends Component {
      * @param option the text to show in the dropdown entry
      * @param isDefault if this should become the default option
      */
-    @This Builder option(@NonNull String option, boolean isDefault);
+    @This Builder option(String option, boolean isDefault);
 
     /**
      * Adds an option to the list of options. This option won't become the default option, unless
@@ -87,7 +66,7 @@ public interface DropdownComponent extends Component {
      *
      * @param option the text to show in the dropdown entry
      */
-    @This Builder option(@NonNull String option);
+    @This Builder option(String option);
 
     /**
      * Sets the default option of this dropdown.
@@ -98,7 +77,7 @@ public interface DropdownComponent extends Component {
     @This Builder defaultOption(@NonNegative int defaultOption) throws IllegalArgumentException;
 
     /** Returns the created dropdown from the given options. */
-    @NonNull DropdownComponent build();
+    DropdownComponent build();
 
     /**
      * Translates everything given to this builder using the provided translation function, and
@@ -106,6 +85,6 @@ public interface DropdownComponent extends Component {
      *
      * @param translator the translation function
      */
-    @NonNull DropdownComponent translateAndBuild(@NonNull Function<String, String> translator);
+    DropdownComponent translateAndBuild(Function<String, String> translator);
   }
 }
