@@ -163,7 +163,9 @@ public class NpcFormImpl extends FormImpl<NpcFormResponse> implements NpcForm {
 
     @Override
     public NpcForm.Builder button(@NonNull String text, @NonNull Consumer<NpcFormResponse> callback) {
-      callbacks.put(buttons.size(), Objects.requireNonNull(callback));
+      if (buttons.size() <= 6) {
+        callbacks.put(buttons.size(), Objects.requireNonNull(callback));
+      }
       return button(text);
     }
 
