@@ -10,7 +10,7 @@ group = "org.geysermc.cumulus"
 
 dependencies {
     implementation(libs.gson)
-
+    compileOnly(libs.math)
     compileOnlyApi(libs.checker.qual)
 }
 

@@ -29,6 +29,7 @@ import java.util.Map;
 import org.geysermc.cumulus.form.Form;
 import org.geysermc.cumulus.form.impl.custom.CustomFormDefinition;
 import org.geysermc.cumulus.form.impl.modal.ModalFormDefinition;
+import org.geysermc.cumulus.form.impl.npc.NpcFormDefinition;
 import org.geysermc.cumulus.form.impl.simple.SimpleFormDefinition;
 import org.geysermc.cumulus.form.util.FormCodec;
 import org.geysermc.cumulus.form.util.FormType;
@@ -103,5 +104,6 @@ public final class FormDefinitions {
     definitions.ensureDefinitionAdded(SimpleFormDefinition.instance());
     definitions.ensureDefinitionAdded(ModalFormDefinition.instance());
     definitions.ensureDefinitionAdded(CustomFormDefinition.instance());
+    definitions.ensureDefinitionAdded(NpcFormDefinition.instance());
   }
 }
